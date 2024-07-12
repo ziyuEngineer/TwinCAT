@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{FD9A51F2-D290-4265-856B-B0A2E6461283}">MotionCommand</Name>
+			<BitSize>2048</BitSize>
+			<SubItem>
+				<Name>pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>acc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>640</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>kp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>960</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>kv</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>1280</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>ka</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>1600</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>opMode</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>80</BitSize>
+				<BitOffs>1920</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>commandIndex</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>2016</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{59FCE92E-DE83-4F75-80C4-1943FBE30E60}"/>
+				<Hide GUID="{8C152A41-6DC8-488D-B439-A932C9B4B59D}"/>
+				<Hide GUID="{12774E03-E4B4-470E-9FE1-B3CE34B0A4BB}"/>
+				<Hide GUID="{F36C1F42-4E5D-416B-9E12-26B75B8C2A36}"/>
+				<Hide GUID="{F30013D8-21B5-4581-AD9D-0BF1D88316F8}"/>
+				<Hide GUID="{59537110-F056-4403-B739-D6CA5E5F9D85}"/>
+				<Hide GUID="{19418FCD-9F03-4E5C-8D79-DF2FCFEA0ABD}"/>
+				<Hide GUID="{70D286A5-BE35-4412-889A-0A13C45A8098}"/>
+				<Hide GUID="{D1CF7B3B-DBA7-44B2-8B72-088EFB64B3AA}"/>
+				<Hide GUID="{EAC2CEC0-9C46-473D-8E6A-365852DFD029}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{756C8005-858B-F349-3117-FAF9E4AC9899}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..1023] OF MotionCommand</Name>
+			<BitSize>2097152</BitSize>
+			<BaseType GUID="{FD9A51F2-D290-4265-856B-B0A2E6461283}">MotionCommand</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>1024</Elements>
+			</ArrayInfo>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+		<System>
+			<Settings>
+				<Cpu BaseTime="500"/>
+				<IoIdleTask Priority="4"/>
+			</Settings>
+			<Tasks>
+				<Task Id="3" Priority="6" CycleTime="10000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+				<Task Id="4" Priority="8" CycleTime="10000" AmsPort="351" AdtTasks="true">
+					<Name>MotorControl</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{6D137C32-CF1B-52CE-DA20-E45D0F4CE1F6}">
+					<Name>Portal Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>MAIN.fb_CommandProcess.mInputData</Name>
+							<Comment><![CDATA[array stores data form host machine ]]></Comment>
+							<Type GUID="{756C8005-858B-F349-3117-FAF9E4AC9899}">ARRAY [0..1023] OF MotionCommand</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_CommandProcess.iWriteIndex</Name>
+							<Comment><![CDATA[ sum of received data]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.fb_CommandProcess.mOutputData</Name>
+							<Comment><![CDATA[data read from buffer  ]]></Comment>
+							<Type GUID="{FD9A51F2-D290-4265-856B-B0A2E6461283}">MotionCommand</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_CommandProcess.iReadIndex</Name>
+							<Comment><![CDATA[ sum of sent data]]></Comment>
+							<Type>UDINT</Type>
+						</Var>
+					</Vars>
+					<UnrestoredVarLinks ImportTime="2024-07-11T19:08:24">
+						<OwnerA Name="OutputSrc" Prefix="TIPC^Portal^Portal Instance" Type="2">
+							<OwnerB Name="TIXC^MotorControl^MotorControl_Obj1 (MotorControl)">
+								<Link VarA="MAIN.mOutputData" TypeA="MotionCommand" InOutA="1" GuidA="{FD9A51F2-D290-4265-856B-B0A2E6461283}" VarB="Inputs^CommandData" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>6</Priority>
+							<CycleTime>1000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="6" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Cpp>
+			<Project GUID="{8C12A180-11C3-4B45-885E-16DC4F31E673}" Name="MotorControl" PrjFilePath="MotorControl\MotorControl.vcxproj" TmcFilePath="MotorControl\MotorControl.tmc">
+				<Instance Id="#x01010010" KeepUnrestoredLinks="2">
+					<Name>MotorControl_Obj1 (MotorControl)</Name>
+					<TmcDesc GUID="{478C6498-483D-408C-90DD-5B07C4658435}">
+						<Name>MotorControl</Name>
+						<CLSID ClassFactory="MotorControl">{478C6498-483D-408C-90DD-5B07C4658435}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+								<ManualConfig>
+									<OTCID>#x02010040</OTCID>
+								</ManualConfig>
+								<Priority>8</Priority>
+								<CycleTime>1000000</CycleTime>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter HideParameter="true">
+								<Name>TraceLevelMax</Name>
+								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+								<PTCID>#x03002103</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>Parameter</Name>
+								<BitSize>128</BitSize>
+								<SubItem>
+									<Name>data1</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>0</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>data2</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>32</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>data3</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+									<BitSize>64</BitSize>
+									<BitOffs>64</BitOffs>
+								</SubItem>
+								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+						</Parameters>
+						<DataAreas>
+							<DataArea>
+								<AreaNo AreaType="InputDst">0</AreaNo>
+								<Name>Inputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>256</ByteSize>
+								<Symbol>
+									<Name>CommandData</Name>
+									<BitSize>2048</BitSize>
+									<BaseType GUID="{FD9A51F2-D290-4265-856B-B0A2E6461283}">MotionCommand</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+							</DataArea>
+							<DataArea>
+								<AreaNo AreaType="OutputSrc">1</AreaNo>
+								<Name>Outputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>0</ByteSize>
+							</DataArea>
+						</DataAreas>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002060</PTCID>
+								<Name>CyclicCaller</Name>
+								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+						</InterfacePointers>
+						<Deployment>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+						</Deployment>
+						<ParameterValues>
+							<Value>
+								<Name>TraceLevelMax</Name>
+								<EnumText>tlAlways</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.data1</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.data2</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.data3</Name>
+								<Value>0</Value>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>CyclicCaller</Name>
+								<OTCID>#x02010040</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+				</Instance>
+			</Project>
+		</Cpp>
+		<Io/>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{08502001-0040-0201-0020-500810000101}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
+		<OwnerA Name="TIPC^Portal^Portal Instance">
+			<OwnerB Name="TIXC^MotorControl^MotorControl_Obj1 (MotorControl)">
+				<Link VarA="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputData" VarB="Inputs^CommandData"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>

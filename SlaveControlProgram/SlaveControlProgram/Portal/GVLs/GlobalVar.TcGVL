@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GlobalVar" Id="{70ea4246-66ef-4828-bba5-5d345edcf1b0}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	MAX_BUFFER_LENGTH : UDINT:= 1024;   // max number of elements in buffer; prefer 2^n
+	BUFFER_MASK : UDINT := MAX_BUFFER_LENGTH - 1;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

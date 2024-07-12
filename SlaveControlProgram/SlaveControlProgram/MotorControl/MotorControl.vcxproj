@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(TWINCATSDK)\MsBuild\TwinCAT Common\*.targets" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|TwinCAT OS (x64)">
+      <Configuration>Debug</Configuration>
+      <Platform>TwinCAT OS (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|TwinCAT RT (x64)">
+      <Configuration>Debug</Configuration>
+      <Platform>TwinCAT RT (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|TwinCAT RT (x86)">
+      <Configuration>Debug</Configuration>
+      <Platform>TwinCAT RT (x86)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|TwinCAT UM (x64)">
+      <Configuration>Debug</Configuration>
+      <Platform>TwinCAT UM (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|TwinCAT UM (x86)">
+      <Configuration>Debug</Configuration>
+      <Platform>TwinCAT UM (x86)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TwinCAT OS (x64)">
+      <Configuration>Release</Configuration>
+      <Platform>TwinCAT OS (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TwinCAT RT (x64)">
+      <Configuration>Release</Configuration>
+      <Platform>TwinCAT RT (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TwinCAT RT (x86)">
+      <Configuration>Release</Configuration>
+      <Platform>TwinCAT RT (x86)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TwinCAT UM (x64)">
+      <Configuration>Release</Configuration>
+      <Platform>TwinCAT UM (x64)</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TwinCAT UM (x86)">
+      <Configuration>Release</Configuration>
+      <Platform>TwinCAT UM (x86)</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MotorControl.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="TcPch.h" />
+    <ClInclude Include="MotorControlClassFactory.h" />
+    <ClInclude Include="MotorControlCtrl.h" />
+    <ClInclude Include="MotorControlDriver.h" />
+    <ClInclude Include="MotorControlInterfaces.h" />
+    <ClInclude Include="MotorControlServices.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MotorControl.cpp" />
+    <ClCompile Include="TcPch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="MotorControlClassFactory.cpp" />
+    <ClCompile Include="MotorControlCtrl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MotorControlDriver.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MotorControlMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MotorControlW32.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MotorControl.rc" />
+    <ResourceCompile Include="MotorControlW32.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MotorControlW32.def" />
+    <None Include="MotorControl.tmc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="MotorControlW32.idl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
+    </Midl>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8c12a180-11c3-4b45-885e-16dc4f31e673}</ProjectGuid>
+    <RootNamespace>MotorControl</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <AutomaticRetargetPlatformVersion>true</AutomaticRetargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'" Label="PropertySheets" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'" Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

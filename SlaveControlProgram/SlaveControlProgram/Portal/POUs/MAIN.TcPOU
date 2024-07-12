@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{65f328a0-4d74-4a01-8aa5-7e8c2290d3c3}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bInit : BOOL := FALSE; // flag for initialization
+END_VAR
+
+
+// Function block instantiation
+VAR
+   
+	fb_CommandProcess : FB_CommandProcess;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (NOT bInit) THEN
+	bInit := mInitialize();
+ELSE
+	
+	mInput();
+	
+	mOutput();
+	
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="mInitialize" Id="{9586f67e-0d90-4ec0-811a-a2c911cc73f9}">
+      <Declaration><![CDATA[METHOD mInitialize : BOOL
+VAR
+	bBufferFilled : BOOL := FALSE;
+	bMcInfoLoaded : BOOL := FALSE;
+	bPanelInfoLoaded : BOOL := FALSE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Wait for the following initialization
+// Step 1. Host Machine fills command buffer;
+// Step 2. Current module finish loading MotionControl xml file;
+// Step 3. Current module finish loading Panel xml file;
+mInitialize := FALSE;
+
+// Step 1
+IF fb_CommandProcess.mInitialize() THEN
+	bBufferFilled := TRUE;
+END_IF
+
+// Step 2 
+bMcInfoLoaded := TRUE;
+
+// Step 3
+bPanelInfoLoaded := TRUE;
+
+// Finish all initialization steps.
+IF bBufferFilled AND bMcInfoLoaded AND bPanelInfoLoaded THEN
+	mInitialize := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mInput" Id="{4779c18a-9e96-4364-9e93-c017388d8244}">
+      <Declaration><![CDATA[METHOD mInput : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Receive inputs from Hardware and other modules.
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mOutput" Id="{e076596c-b196-4e95-9e7b-70f2484e0f67}">
+      <Declaration><![CDATA[METHOD mOutput : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Send outputs to Hardware and other modules.
+
+mOutput := FALSE;
+
+IF fb_CommandProcess.mSendCommand() THEN
+	mOutput := TRUE;
+ELSE
+	RETURN;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MAIN">
+      <LineId Id="39" Count="4" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="37" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.mInitialize">
+      <LineId Id="15" Count="2" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="40" Count="2" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="2" />
+    </LineIds>
+    <LineIds Name="MAIN.mInput">
+      <LineId Id="44" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.mOutput">
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
