@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="PanelButton" Id="{821dd715-1078-4fbb-ba7b-9326cd27a5b0}">
+    <Declaration><![CDATA[TYPE PanelButton :
+STRUCT
+	name  	: STRING;
+	pressed : BOOL;
+	row   	: INT;
+	column 	: INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

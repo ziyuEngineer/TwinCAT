@@ -1,9 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <GVL Name="GlobalVar" Id="{70ea4246-66ef-4828-bba5-5d345edcf1b0}">
     <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	// Command related
 	MAX_BUFFER_LENGTH : UDINT:= 1024;   // max number of elements in buffer; prefer 2^n
 	BUFFER_MASK : UDINT := MAX_BUFFER_LENGTH - 1;
-END_VAR]]></Declaration>
+	
+	// Scope server related
+	RECORD_CONFIG_PATH 		: STRING := 'C:/RecordData/ScopeServer/RecordData.tcscopex';
+	RECORD_CONFIG_XML_PATH 	: STRING := 'C:/RecordData/Settings/ScopeExporterSettings.xml';
+	SAVE_SVDX_PREFIX 		: STRING := 'C:/RecordData/SVDX/'; 
+	SAVE_CSV_PREFIX			: STRING := 'C:/RecordData/CSV/'; 
+	
+	// Motion Control
+	MC_CONFIG_PATH 		 : STRING := 'C:/MotionControl.xml';
+	MC_AXIS_NUM 		 : INT := 4;
+	MC_JOINT_NUM         : INT := 1;
+	MC_JOINT_PROPERTY_NUM : INT := 11;
+	
+	// Panel Information
+	PANEL_CHANNEL_NUM   :INT := 5;
+	PANEL_PROPERTY_NUM  :INT := 8;
+END_VAR
+
+
+VAR_GLOBAL
+	ServoOn 			: PanelButton;
+	X_Axis  			: PanelButton;
+	Y_Axis  			: PanelButton;
+	Z_Axis  			: PanelButton;
+	A_Axis  			: PanelButton;
+	B_Axis  			: PanelButton;
+	C_Axis  			: PanelButton;
+	Tenth_Ratio   		: PanelButton;
+	Hundredth_Ratio   	: PanelButton;
+	Thousandth_Ratio   	: PanelButton;
+END_VAR
+]]></Declaration>
   </GVL>
 </TcPlcObject>

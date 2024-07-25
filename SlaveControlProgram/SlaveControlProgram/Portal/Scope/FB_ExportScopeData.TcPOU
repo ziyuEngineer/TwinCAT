@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ExportScopeData" Id="{9001489a-a65a-4b4f-b47d-19d729e19a2c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ExportScopeData
+VAR_INPUT
+	sNetId			:STRING	:='';	
+	bExport			:BOOL;
+	svd 			:T_MaxString; //.svdx
+	target			:T_MaxString; //.csv
+	config			:T_MaxString; //.xml Configuration file created by export wizzard
+	Channellist		:T_MaxString; //Channel List (Names of the channels(s) separated with semicolon
+	start			:T_MaxString; //Starttime (As TwinCAT time stamp)
+	end				:T_MaxString; //Endtime (As TwimCAT time stamp	
+END_VAR
+//VAR_OUTPUT
+VAR
+	bBusy			:BOOL;
+	bError			:BOOL;
+	iErrorID		:UDINT;
+END_VAR
+VAR
+	rtExport		:R_TRIG; // Detect rising edge
+	fbStartExport	:NT_StartProcess;
+	
+	eState			:(IDLE,EXPORTING,ERROR);
+	
+    fbFormat   		: FB_FormatString2;
+    sFormat    		: T_MaxString ;
+	sCommand		: T_MaxString ;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[rtExport(CLK:=bExport);
+CASE eState OF 
+	IDLE:
+		bBusy		:=FALSE;
+		IF rtExport.Q THEN
+			bBusy		:=TRUE;
+			sFormat:='"svd=%s" "target=%s"';
+			
+			IF config<>'' THEN
+				sFormat:= CONCAT(sFormat,' "config=%s"');
+			ELSE
+				sFormat:= CONCAT(sFormat,'%s');
+			END_IF
+
+			IF Channellist<>'' THEN
+				sFormat:= CONCAT(sFormat,' "Channellist=%s"');
+			ELSE
+				sFormat:= CONCAT(sFormat,'%s');
+			END_IF
+			
+			IF start<>'' THEN
+				sFormat:= CONCAT(sFormat,' "start=%s"');
+			ELSE
+				sFormat:= CONCAT(sFormat,'%s');
+			END_IF			
+
+			IF end<>'' THEN
+				sFormat:= CONCAT(sFormat,' "end=%s"');
+			ELSE
+				sFormat:= CONCAT(sFormat,'%s');
+			END_IF					
+			
+			sFormat	:= CONCAT(sFormat,' silent');
+			
+			fbFormat(
+				pFormatString:=ADR(sFormat) , 
+				arg1		:=F_STRING(svd) , 
+				arg2		:=F_STRING(target) ,
+				arg3		:=F_STRING(config), 
+				arg4		:=F_STRING(Channellist), 
+				arg5		:=F_STRING(start), 
+				arg6		:=F_STRING(end), 				
+				arg7		:=, 				
+				pDstString	:=ADR(sCommand) , 
+				nDstSize	:=SIZEOF(sCommand) );
+				
+			IF NOT fbFormat.bError THEN
+				eState				:=EXPORTING;
+				fbStartExport.START	:=TRUE;
+			ELSE
+				bError		:=fbFormat.bError;
+				iErrorID	:=fbFormat.nErrId;
+				eState		:=ERROR;
+			END_IF
+			
+		END_IF
+	
+	EXPORTING:
+		IF NOT fbStartExport.BUSY THEN
+			fbStartExport.START	:=FALSE;
+			IF NOT fbStartExport.ERR THEN
+				eState		:=IDLE;
+			ELSE
+				bError		:=fbStartExport.ERR;
+				iErrorID	:=fbStartExport.ERRID;
+				eState		:=ERROR;				
+			END_IF
+		END_IF
+	
+	ERROR:
+		eState		:=IDLE;
+		
+END_CASE
+
+
+fbStartExport(
+    NETID		:= sNetId, 
+    PATHSTR		:= 'C:\TwinCAT\Functions\TE130X-Scope-View\TC3ScopeExportTool.exe', 
+    DIRNAME		:= 'C:\TwinCAT\Functions\TE130X-Scope-View', 
+    COMNDLINE	:= sCommand, 
+    START		:= , 
+    TMOUT		:= T#30S);
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -6,7 +6,7 @@
     <ProjectGuid>{981ff1a4-9e02-461a-86df-a9156cd4422f}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
-    <WriteProductVersion>true</WriteProductVersion>
+    <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Portal</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
@@ -16,8 +16,27 @@
     <Implicit_KindOfTask>{4e7f39e1-9713-4f37-81f1-64407e383ffe}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{28a7acac-e12a-4d91-83df-3552138918db}</Implicit_Jitter_Distribution>
     <LibraryReferences>{9d3196e4-91aa-4da3-a76a-95a8eb922522}</LibraryReferences>
+    <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\PanelButton.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Config\FB_MotorInfoLoad.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Config\FB_PanelInfoProcess.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scope\FB_ExportScopeData.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scope\FB_GenerateFileSuffixByTime.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scope\FB_ScopeServer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\GlobalVar.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -35,6 +54,8 @@
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
+    <Folder Include="Config" />
+    <Folder Include="Scope" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
@@ -49,6 +70,10 @@
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Utilities">
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_JsonXml">
+      <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

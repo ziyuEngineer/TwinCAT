@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_GenerateFileSuffixByTime" Id="{661719a7-3cfb-40d5-a832-7fea34bd8ea9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GenerateFileSuffixByTime
+VAR
+	fb_LocalSystemTime 	: FB_LocalSystemTime; // function provided by beckhoff to get system time
+	fb_FormatString		: FB_FormatString;    // function provided by beckhoff to convert arguments in a string and format them
+END_VAR
+
+VAR
+	year		: DINT;
+	month		: DINT;
+	day			: DINT;
+	hour		: DINT;
+	minute      : DINT;
+	lastHour	: DINT;
+	formatDate	: T_MaxString;
+	
+	SAVE_SVDX_SUFFIX : STRING;
+	SAVE_CSV_SUFFIX  : STRING;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Enable time synchronization
+fb_LocalSystemTime.bEnable := TRUE;	
+
+// Get current local time
+fb_LocalSystemTime();
+year 	:= DWORD_TO_DINT(fb_LocalSystemTime.systemTime.wYear);
+month 	:= DWORD_TO_DINT(fb_LocalSystemTime.systemTime.wMonth);
+day 	:= DWORD_TO_DINT(fb_LocalSystemTime.systemTime.wDay);
+hour 	:= DWORD_TO_DINT(fb_LocalSystemTime.systemTime.wHour);
+minute 	:= DWORD_TO_DINT(fb_LocalSystemTime.systemTime.wMinute);
+
+fb_FormatString(sFormat := '%.4d%.2d%.2d%.2d%.2d',
+				arg1 := F_DINT(year),
+				arg2 := F_DINT(month),
+				arg3 :=	F_DINT(day),
+				arg4 :=	F_DINT(hour),
+				arg5 :=	F_DINT(minute),
+				sOut => formatDate);
+
+// Generate suffix of file to be saved				
+SAVE_SVDX_SUFFIX := CONCAT(formatDate, '.svdx');
+SAVE_CSV_SUFFIX := CONCAT(formatDate, '.CSV');
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

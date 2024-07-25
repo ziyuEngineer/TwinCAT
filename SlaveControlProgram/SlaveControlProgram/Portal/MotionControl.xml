@@ -1,0 +1,79 @@
+<MotionControlInfo>
+    <axis index="0">
+		<joint index='0'>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<ReductionRatio>1.0</ReductionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AbsEncodertype>false</AbsEncodertype>
+		</joint>
+    </axis>
+    <axis index="1">
+        <joint index='0'>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<ReductionRatio>1.0</ReductionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AbsEncodertype>false</AbsEncodertype>
+		</joint>
+    </axis>
+    <axis index="2">
+		<joint index='0'>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<ReductionRatio>1.0</ReductionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AbsEncodertype>false</AbsEncodertype>
+		</joint>
+	</axis>
+    <axis index="3">
+		<joint index='0'>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<ReductionRatio>1.0</ReductionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AbsEncodertype>false</AbsEncodertype>
+		</joint>
+	</axis>
+	<axis index='4'>
+		<joint index='0'>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<ReductionRatio>1.0</ReductionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AbsEncodertype>false</AbsEncodertype>
+		</joint>
+	</axis>
+	<axis index='5'>
+	</axis>
+</MotionControlInfo>

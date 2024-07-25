@@ -1,37 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="MAIN" Id="{65f328a0-4d74-4a01-8aa5-7e8c2290d3c3}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	bInit : BOOL := FALSE; // flag for initialization
+	bInit 	  : BOOL := FALSE; // flag for initialization
+	bTaskDone : BOOL := FALSE;
 END_VAR
 
 
-// Function block instantiation
+// Command related
 VAR
-   
-	fb_CommandProcess : FB_CommandProcess;
+	fb_CommandProcess : FB_CommandProcess; // Process data from host and transfer data to Cpp
+END_VAR
 	
+// Scope Server
+VAR
+	fb_GenerateFileSuffixByTime : FB_GenerateFileSuffixByTime; 	// Generate file suffix by system time
+	fb_ScopeServer 		  		: FB_ScopeServer; 	  			// Record .svdx file
+	bScopeRun 			  		: BOOL := FALSE; 		  		// Flag of starting or stoping scope server
+	fb_ExportScopeData 	  		: FB_ExportScopeData;   		// Export recorded data after finishing 
+	bExportData    		  		: BOOL := FALSE; 		  		// Flag of exporting data to file
+END_VAR
+
+// Initialize and Config load
+VAR
+	bBufferFilled 	 : BOOL := FALSE; // Flag reflects success or failure of initializing ring buffer
+	bMcInfoLoaded 	 : BOOL := FALSE; // Flag reflects success or failure of loading motor info file
+	bPanelInfoLoaded : BOOL := FALSE; // Flag reflects success or failure of loading panel info file
+	fb_MotorInfoLoad : FB_MotorInfoLoad;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF (NOT bInit) THEN
+	
 	bInit := mInitialize();
+	
 ELSE
 	
 	mInput();
 	
 	mOutput();
 	
-END_IF]]></ST>
+END_IF
+
+
+// Scope Data Record
+fb_ScopeServer(
+	bExternalTriggerEvent	:= bScopeRun , 
+	sConfigFile				:= GlobalVar.RECORD_CONFIG_PATH, 
+	sSaveFile				:= CONCAT(GlobalVar.SAVE_SVDX_PREFIX, fb_GenerateFileSuffixByTime.SAVE_SVDX_SUFFIX));
+	
+fb_ExportScopeData(
+	sNetId					:= '' , 
+	bExport					:= bExportData , 
+	svd						:= fb_ScopeServer.sSaveFile , 
+	target					:= CONCAT(GlobalVar.SAVE_CSV_PREFIX, fb_GenerateFileSuffixByTime.SAVE_CSV_SUFFIX) , 
+	config					:= GlobalVar.RECORD_CONFIG_XML_PATH);
+	]]></ST>
     </Implementation>
     <Method Name="mInitialize" Id="{9586f67e-0d90-4ec0-811a-a2c911cc73f9}">
       <Declaration><![CDATA[METHOD mInitialize : BOOL
-VAR
-	bBufferFilled : BOOL := FALSE;
-	bMcInfoLoaded : BOOL := FALSE;
-	bPanelInfoLoaded : BOOL := FALSE;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Wait for the following initialization
 // Step 1. Host Machine fills command buffer;
@@ -39,21 +68,37 @@ END_VAR]]></Declaration>
 // Step 3. Current module finish loading Panel xml file;
 mInitialize := FALSE;
 
+// Get time to generate suffix of files saved by scope server
+fb_GenerateFileSuffixByTime();
+
 // Step 1
-IF fb_CommandProcess.mInitialize() THEN
-	bBufferFilled := TRUE;
+IF NOT bBufferFilled THEN
+	bBufferFilled := fb_CommandProcess.mInitialize();
 END_IF
 
+
 // Step 2 
-bMcInfoLoaded := TRUE;
+IF NOT bMcInfoLoaded THEN
+	fb_MotorInfoLoad();
+	bMcInfoLoaded := fb_MotorInfoLoad.bExecuteSuccess;
+END_IF
+
 
 // Step 3
-bPanelInfoLoaded := TRUE;
+IF NOT bPanelInfoLoaded THEN
+	bPanelInfoLoaded := TRUE;
+END_IF
 
 // Finish all initialization steps.
 IF bBufferFilled AND bMcInfoLoaded AND bPanelInfoLoaded THEN
+	
+	// Start recording data
+	bScopeRun := TRUE;
+	
+	// End initialization
 	mInitialize := TRUE;
-END_IF]]></ST>
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="mInput" Id="{4779c18a-9e96-4364-9e93-c017388d8244}">
@@ -79,47 +124,19 @@ mOutput := FALSE;
 IF fb_CommandProcess.mSendCommand() THEN
 	mOutput := TRUE;
 ELSE
-	RETURN;
-END_IF]]></ST>
+	// TODO: add judgment on whether the task is finished
+	IF bTaskDone THEN
+		bScopeRun := FALSE;
+		
+		// TODO: Add a delay between stop scope and start export
+		// bExportData := TRUE;
+	END_IF
+	
+	//RETURN;
+	
+END_IF
+]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="MAIN">
-      <LineId Id="39" Count="4" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="50" Count="0" />
-      <LineId Id="37" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.mInitialize">
-      <LineId Id="15" Count="2" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="40" Count="2" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="30" Count="2" />
-    </LineIds>
-    <LineIds Name="MAIN.mInput">
-      <LineId Id="44" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.mOutput">
-      <LineId Id="5" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="21" Count="1" />
-      <LineId Id="15" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

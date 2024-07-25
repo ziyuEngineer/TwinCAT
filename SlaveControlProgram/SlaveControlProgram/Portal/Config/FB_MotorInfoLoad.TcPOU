@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_MotorInfoLoad" Id="{b59da089-0f93-4ffa-9f91-dd2cb910895c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MotorInfoLoad
+VAR
+	fbXml     			: FB_XmlDomParser;
+
+	bLoadXmlFile       	: BOOL;			// Rising edge triggers the load file action
+	bLoadFileSuccess    : BOOL;			// Flag reflects success or failure of loading file
+	bExecuteSuccess     : BOOL := FALSE;// Flag reflects success or failure of this module
+	
+	xmlDoc 				: SXmlNode;
+	xmlMc 				: SXmlNode;
+	xmlAxis 			: SXmlNode;
+	xmlJoint 			: SXmlNode;
+	xmlJointNode        : SXmlNode;
+	xmlIterator 		: SXmlIterator;
+	
+	xmlJointNodeValue   : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1, 0..GlobalVar.MC_JOINT_PROPERTY_NUM-1] OF STRING;
+	
+	iLoop 				: INT := 0;
+	jLoop               : INT := 0;
+	kLoop               : INT := 0;
+	
+	iString 			: STRING;
+	jString             : STRING;
+END_VAR
+
+VAR
+	loopAxis 	: INT := 0;
+	loopJoint 	: INT := 0;
+	McInfo     	AT %Q* : ARRAY[0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF MotionControlInfo; // Dimensions should be  the same as those defined in tmc file
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bLoadXmlFile := TRUE; // require rising edge to trigger
+bLoadFileSuccess := FALSE;
+IF bLoadXmlFile THEN
+  	fbXml.LoadDocumentFromFile(GlobalVar.MC_CONFIG_PATH, bLoadXmlFile);
+  
+	xmlDoc 	:= fbXml.GetDocumentNode();
+	xmlMc 	:= fbXml.ChildByName(xmlDoc, 'MotionControlInfo');
+  	
+	// Obtain data from nodes
+	FOR iLoop := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO
+		iString 		:= INT_TO_STRING(iLoop);
+	  	xmlAxis   	:= fbXml.ChildByAttributeAndName(xmlMc,'index',iString,'axis');
+	  
+	  	FOR jLoop := 0 TO GlobalVar.MC_JOINT_NUM - 1 DO
+			jString := UINT_TO_STRING(jLoop);
+			xmlJoint  := fbXml.ChildByAttributeAndName(xmlAxis,'index',jString,'joint');
+			xmlIterator := fbXml.Begin(xmlJoint);
+			
+			WHILE NOT fbXml.IsEnd(xmlIterator) DO
+				xmlJointNode := fbXml.Node(xmlIterator);
+				xmlJointNodeValue[iLoop, jLoop, kLoop] := fbXml.NodeText(xmlJointNode);
+				xmlIterator := fbXml.Next(xmlIterator);
+				kLoop := kLoop + 1;
+			END_WHILE
+			kLoop := 0;
+		END_FOR
+	END_FOR
+  	bLoadXmlFile := FALSE;
+	bLoadFileSuccess := TRUE;
+END_IF
+
+// IF succeed loading file, assign values to McInfo send data to Cpp module by linking variables
+IF bLoadFileSuccess THEN
+	FOR loopAxis := 0 TO MC_AXIS_NUM - 1 DO
+		FOR loopJoint := 0 TO MC_JOINT_NUM -1 DO
+			McInfo[loopAxis,loopJoint].AbsEncDir 		:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 0]);
+			McInfo[loopAxis,loopJoint].AbsEncRes 		:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 1]);
+			McInfo[loopAxis,loopJoint].RatedCurrent 	:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 2]);
+			McInfo[loopAxis,loopJoint].RatedTorque 		:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 3]);
+			McInfo[loopAxis,loopJoint].TorDir 			:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 4]);
+			McInfo[loopAxis,loopJoint].AbsZeroPos 		:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 5]);
+			McInfo[loopAxis,loopJoint].PosUpperLimit 	:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 6]);
+			McInfo[loopAxis,loopJoint].PosLowerLimit 	:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 7]);
+			McInfo[loopAxis,loopJoint].ReductionRatio 	:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 8]);
+			McInfo[loopAxis,loopJoint].TorPdoMax 		:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 9]);
+			McInfo[loopAxis,loopJoint].AbsEncType 		:= STRING_TO_BOOL(xmlJointNodeValue[loopAxis, loopJoint, 10]);
+		END_FOR
+	END_FOR
+	
+	IF (McInfo[MC_AXIS_NUM - 1, MC_JOINT_NUM -1].ReductionRatio <> 0) THEN
+		bExecuteSuccess := TRUE;
+	END_IF
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

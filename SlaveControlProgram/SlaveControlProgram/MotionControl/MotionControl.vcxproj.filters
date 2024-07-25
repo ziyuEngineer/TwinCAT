@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{196801de-f62d-4a5d-82ee-cdb4bb4969b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{022f9233-827f-499e-aba9-aad187decb4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT UM Files">
+      <UniqueIdentifier>{4af45d2d-2654-4222-b6cd-7c86a003a848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT RT Files">
+      <UniqueIdentifier>{4b286e81-b622-4871-ac26-1532bd3208dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT OS Files">
+      <UniqueIdentifier>{52c6e798-e696-4952-8427-c7e31bf874c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TMC Files">
+      <UniqueIdentifier>{fe504448-e3ee-4129-af6c-7a23fd0d9701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common Files">
+      <UniqueIdentifier>{9708ffed-749b-4c7e-b536-79161c07b9fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Axis">
+      <UniqueIdentifier>{8a8deafb-28e6-4d76-8aad-0c40fd5aaddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{f058df8e-8e11-43c1-a9ed-6ef410f5fccf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TcPch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControlClassFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControlInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControlServices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControlCtrl.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControlDriver.h">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControllerBase.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Common Files\CommonDefine.h">
+      <Filter>Common Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\Axis.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\Differentiator.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\Filter.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TcPch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControlClassFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControlCtrl.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControlW32.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControlDriver.cpp">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControlMain.cpp">
+      <Filter>TwinCAT OS Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControllerBase.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Axis.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Differentiator.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Filter.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MotionControl.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="MotionControlW32.rc">
+      <Filter>TwinCAT UM Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MotionControlW32.def">
+      <Filter>TwinCAT UM Files</Filter>
+    </None>
+    <None Include="MotionControl.tmc">
+      <Filter>TMC Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="MotionControlW32.idl">
+      <Filter>TwinCAT UM Files</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

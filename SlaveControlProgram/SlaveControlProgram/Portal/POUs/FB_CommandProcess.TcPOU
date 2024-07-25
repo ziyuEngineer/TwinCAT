@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_CommandProcess" Id="{4cc609f8-5b4e-4130-af29-e2e869c45ddc}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_CommandProcess
 
@@ -29,7 +29,8 @@ iReadIndex := 0;
 // The buffer is filled for the first time
 IF iWriteIndex = GlobalVar.MAX_BUFFER_LENGTH - 1 THEN
 	mInitialize := TRUE;
-END_IF]]></ST>
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="mSendCommand" Id="{0ba57674-b202-417a-8c41-1345aa1012c0}">
@@ -50,27 +51,9 @@ IF iReadIndex <= iWriteIndex  THEN
 	localReadIndex := (iReadIndex AND GlobalVar.BUFFER_MASK);
 			
 	mSendCommand := TRUE;
-END_IF]]></ST>
+END_IF
+]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_CommandProcess">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CommandProcess.mInitialize">
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="7" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CommandProcess.mSendCommand">
-      <LineId Id="14" Count="0" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="6" Count="7" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
