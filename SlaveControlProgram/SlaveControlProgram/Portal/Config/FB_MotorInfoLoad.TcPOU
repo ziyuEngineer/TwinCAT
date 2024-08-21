@@ -66,8 +66,8 @@ END_IF
 
 // IF succeed loading file, assign values to McInfo send data to Cpp module by linking variables
 IF bLoadFileSuccess THEN
-	FOR loopAxis := 0 TO MC_AXIS_NUM - 1 DO
-		FOR loopJoint := 0 TO MC_JOINT_NUM -1 DO
+	FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO
+		FOR loopJoint := 0 TO GlobalVar.MC_JOINT_NUM - 1 DO
 			McInfo[loopAxis,loopJoint].AbsEncDir 		:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 0]);
 			McInfo[loopAxis,loopJoint].AbsEncRes 		:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 1]);
 			McInfo[loopAxis,loopJoint].RatedCurrent 	:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 2]);
@@ -76,13 +76,16 @@ IF bLoadFileSuccess THEN
 			McInfo[loopAxis,loopJoint].AbsZeroPos 		:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 5]);
 			McInfo[loopAxis,loopJoint].PosUpperLimit 	:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 6]);
 			McInfo[loopAxis,loopJoint].PosLowerLimit 	:= STRING_TO_DINT(xmlJointNodeValue[loopAxis, loopJoint, 7]);
-			McInfo[loopAxis,loopJoint].ReductionRatio 	:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 8]);
+			McInfo[loopAxis,loopJoint].TransmissionRatio 	:= STRING_TO_LREAL(xmlJointNodeValue[loopAxis, loopJoint, 8]);
 			McInfo[loopAxis,loopJoint].TorPdoMax 		:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 9]);
-			McInfo[loopAxis,loopJoint].AbsEncType 		:= STRING_TO_BOOL(xmlJointNodeValue[loopAxis, loopJoint, 10]);
+			McInfo[loopAxis,loopJoint].AdditiveTorque 	:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 10]);
+			McInfo[loopAxis,loopJoint].AbsEncType 		:= STRING_TO_BOOL(xmlJointNodeValue[loopAxis, loopJoint, 11]);
+			McInfo[loopAxis,loopJoint].PositiveHardBit 	:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 12]);
+			McInfo[loopAxis,loopJoint].NegativeHardBit 	:= STRING_TO_INT(xmlJointNodeValue[loopAxis, loopJoint, 13]);
 		END_FOR
 	END_FOR
 	
-	IF (McInfo[MC_AXIS_NUM - 1, MC_JOINT_NUM -1].ReductionRatio <> 0) THEN
+	IF (McInfo[GlobalVar.MC_AXIS_NUM - 1, GlobalVar.MC_JOINT_NUM -1].AdditiveTorque <> 0) THEN
 		bExecuteSuccess := TRUE;
 	END_IF
 END_IF

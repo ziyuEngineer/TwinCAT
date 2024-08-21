@@ -25,11 +25,28 @@ END_VAR
         <ST><![CDATA[// Wait for host machine to fill command buffer;
 mInitialize := FALSE;
 iReadIndex := 0;
+localReadIndex := 0;
 
 // The buffer is filled for the first time
-IF iWriteIndex = GlobalVar.MAX_BUFFER_LENGTH - 1 THEN
+IF iWriteIndex = GlobalVar.MAX_BUFFER_LENGTH THEN
 	mInitialize := TRUE;
 END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mReset" Id="{79b35ea7-30e4-400c-b6ef-7774d6fe749b}">
+      <Declaration><![CDATA[METHOD mReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mReset := TRUE;
+
+iReadIndex := 0;
+localReadIndex := 0;
+MEMSET(ADR(mOutputData), 0, SIZEOF(MotionCommand));
+
+mReset := FALSE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -42,7 +59,7 @@ END_VAR
         <ST><![CDATA[// Link mOutputdata to corresponding data structure in Cpp module
 mSendCommand := FALSE;
 
-IF iReadIndex <= iWriteIndex  THEN
+IF iReadIndex < iWriteIndex  THEN
 	
 	mOutputData := mInputData[localReadIndex];
 

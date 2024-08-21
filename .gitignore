@@ -24,7 +24,7 @@ _CompileInfo/
 _Libraries/
 _ModuleInstall/
 
-_Config/
+#_Config/ 里面存放了IO的信息，不可以忽略
 _Deployment/
 _Boot/
 _CompileInfo/

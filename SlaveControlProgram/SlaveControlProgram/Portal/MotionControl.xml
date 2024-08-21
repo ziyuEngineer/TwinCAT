@@ -1,36 +1,42 @@
 <MotionControlInfo>
     <axis index="0">
-		<joint index='0'>
-			<AbsEncoderDir>1</AbsEncoderDir>
+		<joint index='0'><!-- Z轴参数 -->
+			<AbsEncoderDir>-1</AbsEncoderDir>
 			<AbsEncoderRes>10000</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
-			<TorDir>1</TorDir>
-			<AbsZeroPos>100</AbsZeroPos>
-			<UpperPosLimit>1000000000</UpperPosLimit>
-			<LowerPosLimit>-1000000000</LowerPosLimit>
-			<ReductionRatio>1.0</ReductionRatio>
-			<TorPdoMax>50</TorPdoMax>
+			<TorDir>-1</TorDir>
+			<AbsZeroPos>-21277700</AbsZeroPos>
+			<UpperPosLimit>-21277700</UpperPosLimit>
+			<LowerPosLimit>33128000</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>-10</AdditiveTor>
 			<AbsEncodertype>false</AbsEncodertype>
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
 		</joint>
     </axis>
     <axis index="1">
-        <joint index='0'>
-			<AbsEncoderDir>1</AbsEncoderDir>
+        <joint index='0'><!-- Y轴参数 -->
+			<AbsEncoderDir>-1</AbsEncoderDir>
 			<AbsEncoderRes>10000</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
-			<TorDir>1</TorDir>
-			<AbsZeroPos>100</AbsZeroPos>
-			<UpperPosLimit>1000000000</UpperPosLimit>
-			<LowerPosLimit>-1000000000</LowerPosLimit>
-			<ReductionRatio>1.0</ReductionRatio>
-			<TorPdoMax>50</TorPdoMax>
+			<TorDir>-1</TorDir>
+			<AbsZeroPos>34259914</AbsZeroPos>
+			<UpperPosLimit>-37939000</UpperPosLimit>
+			<LowerPosLimit>34259914</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
 			<AbsEncodertype>false</AbsEncodertype>
+			<PositiveHardBit>0</PositiveHardBit>
+			<NegativeHardBit>1</NegativeHardBit>
 		</joint>
     </axis>
     <axis index="2">
-		<joint index='0'>
+		<joint index='0'><!-- X轴参数 -->
 			<AbsEncoderDir>1</AbsEncoderDir>
 			<AbsEncoderRes>10000</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
@@ -39,13 +45,16 @@
 			<AbsZeroPos>100</AbsZeroPos>
 			<UpperPosLimit>1000000000</UpperPosLimit>
 			<LowerPosLimit>-1000000000</LowerPosLimit>
-			<ReductionRatio>1.0</ReductionRatio>
+			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>50</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
 			<AbsEncodertype>false</AbsEncodertype>
+			<PositiveHardBit>0</PositiveHardBit>
+			<NegativeHardBit>1</NegativeHardBit>
 		</joint>
 	</axis>
     <axis index="3">
-		<joint index='0'>
+		<joint index='0'><!-- XA轴参数 -->
 			<AbsEncoderDir>1</AbsEncoderDir>
 			<AbsEncoderRes>10000</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
@@ -54,9 +63,12 @@
 			<AbsZeroPos>100</AbsZeroPos>
 			<UpperPosLimit>1000000000</UpperPosLimit>
 			<LowerPosLimit>-1000000000</LowerPosLimit>
-			<ReductionRatio>1.0</ReductionRatio>
+			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>50</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
 			<AbsEncodertype>false</AbsEncodertype>
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
 		</joint>
 	</axis>
 	<axis index='4'>
@@ -69,7 +81,7 @@
 			<AbsZeroPos>100</AbsZeroPos>
 			<UpperPosLimit>1000000000</UpperPosLimit>
 			<LowerPosLimit>-1000000000</LowerPosLimit>
-			<ReductionRatio>1.0</ReductionRatio>
+			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>50</TorPdoMax>
 			<AbsEncodertype>false</AbsEncodertype>
 		</joint>

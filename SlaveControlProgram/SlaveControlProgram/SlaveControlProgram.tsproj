@@ -95,8 +95,148 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{1EADE0BF-0E40-47AC-BFA2-37826BC9272D}">MotionControlInfo</Name>
-			<BitSize>448</BitSize>
+			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
+			<Format>
+				<Printf>%d.%d.%d.%d.%d.%d</Printf>
+				<Parameter>[0]</Parameter>
+				<Parameter>[1]</Parameter>
+				<Parameter>[2]</Parameter>
+				<Parameter>[3]</Parameter>
+				<Parameter>[4]</Parameter>
+				<Parameter>[5]</Parameter>
+			</Format>
+		</DataType>
+		<DataType>
+			<Name GUID="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" Namespace="Tc2_System" AutoDeleteType="true">T_AmsNetIdArr</Name>
+			<Comment><![CDATA[ TwinCAT AMS netID address bytes. ]]></Comment>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</BaseType>
+		</DataType>
+		<DataType>
+			<Name GUID="{AF33319A-EDFA-B2D2-9FB8-D62638409ADE}" Namespace="Tc2_EtherCAT" AutoDeleteType="true">ST_PlcDriveRef</Name>
+			<BitSize>80</BitSize>
+			<SubItem>
+				<Name>aNetId</Name>
+				<Type GUID="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" Namespace="Tc2_System">T_AmsNetIdArr</Type>
+				<Comment><![CDATA[ AmsNetId of the EtherCAT master device.]]></Comment>
+				<BitSize>48</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nSlaveAddr</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Comment><![CDATA[ Address of the slave device.]]></Comment>
+				<BitSize>16</BitSize>
+				<BitOffs>48</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nDriveNo</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<Comment><![CDATA[ Drive number]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nDriveType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<Comment><![CDATA[ Drive type]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>72</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{20D299C9-2875-734A-8E5C-3DB045CCF142}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef</Name>
+			<BitSize>320</BitSize>
+			<BaseType GUID="{AF33319A-EDFA-B2D2-9FB8-D62638409ADE}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>4</Elements>
+			</ArrayInfo>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>1</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eHandwheel]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eLimitViolation]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eEmergency]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eTest]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
+				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
+				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
+				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{BB3E412C-1E30-308F-230E-534194B5C329}" AutoDeleteType="true">StateMachine</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>CurrState</Name>
+				<Type GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>StateFlag</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>10</Elements>
+				</ArrayInfo>
+				<BitSize>80</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</Name>
+			<BitSize>512</BitSize>
 			<SubItem>
 				<Name>AbsEncDir</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
@@ -154,7 +294,7 @@
 				<BitOffs>288</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>ReductionRatio</Name>
+				<Name>TransmissionRatio</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
 				<BitSize>64</BitSize>
 				<BitOffs>320</BitOffs>
@@ -166,10 +306,28 @@
 				<BitOffs>384</BitOffs>
 			</SubItem>
 			<SubItem>
+				<Name>AdditiveTorque</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>400</BitOffs>
+			</SubItem>
+			<SubItem>
 				<Name>AbsEncType</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>400</BitOffs>
+				<BitOffs>416</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>PositiveHardBit</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>432</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>NegativeHardBit</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
 			</SubItem>
 			<Hides>
 				<Hide GUID="{7277DCA6-B413-41D3-A0A3-18C7FB71DA27}"/>
@@ -177,12 +335,19 @@
 				<Hide GUID="{58BAEE27-66BA-4E11-946F-1D1E0DB3E6D2}"/>
 				<Hide GUID="{91560D14-88E7-4870-93FC-C62289F249C4}"/>
 				<Hide GUID="{3CE33675-EFAB-4FB1-A5C7-63D03F7B7FF3}"/>
+				<Hide GUID="{1EADE0BF-0E40-47AC-BFA2-37826BC9272D}"/>
+				<Hide GUID="{974CB096-A280-4F2A-BEB6-817045DBCE3F}"/>
+				<Hide GUID="{2BD6A7AA-88A2-4EF3-8D0E-67903D4DC5DD}"/>
+				<Hide GUID="{906FFACA-4191-4CCD-BAC1-EACCD15DD2B8}"/>
+				<Hide GUID="{4584F69F-7729-4006-AD12-2D16674A2DB4}"/>
+				<Hide GUID="{C2E784BB-1A77-4CBA-8FEC-0D0FDB94F2D8}"/>
+				<Hide GUID="{FF5DF032-DD94-452B-A05B-6AF7B3E87B09}"/>
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{8E4F123D-69C7-1C69-B6F5-E530D5962EDF}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3,0..0] OF MotionControlInfo</Name>
-			<BitSize>1792</BitSize>
-			<BaseType GUID="{1EADE0BF-0E40-47AC-BFA2-37826BC9272D}">MotionControlInfo</BaseType>
+			<Name GUID="{2924A10B-C909-47DC-3D4C-1F654CD01241}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3,0..0] OF MotionControlInfo</Name>
+			<BitSize>2048</BitSize>
+			<BaseType GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</BaseType>
 			<ArrayInfo>
 				<LBound>0</LBound>
 				<Elements>4</Elements>
@@ -193,8 +358,26 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{BBFCA707-D69C-480D-A79E-A9CA0E101CE3}">DriverInput</Name>
-			<BitSize>224</BitSize>
+			<Name GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..9] OF BOOL</Name>
+			<BitSize>80</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>10</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..19] OF LREAL</Name>
+			<BitSize>1280</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>20</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</Name>
+			<BitSize>192</BitSize>
 			<SubItem>
 				<Name>StatusWord</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
@@ -202,47 +385,45 @@
 				<BitOffs>0</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>ActualIncPos</Name>
+				<Name>ActualAbsPos</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
 				<BitSize>32</BitSize>
 				<BitOffs>32</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>ActualAbsPos</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
 				<Name>ActualTor</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>96</BitOffs>
+				<BitOffs>64</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>ActualVel</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
 				<BitSize>32</BitSize>
-				<BitOffs>128</BitOffs>
+				<BitOffs>96</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>ErrorCode</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>160</BitOffs>
+				<BitOffs>128</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>WarningCode</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>176</BitOffs>
+				<BitOffs>144</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>DigitalInput_1</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>192</BitOffs>
+				<BitOffs>160</BitOffs>
 			</SubItem>
+			<Hides>
+				<Hide GUID="{BBFCA707-D69C-480D-A79E-A9CA0E101CE3}"/>
+				<Hide GUID="{54CBDCB3-6261-493E-A98E-F0E5454AD0E6}"/>
+			</Hides>
 		</DataType>
 		<DataType>
 			<Name GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}">PanelInfo</Name>
@@ -321,7 +502,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="8">
 				<Cpu BaseTime="500"/>
@@ -336,14 +517,14 @@
 				<Task Id="3" Priority="4" CycleTime="10000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="5" Priority="6" CycleTime="10000" AmsPort="352" AdtTasks="true">
+				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="10000" AmsPort="352" AdtTasks="true">
 					<Name>MotionControl</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{BAB43F6D-102F-8CD9-181E-E061EB82E04F}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{13737AC2-5553-6F64-5861-FD22544F5431}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -357,6 +538,14 @@
 							<Name>MAIN.fb_CommandProcess.iWriteIndex</Name>
 							<Comment><![CDATA[ sum of received data]]></Comment>
 							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_SoEProcess.stPlcDriveRef</Name>
+							<Type GUID="{20D299C9-2875-734A-8E5C-3DB045CCF142}">ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.mSystemState</Name>
+							<Type GUID="{BB3E412C-1E30-308F-230E-534194B5C329}">StateMachine</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -374,13 +563,37 @@
 						<Var>
 							<Name>MAIN.fb_MotorInfoLoad.McInfo</Name>
 							<Comment><![CDATA[ Dimensions should be  the same as those defined in tmc file]]></Comment>
-							<Type GUID="{8E4F123D-69C7-1C69-B6F5-E530D5962EDF}">ARRAY [0..3,0..0] OF MotionControlInfo</Type>
+							<Type GUID="{2924A10B-C909-47DC-3D4C-1F654CD01241}">ARRAY [0..3,0..0] OF MotionControlInfo</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.mockButtons</Name>
+							<Type GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}">ARRAY [0..9] OF BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.Outputs2Cpp</Name>
+							<Type GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}">ARRAY [0..19] OF LREAL</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-07-11T19:08:24">
 						<OwnerA Name="OutputSrc" Prefix="TIPC^Portal^Portal Instance" Type="2">
 							<OwnerB Name="TIXC^MotorControl^MotorControl_Obj1 (MotorControl)">
 								<Link VarA="MAIN.mOutputData" TypeA="MotionCommand" InOutA="1" GuidA="{FD9A51F2-D290-4265-856B-B0A2E6461283}" VarB="Inputs^CommandData" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-08-15T11:12:40">
+						<OwnerA Name="InputDst" Prefix="TIPC^Portal^Portal Instance" Type="1">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
+								<Link VarA="MAIN.stPlcDriveRef^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.stPlcDriveRef^nDriveNo" TypeA="BYTE" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="InfoData^Chn0" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.stPlcDriveRef^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-08-15T13:51:29">
+						<OwnerA Name="InputDst" Prefix="TIPC^Portal^Portal Instance" Type="1">
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+								<Link VarA="MAIN.mSystemState" TypeA="SystemState" InOutA="0" GuidA="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}" VarB="Outputs^CurrentState" RestoreInfo="BNotFound" OldTypeA="SystemState" OldGuidA="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}" NewTypeA="StateMachine" NewGuidA="{BB3E412C-1E30-308F-230E-534194B5C329}"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -474,10 +687,10 @@
 						</Parameters>
 						<DataAreas>
 							<DataArea>
-								<AreaNo AreaType="InputDst">0</AreaNo>
+								<AreaNo AreaType="InputDst" CreateSymbols="true" CreateSymbolAreaType="true" CreateDataType="DAT_MotionControl_Inputs">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>832</ByteSize>
+								<ByteSize>848</ByteSize>
 								<Symbol>
 									<Name>CommandData</Name>
 									<BitSize>2048</BitSize>
@@ -486,8 +699,8 @@
 								</Symbol>
 								<Symbol>
 									<Name>MotionCtrlParam</Name>
-									<BitSize>1792</BitSize>
-									<BaseType GUID="{1EADE0BF-0E40-47AC-BFA2-37826BC9272D}">MotionControlInfo</BaseType>
+									<BitSize>2048</BitSize>
+									<BaseType GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</BaseType>
 									<ArrayInfo>
 										<LBound>0</LBound>
 										<Elements>4</Elements>
@@ -500,8 +713,8 @@
 								</Symbol>
 								<Symbol>
 									<Name>DriverInputs</Name>
-									<BitSize>896</BitSize>
-									<BaseType GUID="{BBFCA707-D69C-480D-A79E-A9CA0E101CE3}">DriverInput</BaseType>
+									<BitSize>768</BitSize>
+									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
 									<ArrayInfo>
 										<LBound>0</LBound>
 										<Elements>4</Elements>
@@ -510,13 +723,13 @@
 										<LBound>0</LBound>
 										<Elements>1</Elements>
 									</ArrayInfo>
-									<BitOffs>3840</BitOffs>
+									<BitOffs>4096</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>PanelInformation</Name>
 									<BitSize>512</BitSize>
 									<BaseType GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}">PanelInfo</BaseType>
-									<BitOffs>4736</BitOffs>
+									<BitOffs>4864</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>mockButton</Name>
@@ -526,7 +739,7 @@
 										<LBound>0</LBound>
 										<Elements>10</Elements>
 									</ArrayInfo>
-									<BitOffs>5248</BitOffs>
+									<BitOffs>5376</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>TestInputs</Name>
@@ -536,14 +749,14 @@
 										<LBound>0</LBound>
 										<Elements>20</Elements>
 									</ArrayInfo>
-									<BitOffs>5376</BitOffs>
+									<BitOffs>5504</BitOffs>
 								</Symbol>
 							</DataArea>
 							<DataArea>
-								<AreaNo AreaType="OutputSrc">1</AreaNo>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true" CreateSymbolAreaType="true" CreateDataType="DAT_MotionControl_Outputs">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>224</ByteSize>
+								<ByteSize>240</ByteSize>
 								<Symbol>
 									<Name>DriverOutputs</Name>
 									<BitSize>512</BitSize>
@@ -559,7 +772,7 @@
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>TestOutputs</Name>
+									<Name>AxisInfoOutputs</Name>
 									<BitSize>1280</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
 									<ArrayInfo>
@@ -567,6 +780,27 @@
 										<Elements>20</Elements>
 									</ArrayInfo>
 									<BitOffs>512</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>StateMachine</Name>
+									<BitSize>96</BitSize>
+									<SubItem>
+										<Name>CurrentState</Name>
+										<Type GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Type>
+										<BitSize>16</BitSize>
+										<BitOffs>0</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>StateFlag</Name>
+										<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+										<ArrayInfo>
+											<LBound>0</LBound>
+											<Elements>10</Elements>
+										</ArrayInfo>
+										<BitSize>80</BitSize>
+										<BitOffs>16</BitOffs>
+									</SubItem>
+									<BitOffs>1792</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -623,12 +857,25 @@
 				</Instance>
 			</Project>
 		</Cpp>
-		<Io/>
+		<Io>
+			<Device File="Device 3 (EtherCAT).xti" Id="3"/>
+		</Io>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2002-0850-0020-500831000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-0020-0304-2000-010120000403}" Id="#x02030020"/>
 		<MappingInfo Identifier="{08502002-0050-0201-0020-500820000101}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^Portal^Portal Instance">
+			<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nDriveNo" VarB="InfoData^Chn1"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+				<Link VarA="PlcTask Inputs^MAIN.mSystemState" VarB="Outputs^StateMachine"/>
 				<Link VarA="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputData" VarB="Inputs^CommandData"/>
 				<Link VarA="PlcTask Outputs^MAIN.fb_MotorInfoLoad.McInfo" VarB="Inputs^MotionCtrlParam"/>
 			</OwnerB>

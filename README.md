@@ -3,7 +3,7 @@
 ## Prerequisite
 
 1. Install [Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=Professional&rel=16)；
-2. Install [TwinCAT3 XAE](https://www.beckhoff.com.cn/zh-cn/support/download-finder/search-result/?c-1=26782567)；
+2. Install [TwinCAT3 XAE](https://tr.beckhoff.com.cn/mod/page/view.php?id=2287&inpopup=1)；下载并安装`TC31-FULL-Setup.3.1.4024.56.exe`
 3. 为了方便后续的version control，请按照[version_control_guide](./SlaveControlProgram/Docs/version_control_guide.md)中的`Prerequisite`完成设置；
 
 ## Brief
@@ -20,16 +20,7 @@
 ## ADS Data Interface
 
 PLC数据类型和C++数据类型的映射关系[:arrow_right:](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/2529399691.html&id=2025525145742283335)
-| 序号 | 端口号| 变量名 | 类型 | 大小 | Linked To | 备注 | 用途 |
-| :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: |
-| 1 | 851 | MAIN.fb_CommandProcess.mInputData | ARRAY [0..1023] OF MotionCommand | 256000.0 | 上位机写入 | \ | 存储host指令的Buffer |
-| 2 | 851 | MAIN.fb_CommandProcess.iWriteIndex | LINT | 8.0 | 上位机写入 | \ | host指令的个数 |
-| 3 | 851 | MAIN.fb_CommandProcess.iReadIndex | LINT | 8.0 | 上位机读取 | \ | 下位机消耗指令的个数 |
-| 4 | 851 | MAIN.fb_CommandProcess.mOutputData | MotionCommand | 256.0 | CommandData | \ | 从Buffer中取出的指令 |
-| 5 | 351 | CommandData | MotionCommand | 256.0 | MAIN.fb_CommandProcess.mOutputData | \ | 发送给电机的指令 |
-| 6 | 851 | \ | \ | \ | \ | \ | No |
-| 7 | 851 | \ | \ | \ | \ | \ | No |
-| 8 | 851 | \ | \ | \ | \ | \ | No |
+
 
 ## Configuration
 
@@ -62,11 +53,46 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 1. 接收部分硬件的输入信号, 如控制面板等；
 2. xxxxxx
 
+#### Data Area -- PLC Inputs
+
+| 变量名 | 类型 | 大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| MAIN.fb_CommandProcess.mInputData | ARRAY [0..1023] OF MotionCommand | 262144.0 | 上位机写入 | 存储host指令的Buffer | \ |
+| MAIN.fb_CommandProcess.iWriteIndex | UDINT | 4.0 | 上位机写入 | host指令的个数 | \ |
+| MAIN.fb_SoEProcess.stPlcDriveRef | ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef | 40.0 | (netId/port/Chn).AdsAddr.InfoData.ZY | 访问驱动器 | \ |
+| MAIN.mSystemState | StateMachine | 12.0 | StateMachine  | 系统当前状态及各状态下的标志位 | \ |
+| \ | \ | \ | \ | \ | \ |
+
+### mStateControl
+
+| 系统状态 | PLC 执行任务 |
+| :----: | :----: |
+| Idle | \ |
+| Initialization | 解析MotionContrtol.xml，并将参数发送给C++端 |
+| Disabled | \ |
+| Standby | 重置RingBuffer |
+| Moving | 将RingBuffer中数据发送给C++模块 |
+| Handwheel | \ |
+| LimitViolation | \ |
+| Fault | 重置SoE |
+| Emergency | \ |
+| Test | \ |
+
 ### mOutput
 
 1. 将上位机传入的指令信号通过变量链接的形式传给C++模块的Input;
 2. 给部分硬件输出指令信号，如控制面板的按键指示灯；
 3. xxxxxx
+
+#### Data Area -- PLC Outputs
+
+| 变量名 | 类型 | 大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| MAIN.fb_CommandProcess.iReadIndex | UDINT | 4.0 | 上位机读取 | 下位机消耗指令的个数 | \ |
+| MAIN.fb_CommandProcess.mOutputData | MotionCommand | 256.0 | CommandData | 从Buffer中取出的指令 | 、 |
+| MAIN.fb_MotorInfoLoad.McInfo | ARRAY [0..3,0..0] OF MotionControlInfo | 256.0 | MotionCtrlParam  | 解析的轴参数 | \ |
+| MAIN.mockButtons | ARRAY [0..9] OF BOOL | 10.0 | mockButtons  | 测试用，链接到C++中对应变量 | \ |
+| MAIN.Outputs2Cpp | ARRAY [0..19] OF LREAL | 160.0 | TestInputs  | 测试用，链接到C++中对应变量，用于切换Test模式下的测试用例 | \ |
 
 ## MotionControl Project Brief
 
@@ -75,21 +101,49 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 1. 接收电机驱动器的输入信号，如编码器位置、速度、力矩、错误码等，计算并更新轴和关节的反馈位置(单位: mm)、扭矩(单位：1/1000)和速度(单位: mm/s)
 2. xxxxxx
 
-#### Data Area -- Inputs
+#### Data Area -- C++ Inputs
 
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| CommandData | MotionCommand | 256 | MAIN.fb_CommandProcess.mOutputData | 接收PLC收到的application发送的运动指令 | \ |
-| MotionCtrlParam | ARRAY [0..3,0..0] OF MotionControlInfo | 224 | MAIN.fb_MotorInfoLoad.McInfo | 接收PLC解析的MotionControl.xml | \ |
-| DriverInputs | ARRAY [0..3,0..0] OF DriverInput | 112 | 后续会链到I/O中电机的Input通道 | 接收驱动器的反馈信息 | \ |
-| PanelInformation | PanelInfo | 64 | 后续会链到PLC中相同类型的变量 | 接收面板按钮的状态信息 | \ |
-| mockButton | ARRAY [0..9] OF BOOL | 10 | application写入 | 触发状态跳转 | \ |
-| TestInputs | ARRAY [0..19] OF LREAL | 160 | \ | 测试写入用，后续会删除 | \ |
+| CommandData | MotionCommand | 256。0 | MAIN.fb_CommandProcess.mOutputData | 接收PLC收到的application发送的运动指令 | \ |
+| MotionCtrlParam | ARRAY [0..3,0..0] OF MotionControlInfo | 256.0 | MAIN.fb_MotorInfoLoad.McInfo | 接收PLC解析MotionControl.xml得到的轴参数 | \ |
+| DriverInputs | ARRAY [0..3,0..0] OF DriverInput | 96.0 | I/O中电机的Input通道 | 接收驱动器的反馈信息 | \ |
+| PanelInformation | PanelInfo | 64.0 | 后续会链到PLC中相同类型的变量 | 接收面板按钮的状态信息 | \ |
+| mockButton | ARRAY [0..9] OF BOOL | 10.0 | application写入 | 触发状态跳转 | \ |
+| TestInputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试写入用，后续会删除 | \ |
+
+#### 以下为每个muckButton对应的功能
+
+| mockButton按键编号 | 功能 |
+| :----: | :----: |
+| 0 | \ |
+| 1 | \ |
+| 2 | \ |
+| 3 | Disabled状态下，若为True，状态跳转至Standby |
+| 4 | Standby状态下，若为True，状态跳转至Moving |
+| 5 | \ |
+| 6 | Emergency状态下，若为True，状态跳转至Disabled <br> LimitViolation状态下，若为True，状态跳转至Standby <br> Fault状态下，若为True，状态跳转至Standby|
+| 7 | \ |
+| 8 | \ |
+| 9 | Standby状态下，若为True，状态跳转至Test |
 
 ### StateControl
 
 1. 接受状态跳转指令，根据状态不同，接收或者生成对应的控制指令，包含控制字，位置/速度/扭矩;
 2. xxxxxx
+
+| 系统状态 | C++ 执行任务 |
+| :----: | :----: |
+| Idle | \ |
+| Initialization | 接收PLC端传递的轴控制参数，更新Axis类的成员变量 |
+| Disabled | 等待使能信号，使能成功后跳转至Standby |
+| Standby | 使电机位置保持，等待状态跳转信号 |
+| Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
+| Handwheel | \ |
+| LimitViolation | 等待Reset信号，跳转至Standby |
+| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Standby |
+| Emergency | 松开急停后，跳转至Disabled状态 |
+| Test | 测试模式，根据输入的测试用例编号完成指定测试 |
 
 ### Output
 
@@ -97,17 +151,35 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 2. 生成错误码，传递给上位机；
 3. xxxxxx
 
-#### Data Area -- Outputs
+#### Data Area -- C++ Outputs
 
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| DriverOutputs | ARRAY [0..3,0..0] OF DriverOutput | 64 | 后续会链到I/O中电机的Output通道 | 发送指令给驱动器 | \ |
-| TestOutputs | ARRAY [0..19] OF LREAL | 160 | \ | 测试，观测变量用，后续会删除 | \ |
+| DriverOutputs | ARRAY [0..3,0..0] OF DriverOutput | 64.0 | I/O中电机的Output通道 | 发送指令给驱动器 | \ |
+| TestOutputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试，观测变量用，后续会删除 | \ |
+| StateMachine | SystemState | 12.0 | MAIN.mSystemState | 系统当前状态及各状态下的标志位 | \ |
+
+#### 以下为StateMachine展开后各变量的说明
+
+| 变量名 | 说明 | 功能 |
+| :----: | :----: | :----: |
+| CurrentState | 系统当前状态 | \ |
+| StateFlag[0] | Idle标志位 | 暂未启用 |
+| StateFlag[1] | Initialization标志位 | 暂未启用 |
+| StateFlag[2] | Disabled标志位 | 暂未启用 |
+| StateFlag[3] | Standby标志位 | 暂未启用 |
+| StateFlag[4] | Moving标志位 | 暂未启用 |
+| StateFlag[5] | Handwheel标志位 | 暂未启用 |
+| StateFlag[6] | LimitViolation标志位 | 暂未启用 |
+| StateFlag[7] | Fault标志位 | 通知PLC端重置SoE以清除错误 |
+| StateFlag[8] | Emergency标志位 | 暂未启用 |
+| StateFlag[9] | Test标志位 | 暂未启用 |
 
 ### Safety Module
 
-1. 将每个电机运动的上下限位存储在[MotionControl.xml](./SlaveControlProgram/SlaveControlProgram/Portal/MotionControl.xml)内，见变量UpperPosLimit, LowerPosLimit；扭矩限幅见变量TorPdoMax；
-2. 具体实现在[Axis](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp)类内的`SendTargetPosition`函数，在发送位置指令前会将指令位置限制在上下限位内；`SendTargetTorque`函数，在发送扭矩指令前会将指令扭矩限制在上下限幅内；
+1. 将每个电机运动的上下软限位对应的编码器数值存储在[MotionControl.xml](./SlaveControlProgram/SlaveControlProgram/Portal/MotionControl.xml)内，见变量`UpperPosLimit`, `LowerPosLimit`；硬限位光电开关对应的通道号，见变量`PositiveHardBit`，`NegativeHardBit`；扭矩限幅见变量`TorPdoMax`，该值的具体含义为指令力矩最大值相对于额定力矩的比例，单位为千分比；
+2. 具体实现在`Axis`类内的[IsSoftLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L308)，[IsHardLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L326)函数，会判断当前位置是否越过软硬限位；[SendTargetTorque](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L68)函数，在发送扭矩指令前会将指令扭矩限制在上下限幅内；
+3. `ControllerBase`类的[SafetyCheck](./SlaveControlProgram/SlaveControlProgram/MotionControl/Controller/ControllerBase.cpp#L130)函数会在每个周期的`Input`更新之后，判断当前位置是否超过限位，从而判断系统是否要跳入`eLimitViolation`状态，进而停止电机的运动；同时也会判断驱动器中是否产生C1D类的报错，从而判断系统是否要跳入`eFault`状态；
 
 ### Log Module
 

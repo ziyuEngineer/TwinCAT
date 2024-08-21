@@ -16,7 +16,7 @@
 	MC_CONFIG_PATH 		 : STRING := 'C:/MotionControl.xml';
 	MC_AXIS_NUM 		 : INT := 4;
 	MC_JOINT_NUM         : INT := 1;
-	MC_JOINT_PROPERTY_NUM : INT := 11;
+	MC_JOINT_PROPERTY_NUM : INT := 14;
 	
 	// Panel Information
 	PANEL_CHANNEL_NUM   :INT := 5;

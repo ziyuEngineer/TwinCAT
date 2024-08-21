@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CDevEtherCATDef" SubType="111">
+	<Device Id="3" CreateSymbols="true" DevType="111" DevFlags="#x0003" AmsPort="28675" AmsNetId="169.254.41.58.4.1" RemoteName="Device 3 (EtherCAT)" InfoImageId="3">
+		<Name>__FILENAME__</Name>
+		<AddressInfo>
+			<Pnp>
+				<DeviceDesc>Ethernet (TwinCAT-Intel PCI Ethernet Adapter (Gigab</DeviceDesc>
+				<DeviceName>\DEVICE\{F0037377-283C-4D11-84F5-1AC077586D6E}</DeviceName>
+				<DeviceData>0001059a6ccb</DeviceData>
+			</Pnp>
+		</AddressInfo>
+		<Image Id="2" ImageFlags="#x00000030" AddrType="9" ImageType="3">
+			<Name>Image</Name>
+		</Image>
+		<Box File="ZY.xti" Id="1">
+			<EtherCAT PortABoxInfo="#x00ffffff"/>
+		</Box>
+		<Box File="XXA.xti" Id="2">
+			<EtherCAT PortABoxInfo="#x01000001"/>
+		</Box>
+		<Box File="Panel.xti" Id="5">
+			<EtherCAT PortABoxInfo="#x01000001"/>
+		</Box>
+		<EtherCAT DcSyncMode="3"/>
+	</Device>
+	<Mappings>
+		<OwnerA>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+				<Link VarA="XXA^AT 1^Digital inputs, state" VarB="Inputs^DriverInputs[2,0]^DigitalInput_1"/>
+				<Link VarA="XXA^AT 1^Drive status word" VarB="Inputs^DriverInputs[2,0]^StatusWord"/>
+				<Link VarA="XXA^AT 1^Position feedback 1 value (motor feedback)" VarB="Inputs^DriverInputs[2,0]^ActualAbsPos"/>
+				<Link VarA="XXA^AT 1^Torque/force feedback value" VarB="Inputs^DriverInputs[2,0]^ActualTor"/>
+				<Link VarA="XXA^AT 1^Velocity feedback 1 value" VarB="Inputs^DriverInputs[2,0]^ActualVel"/>
+				<Link VarA="XXA^AT 2^Drive status word" VarB="Inputs^DriverInputs[3,0]^StatusWord"/>
+				<Link VarA="XXA^AT 2^Position feedback 1 value (motor feedback)" VarB="Inputs^DriverInputs[3,0]^ActualAbsPos"/>
+				<Link VarA="XXA^AT 2^Torque/force feedback value" VarB="Inputs^DriverInputs[3,0]^ActualTor"/>
+				<Link VarA="XXA^AT 2^Velocity feedback 1 value" VarB="Inputs^DriverInputs[3,0]^ActualVel"/>
+				<Link VarA="XXA^MDT 1^Master control word" VarB="Outputs^DriverOutputs[2,0]^ControlWord"/>
+				<Link VarA="XXA^MDT 1^Position command value" VarB="Outputs^DriverOutputs[2,0]^TargetPosition"/>
+				<Link VarA="XXA^MDT 1^Torque/force command value" VarB="Outputs^DriverOutputs[2,0]^TargetTorque"/>
+				<Link VarA="XXA^MDT 1^Velocity command value" VarB="Outputs^DriverOutputs[2,0]^TargetVelocity"/>
+				<Link VarA="XXA^MDT 2^Master control word" VarB="Outputs^DriverOutputs[3,0]^ControlWord"/>
+				<Link VarA="XXA^MDT 2^Position command value" VarB="Outputs^DriverOutputs[3,0]^TargetPosition"/>
+				<Link VarA="XXA^MDT 2^Torque/force command value" VarB="Outputs^DriverOutputs[3,0]^TargetTorque"/>
+				<Link VarA="XXA^MDT 2^Velocity command value" VarB="Outputs^DriverOutputs[3,0]^TargetVelocity"/>
+				<Link VarA="ZY^AT 1^Class 1 diagnostic (C1D)" VarB="Inputs^DriverInputs[0,0]^ErrorCode"/>
+				<Link VarA="ZY^AT 1^Class 2 diagnostic (C2D)" VarB="Inputs^DriverInputs[0,0]^WarningCode"/>
+				<Link VarA="ZY^AT 1^Digital inputs, state" VarB="Inputs^DriverInputs[0,0]^DigitalInput_1"/>
+				<Link VarA="ZY^AT 1^Drive status word" VarB="Inputs^DriverInputs[0,0]^StatusWord"/>
+				<Link VarA="ZY^AT 1^Position feedback 1 value (motor feedback)" VarB="Inputs^DriverInputs[0,0]^ActualAbsPos"/>
+				<Link VarA="ZY^AT 1^Torque/force feedback value" VarB="Inputs^DriverInputs[0,0]^ActualTor"/>
+				<Link VarA="ZY^AT 1^Velocity feedback 1 value" VarB="Inputs^DriverInputs[0,0]^ActualVel"/>
+				<Link VarA="ZY^AT 2^Class 1 diagnostic (C1D)" VarB="Inputs^DriverInputs[1,0]^ErrorCode"/>
+				<Link VarA="ZY^AT 2^Class 2 diagnostic (C2D)" VarB="Inputs^DriverInputs[1,0]^WarningCode"/>
+				<Link VarA="ZY^AT 2^Digital inputs, state" VarB="Inputs^DriverInputs[1,0]^DigitalInput_1"/>
+				<Link VarA="ZY^AT 2^Drive status word" VarB="Inputs^DriverInputs[1,0]^StatusWord"/>
+				<Link VarA="ZY^AT 2^Position feedback 1 value (motor feedback)" VarB="Inputs^DriverInputs[1,0]^ActualAbsPos"/>
+				<Link VarA="ZY^AT 2^Torque/force feedback value" VarB="Inputs^DriverInputs[1,0]^ActualTor"/>
+				<Link VarA="ZY^AT 2^Velocity feedback 1 value" VarB="Inputs^DriverInputs[1,0]^ActualVel"/>
+				<Link VarA="ZY^MDT 1^Master control word" VarB="Outputs^DriverOutputs[0,0]^ControlWord"/>
+				<Link VarA="ZY^MDT 1^Position command value" VarB="Outputs^DriverOutputs[0,0]^TargetPosition"/>
+				<Link VarA="ZY^MDT 1^Torque/force command value" VarB="Outputs^DriverOutputs[0,0]^TargetTorque"/>
+				<Link VarA="ZY^MDT 1^Velocity command value" VarB="Outputs^DriverOutputs[0,0]^TargetVelocity"/>
+				<Link VarA="ZY^MDT 2^Master control word" VarB="Outputs^DriverOutputs[1,0]^ControlWord"/>
+				<Link VarA="ZY^MDT 2^Position command value" VarB="Outputs^DriverOutputs[1,0]^TargetPosition"/>
+				<Link VarA="ZY^MDT 2^Torque/force command value" VarB="Outputs^DriverOutputs[1,0]^TargetTorque"/>
+				<Link VarA="ZY^MDT 2^Velocity command value" VarB="Outputs^DriverOutputs[1,0]^TargetVelocity"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmItem>

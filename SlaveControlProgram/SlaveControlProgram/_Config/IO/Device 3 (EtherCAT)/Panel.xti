@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CFlbTermDef" SubType="9099">
+	<ImageDatas>
+		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000120b0000120b00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000ffff00ffff00ffff00ff0000ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000ffff00ffff00ff0000ff0000ff0000ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000ff0000ff0000ffff00ffff00ff0000ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000ffff00ffff00ffff00ff0000ffff00ff008000008000008000008000008000008000008000008000404040404040404040404040404040404040404040404040008000007fff007fff00800000800000800000800000800040404000800000800000800000800000800000800040404000800000800000800000800000800000800000800000800040404000800000800000800000800000800000800040404000800000800000800000800000800000800000800000800040404000800000800000800000800000800000800040404000800000800000800000800000800000800000800000800040404040404040404040404040404040404040404040404000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000ffff00800000ffff00800000800000ffff00800000ffff00800000800000800000ffff00800000ffff00800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000800000ffff00800000ffff00800000800000ffff00800000ffff00800000800000800000ffff00800000ffff008000008000008000008000008000008000008000008000008000008000008000008000008000008000008000008000008000</ImageData>
+	</ImageDatas>
+	<Box Id="5" BoxType="9099">
+		<Name>__FILENAME__</Name>
+		<ImageId>1000</ImageId>
+		<EtherCAT SlaveType="2" PdiType="#x0e08" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" FoeType="1" VendorId="#x00008818" ProductCode="#x00001112" RevisionNo="#x00030022" InfoDataAddr="true" InfoDataNetId="true" WdDivider0400="25000" DdTime0420="100" EnableWdDivider0400="true" EnableWdTime0420="true" PortPhys="17" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="iA-MPA64B0 2xMII_REV00030022" Desc="iA-MPA64B0 2xMII">
+			<SyncMan>00100c012600010001000000000000000c01001026010000</SyncMan>
+			<SyncMan>0c110c012200010002000000000000000c010c1122010000</SyncMan>
+			<SyncMan>201209006400010003000000000000000000201264010000</SyncMan>
+			<SyncMan>a01210006000010004000000000000000000a01260010000</SyncMan>
+			<Fmmu>0000000000000000201200020100000001000000020000000200000000000000</Fmmu>
+			<Fmmu>0000000000000000a01200010100000002000000020000000300000000000000</Fmmu>
+			<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
+			<BootStrapData>00100c010c110c01</BootStrapData>
+			<DcMode>53796e6368726f6e000000000000000053796e6368726f6e207769746820534d32204576656e74000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
+			<DcMode>446973747269627574656420436c6f0053796e6368726f6e20776974682053594e4330204576656e74204d6f6465000040420f000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000</DcMode>
+			<Pdo Name="PANEL_Inputs" Index="#x1a00" Flags="#x0000" SyncMan="3">
+				<Entry Name="PIO_IN1" Index="#x2100" Sub="#x01">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN2" Index="#x2100" Sub="#x02">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN3" Index="#x2100" Sub="#x03">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN4" Index="#x2100" Sub="#x04">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN5" Index="#x2100" Sub="#x05">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN6" Index="#x2100" Sub="#x06">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN7" Index="#x2100" Sub="#x07">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_IN8" Index="#x2100" Sub="#x08">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="HAND_HANDWHEEL" Index="#x2100" Sub="#x09">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="TEACH_HANDWHEEL" Index="#x2100" Sub="#x0a">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="AD_VALUE1" Index="#x2100" Sub="#x0b">
+					<Type>UINT</Type>
+				</Entry>
+				<Entry Name="AD_VALUE2" Index="#x2100" Sub="#x0c">
+					<Type>UINT</Type>
+				</Entry>
+				<Entry Name="CPLD_STATE" Index="#x2100" Sub="#x0d">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="RESERVE" Index="#x2100" Sub="#x0e">
+					<Type>USINT</Type>
+				</Entry>
+			</Pdo>
+			<Pdo Name="PANEL_Outputs" Index="#x1600" InOut="1" Flags="#x0000" SyncMan="2">
+				<Entry Name="PIO_OUT1" Index="#x2200" Sub="#x01">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT2" Index="#x2200" Sub="#x02">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT3" Index="#x2200" Sub="#x03">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT4" Index="#x2200" Sub="#x04">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT5" Index="#x2200" Sub="#x05">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT6" Index="#x2200" Sub="#x06">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT7" Index="#x2200" Sub="#x07">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="PIO_OUT8" Index="#x2200" Sub="#x08">
+					<Type>USINT</Type>
+				</Entry>
+				<Entry Name="RESERVE" Index="#x2200" Sub="#x09">
+					<Type>USINT</Type>
+				</Entry>
+			</Pdo>
+		</EtherCAT>
+	</Box>
+</TcSmItem>

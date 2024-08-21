@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis\Axis.h" />
+    <ClInclude Include="Axis\Biquad.h" />
     <ClInclude Include="Axis\Differentiator.h" />
     <ClInclude Include="Axis\Filter.h" />
     <ClInclude Include="Common Files\CommonDefine.h" />
@@ -60,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Axis\Axis.cpp" />
+    <ClCompile Include="Axis\Biquad.cpp" />
     <ClCompile Include="Axis\Differentiator.cpp" />
     <ClCompile Include="Axis\Filter.cpp" />
     <ClCompile Include="Controller\ControllerBase.cpp" />

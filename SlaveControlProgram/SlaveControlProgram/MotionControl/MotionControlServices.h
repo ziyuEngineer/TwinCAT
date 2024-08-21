@@ -33,8 +33,8 @@ typedef struct _MotionCommand
 } MotionCommand, *PMotionCommand;
 #endif // !defined(_TC_TYPE_54E74FBE_0A82_440E_8829_BF368D27C93C_INCLUDED_)
 
-#if !defined(_TC_TYPE_1EADE0BF_0E40_47AC_BFA2_37826BC9272D_INCLUDED_)
-#define _TC_TYPE_1EADE0BF_0E40_47AC_BFA2_37826BC9272D_INCLUDED_
+#if !defined(_TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_)
+#define _TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_
 typedef struct _MotionControlInfo
 {
 	SHORT AbsEncDir;
@@ -47,30 +47,33 @@ typedef struct _MotionControlInfo
 	LONG AbsZeroPos;
 	LONG PosUpperLimit;
 	LONG PosLowerLimit;
-	double ReductionRatio;
+	double TransmissionRatio;
 	SHORT TorPdoMax;
+	SHORT AdditiveTorque;
 	bool AbsEncType;
-	unsigned char reserved3[5];
+	unsigned char reserved3;
+	SHORT PositiveHardBit;
+	SHORT NegativeHardBit;
+	unsigned char reserved4[6];
 } MotionControlInfo, *PMotionControlInfo;
-#endif // !defined(_TC_TYPE_1EADE0BF_0E40_47AC_BFA2_37826BC9272D_INCLUDED_)
+#endif // !defined(_TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_)
 
-#if !defined(_TC_TYPE_BBFCA707_D69C_480D_A79E_A9CA0E101CE3_INCLUDED_)
-#define _TC_TYPE_BBFCA707_D69C_480D_A79E_A9CA0E101CE3_INCLUDED_
+#if !defined(_TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_)
+#define _TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_
 typedef struct _DriverInput
 {
 	USHORT StatusWord;
 	unsigned char reserved1[2];
-	LONG ActualIncPos;
 	LONG ActualAbsPos;
 	SHORT ActualTor;
 	unsigned char reserved2[2];
 	LONG ActualVel;
-	USHORT ErrorCode;
-	USHORT WarningCode;
+	SHORT ErrorCode;
+	SHORT WarningCode;
 	SHORT DigitalInput_1;
 	unsigned char reserved3[2];
 } DriverInput, *PDriverInput;
-#endif // !defined(_TC_TYPE_BBFCA707_D69C_480D_A79E_A9CA0E101CE3_INCLUDED_)
+#endif // !defined(_TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_)
 
 #if !defined(_TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_)
 #define _TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_
@@ -85,8 +88,8 @@ typedef struct _DriverOutput
 } DriverOutput, *PDriverOutput;
 #endif // !defined(_TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_)
 
-#if !defined(_TC_TYPE_F68E0FAF_5F38_45CF_83DF_B0AD64425C4B_INCLUDED_)
-#define _TC_TYPE_F68E0FAF_5F38_45CF_83DF_B0AD64425C4B_INCLUDED_
+#if !defined(_TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_)
+#define _TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_
 enum SystemState : SHORT {
 	eIdle = 0,
 	eInitialization = 1,
@@ -94,11 +97,12 @@ enum SystemState : SHORT {
 	eStandby = 3,
 	eMoving = 4,
 	eHandwheel = 5,
-	eFault = 6,
-	eEmergency = 7,
-	eTest = 8
+	eLimitViolation = 6,
+	eFault = 7,
+	eEmergency = 8,
+	eTest = 9
 };
-#endif // !defined(_TC_TYPE_F68E0FAF_5F38_45CF_83DF_B0AD64425C4B_INCLUDED_)
+#endif // !defined(_TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_)
 
 #if !defined(_TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_)
 #define _TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_
@@ -114,37 +118,39 @@ typedef struct _PanelInfo
 } PanelInfo, *PPanelInfo;
 #endif // !defined(_TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_)
 
-#if !defined(_TC_TYPE_0BC470A9_F028_4F4D_AC8A_4649A0A47B5B_INCLUDED_)
-#define _TC_TYPE_0BC470A9_F028_4F4D_AC8A_4649A0A47B5B_INCLUDED_
+#if !defined(_TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_)
+#define _TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_
 enum OpMode : SHORT {
-	CSP = 0,
-	CST = 1,
-	CSV = 2
+	CSP = 1,
+	CST = 2,
+	CSV = 3
 };
-#endif // !defined(_TC_TYPE_0BC470A9_F028_4F4D_AC8A_4649A0A47B5B_INCLUDED_)
+#endif // !defined(_TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_)
 
-#if !defined(_TC_TYPE_F1A73FE8_38D8_4F10_8AF2_2FFE7F01D141_INCLUDED_)
-#define _TC_TYPE_F1A73FE8_38D8_4F10_8AF2_2FFE7F01D141_INCLUDED_
+#if !defined(_TC_TYPE_760AEB87_AF7B_4178_B0AF_C2E7472652E4_INCLUDED_)
+#define _TC_TYPE_760AEB87_AF7B_4178_B0AF_C2E7472652E4_INCLUDED_
 enum DriverState : USHORT {
 	eNotReadyForPowerUp = 0,
-	eShutDownError = 8192,
+	eShutDownError = 40960,
 	eLogicReadyForPowerOn = 16384,
 	ePowerStageLocked = 32768,
 	eReadyToOperate = 49152
 };
-#endif // !defined(_TC_TYPE_F1A73FE8_38D8_4F10_8AF2_2FFE7F01D141_INCLUDED_)
+#endif // !defined(_TC_TYPE_760AEB87_AF7B_4178_B0AF_C2E7472652E4_INCLUDED_)
 
-#if !defined(_TC_TYPE_FB1829E7_CB1A_44B8_8E95_8BCEBED39FE6_INCLUDED_)
-#define _TC_TYPE_FB1829E7_CB1A_44B8_8E95_8BCEBED39FE6_INCLUDED_
+#if !defined(_TC_TYPE_8A0CBD64_A622_4812_96E8_6466F6FAD96D_INCLUDED_)
+#define _TC_TYPE_8A0CBD64_A622_4812_96E8_6466F6FAD96D_INCLUDED_
 enum MasterControlWord : USHORT {
 	eHaltDrive = 0,
+	eStopDrive = 1,
+	eControlUnitSync = 1024,
 	eRestartDrive = 8192,
 	eDriveOff = 24576,
 	eDriveOn_CSP = 57344,
 	eDriveOn_CST = 57600,
 	eDriveOn_CSV = 57856
 };
-#endif // !defined(_TC_TYPE_FB1829E7_CB1A_44B8_8E95_8BCEBED39FE6_INCLUDED_)
+#endif // !defined(_TC_TYPE_8A0CBD64_A622_4812_96E8_6466F6FAD96D_INCLUDED_)
 
 typedef struct _MotionControlParameter
 {
@@ -167,7 +173,12 @@ typedef struct _MotionControlInputs
 typedef struct _MotionControlOutputs
 {
 	DriverOutput DriverOutputs[4][1];
-	double TestOutputs[20];
+	double AxisInfoOutputs[20];
+	struct {
+		SystemState CurrentState;
+		bool StateFlag[10];
+	} StateMachine;
+	unsigned char reserved1[4];
 } MotionControlOutputs, *PMotionControlOutputs;
 
 ///</AutoGeneratedContent>

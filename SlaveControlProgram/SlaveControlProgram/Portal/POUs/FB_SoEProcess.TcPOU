@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SoEProcess" Id="{abb5353d-48e5-41d1-ad09-10ef6b7a261f}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+如果驱动器内产生C1D类错误，需要通过S-0-0099 Reset class 1 diagnostic变量去重置驱动器；
+https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_mc2_drive/2305845515.html&id=5881867855230550869
+
+但S-0-0099无法添加到PDO中去，即无法对该数据赋值去清错，这点也与倍福确认过；
+因此，在发生C1D报错的情况下，调用倍福提供的功能块去清错；
+*)
+FUNCTION_BLOCK FB_SoEProcess
+VAR
+	fbSoEReset : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF FB_SoEReset_ByDriveRef; //SoE Reset
+	stPlcDriveRef AT %I* : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF ST_PlcDriveRef;
+	stDriveRef : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF ST_DriveRef;
+	bBusyFlag : ARRAY  [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="mInitialize" Id="{08ce6c13-438b-4b15-a400-097b06ffaaf8}">
+      <Declaration><![CDATA[METHOD mInitialize : BOOL
+
+VAR
+	loopAxis 	: INT := 0;
+	loopJoint 	: INT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mInitialize := FALSE;
+
+FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO
+	FOR loopJoint := 0 TO GlobalVar.MC_JOINT_NUM - 1 DO
+		stDriveRef[loopAxis,loopJoint].sNetId  := F_CreateAmsNetId(stPlcDriveRef[loopAxis,loopJoint].aNetId); // convert the byte array into a string
+		stDriveRef[loopAxis,loopJoint].nSlaveAddr := stPlcDriveRef[loopAxis,loopJoint].nSlaveAddr;
+		stDriveRef[loopAxis,loopJoint].nDriveNo := stPlcDriveRef[loopAxis,loopJoint].nDriveNo;
+		stDriveRef[loopAxis,loopJoint].nDriveType := stPlcDriveRef[loopAxis,loopJoint].nDriveType;
+	END_FOR
+END_FOR
+
+// Now, use magic numbers for index since motors of X-axis are disabled, will use pre-defined global vars instead in the future.
+// IF (stDriveRef[GlobalVar.MC_AXIS_NUM - 1, GlobalVar.MC_JOINT_NUM - 1].sNetId <> '') AND (stDriveRef[GlobalVar.MC_AXIS_NUM - 1, GlobalVar.MC_JOINT_NUM - 1].nSlaveAddr <> 0) THEN
+IF (stDriveRef[1, 0].sNetId <> '') AND (stDriveRef[1, 0].nSlaveAddr <> 0) THEN
+	mInitialize := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mReset" Id="{e151d407-1c70-4304-a946-a691f9f44c7d}">
+      <Declaration><![CDATA[METHOD mReset : BOOL
+VAR_INPUT
+	axisIndex : INT;
+	jointIndex : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mReset := FALSE;
+
+fbSoEReset[axisIndex, jointIndex](stDriveRef := stDriveRef[axisIndex, jointIndex], 
+									bExecute := TRUE, tTimeout := TIME#10S,
+									bBusy=>bBusyFlag[axisIndex, jointIndex], bError=>, iAdsErrId=>, iSercosErrId=>);
+
+IF NOT bBusyFlag[axisIndex, jointIndex] THEN // This output is set when the function block is activated, and remains set until a feedback is received.
+	fbSoEReset[axisIndex, jointIndex](stDriveRef := stDriveRef[axisIndex, jointIndex], 
+										bExecute := FALSE, tTimeout := TIME#10S,
+										bBusy=>, bError=>, iAdsErrId=>, iSercosErrId=>);	
+										
+	mReset := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

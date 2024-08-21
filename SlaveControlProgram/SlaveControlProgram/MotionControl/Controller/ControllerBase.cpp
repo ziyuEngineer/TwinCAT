@@ -4,8 +4,19 @@
 
 CControllerBase::CControllerBase()
 {
-	mCurrSysState = SystemState::eIdle;
-	mSysStateMachine = SystemState::eIdle;
+	m_CurrSysState = SystemState::eIdle;
+
+	// 定义状态转换规则
+	permittedTransitionsIn[SystemState::eIdle] = { eInitialization };
+	permittedTransitionsIn[SystemState::eInitialization] = { eDisabled };
+	permittedTransitionsIn[SystemState::eDisabled] = { eStandby, eEmergency };
+	permittedTransitionsIn[SystemState::eStandby] = { eDisabled, eHandwheel, eMoving, eTest, eLimitViolation, eFault };
+	permittedTransitionsIn[SystemState::eMoving] = { eStandby, eDisabled, eLimitViolation, eFault };
+	permittedTransitionsIn[SystemState::eHandwheel] = { eStandby, eDisabled, eLimitViolation, eFault };
+	permittedTransitionsIn[SystemState::eLimitViolation] = { eStandby, eFault };
+	permittedTransitionsIn[SystemState::eFault] = { eStandby };
+	permittedTransitionsIn[SystemState::eEmergency] = { eDisabled };
+	permittedTransitionsIn[SystemState::eTest] = { eStandby, eLimitViolation, eFault };
 }
 
 CControllerBase::~CControllerBase()
@@ -23,6 +34,8 @@ void CControllerBase::Run(MotionControlInputs* pInputs, MotionControlOutputs* pO
 {
 	Input(pInputs);
 
+	SafetyCheck();
+
 	StateControl(pInputs, pOutputs);
 
 	Output(pOutputs);
@@ -39,18 +52,22 @@ void CControllerBase::Input(MotionControlInputs* pInputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			AxisInst[i][j].StatusWord = pInputs->DriverInputs[i][j].StatusWord;
+			AxisInst[i][j].m_StatusWord = pInputs->DriverInputs[i][j].StatusWord;
 
-			AxisInst[i][j].FdbPosVal = pInputs->DriverInputs[i][j].ActualAbsPos;
-			AxisInst[i][j].FdbVelVal = pInputs->DriverInputs[i][j].ActualVel;
-			AxisInst[i][j].FdbTorVal = pInputs->DriverInputs[i][j].ActualTor;
+			AxisInst[i][j].m_FdbPosVal = pInputs->DriverInputs[i][j].ActualAbsPos;
+			AxisInst[i][j].m_FdbVelVal = pInputs->DriverInputs[i][j].ActualVel;
+			AxisInst[i][j].m_FdbTorVal = pInputs->DriverInputs[i][j].ActualTor;
 				   
-			AxisInst[i][j].ErrorCode = pInputs->DriverInputs[i][j].ErrorCode;
-			AxisInst[i][j].WarningCode = pInputs->DriverInputs[i][j].WarningCode;
+			AxisInst[i][j].m_ErrorCode = pInputs->DriverInputs[i][j].ErrorCode;
+			AxisInst[i][j].m_WarningCode = pInputs->DriverInputs[i][j].WarningCode;
 
-			m_FdbPos[i][j] = AxisInst[i][j].GetFeedbackPosition();
+			AxisInst[i][j].m_DigitalInput = pInputs->DriverInputs[i][j].DigitalInput_1; // Status of optoelectronic switch
+
+			//m_FdbPos[i][j] = AxisInst[i][j].GetFeedbackPosition();
+			m_FdbPos[i][j] = m_FdbPosFilter[i][j].process(AxisInst[i][j].GetFeedbackPosition());
 			m_FdbTor[i][j] = AxisInst[i][j].GetFeedbackTorque();
 			m_FdbVel[i][j] = AxisInst[i][j].GetFeedbackVelocity();
+			m_ActualOpMode[i][j] = AxisInst[i][j].GetActualOperationMode();
 
 			double dTempJerk;
 			AxisInst[i][j].ComputeAcceleration(m_FdbVel[i][j], &m_FdbAcc[i][j], &dTempJerk);
@@ -69,52 +86,105 @@ void CControllerBase::Output(MotionControlOutputs* pOutputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			if (AxisInst[i][j].IsEnableState())
+			pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].m_ControlWord;
+			switch (AxisInst[i][j].m_OperationMode)
 			{
-				switch (AxisInst[i][j].OperationMode)
-				{
-				case CSP:
-				{
-					AxisInst[i][j].SetOperationMode(CSP);
-					pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].ControlWord;
-					pOutputs->DriverOutputs[i][j].TargetPosition = AxisInst[i][j].SendTargetPosition(m_CmdPos[i][j]);
-					break;
-				}
-				case CSV:
-				{
-					AxisInst[i][j].SetOperationMode(CSV);
-					pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].ControlWord;
-					pOutputs->DriverOutputs[i][j].TargetVelocity = AxisInst[i][j].SendTargetVelocity(m_CmdVel[i][j]);
-					break;
-				}
-				case CST:
-				{
-					AxisInst[i][j].SetOperationMode(CST);
-					pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].ControlWord;
-					pOutputs->DriverOutputs[i][j].TargetTorque = AxisInst[i][j].SendTargetTorque(m_CmdTor[i][j]);
-					break;
-				}
-				default:
-					break;
-				}
+			case CSP:
+			{
+				pOutputs->DriverOutputs[i][j].TargetPosition = AxisInst[i][j].SendTargetPosition(m_CmdPos[i][j]);
+				break;
 			}
-			else
+			case CST:
 			{
+				pOutputs->DriverOutputs[i][j].TargetTorque = AxisInst[i][j].SendTargetTorque(m_CmdTor[i][j]);
+				break;
+			}
+			case CSV:
+			{
+				pOutputs->DriverOutputs[i][j].TargetVelocity = AxisInst[i][j].SendTargetVelocity(m_CmdVel[i][j]);
+				break;
+			}
+			default:
 				// Control word should have a non-zero value
-				AxisInst[i][j].ServoOff();
-				pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].ControlWord;
+				AxisInst[i][j].ControlUnitSync();
+				pOutputs->DriverOutputs[i][j].ControlWord = AxisInst[i][j].m_ControlWord;
+				break;
 			}
 		}
 	}
 
+	pOutputs->StateMachine.CurrentState = m_CurrSysState;
+
 	// For observing variables, will be deprecated later.
-	pOutputs->TestOutputs[6] = m_FdbVel[0][0];
-	pOutputs->TestOutputs[7] = m_CmdVel[0][0];
-	pOutputs->TestOutputs[8] = m_FdbPos[0][0];
-	pOutputs->TestOutputs[9] = m_CmdPos[0][0];
+	// Z-axis
+	pOutputs->AxisInfoOutputs[0] = m_FdbPos[0][0];
+	pOutputs->AxisInfoOutputs[1] = m_FdbVel[0][0];
+	pOutputs->AxisInfoOutputs[2] = m_FdbTor[0][0];
+	pOutputs->AxisInfoOutputs[3] = m_ActualOpMode[0][0];
+
+	// Y-axis
+	pOutputs->AxisInfoOutputs[4] = m_FdbPos[1][0];
+	pOutputs->AxisInfoOutputs[5] = m_FdbVel[1][0];
+	pOutputs->AxisInfoOutputs[6] = m_FdbTor[1][0];
+	pOutputs->AxisInfoOutputs[7] = m_ActualOpMode[1][0];
+
+	/*pOutputs->AxisInfoOutputs[8] = m_FdbPos[2][0];
+	pOutputs->AxisInfoOutputs[9] = m_FdbVel[2][0];
+	pOutputs->AxisInfoOutputs[10] = m_FdbTor[2][0];
+	pOutputs->AxisInfoOutputs[11] = m_ActualOpMode[2][0];
+
+	pOutputs->AxisInfoOutputs[12] = m_FdbPos[2][1];
+	pOutputs->AxisInfoOutputs[13] = m_FdbVel[2][1];
+	pOutputs->AxisInfoOutputs[14] = m_FdbTor[2][1];
+	pOutputs->AxisInfoOutputs[15] = m_ActualOpMode[2][1];*/
 
 	// Generate error code
 	// TODO
+}
+
+/**
+ * @brief check if system state is abnormal.
+ * 
+ */
+void CControllerBase::SafetyCheck()
+{
+	if (m_CurrSysState > eInitialization)
+	{
+		// Check status of axis
+		for (int i = 0; i < kAxisNum; i++)
+		{
+			for (int j = 0; j < kJointNum; j++)
+			{
+				if (AxisInst[i][j].IsLimitExceeded())
+				{
+					RequestStateChangeTo(SystemState::eLimitViolation);
+				}
+				else if (AxisInst[i][j].IsEmergencyState())
+				{
+					RequestStateChangeTo(SystemState::eEmergency);
+				}
+				else if (AxisInst[i][j].IsFaultState())
+				{
+					RequestStateChangeTo(SystemState::eFault);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * @brief State transition logic determination based on pre-defined transitionRules
+ *
+ * @param _request_state
+ */
+void CControllerBase::RequestStateChangeTo(SystemState _request_state)
+{
+	auto iterator = permittedTransitionsIn.find(m_CurrSysState);
+
+	if (iterator->second.find(_request_state) != iterator->second.end())
+	{
+		m_CurrSysState = _request_state;
+	}
 }
 
 /**
@@ -125,10 +195,10 @@ void CControllerBase::Output(MotionControlOutputs* pOutputs)
  */
 void CControllerBase::StateControl(MotionControlInputs* pInputs, MotionControlOutputs* pOutputs)
 {
-	switch (mCurrSysState)
+	switch (m_CurrSysState)
 	{
 	case eIdle:
-		mCurrSysState = SystemState::eInitialization;
+		RequestStateChangeTo(SystemState::eInitialization);
 		break;
 
 	case eInitialization:
@@ -141,54 +211,53 @@ void CControllerBase::StateControl(MotionControlInputs* pInputs, MotionControlOu
 		}
 		else
 		{
-			for (int i = 0; i < kAxisNum; i++)
-			{
-				for (int j = 0; j < kJointNum; j++)
-				{
-					// update initial positions
-					m_InitPos[i][j] = AxisInst[i][j].GetFeedbackPosition();
-				}
-			}
-
-			mCurrSysState = SystemState::eDisabled;
+			RequestStateChangeTo(SystemState::eDisabled);
 		}
 		break;
 
 	case eDisabled:
-		if (pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		//if (pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		if (pInputs->mockButton[3]) 
 		{
-			if (MotorServoOn())
+			if (MotorEnable())
 			{
-				mCurrSysState = SystemState::eStandby;
+				for (int i = 0; i < kAxisNum; i++)
+				{
+					for (int j = 0; j < kJointNum; j++)
+					{
+						// update initial positions
+						m_InitPos[i][j] = AxisInst[i][j].GetFeedbackPosition();
+					}
+				}
+				RequestStateChangeTo(SystemState::eStandby);
 			}
 		}
 		break;
 
 	case eStandby:
-		if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (MotorServoOff())
-			{
-				mCurrSysState = SystemState::eDisabled;
-			}
-		}
-		else if (pInputs->PanelInformation.AxisEnable[0] || pInputs->PanelInformation.AxisEnable[1] || pInputs->PanelInformation.AxisEnable[2] || pInputs->PanelInformation.AxisEnable[3])// check whether axis button is pressed 
+		if (pInputs->PanelInformation.AxisEnable[0] || pInputs->PanelInformation.AxisEnable[1] || pInputs->PanelInformation.AxisEnable[2])// check whether axis button is pressed 
 		{
 			// Reset m_HandwheelInitPos upon entering eHandwheel state
 			memcpy(&m_HandwheelInitPos, &m_FdbPos, sizeof(m_FdbPos));
-			mCurrSysState = SystemState::eHandwheel;
+			RequestStateChangeTo(SystemState::eHandwheel);
 		}
-		else if (pInputs->mockButton[0]) // moving, button status from host application
+		else if (pInputs->mockButton[4]) // moving, button status from host application
 		{
-			mCurrSysState = SystemState::eMoving;
+			// Reset m_MovingInitPos upon entering eMoving state
+			memcpy(&m_MovingInitPos, &m_FdbPos, sizeof(m_FdbPos));
+			RequestStateChangeTo(SystemState::eMoving);
 		}
-		else if (pInputs->mockButton[2]) // test, button status from host application
+		else if (pInputs->mockButton[9]) // test, button status from host application
 		{
-			mCurrSysState = SystemState::eTest;
+			RequestStateChangeTo(SystemState::eTest);
 		}
-		else if (pInputs->mockButton[4] || pInputs->PanelInformation.Estop) // Estop, button status from host application or panel
+		//else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		else if (!pInputs->mockButton[3])
 		{
-			mCurrSysState = SystemState::eEmergency;
+			if (MotorDisable())
+			{
+				RequestStateChangeTo(SystemState::eDisabled);
+			}
 		}
 		else
 		{
@@ -197,77 +266,102 @@ void CControllerBase::StateControl(MotionControlInputs* pInputs, MotionControlOu
 		break;
 
 	case eMoving:
-		if (pInputs->mockButton[0])
+		if (pInputs->mockButton[4])
 		{
-			StateMoving(pInputs);
-		}
-		else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (MotorServoOff()){
-				mCurrSysState = SystemState::eDisabled;
+			if (pInputs->CommandData.commandIndex > 0) // Local command has been updated
+			{
+				StateMoving(pInputs);
 			}
 		}
+		//else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		//{
+		//	if (MotorDisable()){
+		//		RequestStateChangeTo(SystemState::eDisabled);
+		//	}
+		//}
 		else
 		{
-			mCurrSysState = SystemState::eStandby;
+			RequestStateChangeTo(SystemState::eStandby);
 		}
 		break;
 
 	case eHandwheel:
-		if (pInputs->PanelInformation.AxisEnable[0] || pInputs->PanelInformation.AxisEnable[1] || pInputs->PanelInformation.AxisEnable[2] || pInputs->PanelInformation.AxisEnable[3])
+		if (pInputs->PanelInformation.AxisEnable[0] || pInputs->PanelInformation.AxisEnable[1] || pInputs->PanelInformation.AxisEnable[2])
 		{
 			StateHandwheel(pInputs);
 		}
-		else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		//else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		//{
+		//	if (MotorDisable()) {
+		//		RequestStateChangeTo(SystemState::eDisabled);
+		//	}
+		//}
+		else
 		{
-			if (MotorServoOff()) {
-				mCurrSysState = SystemState::eDisabled;
-			}
+			RequestStateChangeTo(SystemState::eStandby);
+		}
+		break;
+
+	case eLimitViolation:
+		if (!pInputs->mockButton[6]) // reset button
+		{
+			StateLimitViolation();
 		}
 		else
 		{
-			mCurrSysState = SystemState::eStandby;
+			if (MotorEnable()) {
+				RequestStateChangeTo(SystemState::eStandby);
+			}
 		}
 		break;
 
 	case eFault:
-		break;
-
-	case eEmergency:
-		if (pInputs->mockButton[4] || pInputs->PanelInformation.Estop) // Estop
+		if (!pInputs->mockButton[6]) // reset button
 		{
-			mCurrSysState = SystemState::eEmergency;
+			pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = false;
 		}
 		else
 		{
-			mCurrSysState = SystemState::eDisabled;
+			// Notify plc module to Reset SoE
+			pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = true;
+
+			if (MotorEnable()) {
+				RequestStateChangeTo(SystemState::eStandby);
+				pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = false;
+			}
+		}
+		break;
+
+	case eEmergency:
+		if (pInputs->mockButton[6])
+		{
+			if (MotorDisable())
+			{
+				RequestStateChangeTo(SystemState::eDisabled);
+			}
 		}
 		break;
 
 	case eTest:
-		if (pInputs->mockButton[2])
+		if (pInputs->mockButton[9])
 		{
 			StateTest(pInputs, pOutputs);
 		}
-		else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (MotorServoOff()) {
-				mCurrSysState = SystemState::eDisabled;
-			}
-		}
+		//else if (!pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
+		//{
+		//	if (MotorDisable()) {
+		//		RequestStateChangeTo(SystemState::eDisabled);
+		//	}
+		//}
 		else
 		{
-			mCurrSysState = SystemState::eStandby;
+			RequestStateChangeTo(SystemState::eStandby);
 		}
 		break;
 
 	default:
 		break;
 	}
-
-	// Observe current system state
-	mSysStateMachine = mCurrSysState;
-	pOutputs->TestOutputs[0] = static_cast<double>(mSysStateMachine);
 }
 
 /**
@@ -299,13 +393,13 @@ bool CControllerBase::GetMotionCtrlParam(MotionControlInputs* pInputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			m_AxisParam[i][j].abs_dir		 = pInputs->MotionCtrlParam[i][j].AbsEncDir;
+			m_AxisParam[i][j].abs_dir = pInputs->MotionCtrlParam[i][j].AbsEncDir;
 			m_AxisParam[i][j].abs_encoder_res = pInputs->MotionCtrlParam[i][j].AbsEncRes;
-			m_AxisParam[i][j].abs_zero_pos	 = pInputs->MotionCtrlParam[i][j].AbsZeroPos;
+			m_AxisParam[i][j].abs_zero_pos = pInputs->MotionCtrlParam[i][j].AbsZeroPos;
 										 
-			m_AxisParam[i][j].rated_curr		 = pInputs->MotionCtrlParam[i][j].RatedCurrent;
-			m_AxisParam[i][j].rated_tor		 = pInputs->MotionCtrlParam[i][j].RatedTorque;
-			m_AxisParam[i][j].tor_dir		 = pInputs->MotionCtrlParam[i][j].TorDir;
+			m_AxisParam[i][j].rated_curr = pInputs->MotionCtrlParam[i][j].RatedCurrent;
+			m_AxisParam[i][j].rated_tor	= pInputs->MotionCtrlParam[i][j].RatedTorque;
+			m_AxisParam[i][j].tor_dir = pInputs->MotionCtrlParam[i][j].TorDir;
 			
 			// Add this to avoid 'SSE invalid Operation' since variable rated_curr may be zero at first and denominator should not be zero
 			if (m_AxisParam[i][j].rated_curr > kEPSILON)
@@ -313,13 +407,17 @@ bool CControllerBase::GetMotionCtrlParam(MotionControlInputs* pInputs)
 				m_AxisParam[i][j].tor_cons = m_AxisParam[i][j].rated_tor / m_AxisParam[i][j].rated_curr;
 			}
 											 
-			m_AxisParam[i][j].abs_pos_ub		 = pInputs->MotionCtrlParam[i][j].PosUpperLimit;
-			m_AxisParam[i][j].abs_pos_lb		 = pInputs->MotionCtrlParam[i][j].PosLowerLimit;
-			m_AxisParam[i][j].reduction_ratio = pInputs->MotionCtrlParam[i][j].ReductionRatio;
+			m_AxisParam[i][j].abs_pos_ub = pInputs->MotionCtrlParam[i][j].PosUpperLimit;
+			m_AxisParam[i][j].abs_pos_lb = pInputs->MotionCtrlParam[i][j].PosLowerLimit;
+			m_AxisParam[i][j].transmission_ratio = pInputs->MotionCtrlParam[i][j].TransmissionRatio;
 
-			m_AxisParam[i][j].tor_pdo_max	 = pInputs->MotionCtrlParam[i][j].TorPdoMax;
+			m_AxisParam[i][j].tor_pdo_max = pInputs->MotionCtrlParam[i][j].TorPdoMax;
+			m_AxisParam[i][j].additive_tor = pInputs->MotionCtrlParam[i][j].AdditiveTorque;
+
 			m_AxisParam[i][j].abs_encoder_type = pInputs->MotionCtrlParam[i][j].AbsEncType;
 			
+			m_AxisParam[i][j].positive_hard_bit = pInputs->MotionCtrlParam[i][j].PositiveHardBit;
+			m_AxisParam[i][j].negative_hard_bit = pInputs->MotionCtrlParam[i][j].NegativeHardBit;
 		}
 	}
 
@@ -360,13 +458,15 @@ bool CControllerBase::SetMotorParam()
  * @return true 
  * @return false 
  */
-bool CControllerBase::MotorServoOn()
+bool CControllerBase::MotorEnable()
 {
+	MotorHoldPosition();
+
 	for (int i = 0; i < kAxisNum; i++)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			if (!AxisInst[i][j].ServoOn())
+			if (!AxisInst[i][j].Enable())
 			{
 				return false;
 			}
@@ -381,13 +481,13 @@ bool CControllerBase::MotorServoOn()
  * @return true 
  * @return false 
  */
-bool CControllerBase::MotorServoOff()
+bool CControllerBase::MotorDisable()
 {
 	for (int i = 0; i < kAxisNum; i++)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			if (!AxisInst[i][j].ServoOff())
+			if (!AxisInst[i][j].Disable())
 			{
 				return false;
 			}
@@ -396,20 +496,25 @@ bool CControllerBase::MotorServoOff()
 	return true;
 }
 
+void CControllerBase::MotorHoldPosition()
+{
+	for (int i = 0; i < kAxisNum; i++)
+	{
+		for (int j = 0; j < kJointNum; j++)
+		{
+			AxisInst[i][j].SetOperationMode(CSP);
+			m_CmdPos[i][j] = m_FdbPos[i][j];
+		}
+	}
+}
+
 /**
  * @brief Action under standby state, hold current positions
  * 
  */
 void CControllerBase::StateStandby()
 {
-	for (int i = 0; i < kAxisNum; i++)
-	{
-		for (int j = 0; j < kJointNum; j++)
-		{
-			AxisInst[i][j].OperationMode = CSP;
-			m_CmdPos[i][j] = m_FdbPos[i][j];
-		}
-	}
+	MotorHoldPosition();
 }
 
 /**
@@ -423,15 +528,17 @@ void CControllerBase::StateMoving(MotionControlInputs* pInputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			AxisInst[i][j].OperationMode = pInputs->CommandData.opMode[i];
+			AxisInst[i][j].SetOperationMode(static_cast<OpMode>(pInputs->CommandData.opMode[i]));
 
-			m_CmdPos[i][j] = pInputs->CommandData.pos[i];
+			m_CmdPos[i][j] = m_MovingInitPos[i][j] + pInputs->CommandData.pos[i];
 
 			m_CmdVel[i][j] = pInputs->CommandData.vel[i];
 
-			m_CmdTor[i][j] = KmatrixController(m_FdbPos[i][j], m_FdbVel[i][j], m_FdbAcc[i][j],
+			// Only for testing CST, will use K matrix instead in the future
+			m_CmdTor[i][j] = pInputs->CommandData.acc[i];
+			/*m_CmdTor[i][j] = KmatrixController(m_FdbPos[i][j], m_FdbVel[i][j], m_FdbAcc[i][j],
 				pInputs->CommandData.pos[i], pInputs->CommandData.vel[i], pInputs->CommandData.acc[i],
-				pInputs->CommandData.kp[i], pInputs->CommandData.kv[i], pInputs->CommandData.ka[i]);
+				pInputs->CommandData.kp[i], pInputs->CommandData.kv[i], pInputs->CommandData.ka[i]);*/
 		}
 	}
 }
@@ -447,26 +554,19 @@ void CControllerBase::StateHandwheel(MotionControlInputs* pInputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			AxisInst[i][j].OperationMode = CSP;
+			AxisInst[i][j].SetOperationMode(CSP);
 			m_CmdPos[i][j] = m_HandwheelInitPos[i][j] + pInputs->PanelInformation.Handwheel_dPos[i];
 		}
 	}
 }
 
 /**
- * @brief Action under emergency state, currently hold positions for simply usage, may change strategy in the future
- * 
+ * @brief Action under limit violation state, disable motors when exceeding limits
+ *
  */
-void CControllerBase::StateEmergencyStop()
+void CControllerBase::StateLimitViolation()
 {
-	for (int i = 0; i < kAxisNum; i++)
-	{
-		for (int j = 0; j < kJointNum; j++)
-		{
-			AxisInst[i][j].OperationMode = CSP;
-			m_CmdPos[i][j] = m_FdbPos[i][j];
-		}
-	}
+	MotorDisable();
 }
 
 // Test Function ------------------------------------------------------------------------------------
@@ -484,23 +584,55 @@ void CControllerBase::StateTest(MotionControlInputs* pInputs, MotionControlOutpu
 	{
 	case 0:
 		TestDefault();
+		memcpy(&m_TestFdbPos, &m_FdbPos, sizeof(m_FdbPos));
+		m_SimTime = 0.0;
 		break;
+
 	case 1:
-		TestCSP(pInputs->TestInputs[1]);
+		TestCSP(pInputs->TestInputs[1], 1); // Only move Z axis
 		break;
+
 	case 2:
+		TestCSP(pInputs->TestInputs[2], 2); // Only move Y axis
+		break;
+
+	case 3:
+		TestCSP(pInputs->TestInputs[3], 3); // Only move X axis
+		break;
+
+	case 4:
 		TestCST(pInputs->TestInputs[2]);
 		break;
-	case 3:
+
+	case 5:
 		TestCSV(pInputs->TestInputs[3]);
 		break;
-	case 4:
+
+	case 6:
 		TestMoveSin(pInputs);
 		break;
+
+	case 7:
+		TestMoveSinCSP(pInputs->TestInputs[5], pInputs->TestInputs[5]);
+		m_SimTime += 0.001;
+		break;
+	
+	case 8:
+		TestSinCST(pInputs->TestInputs[6], pInputs->TestInputs[6] / 10.0);
+		m_SimTime += 0.001;
+		break;
+
+	case 9:
+		TestSinCSV(pInputs->TestInputs[7], pInputs->TestInputs[7]);
+		m_SimTime += 0.001;
+		break;
+
 	case 10:
 		TestBrake();
 		break;
+
 	default:
+		TestDefault();
 		break;
 	}
 }
@@ -516,8 +648,7 @@ void CControllerBase::TestMoveSin(MotionControlInputs* pInputs)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			AxisInst[i][j].OperationMode = CST;
-
+			AxisInst[i][j].SetOperationMode(CST);
 			m_CmdTor[i][j] = KmatrixController(m_FdbPos[i][j], m_FdbVel[i][j], m_FdbAcc[i][j],
 				pInputs->CommandData.pos[i], pInputs->CommandData.vel[i], pInputs->CommandData.acc[i],
 				pInputs->CommandData.kp[i], pInputs->CommandData.kv[i], pInputs->CommandData.ka[i]);
@@ -525,19 +656,62 @@ void CControllerBase::TestMoveSin(MotionControlInputs* pInputs)
 	}
 }
 
-/**
- * @brief Test CSP
- * 
- * @param length incremental positions, unit mm
- */
-void CControllerBase::TestCSP(double _length)
+void CControllerBase::TestMoveSinCSP(double _A, double _freq)
 {
 	for (int i = 0; i < kAxisNum; i++)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			m_CmdPos[i][j] = m_FdbPos[i][j] + _length;
-			AxisInst[i][j].OperationMode = CSP;
+			m_CmdPos[i][j] = m_TestFdbPos[i][j] + _A * sin_(_freq * m_SimTime);
+			AxisInst[i][j].SetOperationMode(CSP);
+		}
+	}
+}
+
+/**
+ * @brief Test CSP
+ * 
+ * @param length absolute positions, unit mm
+ */
+void CControllerBase::TestCSP(double _pos, int _axis)
+{
+	/*for (int i = 0; i < kAxisNum; i++)
+	{
+		for (int j = 0; j < kJointNum; j++)
+		{
+			m_CmdPos[i][j] = _pos;
+			AxisInst[i][j].SetOperationMode(CSP);
+		}
+	}*/
+	switch (_axis - 1)
+	{
+	case 0: // Z axis
+		m_CmdPos[0][0] = _pos;
+		AxisInst[0][0].SetOperationMode(CSP);
+		break;
+
+	case 1: // Y axis
+		m_CmdPos[1][0] = _pos;
+		AxisInst[1][0].SetOperationMode(CSP);
+		break;
+
+	case 2:
+		/*m_CmdPos[2][0] = _pos;
+		AxisInst[2][0].SetOperationMode(CSP);
+		m_CmdPos[2][1] = _pos;
+		AxisInst[2][1].SetOperationMode(CSP);*/
+		break;
+	}
+}
+
+void CControllerBase::TestSinCSV(double _A, double _freq)
+{
+	for (int i = 0; i < kAxisNum; i++)
+	{
+		for (int j = 0; j < kJointNum; j++)
+		{
+			m_CmdVel[i][j] = _A * sin_(_freq * m_SimTime);
+			AxisInst[i][j].SetOperationMode(CSV);
 		}
 	}
 }
@@ -554,7 +728,7 @@ void CControllerBase::TestCSV(double _vel)
 		for (int j = 0; j < kJointNum; j++)
 		{
 			m_CmdVel[i][j] = _vel;
-			AxisInst[i][j].OperationMode = CSV;
+			AxisInst[i][j].SetOperationMode(CSV);
 		}
 	}
 }
@@ -574,12 +748,17 @@ void CControllerBase::TestBrake()
  */
 void CControllerBase::TestDefault()
 {
+	MotorHoldPosition();
+}
+
+void CControllerBase::TestSinCST(double _A, double _freq)
+{
 	for (int i = 0; i < kAxisNum; i++)
 	{
 		for (int j = 0; j < kJointNum; j++)
 		{
-			m_CmdPos[i][j] = m_FdbPos[i][j];
-			AxisInst[i][j].OperationMode = CSP;
+			m_CmdTor[i][j] = _A * sin_(_freq * m_SimTime);
+			AxisInst[i][j].SetOperationMode(CST);
 		}
 	}
 }
@@ -596,7 +775,7 @@ void CControllerBase::TestCST(double _tor)
 		for (int j = 0; j < kJointNum; j++)
 		{
 			m_CmdTor[i][j] = _tor;
-			AxisInst[i][j].OperationMode = CST;
+			AxisInst[i][j].SetOperationMode(CST);
 		}
 	}
 }

@@ -69,6 +69,9 @@
     <ClInclude Include="Axis\Filter.h">
       <Filter>Axis</Filter>
     </ClInclude>
+    <ClInclude Include="Axis\Biquad.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TcPch.cpp">
@@ -102,6 +105,9 @@
       <Filter>Axis</Filter>
     </ClCompile>
     <ClCompile Include="Axis\Filter.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Biquad.cpp">
       <Filter>Axis</Filter>
     </ClCompile>
   </ItemGroup>
