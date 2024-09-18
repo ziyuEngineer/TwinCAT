@@ -709,9 +709,6 @@
 					<InitCmd DriveNo="1" IDN="32861" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="0" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="1" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
-					<InitCmd DriveNo="0" IDN="33088" MotorDataLevel="0" DisableMode="0">
-						<RetainData>24002400d6000600ca0002002c9d5b002c9d5b000000000000000000000000002260000000000000</RetainData>
-					</InitCmd>
 					<InitCmd DriveNo="0" IDN="33093" MotorDataLevel="0" DisableMode="0">
 						<RetainData>16001a004a756e2020322032303232202c2031363a32353a3539</RetainData>
 					</InitCmd>
@@ -842,7 +839,7 @@
 			<SyncMan>001880002600010001000000800080008000001826010000</SyncMan>
 			<SyncMan>001a80002200010002000000800080008000001a22010000</SyncMan>
 			<SyncMan>001018002400010003000000000000000000001024010000</SyncMan>
-			<SyncMan>001122002200010004000000000000000000001122010000</SyncMan>
+			<SyncMan>001120002200010004000000000000000000001122010000</SyncMan>
 			<SyncMan>002000002400010005000000000000000000002024010000</SyncMan>
 			<SyncMan>002400002000010006000000000000000000002420010000</SyncMan>
 			<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -960,16 +957,16 @@
 				<Entry Name="Position feedback 1 value (motor feedback)" BitLen="32" Index="#x0033">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Following distance" BitLen="32" Index="#x00bd">
-					<Type>DINT</Type>
-				</Entry>
-				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
-					<Type>DINT</Type>
+				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
+					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
 					<Type>INT</Type>
 				</Entry>
-				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
+				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Class 1 diagnostic (C1D)" BitLen="16" Index="#x000b">
 					<Type>INT</Type>
 				</Entry>
 			</Pdo>
@@ -980,13 +977,16 @@
 				<Entry Name="Position feedback 1 value (motor feedback)" BitLen="32" Index="#x0033">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Following distance" BitLen="32" Index="#x00bd">
-					<Type>DINT</Type>
+				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
+					<Type>INT</Type>
+				</Entry>
+				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
+					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
+				<Entry Name="Class 1 diagnostic (C1D)" BitLen="16" Index="#x000b">
 					<Type>INT</Type>
 				</Entry>
 			</Pdo>

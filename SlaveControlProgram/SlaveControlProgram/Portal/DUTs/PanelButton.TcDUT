@@ -3,7 +3,7 @@
   <DUT Name="PanelButton" Id="{821dd715-1078-4fbb-ba7b-9326cd27a5b0}">
     <Declaration><![CDATA[TYPE PanelButton :
 STRUCT
-	name  	: STRING;
+	alias   : STRING;
 	pressed : BOOL;
 	row   	: INT;
 	column 	: INT;

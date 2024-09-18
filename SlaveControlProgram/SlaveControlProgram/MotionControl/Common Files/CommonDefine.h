@@ -1,12 +1,36 @@
 #pragma once
+#ifndef COMMON_DEFINE_H
+#define COMMON_DEFINE_H
 
 #include "../MotionControlInterfaces.h"
 #include "../MotionControlServices.h"
 
+//----- Project Variants
+#define FIVE_AXIS
+//#define FOUR_AXIS
+//#define THREE_AXIS
+
+// Common define
 constexpr double kRadius2Degree = 57.2957795;	// This constant is used to convert an angle measured in radians into degrees.
 constexpr double kDegree2Radius = 0.01745329;	// This constant is used to convert an angle measured in degrees into radians.
-constexpr double kEPSILON = 1e-6;				// Define a very small value for floating-point operations.
-constexpr double kINF = 4.2950e+09;				// Define a very large value that can be used as an approximation for infinity.
+constexpr double kEpsilon = 1e-6;				// Define a very small value for floating-point operations.
+constexpr double kInf = 4.2950e+09;				// Define a very large value that can be used as an approximation for infinity.
+
+// MotionControl define
+constexpr int kMaxMotorNumPerAxis = 2;
+constexpr int kMaxAxisNum = 5;
+constexpr int kSpindleDriverNum = 1;
+
+extern int kActualAxisNum;			// Retrieve value by loading xml
+extern int kAxisDriverTotalNum;		// Retrieve value by loading xml
+extern int kDriverNumPerAxis[5];	// Set dimension to 5, which can be downward compatible with four and three axes.
+
+// Xml define
+constexpr int kMaxRead = 8192;
+
+// Interpolation define
+constexpr bool kInterpolated = true;
+constexpr bool kNotInterpolated = false;
 
 /**
  * @brief Restrict a given value 'x' to be within the range specified by 'minimum' and 'maximum'.
@@ -67,13 +91,13 @@ enum class ModuleSub
 
 enum class AxisNum
 {
-	PrimaryAxis = 0,
-	X_Axis = 1,
-	Y_Axis = 2,
-	Z_Axis = 3,
-	A_Axis = 4,
-	B_Axis = 5,
-	C_Axis = 6
+	X_Axis = 0,
+	Y_Axis = 1,
+	Z_Axis = 2,
+	A_Axis = 3,
+	B_Axis = 4,
+	C_Axis = 5,
+	Spindle = 6
 };
 
 enum class ErrorClass
@@ -84,3 +108,5 @@ enum class ErrorClass
 	classD = 4,
 	classE = 5
 };
+
+#endif

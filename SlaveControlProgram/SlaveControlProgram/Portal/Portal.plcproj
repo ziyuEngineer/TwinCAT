@@ -17,12 +17,25 @@
     <Implicit_Jitter_Distribution>{28a7acac-e12a-4d91-83df-3552138918db}</Implicit_Jitter_Distribution>
     <LibraryReferences>{9d3196e4-91aa-4da3-a76a-95a8eb922522}</LibraryReferences>
     <Released>false</Released>
+    <DeploymentEvents>
+      <Events>
+        <Event>
+          <CommandType>Copy</CommandType>
+          <DeploymentType>ActivateConfiguration</DeploymentType>
+          <Command1>%SOLUTIONPATH%SlaveControlProgram\Portal\AxisGroup.xml</Command1>
+          <Command2>%TC_RESOURCEPATH%AxisGroup.xml</Command2>
+        </Event>
+        <Event>
+          <CommandType>Copy</CommandType>
+          <DeploymentType>ActivateConfiguration</DeploymentType>
+          <Command1>%SOLUTIONPATH%SlaveControlProgram\Portal\Spindle.xml</Command1>
+          <Command2>%TC_RESOURCEPATH%Spindle.xml</Command2>
+        </Event>
+      </Events>
+    </DeploymentEvents>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DUTs\PanelButton.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Config\FB_MotorInfoLoad.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config\FB_PanelInfoProcess.TcPOU">

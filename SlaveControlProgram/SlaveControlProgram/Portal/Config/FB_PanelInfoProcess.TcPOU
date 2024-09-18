@@ -2,16 +2,430 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_PanelInfoProcess" Id="{94b91a42-7c7a-4941-b6c4-498edfecb838}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PanelInfoProcess
+
+VAR
+	pInput AT%I* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel input channel 1 2 3 4 5 7 
+	pOutput AT%Q* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel output channel 1 2 3 4 5 7
+	lastInput : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Record input channel value of last cycle
+	valChanged : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF BOOL; // used in button mutex check since some mutex pairs appear in different channels 
+	
+	// Decompose value of input channel into status of single button, one channel represents eight buttons
+	buttonStatus : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1,0..GlobalVar.CHANNEL_BUTTON_NUM-1] OF BOOL := [FALSE]; 
+	effectiveButtonStatus : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1,0..GlobalVar.CHANNEL_BUTTON_NUM-1] OF BOOL := [FALSE];
+	
+	mutexPairs: ARRAY[0..30, 0..1] OF PanelButton; // 30 represents the maximum number of possible pairs
+	mutexPairNum : INT := 0;
+END_VAR
+
+// HandWheel Functions
+VAR
+	handwheelCurrPos 	AT%I* :  USINT;
+	handwheelLastPos 	: USINT;
+	handwheelTotalPos : ARRAY[0..MC_AXIS_NUM - 1] OF LREAL := [0.0]; // X Y Z A C
+	
+	panelInfoOutput AT%Q* : PanelInfo; // Necessary information sent to Cpp module
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[mInput();
+
+mOutput();]]></ST>
+    </Implementation>
+    <Method Name="mAssignSpecifcButtonCoordinate" Id="{1feef824-8c65-4436-9a3b-0764b1081928}">
+      <Declaration><![CDATA[METHOD mAssignSpecifcButtonCoordinate : BOOL
 VAR_INPUT
 END_VAR
-VAR_OUTPUT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ServoOn.row := 0;
+ServoOn.column := 0;
+
+X_Axis.row := 0;  
+X_Axis.column := 6;  
+
+Y_Axis.row := 0;  
+Y_Axis.column := 7;
+
+Z_Axis.row := 1;  
+Z_Axis.column := 0;  
+
+A_Axis.row := 1;  
+A_Axis.column := 7;  
+
+B_Axis.row := 2;  
+B_Axis.column := 0;  
+
+C_Axis.row := 2;  
+C_Axis.column := 1;  
+
+Spindle_CW.row := 2;
+Spindle_CW.column := 2;
+
+Spindle_CCW.row := 2;
+Spindle_CCW.column := 4;
+
+Spindle_Stop.row := 2;
+Spindle_Stop.column	:= 3;
 	
-END_VAR
-VAR
+Tenth_Ratio.row := 4;  
+Tenth_Ratio.column := 1;  
+ 
+Hundredth_Ratio.row := 4;
+Hundredth_Ratio.column := 2;
+
+Thousandth_Ratio.row := 4;
+Thousandth_Ratio.column := 3;
+
+Reset_Button.row := 5;
+Reset_Button.column := 0;
+
+mGenerateMutexPair(X_Axis, Y_Axis);
+mGenerateMutexPair(X_Axis, Z_Axis);
+mGenerateMutexPair(X_Axis, A_Axis);
+mGenerateMutexPair(X_Axis, B_Axis);
+mGenerateMutexPair(X_Axis, C_Axis);
+                                 
+mGenerateMutexPair(Y_Axis, Z_Axis);
+mGenerateMutexPair(Y_Axis, A_Axis);
+mGenerateMutexPair(Y_Axis, B_Axis);
+mGenerateMutexPair(Y_Axis, C_Axis);
+                                 
+mGenerateMutexPair(Z_Axis, A_Axis);
+mGenerateMutexPair(Z_Axis, B_Axis);
+mGenerateMutexPair(Z_Axis, C_Axis);
+                                 
+mGenerateMutexPair(A_Axis, B_Axis);
+mGenerateMutexPair(A_Axis, C_Axis);
+mGenerateMutexPair(B_Axis, C_Axis);
+
+mGenerateMutexPair(Spindle_CW, Spindle_CCW);
+mGenerateMutexPair(Spindle_CW, Spindle_Stop);
+mGenerateMutexPair(Spindle_CCW, Spindle_Stop);
+
+mGenerateMutexPair(Tenth_Ratio, Hundredth_Ratio);
+mGenerateMutexPair(Tenth_Ratio, Thousandth_Ratio);
+mGenerateMutexPair(Hundredth_Ratio, Thousandth_Ratio);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mFaultReset" Id="{5845ad2c-25cb-49e5-bfc6-5edbece7f325}">
+      <Declaration><![CDATA[METHOD mFaultReset : BOOL
+VAR_INPUT
 END_VAR
 ]]></Declaration>
-    <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
+      <Implementation>
+        <ST><![CDATA[// When system state falls into Fault, turn off all buttons for safety
+MEMSET(ADR(effectiveButtonStatus), 0, SIZEOF(effectiveButtonStatus));
+MEMSET(ADR(valChanged) ,0, SIZEOF(valChanged));
+MEMSET(ADR(lastInput), 0, SIZEOF(lastInput));
+MEMSET(ADR(pInput), 0, SIZEOF(pInput));
+MEMSET(ADR(pOutput), 0, SIZEOF(pOutput));
+
+mFaultReset := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGenerateMutexPair" Id="{c0ae2421-844b-4cf8-9772-f5e8f3186700}">
+      <Declaration><![CDATA[METHOD mGenerateMutexPair : BOOL
+VAR_INPUT
+	button1 : PanelButton;
+	button2 : PanelButton;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mutexPairs[mutexPairNum,0] := button1;
+mutexPairs[mutexPairNum,1] := button2;
+
+mutexPairNum := mutexPairNum + 1;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetHandwheelEnabledAxis" Id="{64b49b99-2caa-46a2-aad1-a09f7cd003a2}">
+      <Declaration><![CDATA[METHOD mGetHandwheelEnabledAxis : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[X_Axis.pressed := effectiveButtonStatus[X_Axis.row, X_Axis.column];
+Y_Axis.pressed := effectiveButtonStatus[Y_Axis.row, Y_Axis.column];
+Z_Axis.pressed := effectiveButtonStatus[Z_Axis.row, Z_Axis.column];
+A_Axis.pressed := effectiveButtonStatus[A_Axis.row, A_Axis.column];
+C_Axis.pressed := effectiveButtonStatus[C_Axis.row, C_Axis.column];
+
+// Assume no axis selected
+panelInfoOutput.Handwheel_EnabledAxisNum := 0;
+
+IF X_Axis.pressed THEN // X axis selected; 
+	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_X;
+ELSIF Y_Axis.pressed THEN // Y axis selected
+	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_Y;	
+ELSIF Z_Axis.pressed THEN // Z axis selected
+	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_Z;
+ELSIF A_Axis.pressed THEN // A axis selected
+	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_A;	
+ELSIF C_Axis.pressed THEN // C axis selected
+	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_C;
+END_IF
+
+IF panelInfoOutput.Handwheel_EnabledAxisNum <> 0 THEN
+	mHandwheelProcess(panelInfoOutput.Handwheel_EnabledAxisNum - 1);
+END_IF
+
+handwheelLastPos := handwheelCurrPos;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetHandwheelRatio" Id="{565d3401-b66d-4aeb-8584-ae96015ad906}">
+      <Declaration><![CDATA[METHOD mGetHandwheelRatio : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Tenth_Ratio.pressed := effectiveButtonStatus[Tenth_Ratio.row, Tenth_Ratio.column];
+Hundredth_Ratio.pressed := effectiveButtonStatus[Hundredth_Ratio.row, Hundredth_Ratio.column];
+Thousandth_Ratio.pressed := effectiveButtonStatus[Thousandth_Ratio.row, Thousandth_Ratio.column];
+
+IF Tenth_ratio.pressed THEN
+	panelInfoOutput.Handwheel_Ratio := 0.1;
+ELSIF Hundredth_ratio.pressed THEN
+	panelInfoOutput.Handwheel_Ratio := 0.01;
+ELSIF Thousandth_ratio.pressed THEN
+	panelInfoOutput.Handwheel_Ratio := 0.001;
+ELSE	
+	panelInfoOutput.Handwheel_Ratio := 0.0;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetResetButtonStatus" Id="{60da58f1-c5d7-4e58-8e41-26b279e50216}">
+      <Declaration><![CDATA[METHOD mGetResetButtonStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Reset_Button.pressed := effectiveButtonStatus[Reset_Button.row, Reset_Button.column];
+
+IF Reset_Button.pressed THEN
+	panelInfoOutput.Reset := TRUE;
+
+ELSE	
+	panelInfoOutput.Reset := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetServoButtonStatus" Id="{be3b7f56-4379-4d2b-b6b0-7fe10d2c10ad}">
+      <Declaration><![CDATA[METHOD mGetServoButtonStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ServoOn.pressed := effectiveButtonStatus[ServoOn.row, ServoOn.column];
+
+IF ServoOn.pressed THEN
+	panelInfoOutput.ServoOn := TRUE;
+
+ELSE	
+	panelInfoOutput.ServoOn := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetSpindleButtonStatus" Id="{bd14beaf-9640-4131-94e7-b96e72b6de5d}">
+      <Declaration><![CDATA[METHOD mGetSpindleButtonStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Spindle_CW.pressed := effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column];
+Spindle_CCW.pressed := effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column];
+Spindle_Stop.pressed := effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column];
+
+IF Spindle_CW.pressed THEN
+	panelInfoOutput.Spindle_Cmd := 1;
+ELSIF Spindle_CCW.pressed THEN 
+	panelInfoOutput.Spindle_Cmd := -1;	
+ELSIF Spindle_Stop.pressed THEN
+	panelInfoOutput.Spindle_Cmd := 0;
+ELSE
+	panelInfoOutput.Spindle_Cmd := 0;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mHandwheelProcess" Id="{4ad2bd03-1187-4ae9-aa27-81fb063ee394}">
+      <Declaration><![CDATA[METHOD mHandwheelProcess : BOOL
+VAR_INPUT
+	index   : INT;
+END_VAR
+
+VAR
+	dPos    : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[dPos := handwheelCurrPos - handwheelLastPos;
+
+IF dPos > 100 THEN
+	dPos := GlobalVar.HANDWHEEL_FULL_SCALE - dPos;
+ELSIF dPos < -100 THEN
+	dPos := GlobalVar.HANDWHEEL_FULL_SCALE + dPos;
+END_IF
+
+handwheelTotalPos[index] := handwheelTotalPos[index] + panelInfoOutput.Handwheel_Ratio * dPos;
+
+panelInfoOutput.Handwheel_dPos[index] := handwheelTotalPos[index];
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mHandwheelReset" Id="{0f4017f3-eac0-4d25-abb0-385882c17183}">
+      <Declaration><![CDATA[METHOD mHandwheelReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mHandwheelReset := FALSE;
+
+handwheelLastPos := handwheelCurrPos;
+
+MEMSET(ADR(handwheelTotalPos),0, SIZEOF(handwheelTotalPos));
+	
+MEMSET(ADR(panelInfoOutput.Handwheel_dPos),0,SIZEOF(PanelInfo.Handwheel_dPos));
+
+mHandwheelReset := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mInitialize" Id="{e7f12931-efc0-448a-a8eb-96cafc689eac}">
+      <Declaration><![CDATA[METHOD mInitialize : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mAssignSpecifcButtonCoordinate();
+
+handwheelLastPos := handwheelCurrPos;
+
+mInitialize := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mInput" Id="{adbdfae4-bb3c-40d9-bea9-c43ebd3cf7c6}">
+      <Declaration><![CDATA[METHOD mInput : BOOL
+VAR
+	iLoop : INT := 0;
+	jLoop : INT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
+	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
+		buttonStatus[iLoop, jLoop] := mParsePanelInput(pInput[iLoop], jLoop);
+	END_FOR
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mMutexCheck" Id="{9635a224-d223-4574-bba7-da8b91115418}">
+      <Declaration><![CDATA[METHOD mMutexCheck : BOOL
+VAR_IN_OUT
+	currentInput 	: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
+	lastInput 		: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
+	bChanged		: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1] OF BOOL;
+END_VAR
+VAR
+	iLoop : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR iLoop := 0 TO mutexPairNum - 1 DO
+	mMutexCheckSub(currentInput, lastInput, bChanged, mutexPairs[iLoop,0], mutexPairs[iLoop,1]);
+END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mMutexCheckSub" Id="{810ff080-a820-405b-bb5a-950250157665}">
+      <Declaration><![CDATA[METHOD mMutexCheckSub : BOOL
+VAR_IN_OUT
+	current : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
+	last	: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
+	bChanged: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1] OF BOOL;
+END_VAR
+
+VAR_INPUT
+	button1 : PanelButton;
+	button2 : PanelButton;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF current[button1.row,button1.column] AND last[button2.row,button2.column] THEN
+	current[button2.row,button2.column] := TRUE;
+	bChanged[button2.row] := TRUE;
+END_IF
+
+IF current[button2.row,button2.column] AND last[button1.row,button1.column] THEN
+	current[button1.row,button1.column] := TRUE;
+	bChanged[button1.row] := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mOutput" Id="{16455b68-786c-4b08-9d2a-15a1d7639f10}">
+      <Declaration><![CDATA[METHOD mOutput : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	iLoop : INT := 0;
+	jLoop : INT := 0;
+	temp  :INT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mMutexCheck(buttonStatus, effectiveButtonStatus, valChanged);
+
+FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
+	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
+		IF buttonStatus[iLoop, jLoop] AND ((lastInput[iLoop] <> pInput[iLoop]) OR valChanged[iLoop]) THEN
+			effectiveButtonStatus[iLoop, jLoop] := NOT effectiveButtonStatus[iLoop, jLoop];
+			
+			temp := SHL(1, jLoop);
+		
+			IF effectiveButtonStatus[iLoop, jLoop] THEN
+				pOutput[iLoop] := pOutput[iLoop] + INT_TO_USINT(temp);
+			ELSE
+				pOutput[iLoop] := pOutput[iLoop] - INT_TO_USINT(temp);
+			END_IF
+		
+		END_IF
+	END_FOR
+	lastInput[iLoop] := pInput[iLoop];
+	valChanged[iLoop] := FALSE;
+END_FOR
+
+mGetServoButtonStatus();
+
+mGetHandWheelRatio();
+
+mGetHandwheelEnabledAxis();
+
+mGetSpindleButtonStatus();
+
+mGetResetButtonStatus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mPanelInfoLoad" Id="{495a9b47-de44-46d0-b09e-035317e3cbd3}">
+      <Declaration><![CDATA[METHOD mPanelInfoLoad : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mParsePanelInput" Id="{39e19588-76a1-4ec1-8eb6-1111fb5927cd}">
+      <Declaration><![CDATA[METHOD mParsePanelInput : BOOL
+VAR_INPUT
+	input   	: USINT;
+	parseDigit  : INT;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ((SHR(input,parseDigit) AND 2#1) = 2#1) THEN
+	mParsePanelInput := TRUE;
+ELSE
+	mParsePanelInput := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

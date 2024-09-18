@@ -1,99 +1,73 @@
 #pragma once
-#include "CommonDefine.h"
-#include "Differentiator.h"
 
-namespace Axis
+#include "Driver.h"
+#include "Biquad.h"
+#include "interpolator1d/interpolator.hh"
+
+using namespace Driver;
+class CAxis
 {
-	struct AxisParam
-	{
-		short abs_dir = 1;				// Absolute encoder (positive) direction
-		LONG abs_encoder_res = 1;		// Absolute encoder resolution
+public:	
+	CAxis() = default;
+	~CAxis() = default;
 
-		double rated_curr = 1.0;		// Rated current
-		double rated_tor = 1.0;			// Rated torque
-		short tor_dir = 1;				// Torque (positive) direction
+private:
+	CDriver m_Driver;
+	Biquad m_FdbPosFilter;
+	Biquad m_FdbVelFilter;
+	InterpolationParameter* m_InterpolationParam;
 
-		LONG abs_zero_pos = 0;		// Zero position of absolute encoder
-		LONG abs_pos_ub = 0;		// Position upperbound of absolute encoder
-		LONG abs_pos_lb = 0;		// Position lowerbound of absolute encoder
-										
-		double tor_cons = 0.0;			// Torque constant, = rated_tor / rated_curr
-		
-		double transmission_ratio = 1.0;	// Transmisssion ratio
+	// The following variable will only be used in position or velocity interpolation,
+	// so initialzie it as CST mode;
+	OpMode m_LastOpMode = OpMode::CST;
 
-		bool abs_encoder_type = false;	// Reserved for distinguishing encoder type between single-turn and multi-turns
+	void InterpolationReset(OpMode _mode);
 
-		short tor_pdo_max = 50;		    // Limit of data transferred to torque pdo
-		short additive_tor = 0;		// Compensating torque
-
-		short positive_hard_bit = 15;
-		short negative_hard_bit = 15;
-	};
-}
-
-namespace Axis
-{
-	class CAxis : protected CDifferentiator
-	{
-	public:
-		CAxis();
-		~CAxis();
-
-	protected:
-		AxisParam m_AxisParam;
-
-		bool m_Flip = false;
-		int m_DigitalMask = 15;// 14(1110):y+; 13(1101):y-; 11(1011):z+; 7(0111):z-
-		int m_OpModeMask = 7; // 2#00000111
-
-	// Parameters related to driver
-	public:
-		// Input from driver
-		unsigned short m_StatusWord = 0;
-		long m_FdbPosVal = 0;	 // Abs Pos feedback
-		short m_FdbTorVal = 0; // Torque feedback
-		long m_FdbVelVal = 0;  // Velocity feedback
-		short m_ErrorCode = 0;
-		short m_WarningCode = 0;
-		short m_DigitalInput = 0;
-
-		// Output to driver
-		unsigned short m_ControlWord = 0;
-		short m_OperationMode = 0;
-		short m_TargetTor = 0;
-		long m_TargetPos = 0;
-		long m_TargetVel = 0;
-
-	public:
-		double  GetFeedbackPosition();
-		double  GetFeedbackVelocity();
-		void	ComputeAcceleration(double _input, double* _first_derivative, double* _second_derivative);
-		double  GetFeedbackTorque();
-
-		short   SendTargetTorque(double _cmd_tor);
-		long    SendTargetPosition(double _cmd_pos);
-		long    ReturnToZeroPosition();
-		long	SendTargetVelocity(double _cmd_vel);
-		bool    SetAxisParam(AxisParam _mc_param);
-		void    SetOperationMode(OpMode mode);
-		OpMode	GetActualOperationMode();
-
-		void    ControlUnitSync();
-		bool    Enable();
-		bool    Disable();
-
-		bool    IsDriverReady();
-		bool    IsEnableState();
-		bool    IsFaultState();
-		bool    IsEmergencyState();
-		bool	IsLimitExceeded();
-		short   CheckErrorCode();
-		short   CheckWarnCode();
+	bool m_bStandbyPosSet = false;
 	
-	private:
-		DriverState	GetDriverState();
-		bool    IsSoftLimitExceeded();
-		bool    IsHardLimitExceeded();
-	};
-}
 
+public:	
+	double m_CmdPos;
+	double m_CmdVel;
+	double m_CmdAcc;
+	double m_CmdTor;
+
+	double m_CmdPosBeforeInterpolated; // observe only
+	double m_CmdVelBeforeInterpolated;
+	bool m_bPosInterpolationFinished = false;
+	bool m_bVelInterpolationFinished = false;
+
+	double m_FdbPos;
+	double m_FdbPosFiltered;
+	double m_FdbVel;
+	double m_FdbVelFiltered;
+	double m_FdbAcc;
+	double m_FdbTor;
+	OpMode m_ActualOpMode;
+
+	double m_StandbyPos;
+	
+public:
+	void MapParameters(DriverInput* _DriverInput, DriverOutput* _DriverOutput, MotionControlInfo* _DriverParam, InterpolationParameter* _InterpolationParameter);
+	bool PostConstruction();
+
+	void Input();
+	void Output();
+
+	bool Initialize();
+	bool Enable();
+	bool Disable();
+
+	void HoldPosition();
+	void Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback);
+	void ReturnToZeroPoint();
+
+	bool IsExceedingLimit();
+	bool IsEmergency();
+	bool IsFault();
+
+	PositionInterpolator1D m_PositionInterpolator;
+	VelocityInterpolator1D m_VelocityInterpolator;
+	PositionInterpolator1D::State m_CurrentStatePos;
+	VelocityInterpolator1D::State m_CurrentStateVel;
+};

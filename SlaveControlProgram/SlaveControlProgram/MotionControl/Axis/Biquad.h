@@ -16,8 +16,6 @@
 //  for your own purposes, free or commercial.
 //
 
-#include "CommonDefine.h"
-
 #ifndef Biquad_h
 #define Biquad_h
 

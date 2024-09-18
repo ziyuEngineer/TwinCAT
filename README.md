@@ -8,11 +8,11 @@
 
 ## Brief
 
-下位机程序的demo版本，目前连接的硬件有控制面板、电机；
+下位机程序，目前连接的硬件有控制面板、X、Y、Z轴的四个电机(倍福)，1个主轴电机(松下)；
 
 具体实现的功能大致包括：
 
-1. 读取MotionControl需要的[配置信息](./SlaveControlProgram/SlaveControlProgram/Portal/MotionControl.xml)；
+1. 读取MotionControl需要的[配置信息](./SlaveControlProgram/SlaveControlProgram/Portal/AxisGroup.xml)；
 2. 接受上位机指令，如状态机跳转信号，运动指令结构体等；
 3. Ring Buffer存储上位机的指令信息；
 4. 接收IO信号，发送IO信号等；
@@ -59,6 +59,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | MAIN.fb_CommandProcess.mInputData | ARRAY [0..1023] OF MotionCommand | 262144.0 | 上位机写入 | 存储host指令的Buffer | \ |
 | MAIN.fb_CommandProcess.iWriteIndex | UDINT | 4.0 | 上位机写入 | host指令的个数 | \ |
+| MAIN.fb_PanelInfoProcess.pInput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Inputs | 获取面板输入通道的值 | \ |
+| MAIN.fb_PanelInfoProcess.handwheelCurrPos | USINT | 1.0 | TEACH_HANDWHEEL . PANEL_Inputs . Panel . Device 3 (EtherCAT) . Devices | 获取手轮当前位置 | \ |
 | MAIN.fb_SoEProcess.stPlcDriveRef | ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef | 40.0 | (netId/port/Chn).AdsAddr.InfoData.ZY | 访问驱动器 | \ |
 | MAIN.mSystemState | StateMachine | 12.0 | StateMachine  | 系统当前状态及各状态下的标志位 | \ |
 | \ | \ | \ | \ | \ | \ |
@@ -68,9 +70,9 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | 系统状态 | PLC 执行任务 |
 | :----: | :----: |
 | Idle | \ |
-| Initialization | 解析MotionContrtol.xml，并将参数发送给C++端 |
+| Initialization | 面板处理功能块初始化；SoE地址信息获取 |
 | Disabled | \ |
-| Standby | 重置RingBuffer |
+| Standby | 重置RingBuffer；手摇功能所需数据重置 |
 | Moving | 将RingBuffer中数据发送给C++模块 |
 | Handwheel | \ |
 | LimitViolation | \ |
@@ -81,8 +83,7 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 ### mOutput
 
 1. 将上位机传入的指令信号通过变量链接的形式传给C++模块的Input;
-2. 给部分硬件输出指令信号，如控制面板的按键指示灯；
-3. xxxxxx
+2. xxxxxx
 
 #### Data Area -- PLC Outputs
 
@@ -90,7 +91,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | MAIN.fb_CommandProcess.iReadIndex | UDINT | 4.0 | 上位机读取 | 下位机消耗指令的个数 | \ |
 | MAIN.fb_CommandProcess.mOutputData | MotionCommand | 256.0 | CommandData | 从Buffer中取出的指令 | 、 |
-| MAIN.fb_MotorInfoLoad.McInfo | ARRAY [0..3,0..0] OF MotionControlInfo | 256.0 | MotionCtrlParam  | 解析的轴参数 | \ |
+| MAIN.fb_PanelInfoProcess.pOutput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Outputs  | 给面板输出通道发送值 | \ |
+| MAIN.fb_PanelInfoProcess.panelInfoOutput | PanelInfo | 56.0 | PanelInformation  | 给C++端发送面板信息，如按钮状态，手轮行程等 | \ |
 | MAIN.mockButtons | ARRAY [0..9] OF BOOL | 10.0 | mockButtons  | 测试用，链接到C++中对应变量 | \ |
 | MAIN.Outputs2Cpp | ARRAY [0..19] OF LREAL | 160.0 | TestInputs  | 测试用，链接到C++中对应变量，用于切换Test模式下的测试用例 | \ |
 
@@ -106,9 +108,9 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | CommandData | MotionCommand | 256。0 | MAIN.fb_CommandProcess.mOutputData | 接收PLC收到的application发送的运动指令 | \ |
-| MotionCtrlParam | ARRAY [0..3,0..0] OF MotionControlInfo | 256.0 | MAIN.fb_MotorInfoLoad.McInfo | 接收PLC解析MotionControl.xml得到的轴参数 | \ |
-| DriverInputs | ARRAY [0..3,0..0] OF DriverInput | 96.0 | I/O中电机的Input通道 | 接收驱动器的反馈信息 | \ |
-| PanelInformation | PanelInfo | 64.0 | 后续会链到PLC中相同类型的变量 | 接收面板按钮的状态信息 | \ |
+| MotionCtrlParam | ARRAY [0..5] OF MotionControlInfo | 384.0 | MAIN.fb_MotorInfoLoad.McInfo | 接收PLC解析MotionControl.xml得到的轴参数 | 后续弃用 |
+| AxisInputs | ARRAY [0..9] OF DriverInput | 240.0 | I/O中电机的Input通道 | 接收驱动器的反馈信息 | \ |
+| PanelInformation | PanelInfo | 56.0 | MAIN.fb_PanelInfoProcess.panelInfoOutput | 接收面板按钮的状态信息等 | \ |
 | mockButton | ARRAY [0..9] OF BOOL | 10.0 | application写入 | 触发状态跳转 | \ |
 | TestInputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试写入用，后续会删除 | \ |
 
@@ -119,7 +121,7 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | 0 | \ |
 | 1 | \ |
 | 2 | \ |
-| 3 | Disabled状态下，若为True，状态跳转至Standby |
+| 3 | \ |
 | 4 | Standby状态下，若为True，状态跳转至Moving |
 | 5 | \ |
 | 6 | Emergency状态下，若为True，状态跳转至Disabled <br> LimitViolation状态下，若为True，状态跳转至Standby <br> Fault状态下，若为True，状态跳转至Standby|
@@ -135,11 +137,11 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | 系统状态 | C++ 执行任务 |
 | :----: | :----: |
 | Idle | \ |
-| Initialization | 接收PLC端传递的轴控制参数，更新Axis类的成员变量 |
+| Initialization | 接收m_Parameters中的轴控制参数，更新AxisGroup和Spindle对应电机的成员变量 |
 | Disabled | 等待使能信号，使能成功后跳转至Standby |
 | Standby | 使电机位置保持，等待状态跳转信号 |
 | Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
-| Handwheel | \ |
+| Handwheel | 接收PLC端发送的手摇行程，使电机完成相对运动 |
 | LimitViolation | 等待Reset信号，跳转至Standby |
 | Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Standby |
 | Emergency | 松开急停后，跳转至Disabled状态 |
@@ -155,8 +157,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| DriverOutputs | ARRAY [0..3,0..0] OF DriverOutput | 64.0 | I/O中电机的Output通道 | 发送指令给驱动器 | \ |
-| TestOutputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试，观测变量用，后续会删除 | \ |
+| AxisOutputs | ARRAY [0..9] OF DriverOutput | 160.0 | I/O中电机的Output通道 | 发送指令给驱动器 | \ |
+| AxisInfoOutputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试，观测变量用，后续会删除 | \ |
 | StateMachine | SystemState | 12.0 | MAIN.mSystemState | 系统当前状态及各状态下的标志位 | \ |
 
 #### 以下为StateMachine展开后各变量的说明
@@ -177,8 +179,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 ### Safety Module
 
-1. 将每个电机运动的上下软限位对应的编码器数值存储在[MotionControl.xml](./SlaveControlProgram/SlaveControlProgram/Portal/MotionControl.xml)内，见变量`UpperPosLimit`, `LowerPosLimit`；硬限位光电开关对应的通道号，见变量`PositiveHardBit`，`NegativeHardBit`；扭矩限幅见变量`TorPdoMax`，该值的具体含义为指令力矩最大值相对于额定力矩的比例，单位为千分比；
-2. 具体实现在`Axis`类内的[IsSoftLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L308)，[IsHardLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L326)函数，会判断当前位置是否越过软硬限位；[SendTargetTorque](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Axis.cpp#L68)函数，在发送扭矩指令前会将指令扭矩限制在上下限幅内；
+1. 将每个电机运动的上下软限位对应的编码器数值存储在[AxisGroup.xml](./SlaveControlProgram/SlaveControlProgram/Portal/AxisGroup.xml)内，见变量`UpperPosLimit`, `LowerPosLimit`；硬限位光电开关对应的通道号，见变量`PositiveHardBit`，`NegativeHardBit`；扭矩限幅见变量`TorPdoMax`，该值的具体含义为指令力矩最大值相对于额定力矩的比例，单位为千分比；
+2. 具体实现在`Driver`类内的[IsSoftLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Driver.cpp#L308)，[IsHardLimitExceeded](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Driver.cpp#L326)函数，会判断当前位置是否越过软硬限位；[SendTargetTorque](./SlaveControlProgram/SlaveControlProgram/MotionControl/Axis/Driver.cpp#L68)函数，在发送扭矩指令前会将指令扭矩限制在上下限幅内；
 3. `ControllerBase`类的[SafetyCheck](./SlaveControlProgram/SlaveControlProgram/MotionControl/Controller/ControllerBase.cpp#L130)函数会在每个周期的`Input`更新之后，判断当前位置是否超过限位，从而判断系统是否要跳入`eLimitViolation`状态，进而停止电机的运动；同时也会判断驱动器中是否产生C1D类的报错，从而判断系统是否要跳入`eFault`状态；
 
 ### Log Module

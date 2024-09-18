@@ -54,23 +54,26 @@
     <ClInclude Include="MotionControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\ControllerBase.h">
-      <Filter>Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Common Files\CommonDefine.h">
       <Filter>Common Files</Filter>
     </ClInclude>
-    <ClInclude Include="Axis\Axis.h">
-      <Filter>Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="Axis\Differentiator.h">
-      <Filter>Axis</Filter>
-    </ClInclude>
-    <ClInclude Include="Axis\Filter.h">
+    <ClInclude Include="Axis\Driver.h">
       <Filter>Axis</Filter>
     </ClInclude>
     <ClInclude Include="Axis\Biquad.h">
       <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\Axis.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\AxisGroup.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis\Spindle.h">
+      <Filter>Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\FiveAxisController.h">
+      <Filter>Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,20 +98,26 @@
     <ClCompile Include="MotionControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controller\ControllerBase.cpp">
-      <Filter>Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="Axis\Axis.cpp">
-      <Filter>Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="Axis\Differentiator.cpp">
-      <Filter>Axis</Filter>
-    </ClCompile>
-    <ClCompile Include="Axis\Filter.cpp">
+    <ClCompile Include="Axis\Driver.cpp">
       <Filter>Axis</Filter>
     </ClCompile>
     <ClCompile Include="Axis\Biquad.cpp">
       <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Axis.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\AxisGroup.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis\Spindle.cpp">
+      <Filter>Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\FiveAxisController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Common Files\CommonDefine.cpp">
+      <Filter>Common Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

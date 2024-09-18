@@ -3,407 +3,231 @@
 
 #include "Axis.h"
 
-namespace Axis
+void CAxis::MapParameters(DriverInput* _DriverInput, DriverOutput* _DriverOutput, MotionControlInfo* _DriverParam, InterpolationParameter* _InterpolationParameter)
 {
-	CAxis::CAxis()
+	m_Driver.MapParameters(_DriverInput, _DriverOutput, _DriverParam);
+	m_InterpolationParam = _InterpolationParameter;
+}
+
+bool CAxis::PostConstruction()
+{
+	bool bPostConstruction = false;
+
+	bPostConstruction = (m_InterpolationParam->CycleTime > kEpsilon && fabs_(m_InterpolationParam->MaxVelocity) > kEpsilon
+		&& fabs_(m_InterpolationParam->MaxAcceleration) > kEpsilon && fabs_(m_InterpolationParam->MaxJerk) > kEpsilon);
+
+	m_PositionInterpolator.SetCycleTime(m_InterpolationParam->CycleTime); // in [s]
+	m_PositionInterpolator.SetMaxVelocity(m_InterpolationParam->MaxVelocity);
+	m_PositionInterpolator.SetMaxAcceleration(m_InterpolationParam->MaxAcceleration);
+	m_PositionInterpolator.SetMaxJerk(m_InterpolationParam->MaxJerk);
+
+	m_VelocityInterpolator.SetCycleTime(m_InterpolationParam->CycleTime);
+	m_VelocityInterpolator.SetMaxVelocity(m_InterpolationParam->MaxVelocity);
+	m_VelocityInterpolator.SetMaxAcceleration(m_InterpolationParam->MaxAcceleration);
+	m_VelocityInterpolator.SetMaxJerk(m_InterpolationParam->MaxJerk);
+
+	return bPostConstruction;
+}
+
+void CAxis::Input()
+{
+	// Retrieve driver input data.
+	m_Driver.Scan();
+
+	// Update member variables
+	m_FdbPos = m_Driver.GetFeedbackPosition();
+	m_FdbPosFiltered = m_FdbPosFilter.process(m_FdbPos);
+	m_FdbVel = m_Driver.GetFeedbackVelocity();
+	m_FdbVelFiltered = m_FdbVelFilter.process(m_FdbVel);
+	m_FdbTor = m_Driver.GetFeedbackTorque();
+	m_ActualOpMode = m_Driver.GetActualOperationMode();
+}
+
+void CAxis::Output()
+{
+	switch (m_Driver.m_OperationMode)
 	{
-		
+	case OpMode::CSP:
+		m_Driver.SetTargetPosition(m_CmdPos);
+		break;
+	case OpMode::CST:
+		m_Driver.SetTargetTorque(m_CmdTor);
+		break;
+	case OpMode::CSV:
+		m_Driver.SetTargetVelocity(m_CmdVel);
+		break;
+	default:
+		m_Driver.ControlUnitSync();
+		break;
 	}
 
-	CAxis::~CAxis()
-	{
+	// Update output data to driver
+	m_Driver.Actuate();
+}
 
+bool CAxis::Initialize()
+{
+	return m_Driver.SetDriverParam();
+}
+
+bool CAxis::Enable()
+{
+	HoldPosition();
+	return m_Driver.Enable();
+}
+
+bool CAxis::Disable()
+{
+	return m_Driver.Disable();
+}
+
+
+void CAxis::HoldPosition()
+{
+	if (!m_bStandbyPosSet)
+	{
+		m_StandbyPos = m_FdbPos;
+		m_bStandbyPosSet = true;
 	}
-
-	/**
-	 * @brief Get position of absolute encoder
-	 * 
-	 * @return double 
-	 */
-	double CAxis::GetFeedbackPosition()
+	else 
 	{
-		return static_cast<double>(m_FdbPosVal - m_AxisParam.abs_zero_pos) / static_cast<double>(m_AxisParam.abs_encoder_res)
-				* static_cast<double>(m_AxisParam.abs_dir) / m_AxisParam.transmission_ratio;
+		m_Driver.SetOperationMode(OpMode::CSP);
+		m_CmdPos = m_StandbyPos;
 	}
+}
 
-	/**
-	 * @brief Get velocity of encoder
-	 * 
-	 * @return double 
-	 */
-	double CAxis::GetFeedbackVelocity()
+void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback)
+{
+	m_Driver.SetOperationMode(_mode);
+
+	switch (_mode)
 	{
-		return static_cast<double>(m_FdbVelVal) / static_cast<double>(m_AxisParam.abs_encoder_res)
-			* static_cast<double>(m_AxisParam.abs_dir) / m_AxisParam.transmission_ratio;
-	}
-
-	/**
-	 * @brief Get acceleration of encoder
-	 * 
-	 * @param _input 
-	 * @param _first_derivative 
-	 * @param _second_derivative 
-	 */
-	void CAxis::ComputeAcceleration(double _input, double* _first_derivative, double* _second_derivative)
-	{
-		DiffProcess(_input, _first_derivative, _second_derivative);
-	}
-
-	/**
-	 * @brief Get torque
-	 * 
-	 * @return double 
-	 */
-	double CAxis::GetFeedbackTorque()
-	{
-		return static_cast<double>(m_FdbTorVal) * m_AxisParam.tor_dir;
-	}
-
-	/**
-	 * @brief Send torque command to motor, unit is 1/1000;
-	 * 
-	 * Currently, the input for this function is a fraction of the rated torque, expressed in thousandths. 
-	 * If the input is to be the actual torque in the future, further conversion will be required.
-	 * 
-	 * 'additive_tor' is used to counteract the effects of external forces, 
-	 * such as the gravitational influence on the z-axis.
-	 * 
-	 * @param _cmd_tor 
-	 * @return short 
-	 */
-	short CAxis::SendTargetTorque(double _cmd_tor)
-	{
-		/*double tor_m = _jnt_tor / m_AxisParam.reduction_ratio;
-		double tor_i = tor_m / m_AxisParam.tor_cons;
-		short tor_pdo = static_cast<short>(tor_i * 1000 / m_AxisParam.rated_curr * m_AxisParam.tor_dir);*/
-		
-		short tor_pdo = static_cast<short>(_cmd_tor) * m_AxisParam.tor_dir + m_AxisParam.additive_tor;
-		tor_pdo = CLAMP(tor_pdo, -m_AxisParam.tor_pdo_max, m_AxisParam.tor_pdo_max);
-		return tor_pdo;
-	}
-
-	/**
-	 * @brief Send position command to motor
-	 * 
-	 * @param _cmd_pos 
-	 * @return long 
-	 */
-	long CAxis::SendTargetPosition(double _cmd_pos)
-	{
-		long reference_position = static_cast<long>(_cmd_pos * static_cast<double>(m_AxisParam.abs_encoder_res)
-			* static_cast<double>(m_AxisParam.abs_dir) * m_AxisParam.transmission_ratio)
-			+ m_AxisParam.abs_zero_pos;
-
-		return reference_position;
-	}
-
-	/**
-	 * @brief Return to zero position
-	 *
-	 * @return long
-	 */
-	long CAxis::ReturnToZeroPosition()
-	{
-		return m_AxisParam.abs_zero_pos;
-	}
-
-	/**
-	 * @brief Send velocity command to motor
-	 * 
-	 * 
-	 * @param _cmd_vel
-	 * @return long 
-	 */
-	long CAxis::SendTargetVelocity(double _cmd_vel)
-	{
-		long reference_velocity = static_cast<long>(_cmd_vel * static_cast<double>(m_AxisParam.abs_encoder_res)
-			* m_AxisParam.transmission_ratio * m_AxisParam.abs_dir);
-		return reference_velocity;
-	}
-
-	/**
-	 * @brief Set parameters of single motor, all parameters should have specific values which is unequal to zero 
-	 * 
-	 * @param _mc_param 
-	 * @return true : successful initialization
-	 * @return false 
-	 */
-	bool CAxis::SetAxisParam(AxisParam _mc_param)
-	{
-		bool bInit = false;
-
-		if (!IsDriverReady())
+	case OpMode::CSP:
+		if (!_bInterpolated)
 		{
-			return bInit;
-		}
-
-		if ((fabs_(_mc_param.abs_dir) > kEPSILON) && (fabs_(_mc_param.abs_encoder_res) > kEPSILON) &&
-			(fabs_(_mc_param.tor_dir * _mc_param.tor_cons) > kEPSILON) && (fabs_(_mc_param.rated_curr) > kEPSILON) &&
-			(fabs_(_mc_param.rated_tor) > kEPSILON) && (fabs_(_mc_param.tor_pdo_max) > kEPSILON))
-		{
-			m_AxisParam.abs_dir = SIGN(_mc_param.abs_dir);
-			m_AxisParam.abs_encoder_res = _mc_param.abs_encoder_res;
-			m_AxisParam.abs_zero_pos = _mc_param.abs_zero_pos;
-			m_AxisParam.abs_pos_ub = _mc_param.abs_pos_ub;
-			m_AxisParam.abs_pos_lb = _mc_param.abs_pos_lb;
-
-			m_AxisParam.tor_dir = _mc_param.tor_dir;
-			m_AxisParam.rated_curr = _mc_param.rated_curr;
-			m_AxisParam.rated_tor = _mc_param.rated_tor;
-			m_AxisParam.tor_cons = _mc_param.tor_dir * _mc_param.tor_cons;
-
-			m_AxisParam.transmission_ratio = _mc_param.transmission_ratio;
-
-			m_AxisParam.abs_encoder_type = _mc_param.abs_encoder_type;
-			m_AxisParam.tor_pdo_max = _mc_param.tor_pdo_max;
-			m_AxisParam.additive_tor = _mc_param.additive_tor;
-
-			m_AxisParam.positive_hard_bit = _mc_param.positive_hard_bit;
-			m_AxisParam.negative_hard_bit = _mc_param.negative_hard_bit;
-
-			bInit = true;
-		}
-		return bInit;
-	}
-
-	/**
-	 * @brief Set operation mode which is pre-set in driver manager
-	 * 
-	 * @param _mode
-	 */
-	void CAxis::SetOperationMode(OpMode _mode)
-	{
-		m_OperationMode = _mode;
-		if (_mode == CSP) // primary mode of operation -- pos control
-		{
-			if (m_Flip)
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSP + MasterControlWord::eControlUnitSync;
-				m_Flip = !m_Flip;
-			}
-			else
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSP;
-				m_Flip = !m_Flip;
-			}
-		}
-		else if (_mode == CST) // secondary mode -- torque control
-		{
-			if (m_Flip)
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CST + MasterControlWord::eControlUnitSync;
-				m_Flip = !m_Flip;
-			}
-			else
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CST;
-				m_Flip = !m_Flip;
-			}
-		}
-		else if (_mode == CSV) // secondary mode -- vel control
-		{
-			if (m_Flip)
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSV + MasterControlWord::eControlUnitSync;
-				m_Flip = !m_Flip;
-			}
-			else
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSV;
-				m_Flip = !m_Flip;
-			}
-		}
-	}
-
-	/**
-	 * @brief Get actual operation mode by parsing the eighth to tenth bits of the status word 
-	 * 
-	 * 0 = main mode IDN S-0-0032
-	 * 1 = secondary mode 1 IDN S-0-0033
-	 * 2 = secondary mode 2 IDN S-0-0034
-	 * 
-	 * @return OpMode 
-	 */
-	OpMode CAxis::GetActualOperationMode()
-	{
-		unsigned int parsed_mode = m_OpModeMask & (m_StatusWord >> 8);
-		switch(parsed_mode)
-		{
-		case 0:
-			return OpMode::CSP;
-			break;
-		case 1:
-			return OpMode::CST;
-			break;
-		case 2:
-			return OpMode::CSV;
-			break;
-		default:
-			return OpMode::CSP;
-			break;
-		}
-
-	}
-
-	void CAxis::ControlUnitSync()
-	{
-		m_ControlWord = MasterControlWord::eControlUnitSync;
-	}
-
-	/**
-	 * @brief Servo On
-	 * Search S-0-0134 master control word in https://infosys.beckhoff.com/index_en.htm for details of how to send ControlWord
-	 * 
-	 * @return true 
-	 * @return false 
-	 */
-	bool CAxis::Enable()
-	{
-		bool onFlag = false;
-		if (GetDriverState() == DriverState::ePowerStageLocked)
-		{
-			if (m_Flip)
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSP + MasterControlWord::eControlUnitSync;
-				m_Flip = !m_Flip;
-			}
-			else
-			{
-				m_ControlWord = MasterControlWord::eDriveOn_CSP;
-				m_Flip = !m_Flip;
-			}
-		}
-		else if (GetDriverState() == DriverState::eReadyToOperate)
-		{
-			onFlag = true;
-		}
-
-		return onFlag;
-	}
-
-	/**
-	 * @brief Servo Off 
-	 * 
-	 * @return true 
-	 * @return false 
-	 */
-	bool CAxis::Disable()
-	{
-		bool offFlag = false;
-		m_ControlWord = MasterControlWord::eDriveOff;
-		
-		if (GetDriverState() == DriverState::ePowerStageLocked)
-		{
-			offFlag = true;
-		}
-
-		return offFlag;
-	}
-
-	/**
-	 * @brief Check whether error happens
-	 * 
-	 * @return true 
-	 * @return false 
-	 */
-	bool CAxis::IsFaultState()
-	{
-		return (m_ErrorCode !=0);
-	}
-
-	bool CAxis::IsEmergencyState()
-	{
-		return (GetDriverState() == DriverState::eLogicReadyForPowerOn);
-	}
-
-	/**
-	 * @brief Check if the position exceeds the soft limits.
-	 *
-	 * @return true
-	 * @return false
-	 */
-	bool CAxis::IsSoftLimitExceeded()
-	{
-		if (SIGN(m_AxisParam.abs_dir) == 1)
-		{
-			return (m_FdbPosVal < m_AxisParam.abs_pos_lb || m_FdbPosVal > m_AxisParam.abs_pos_ub);
+			m_CmdPos = _cmd;
 		}
 		else
 		{
-			return (m_FdbPosVal > m_AxisParam.abs_pos_lb || m_FdbPosVal < m_AxisParam.abs_pos_ub);
+			if (m_LastOpMode != OpMode::CSP)
+			{
+				InterpolationReset(OpMode::CSP);
+				m_LastOpMode = OpMode::CSP;
+			}
+
+			m_CmdPosBeforeInterpolated = _cmd;
+			if (_bUpdateFeedback)
+			{
+				m_CurrentStatePos.position = m_FdbPosFiltered;
+				m_CurrentStatePos.velocity = m_FdbVelFiltered;
+			}
+
+			m_PositionInterpolator.SetTargetState({ m_CmdPosBeforeInterpolated, 0.0, 0.0 });
+
+			if ((fabs_(_cmd - m_CmdPos) < m_InterpolationParam->Tolerance))
+			{
+				m_CmdPos = _cmd;
+				m_bPosInterpolationFinished = false;
+			}
+			else if (!m_bPosInterpolationFinished)
+			{
+				PositionInterpolator1D::State next_state;
+				double temp_Time;
+				const auto result = m_PositionInterpolator.Update(m_CurrentStatePos, next_state, temp_Time);
+				m_CmdPos = next_state.position;
+				//m_CurrentStatePos.acceleration = next_state.acceleration;
+				m_CurrentStatePos = next_state;
+
+				m_bPosInterpolationFinished = (result == ruckig::Result::Finished);
+			}
 		}
+		break;
+
+	case OpMode::CST:
+		m_CmdTor = _cmd;
+		m_LastOpMode = OpMode::CST;
+		break;
+
+	case OpMode::CSV:
+		if (!_bInterpolated)
+		{
+			m_CmdVel = _cmd;
+		}
+		else
+		{
+			if (m_LastOpMode != OpMode::CSV)
+			{
+				InterpolationReset(OpMode::CSV);
+				m_LastOpMode = OpMode::CSV;
+			}
+
+			m_CmdVelBeforeInterpolated = _cmd;
+			m_VelocityInterpolator.SetTargetState({ 0.0, m_CmdVelBeforeInterpolated, 0.0 });
+			m_CurrentStateVel.velocity = m_FdbVelFiltered;
+
+			if ((fabs_(_cmd - m_CmdVel) < m_InterpolationParam->Tolerance))
+			{
+				m_CmdVel = _cmd;
+				m_bVelInterpolationFinished = false; // reset for next interpolation
+			}
+			else if(!m_bVelInterpolationFinished)
+			{
+				VelocityInterpolator1D::State next_state;
+				double temp_Time;
+				const auto result = m_VelocityInterpolator.Update(m_CurrentStateVel, next_state, temp_Time);
+				m_CmdVel = next_state.velocity;
+				m_CurrentStateVel.acceleration = next_state.acceleration;
+				m_bVelInterpolationFinished = (result == ruckig::Result::Finished);
+			}
+		}
+		break;
+
+	default:
+		m_CmdPos = m_FdbPos;
+		m_CmdTor = 0.0;
+		m_CmdVel = 0.0;
+		break;
 	}
 
-	/**
-	 * @brief Check if the position exceeds the hard limits.
-	 * Normally, m_DigitalInput = 15(2#1111), 
-	 * if optoelectronic switch connected to Channel 0 is blocked, m_DigitalInput = 14(2#1110); 
-	 * if optoelectronic switch connected to Channel 1 is blocked, m_DigitalInput = 13(2#1101); 
-	 * and so on.
-	 * 
-	 * @return true
-	 * @return false
-	 */
-	bool CAxis::IsHardLimitExceeded()
+	if (m_bStandbyPosSet)
 	{
-		return (m_DigitalInput == m_DigitalMask - (1 << m_AxisParam.negative_hard_bit)
-				|| m_DigitalInput == m_DigitalMask - (1 << m_AxisParam.positive_hard_bit));
+		m_bStandbyPosSet = false;
 	}
+}
 
-	/**
-	 * @brief Check if the position exceeds the hard or soft limits.
-	 *
-	 * @return true
-	 * @return false
-	 */
-	bool CAxis::IsLimitExceeded()
+void CAxis::ReturnToZeroPoint()
+{
+	Move(0.0, OpMode::CSP, kInterpolated, true);
+}
+
+bool CAxis::IsExceedingLimit()
+{
+	return m_Driver.IsLimitExceeded();
+}
+
+bool CAxis::IsEmergency()
+{
+	return m_Driver.IsEmergencyState();
+}
+
+bool CAxis::IsFault()
+{
+	return m_Driver.IsFaultState();
+}
+
+void CAxis::InterpolationReset(OpMode _mode)
+{
+	if (_mode == OpMode::CSP)
 	{
-		return (IsHardLimitExceeded() || IsSoftLimitExceeded());
+		m_PositionInterpolator.Reset();
+		m_PositionInterpolator.SetTargetState({ m_FdbPos, 0.0, 0.0 });
+		m_CurrentStatePos = { m_FdbPos, m_FdbVel, 0.0 };
 	}
-
-	/**
-	 * @brief Return error code if error happened
-	 * 
-	 * @return SHORT 
-	 */
-	short CAxis::CheckErrorCode()
+	else if (_mode == OpMode::CSV)
 	{
-		return m_ErrorCode;
-	}
-
-	/**
-	 * @brief Return warn code if warning happened
-	 * 
-	 * @return SHORT 
-	 */
-	short CAxis::CheckWarnCode()
-	{
-		return m_WarningCode;
-	}
-
-	bool CAxis::IsDriverReady()
-	{
-		return (GetDriverState() != DriverState::eNotReadyForPowerUp);
-	}
-
-	/**
-	 * @brief Check whether motor is enabled
-	 * 
-	 * @return true 
-	 * @return false 
-	 */
-	bool CAxis::IsEnableState()
-	{
-		return (GetDriverState() == DriverState::eReadyToOperate);
-	}
-
-	/**
-	 * @brief Check and return current state of driver
-	 * Search S-0-0135 Drive status word in https://infosys.beckhoff.com/index_en.htm for details of StatusWord
-	 * @return short 
-	 */
-	DriverState CAxis::GetDriverState()
-	{
-		return static_cast<DriverState>(m_StatusWord & DriverState::eReadyToOperate);
+		m_VelocityInterpolator.Reset();
+		m_VelocityInterpolator.SetTargetVelocity(0.0);
+		m_VelocityInterpolator.SetTargetAcceleration(0.0);
+		m_CurrentStateVel = { 0.0, m_FdbVel, 0.0 }; // set the initial state
 	}
 }

@@ -10,10 +10,10 @@ https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_mc
 *)
 FUNCTION_BLOCK FB_SoEProcess
 VAR
-	fbSoEReset : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF FB_SoEReset_ByDriveRef; //SoE Reset
-	stPlcDriveRef AT %I* : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF ST_PlcDriveRef;
-	stDriveRef : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF ST_DriveRef;
-	bBusyFlag : ARRAY  [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_JOINT_NUM-1] OF BOOL;
+	fbSoEReset : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF FB_SoEReset_ByDriveRef; //SoE Reset
+	stPlcDriveRef AT %I* : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF ST_PlcDriveRef;
+	stDriveRef : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF ST_DriveRef;
+	bBusyFlag : ARRAY  [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -30,7 +30,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[mInitialize := FALSE;
 
 FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO
-	FOR loopJoint := 0 TO GlobalVar.MC_JOINT_NUM - 1 DO
+	FOR loopJoint := 0 TO GlobalVar.MC_DRIVER_NUM_PER_AXIS[loopAxis] - 1 DO
 		stDriveRef[loopAxis,loopJoint].sNetId  := F_CreateAmsNetId(stPlcDriveRef[loopAxis,loopJoint].aNetId); // convert the byte array into a string
 		stDriveRef[loopAxis,loopJoint].nSlaveAddr := stPlcDriveRef[loopAxis,loopJoint].nSlaveAddr;
 		stDriveRef[loopAxis,loopJoint].nDriveNo := stPlcDriveRef[loopAxis,loopJoint].nDriveNo;

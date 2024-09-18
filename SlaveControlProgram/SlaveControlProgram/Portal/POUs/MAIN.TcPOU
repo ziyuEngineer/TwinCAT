@@ -7,7 +7,6 @@ VAR
 	bTaskDone : BOOL := FALSE;
 END_VAR
 
-
 // Command related
 VAR
 	fb_CommandProcess : FB_CommandProcess; // Process data from host and transfer data to Cpp
@@ -25,10 +24,11 @@ END_VAR
 // Initialize and Config load
 VAR
 	bBufferFilled 	 : BOOL := FALSE; // Flag reflects success or failure of initializing ring buffer
-	bMcInfoLoaded 	 : BOOL := FALSE; // Flag reflects success or failure of loading motor info file
 	bPanelInfoLoaded : BOOL := FALSE; // Flag reflects success or failure of loading panel info file
+	bPanelReset		 : BOOL := FALSE; // Flag triggers action which turn off all buttons.
 	bDriveInfoRetrieved : BOOL := FALSE; // Flag reflects success or failure of retrieving drive information
-	fb_MotorInfoLoad : FB_MotorInfoLoad;
+	bHandwheelReset  : BOOL := FALSE;
+	fb_PanelInfoProcess : FB_PanelInfoProcess;
 	fb_SoEProcess : FB_SoEProcess;
 END_VAR
 
@@ -44,12 +44,16 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-mInput();
+      <ST><![CDATA[IF (NOT bInit) THEN
+	bInit := mInitialize();
+ELSE
+	mInput();
 
-mStateControl();
+	mStateControl();
 
-mOutput();
+	mOutput();
+END_IF
+
 
 // Scope Data Record
 fb_ScopeServer(
@@ -74,13 +78,27 @@ VAR
 	loopJoint : INT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO 
-	FOR loopJoint := 0 TO GlobalVar.MC_JOINT_NUM - 1 DO  
-		IF mSystemState.StateFlag[TO_INT(eFault)] THEN
+        <ST><![CDATA[IF NOT bPanelReset THEN
+	bPanelReset := fb_PanelInfoProcess.mFaultReset();
+END_IF
+
+FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO 
+	FOR loopJoint := 0 TO GlobalVar.MC_DRIVER_NUM_PER_AXIS[loopAxis] - 1 DO  
+		IF mSystemState.StateFlag[TO_INT(SystemState.eFault)] THEN
 			fb_SoEProcess.mReset(loopAxis, loopJoint);
 		END_IF
 	END_FOR
 END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mHandwheel" Id="{893b1e71-908c-4167-b5f5-ac66d0ee3542}">
+      <Declaration><![CDATA[METHOD mHandwheel : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bHandwheelReset := FALSE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -90,8 +108,7 @@ END_FOR
       <Implementation>
         <ST><![CDATA[// Wait for the following initialization
 // Step 1. Retrieve drive information
-// Step 2. Current module finish loading MotionControl xml file;
-// Step 3. Current module finish loading Panel xml file;
+// Step 2. Current module finish loading panel processing module;
 mInitialize := FALSE;
 
 // Get time to generate suffix of files saved by scope server
@@ -102,19 +119,13 @@ IF NOT bDriveInfoRetrieved THEN
 	bDriveInfoRetrieved := fb_SoEProcess.mInitialize();
 END_IF
 
-// Step 2 
-IF NOT bMcInfoLoaded THEN
-	fb_MotorInfoLoad();
-	bMcInfoLoaded := fb_MotorInfoLoad.bExecuteSuccess;
-END_IF
-
-// Step 3
+// Step 2
 IF NOT bPanelInfoLoaded THEN
-	bPanelInfoLoaded := TRUE;
+	bPanelInfoLoaded := fb_PanelInfoProcess.mInitialize();
 END_IF
 
 // Finish all initialization steps.
-IF bDriveInfoRetrieved AND bPanelInfoLoaded AND bMcInfoLoaded THEN
+IF bDriveInfoRetrieved AND bPanelInfoLoaded THEN
 	
 	// Start recording data
 	bScopeRun := TRUE;
@@ -132,6 +143,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Receive inputs from Hardware and other modules.
+
+fb_PanelInfoProcess();
 ]]></ST>
       </Implementation>
     </Method>
@@ -182,6 +195,14 @@ END_VAR
 	// Reset flag which is used for the initialization step of Moving state
 	bBufferFilled := fb_CommandProcess.mReset();;
 END_IF
+
+IF NOT bHandwheelReset THEN
+	bHandwheelReset := fb_PanelInfoProcess.mHandwheelReset();;
+END_IF
+
+IF bPanelReset THEN
+	bPanelReset := FALSE;
+END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -197,9 +218,7 @@ END_VAR
 		;
 	
 	SystemState.eInitialization:
-		IF (NOT bInit) THEN
-			bInit := mInitialize();
-		END_IF
+		;
 	
 	SystemState.eDisabled:
 		;
@@ -211,7 +230,7 @@ END_VAR
 		mMoving();
 	
 	SystemState.eHandwheel:
-		;
+		mHandwheel();
 	
 	SystemState.eLimitViolation:
 		;

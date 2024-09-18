@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spindle>
+    <axes> <!-- Spindle -->
+		<axis>
+			<AbsEncoderDir>-1</AbsEncoderDir>
+			<AbsEncoderRes>8388608</AbsEncoderRes> <!-- 2^23-->
+			<RatedCurr>1.85</RatedCurr>
+			<RatedTor>0.8</RatedTor>
+			<TorDir>-1</TorDir>
+			<AbsZeroPos>-10086</AbsZeroPos>
+			<UpperPosLimit>100</UpperPosLimit>
+			<LowerPosLimit>-100</LowerPosLimit>
+			<TransmissionRatio>1.0</TransmissionRatio>
+			<TorPdoMax>100</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>FALSE</AbsEncodertype> <!-- Distinguish encoder type between single-turn and multi-turns -->
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
+			<DriverType>1</DriverType> <!-- Distinguish motor types -->
+			<Exposed>1</Exposed>
+			<MaxVelocity>50</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>5000</MaxAcceleration> <!--r/s^2-->
+			<MaxJerk>300000</MaxJerk> <!--r/s^3-->
+		</axis>
+    </axes>
+</Spindle>

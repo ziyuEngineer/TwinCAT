@@ -33,8 +33,8 @@ typedef struct _MotionCommand
 } MotionCommand, *PMotionCommand;
 #endif // !defined(_TC_TYPE_54E74FBE_0A82_440E_8829_BF368D27C93C_INCLUDED_)
 
-#if !defined(_TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_)
-#define _TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_
+#if !defined(_TC_TYPE_F512F522_E8D1_4D42_8E2E_F11B4CC4AE58_INCLUDED_)
+#define _TC_TYPE_F512F522_E8D1_4D42_8E2E_F11B4CC4AE58_INCLUDED_
 typedef struct _MotionControlInfo
 {
 	SHORT AbsEncDir;
@@ -54,9 +54,11 @@ typedef struct _MotionControlInfo
 	unsigned char reserved3;
 	SHORT PositiveHardBit;
 	SHORT NegativeHardBit;
-	unsigned char reserved4[6];
+	SHORT DriverType;
+	bool Exposed;
+	unsigned char reserved4[3];
 } MotionControlInfo, *PMotionControlInfo;
-#endif // !defined(_TC_TYPE_D2A646CE_CB53_4790_AB47_3CB0C83F74C9_INCLUDED_)
+#endif // !defined(_TC_TYPE_F512F522_E8D1_4D42_8E2E_F11B4CC4AE58_INCLUDED_)
 
 #if !defined(_TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_)
 #define _TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_
@@ -75,8 +77,8 @@ typedef struct _DriverInput
 } DriverInput, *PDriverInput;
 #endif // !defined(_TC_TYPE_BC7271FA_55C3_4AA8_BB20_A421FAF1BB9F_INCLUDED_)
 
-#if !defined(_TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_)
-#define _TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_
+#if !defined(_TC_TYPE_B4A9A927_0308_4BB0_8808_D7AD02AF7FD9_INCLUDED_)
+#define _TC_TYPE_B4A9A927_0308_4BB0_8808_D7AD02AF7FD9_INCLUDED_
 typedef struct _DriverOutput
 {
 	USHORT ControlWord;
@@ -85,8 +87,10 @@ typedef struct _DriverOutput
 	SHORT TargetTorque;
 	unsigned char reserved2[2];
 	LONG TargetVelocity;
+	char OperationMode;
+	unsigned char reserved3[3];
 } DriverOutput, *PDriverOutput;
-#endif // !defined(_TC_TYPE_EC6E6204_239F_476C_8280_1984DD110714_INCLUDED_)
+#endif // !defined(_TC_TYPE_B4A9A927_0308_4BB0_8808_D7AD02AF7FD9_INCLUDED_)
 
 #if !defined(_TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_)
 #define _TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_
@@ -104,28 +108,30 @@ enum SystemState : SHORT {
 };
 #endif // !defined(_TC_TYPE_19F1CFB7_C2CD_4BF7_AA2D_C3C6265BA72D_INCLUDED_)
 
-#if !defined(_TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_)
-#define _TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_
+#if !defined(_TC_TYPE_95413D15_9E1D_4CB4_ACF8_2935AB049785_INCLUDED_)
+#define _TC_TYPE_95413D15_9E1D_4CB4_ACF8_2935AB049785_INCLUDED_
 typedef struct _PanelInfo
 {
 	bool ServoOn;
-	bool AxisEnable[5];
-	unsigned char reserved1[2];
-	double AxisRatio;
+	unsigned char reserved1;
+	SHORT Handwheel_EnabledAxisNum;
+	unsigned char reserved2[4];
+	double Handwheel_Ratio;
 	double Handwheel_dPos[5];
-	bool Estop;
-	unsigned char reserved2[7];
+	SHORT Spindle_Cmd;
+	bool Reset;
+	unsigned char reserved3[5];
 } PanelInfo, *PPanelInfo;
-#endif // !defined(_TC_TYPE_EAB6EE99_3542_4A5E_883F_595E396D7A5C_INCLUDED_)
+#endif // !defined(_TC_TYPE_95413D15_9E1D_4CB4_ACF8_2935AB049785_INCLUDED_)
 
-#if !defined(_TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_)
-#define _TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_
+#if !defined(_TC_TYPE_75816603_8B01_41ED_9F49_1001E13236B1_INCLUDED_)
+#define _TC_TYPE_75816603_8B01_41ED_9F49_1001E13236B1_INCLUDED_
 enum OpMode : SHORT {
-	CSP = 1,
-	CST = 2,
-	CSV = 3
+	CSP = 8,
+	CSV = 9,
+	CST = 10
 };
-#endif // !defined(_TC_TYPE_1565E93C_2F51_40A4_90D6_111DA793C08B_INCLUDED_)
+#endif // !defined(_TC_TYPE_75816603_8B01_41ED_9F49_1001E13236B1_INCLUDED_)
 
 #if !defined(_TC_TYPE_760AEB87_AF7B_4178_B0AF_C2E7472652E4_INCLUDED_)
 #define _TC_TYPE_760AEB87_AF7B_4178_B0AF_C2E7472652E4_INCLUDED_
@@ -152,33 +158,106 @@ enum MasterControlWord : USHORT {
 };
 #endif // !defined(_TC_TYPE_8A0CBD64_A622_4812_96E8_6466F6FAD96D_INCLUDED_)
 
+#if !defined(_TC_TYPE_4CC52115_110B_4A46_936A_8C0B97DF661E_INCLUDED_)
+#define _TC_TYPE_4CC52115_110B_4A46_936A_8C0B97DF661E_INCLUDED_
+enum AxisOrder : SHORT {
+	Axis_X = 1,
+	Axis_Y = 2,
+	Axis_Z = 3,
+	Axis_A = 4,
+	Axis_C = 5
+};
+#endif // !defined(_TC_TYPE_4CC52115_110B_4A46_936A_8C0B97DF661E_INCLUDED_)
+
+#if !defined(_TC_TYPE_5DD60AB0_71F1_498E_8938_F34CED0A4C68_INCLUDED_)
+#define _TC_TYPE_5DD60AB0_71F1_498E_8938_F34CED0A4C68_INCLUDED_
+typedef struct _AxisInformation
+{
+	double CurrentPos;
+	double CurrentVel;
+	SHORT CurrentTor;
+	OpMode CurrentMode;
+	unsigned char reserved1[4];
+	double CommandPos;
+	double CommandVel;
+	SHORT CommandTor;
+	unsigned char reserved2[6];
+} AxisInformation, *PAxisInformation;
+#endif // !defined(_TC_TYPE_5DD60AB0_71F1_498E_8938_F34CED0A4C68_INCLUDED_)
+
+#if !defined(_TC_TYPE_8A554618_FB22_4EDD_9FCF_D053B7A70EC0_INCLUDED_)
+#define _TC_TYPE_8A554618_FB22_4EDD_9FCF_D053B7A70EC0_INCLUDED_
+typedef struct _InterpolationParameter
+{
+	double MaxVelocity;
+	double MaxAcceleration;
+	double MaxJerk;
+	double CycleTime;
+	double Tolerance;
+} InterpolationParameter, *PInterpolationParameter;
+#endif // !defined(_TC_TYPE_8A554618_FB22_4EDD_9FCF_D053B7A70EC0_INCLUDED_)
+
+#if !defined(_TC_TYPE_4B5AC5BB_8B06_4426_BEF8_58D5594E8029_INCLUDED_)
+#define _TC_TYPE_4B5AC5BB_8B06_4426_BEF8_58D5594E8029_INCLUDED_
+enum ControlWord_General : SHORT {
+	eDisableVoltage = 0,
+	eQuickStop = 2,
+	eShutdown = 6,
+	eDisableOperation = 7,
+	eSwitchOn = 7,
+	eEnableOperation = 15,
+	eFaultReset = 128
+};
+#endif // !defined(_TC_TYPE_4B5AC5BB_8B06_4426_BEF8_58D5594E8029_INCLUDED_)
+
+#if !defined(_TC_TYPE_AAD5C3CD_D2D5_46FE_BD9C_DC9AF7934969_INCLUDED_)
+#define _TC_TYPE_AAD5C3CD_D2D5_46FE_BD9C_DC9AF7934969_INCLUDED_
+enum DriverState_General : SHORT {
+	eNotReadyToSwitchOn = 0,
+	eSwitchOnDisabled = 64,
+	eReadyToSwitchOn = 33,
+	eSwitchedOn = 35,
+	eOperationEnabled = 39,
+	eQuickStopActive = 7,
+	eFaultReactionActive = 15,
+	eDriverFault = 8,
+	eQuickStopBit = 32
+};
+#endif // !defined(_TC_TYPE_AAD5C3CD_D2D5_46FE_BD9C_DC9AF7934969_INCLUDED_)
+
 typedef struct _MotionControlParameter
 {
-	ULONG data1;
-	ULONG data2;
-	double data3;
+	MotionControlInfo DriverParameter[10];
+	MotionControlInfo SpindleDriverParam;
+	InterpolationParameter AxisGroupInterpolationParam[10];
+	InterpolationParameter SpindleInterpolationParam;
 } MotionControlParameter, *PMotionControlParameter;
 
 typedef struct _MotionControlInputs
 {
 	MotionCommand CommandData;
-	MotionControlInfo MotionCtrlParam[4][1];
-	DriverInput DriverInputs[4][1];
+	DriverInput AxisInputs[10];
 	PanelInfo PanelInformation;
 	bool mockButton[10];
 	unsigned char reserved1[6];
 	double TestInputs[20];
+	DriverInput SpindleInput;
 } MotionControlInputs, *PMotionControlInputs;
 
 typedef struct _MotionControlOutputs
 {
-	DriverOutput DriverOutputs[4][1];
-	double AxisInfoOutputs[20];
+	DriverOutput AxisOutputs[10];
 	struct {
 		SystemState CurrentState;
 		bool StateFlag[10];
 	} StateMachine;
 	unsigned char reserved1[4];
+	struct {
+		AxisInformation AxisStatus[6];
+		double GantryDeviation;
+	} AxisInfo;
+	DriverOutput SpindleOutput;
+	unsigned char reserved2[4];
 } MotionControlOutputs, *PMotionControlOutputs;
 
 ///</AutoGeneratedContent>

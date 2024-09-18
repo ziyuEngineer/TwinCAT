@@ -95,6 +95,15 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
+			<Name GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..5] OF USINT</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
 			<BitSize>48</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
@@ -151,16 +160,16 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{20D299C9-2875-734A-8E5C-3DB045CCF142}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef</Name>
-			<BitSize>320</BitSize>
+			<Name GUID="{B2DE7DAD-C980-41EC-8760-D7DB4324C2C2}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..4,0..1] OF Tc2_EtherCAT.ST_PlcDriveRef</Name>
+			<BitSize>800</BitSize>
 			<BaseType GUID="{AF33319A-EDFA-B2D2-9FB8-D62638409ADE}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</BaseType>
 			<ArrayInfo>
 				<LBound>0</LBound>
-				<Elements>4</Elements>
+				<Elements>5</Elements>
 			</ArrayInfo>
 			<ArrayInfo>
 				<LBound>0</LBound>
-				<Elements>1</Elements>
+				<Elements>2</Elements>
 			</ArrayInfo>
 		</DataType>
 		<DataType>
@@ -235,7 +244,79 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</Name>
+			<Name GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</Name>
+			<BitSize>512</BitSize>
+			<SubItem>
+				<Name>ServoOn</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_EnabledAxisNum</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_dPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Cmd</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Reset</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>464</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
+				<Hide GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}"/>
+				<Hide GUID="{21F594ED-79F9-4224-B411-FA634796D40B}"/>
+				<Hide GUID="{04B926C3-7D88-4A7F-BC8F-FDE858BA32A8}"/>
+				<Hide GUID="{EEDEAD04-D7B3-4DEC-B075-AF0D60B911BC}"/>
+				<Hide GUID="{6655CC85-0535-4A1E-AD8C-A024EFFAB728}"/>
+				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
+				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..9] OF BOOL</Name>
+			<BitSize>80</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>10</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..19] OF LREAL</Name>
+			<BitSize>1280</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>20</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Name>
 			<BitSize>512</BitSize>
 			<SubItem>
 				<Name>AbsEncDir</Name>
@@ -329,6 +410,18 @@
 				<BitSize>16</BitSize>
 				<BitOffs>448</BitOffs>
 			</SubItem>
+			<SubItem>
+				<Name>DriverType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>464</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Exposed</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>480</BitOffs>
+			</SubItem>
 			<Hides>
 				<Hide GUID="{7277DCA6-B413-41D3-A0A3-18C7FB71DA27}"/>
 				<Hide GUID="{A7D30AA7-DE0F-4D81-B94C-5AE394390349}"/>
@@ -342,38 +435,50 @@
 				<Hide GUID="{4584F69F-7729-4006-AD12-2D16674A2DB4}"/>
 				<Hide GUID="{C2E784BB-1A77-4CBA-8FEC-0D0FDB94F2D8}"/>
 				<Hide GUID="{FF5DF032-DD94-452B-A05B-6AF7B3E87B09}"/>
+				<Hide GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}"/>
+				<Hide GUID="{53C390C3-5E50-4BE8-B750-55DB3104EA46}"/>
+				<Hide GUID="{2FB4C30B-56B1-4C1B-BEBC-F12DB744C10D}"/>
+				<Hide GUID="{735C7F0E-E310-4F28-89B6-A4AF9A5158AE}"/>
+				<Hide GUID="{B437FD1A-14B6-47F9-B277-72F55DF6234F}"/>
+				<Hide GUID="{A3E4C313-6B77-4C9C-8695-27705B851033}"/>
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{2924A10B-C909-47DC-3D4C-1F654CD01241}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..3,0..0] OF MotionControlInfo</Name>
-			<BitSize>2048</BitSize>
-			<BaseType GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>4</Elements>
-			</ArrayInfo>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>1</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..9] OF BOOL</Name>
-			<BitSize>80</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>10</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..19] OF LREAL</Name>
-			<BitSize>1280</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>20</Elements>
-			</ArrayInfo>
+			<Name GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Name>
+			<BitSize>320</BitSize>
+			<SubItem>
+				<Name>MaxVelocity</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxAcceleration</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxJerk</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CycleTime</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tolerance</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{227FE46A-F57F-49CD-8CC3-37166CB3FB2D}"/>
+			</Hides>
 		</DataType>
 		<DataType>
 			<Name GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</Name>
@@ -426,53 +531,8 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}">PanelInfo</Name>
-			<BitSize>512</BitSize>
-			<SubItem>
-				<Name>ServoOn</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>AxisEnable</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>40</BitSize>
-				<BitOffs>8</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>AxisRatio</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Handwheel_dPos</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Estop</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>448</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{EC6E6204-239F-476C-8280-1984DD110714}">DriverOutput</Name>
-			<BitSize>128</BitSize>
+			<Name GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</Name>
+			<BitSize>160</BitSize>
 			<SubItem>
 				<Name>ControlWord</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
@@ -497,16 +557,93 @@
 				<BitSize>32</BitSize>
 				<BitOffs>96</BitOffs>
 			</SubItem>
+			<SubItem>
+				<Name>OperationMode</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
 			<Hides>
 				<Hide GUID="{701C4C47-148F-4C36-A38D-AAF6DFACF7E3}"/>
+				<Hide GUID="{EC6E6204-239F-476C-8280-1984DD110714}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true" AutoDeleteType="true">OpMode</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[CSP]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CSV]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CST]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}">AxisInformation</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>CurrentPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentTor</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentMode</Name>
+				<Type GUID="{75816603-8B01-41ED-9F49-1001E13236B1}">OpMode</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>144</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandTor</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{E6FC791C-BC72-4A0E-A780-8035A43E030E}"/>
+				<Hide GUID="{89C501C9-E712-4F41-A99C-ADBA4943DB6D}"/>
+				<Hide GUID="{467AD5B8-7168-4B73-971D-AB0FE4CC3F9D}"/>
+				<Hide GUID="{2BCEDEC1-7056-4DC5-8A0C-80C1031418DB}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
 	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
 		<System>
-			<Settings MaxCpus="8">
-				<Cpu BaseTime="500"/>
-				<IoIdleTask Priority="8"/>
+			<Settings MaxCpus="8" NonWinCpus="7">
+				<Cpu RtLimit="90" BaseTime="500"/>
+				<Cpu CpuId="1" BaseTime="500"/>
+				<IoIdleTask Priority="8" Affinity="#x00000001"/>
 			</Settings>
 			<Licenses>
 				<Target>
@@ -514,17 +651,17 @@
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="3" Priority="4" CycleTime="10000" AmsPort="350" AdtTasks="true">
+				<Task Id="3" Priority="4" CycleTime="10000" AmsPort="350" Affinity="#x00000002" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="10000" AmsPort="352" AdtTasks="true">
+				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="10000" AmsPort="352" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
 					<Name>MotionControl</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{13737AC2-5553-6F64-5861-FD22544F5431}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{7FE4D865-90AE-AF7C-46F5-1215B3AEA2B2}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -540,8 +677,17 @@
 							<Type>UDINT</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.fb_PanelInfoProcess.pInput</Name>
+							<Comment><![CDATA[ Connect to panel input channel 1 2 3 4 5 7 ]]></Comment>
+							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_PanelInfoProcess.handwheelCurrPos</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fb_SoEProcess.stPlcDriveRef</Name>
-							<Type GUID="{20D299C9-2875-734A-8E5C-3DB045CCF142}">ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef</Type>
+							<Type GUID="{B2DE7DAD-C980-41EC-8760-D7DB4324C2C2}">ARRAY [0..4,0..1] OF Tc2_EtherCAT.ST_PlcDriveRef</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.mSystemState</Name>
@@ -561,9 +707,14 @@
 							<Type>UDINT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_MotorInfoLoad.McInfo</Name>
-							<Comment><![CDATA[ Dimensions should be  the same as those defined in tmc file]]></Comment>
-							<Type GUID="{2924A10B-C909-47DC-3D4C-1F654CD01241}">ARRAY [0..3,0..0] OF MotionControlInfo</Type>
+							<Name>MAIN.fb_PanelInfoProcess.pOutput</Name>
+							<Comment><![CDATA[ Connect to panel output channel 1 2 3 4 5 7]]></Comment>
+							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fb_PanelInfoProcess.panelInfoOutput</Name>
+							<Comment><![CDATA[ Necessary information sent to Cpp module]]></Comment>
+							<Type GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.mockButtons</Name>
@@ -613,6 +764,7 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
+			<PlcAuxTask Affinity="#x00000001"/>
 		</Plc>
 		<Cpp>
 			<Project GUID="{401017D6-F85A-446C-98FC-358A6FF94D8A}" Name="MotionControl" PrjFilePath="MotionControl\MotionControl.vcxproj" TmcFilePath="MotionControl\MotionControl.tmc">
@@ -660,37 +812,59 @@
 								<PTCID>#x03002103</PTCID>
 								<ContextId>1</ContextId>
 							</Parameter>
-							<Parameter>
+							<Parameter ShowSubItems="true" CreateSymbol="true">
 								<Name>Parameter</Name>
-								<BitSize>128</BitSize>
+								<BitSize>9152</BitSize>
 								<SubItem>
-									<Name>data1</Name>
-									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-									<BitSize>32</BitSize>
+									<Name>DriverParameter</Name>
+									<Type GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>5120</BitSize>
 									<BitOffs>0</BitOffs>
 								</SubItem>
 								<SubItem>
-									<Name>data2</Name>
-									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-									<BitSize>32</BitSize>
-									<BitOffs>32</BitOffs>
+									<Name>SpindleDriverParam</Name>
+									<Type GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Type>
+									<BitSize>512</BitSize>
+									<BitOffs>5120</BitOffs>
 								</SubItem>
 								<SubItem>
-									<Name>data3</Name>
-									<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-									<BitSize>64</BitSize>
-									<BitOffs>64</BitOffs>
+									<Name>AxisGroupInterpolationParam</Name>
+									<Type GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>3200</BitSize>
+									<BitOffs>5632</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>SpindleInterpolationParam</Name>
+									<Type GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Type>
+									<BitSize>320</BitSize>
+									<BitOffs>8832</BitOffs>
 								</SubItem>
 								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>CycleTime</Name>
+								<Comment TxtId=""><![CDATA[Cycle time of task]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03002080</PTCID>
 								<ContextId>1</ContextId>
 							</Parameter>
 						</Parameters>
 						<DataAreas>
 							<DataArea>
-								<AreaNo AreaType="InputDst" CreateSymbols="true" CreateSymbolAreaType="true" CreateDataType="DAT_MotionControl_Inputs">0</AreaNo>
+								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>848</ByteSize>
+								<ByteSize>760</ByteSize>
 								<Symbol>
 									<Name>CommandData</Name>
 									<BitSize>2048</BitSize>
@@ -698,38 +872,20 @@
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>MotionCtrlParam</Name>
-									<BitSize>2048</BitSize>
-									<BaseType GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}">MotionControlInfo</BaseType>
+									<Name>AxisInputs</Name>
+									<BitSize>1920</BitSize>
+									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
 									<ArrayInfo>
 										<LBound>0</LBound>
-										<Elements>4</Elements>
-									</ArrayInfo>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>1</Elements>
+										<Elements>10</Elements>
 									</ArrayInfo>
 									<BitOffs>2048</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>DriverInputs</Name>
-									<BitSize>768</BitSize>
-									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>4</Elements>
-									</ArrayInfo>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>1</Elements>
-									</ArrayInfo>
-									<BitOffs>4096</BitOffs>
-								</Symbol>
-								<Symbol>
 									<Name>PanelInformation</Name>
 									<BitSize>512</BitSize>
-									<BaseType GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}">PanelInfo</BaseType>
-									<BitOffs>4864</BitOffs>
+									<BaseType GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</BaseType>
+									<BitOffs>3968</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>mockButton</Name>
@@ -739,7 +895,7 @@
 										<LBound>0</LBound>
 										<Elements>10</Elements>
 									</ArrayInfo>
-									<BitOffs>5376</BitOffs>
+									<BitOffs>4480</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>TestInputs</Name>
@@ -749,37 +905,29 @@
 										<LBound>0</LBound>
 										<Elements>20</Elements>
 									</ArrayInfo>
-									<BitOffs>5504</BitOffs>
+									<BitOffs>4608</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>SpindleInput</Name>
+									<BitSize>192</BitSize>
+									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
+									<BitOffs>5888</BitOffs>
 								</Symbol>
 							</DataArea>
 							<DataArea>
-								<AreaNo AreaType="OutputSrc" CreateSymbols="true" CreateSymbolAreaType="true" CreateDataType="DAT_MotionControl_Outputs">1</AreaNo>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>240</ByteSize>
+								<ByteSize>536</ByteSize>
 								<Symbol>
-									<Name>DriverOutputs</Name>
-									<BitSize>512</BitSize>
-									<BaseType GUID="{EC6E6204-239F-476C-8280-1984DD110714}">DriverOutput</BaseType>
+									<Name>AxisOutputs</Name>
+									<BitSize>1600</BitSize>
+									<BaseType GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</BaseType>
 									<ArrayInfo>
 										<LBound>0</LBound>
-										<Elements>4</Elements>
-									</ArrayInfo>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>1</Elements>
+										<Elements>10</Elements>
 									</ArrayInfo>
 									<BitOffs>0</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>AxisInfoOutputs</Name>
-									<BitSize>1280</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>20</Elements>
-									</ArrayInfo>
-									<BitOffs>512</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>StateMachine</Name>
@@ -800,7 +948,34 @@
 										<BitSize>80</BitSize>
 										<BitOffs>16</BitOffs>
 									</SubItem>
-									<BitOffs>1792</BitOffs>
+									<BitOffs>1600</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>AxisInfo</Name>
+									<BitSize>2368</BitSize>
+									<SubItem>
+										<Name>AxisStatus</Name>
+										<Type GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}">AxisInformation</Type>
+										<ArrayInfo>
+											<LBound>0</LBound>
+											<Elements>6</Elements>
+										</ArrayInfo>
+										<BitSize>2304</BitSize>
+										<BitOffs>0</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>GantryDeviation</Name>
+										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+										<BitSize>64</BitSize>
+										<BitOffs>2304</BitOffs>
+									</SubItem>
+									<BitOffs>1728</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>SpindleOutput</Name>
+									<BitSize>160</BitSize>
+									<BaseType GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</BaseType>
+									<BitOffs>4096</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -835,16 +1010,932 @@
 								<EnumText>tlAlways</EnumText>
 							</Value>
 							<Value>
-								<Name>Parameter.data1</Name>
+								<Name>Parameter.DriverParameter[0].AbsEncDir</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Parameter.data2</Name>
+								<Name>Parameter.DriverParameter[0].AbsEncRes</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Parameter.data3</Name>
+								<Name>Parameter.DriverParameter[0].RatedCurrent</Name>
 								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[0].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[1].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[2].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[3].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[4].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[5].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[6].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[7].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[8].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.DriverParameter[9].Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[0].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[0].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[0].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[0].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[0].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[1].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[1].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[1].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[1].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[1].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[2].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[2].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[2].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[2].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[2].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[3].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[3].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[3].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[3].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[3].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[4].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[4].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[4].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[4].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[4].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[5].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[5].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[5].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[5].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[5].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[6].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[6].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[6].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[6].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[6].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[7].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[7].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[7].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[7].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[7].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[8].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[8].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[8].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[8].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[8].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[9].MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[9].MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[9].MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[9].CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisGroupInterpolationParam[9].Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>CycleTime</Name>
+								<Value>1000000</Value>
 							</Value>
 						</ParameterValues>
 						<InterfacePointerValues>
@@ -856,28 +1947,54 @@
 					</TmcDesc>
 				</Instance>
 			</Project>
+			<Project File="tinyxml2.xti"/>
+			<Project File="ruckig.xti"/>
 		</Cpp>
 		<Io>
 			<Device File="Device 3 (EtherCAT).xti" Id="3"/>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2002-0850-0020-500831000403}" Id="#x02030030"/>
-		<MappingInfo Identifier="{00000000-0020-0304-2000-010120000403}" Id="#x02030020"/>
-		<MappingInfo Identifier="{08502002-0050-0201-0020-500820000101}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0020-500820000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-2002-0850-0020-500832000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-0010-0304-2000-010111000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{08502002-0050-0201-0020-500820000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^Portal^Portal Instance">
-			<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
+			<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 3 (iA-MPA64B0 2xMII)">
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[3]" VarB="PANEL_Outputs^PIO_OUT4"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[4]" VarB="PANEL_Outputs^PIO_OUT5"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[5]" VarB="PANEL_Outputs^PIO_OUT7"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 3 (EtherCAT)^Gantry">
 				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" VarB="InfoData^Chn1"/>
 				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
 				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
 				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nDriveNo" VarB="InfoData^Chn1"/>
 				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
 				<Link VarA="PlcTask Inputs^MAIN.mSystemState" VarB="Outputs^StateMachine"/>
 				<Link VarA="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputData" VarB="Inputs^CommandData"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_MotorInfoLoad.McInfo" VarB="Inputs^MotionCtrlParam"/>
+				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.panelInfoOutput" VarB="Inputs^PanelInformation"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

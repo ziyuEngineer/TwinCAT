@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AxisGroup>
+    <axes> <!-- Gantry -->
+		<axis><!-- XA轴参数 -->
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>-24991640</AbsZeroPos>
+			<UpperPosLimit>968360</UpperPosLimit>
+			<LowerPosLimit>-27421640</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype> <!-- Distinguish encoder type between single-turn and multi-turns -->
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
+			<DriverType>0</DriverType> <!-- Distinguish motor types -->
+			<Exposed>1</Exposed>
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+		</axis>
+		<axis><!-- XB轴参数 -->
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>524222090</AbsZeroPos>
+			<UpperPosLimit>550182090</UpperPosLimit>
+			<LowerPosLimit>521792090</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype>
+			<PositiveHardBit>1</PositiveHardBit>
+			<NegativeHardBit>0</NegativeHardBit>
+			<DriverType>0</DriverType>
+			<Exposed>1</Exposed>
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+		</axis>
+    </axes>
+    <axes> <!-- Y轴参数 -->
+        <axis>
+			<AbsEncoderDir>-1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>-1</TorDir>
+			<AbsZeroPos>34259914</AbsZeroPos>
+			<UpperPosLimit>-37939000</UpperPosLimit>
+			<LowerPosLimit>34259914</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype>
+			<PositiveHardBit>0</PositiveHardBit>
+			<NegativeHardBit>1</NegativeHardBit>
+			<DriverType>0</DriverType>
+			<Exposed>1</Exposed>
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+		</axis>
+    </axes>
+    <axes> <!-- Z轴参数 -->
+		<axis>
+			<AbsEncoderDir>-1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>-1</TorDir>
+			<AbsZeroPos>-21277700</AbsZeroPos>
+			<UpperPosLimit>-21277700</UpperPosLimit>
+			<LowerPosLimit>33128000</LowerPosLimit>
+			<TransmissionRatio>10.0</TransmissionRatio>
+			<TorPdoMax>150</TorPdoMax>
+			<AdditiveTor>-10</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype>
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
+			<DriverType>0</DriverType>
+			<Exposed>1</Exposed>
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+		</axis>
+	</axes>
+    <axes> <!-- A轴参数 -->
+		<axis>
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<TransmissionRatio>1.0</TransmissionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype>
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
+			<DriverType>0</DriverType>
+			<Exposed>0</Exposed>
+			<MaxVelocity>30</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
+			<MaxJerk>3000</MaxJerk> <!--r/s^3-->
+		</axis>
+	</axes>
+	<axes> <!-- C轴参数 -->
+		<axis> 
+			<AbsEncoderDir>1</AbsEncoderDir>
+			<AbsEncoderRes>10000</AbsEncoderRes>
+			<RatedCurr>0.85</RatedCurr>
+			<RatedTor>0.5</RatedTor>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>100</AbsZeroPos>
+			<UpperPosLimit>1000000000</UpperPosLimit>
+			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<TransmissionRatio>1.0</TransmissionRatio>
+			<TorPdoMax>50</TorPdoMax>
+			<AdditiveTor>0</AdditiveTor>
+			<AbsEncodertype>0</AbsEncodertype>
+			<PositiveHardBit>2</PositiveHardBit>
+			<NegativeHardBit>3</NegativeHardBit>
+			<DriverType>0</DriverType>
+			<Exposed>0</Exposed>
+			<MaxVelocity>30</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
+			<MaxJerk>3000</MaxJerk> <!--r/s^3-->
+		</axis>
+	</axes>
+</AxisGroup>
