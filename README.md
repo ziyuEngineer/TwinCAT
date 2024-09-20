@@ -2,9 +2,8 @@
 
 ## Prerequisite
 
-1. Install [Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=Professional&rel=16)；
-2. Install [TwinCAT3 XAE](https://tr.beckhoff.com.cn/mod/page/view.php?id=2287&inpopup=1)；下载并安装`TC31-FULL-Setup.3.1.4024.56.exe`
-3. 为了方便后续的version control，请按照[version_control_guide](./SlaveControlProgram/Docs/version_control_guide.md)中的`Prerequisite`完成设置；
+1. 安装Visual Studio 2019和TwinCAT3，参考[安装配置教程](docs/install.md)。
+2. 为了方便后续的version control，请按照[version_control_guide](./SlaveControlProgram/Docs/version_control_guide.md)中的`Prerequisite`完成设置；
 
 ## Brief
 
