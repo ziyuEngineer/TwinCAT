@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_PanelInfoProcess" Id="{94b91a42-7c7a-4941-b6c4-498edfecb838}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_PanelInfoProcess
-
+  <POU Name="RPC_PanelProcess" Id="{7023737c-9355-4fda-81da-0dd36a23595c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK RPC_PanelProcess EXTENDS TcBaseModuleRegistered IMPLEMENTS IPanelProcess
 VAR
 	pInput AT%I* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel input channel 1 2 3 4 5 7 
 	pOutput AT%Q* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel output channel 1 2 3 4 5 7
@@ -24,13 +24,28 @@ VAR
 	handwheelTotalPos : ARRAY[0..MC_AXIS_NUM - 1] OF LREAL := [0.0]; // X Y Z A C
 	
 	panelInfoOutput AT%Q* : PanelInfo; // Necessary information sent to Cpp module
-END_VAR]]></Declaration>
-    <Implementation>
-      <ST><![CDATA[mInput();
+END_VAR
 
-mOutput();]]></ST>
+// Special button handle
+VAR
+	iResetCount :INT := 0;
+	bSpindleStopSet       : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="mAssignSpecifcButtonCoordinate" Id="{1feef824-8c65-4436-9a3b-0764b1081928}">
+    <Method Name="FB_reinit" Id="{9369717a-2fcb-41c1-861e-a195f6dc4ea8}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.FB_reinit();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mAssignSpecifcButtonCoordinate" Id="{c619d7a2-fe17-4c6a-91b9-de768462a63d}">
       <Declaration><![CDATA[METHOD mAssignSpecifcButtonCoordinate : BOOL
 VAR_INPUT
 END_VAR
@@ -65,6 +80,9 @@ Spindle_CCW.column := 4;
 
 Spindle_Stop.row := 2;
 Spindle_Stop.column	:= 3;
+
+Spindle_Direct.row := 4;
+Spindle_Direct.column := 0;
 	
 Tenth_Ratio.row := 4;  
 Tenth_Ratio.column := 1;  
@@ -77,6 +95,12 @@ Thousandth_Ratio.column := 3;
 
 Reset_Button.row := 5;
 Reset_Button.column := 0;
+
+Execute_Button.row := 5;
+Execute_Button.column := 1;
+
+Cyclical_Run.row := 5;
+Cyclical_Run.column := 2;
 
 mGenerateMutexPair(X_Axis, Y_Axis);
 mGenerateMutexPair(X_Axis, Z_Axis);
@@ -103,13 +127,21 @@ mGenerateMutexPair(Spindle_CCW, Spindle_Stop);
 
 mGenerateMutexPair(Tenth_Ratio, Hundredth_Ratio);
 mGenerateMutexPair(Tenth_Ratio, Thousandth_Ratio);
-mGenerateMutexPair(Hundredth_Ratio, Thousandth_Ratio);]]></ST>
+mGenerateMutexPair(Hundredth_Ratio, Thousandth_Ratio);
+
+mGenerateMutexPair(Reset_Button, Execute_Button);
+mGenerateMutexPair(Reset_Button, Cyclical_Run);
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mFaultReset" Id="{5845ad2c-25cb-49e5-bfc6-5edbece7f325}">
-      <Declaration><![CDATA[METHOD mFaultReset : BOOL
-VAR_INPUT
-END_VAR
+    <Method Name="mFaultReset" Id="{e4519df6-62e1-4f29-ab8a-cae8656664ba}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+
+METHOD mFaultReset : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// When system state falls into Fault, turn off all buttons for safety
@@ -119,10 +151,11 @@ MEMSET(ADR(lastInput), 0, SIZEOF(lastInput));
 MEMSET(ADR(pInput), 0, SIZEOF(pInput));
 MEMSET(ADR(pOutput), 0, SIZEOF(pOutput));
 
-mFaultReset := TRUE;]]></ST>
+mFaultReset := S_OK;
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGenerateMutexPair" Id="{c0ae2421-844b-4cf8-9772-f5e8f3186700}">
+    <Method Name="mGenerateMutexPair" Id="{7c424310-6da1-448a-8409-926b8a658f92}">
       <Declaration><![CDATA[METHOD mGenerateMutexPair : BOOL
 VAR_INPUT
 	button1 : PanelButton;
@@ -137,7 +170,26 @@ mutexPairNum := mutexPairNum + 1;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGetHandwheelEnabledAxis" Id="{64b49b99-2caa-46a2-aad1-a09f7cd003a2}">
+    <Method Name="mGetButtonStatus" Id="{0a304c07-3e31-42e3-917c-868f0b1e321c}">
+      <Declaration><![CDATA[METHOD mGetButtonStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mGetServoButtonStatus();
+
+mGetHandWheelRatio();
+
+mGetHandwheelEnabledAxis();
+
+mGetSpindleButtonStatus();
+
+mGetResetButtonStatus();
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetHandwheelEnabledAxis" Id="{39dc7124-cdf4-44e7-b698-df2fee352ffb}">
       <Declaration><![CDATA[METHOD mGetHandwheelEnabledAxis : BOOL
 VAR_INPUT
 END_VAR
@@ -171,7 +223,7 @@ END_IF
 handwheelLastPos := handwheelCurrPos;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGetHandwheelRatio" Id="{565d3401-b66d-4aeb-8584-ae96015ad906}">
+    <Method Name="mGetHandwheelRatio" Id="{6980860b-de1f-462c-aa8b-6b23b6242898}">
       <Declaration><![CDATA[METHOD mGetHandwheelRatio : BOOL
 VAR_INPUT
 END_VAR
@@ -193,7 +245,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGetResetButtonStatus" Id="{60da58f1-c5d7-4e58-8e41-26b279e50216}">
+    <Method Name="mGetResetButtonStatus" Id="{5e3d4bca-fafe-403b-a8cd-d1ed16a20874}">
       <Declaration><![CDATA[METHOD mGetResetButtonStatus : BOOL
 VAR_INPUT
 END_VAR
@@ -209,7 +261,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGetServoButtonStatus" Id="{be3b7f56-4379-4d2b-b6b0-7fe10d2c10ad}">
+    <Method Name="mGetServoButtonStatus" Id="{f2e5d312-112a-412d-a72f-8cc5c918974c}">
       <Declaration><![CDATA[METHOD mGetServoButtonStatus : BOOL
 VAR_INPUT
 END_VAR
@@ -225,7 +277,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mGetSpindleButtonStatus" Id="{bd14beaf-9640-4131-94e7-b96e72b6de5d}">
+    <Method Name="mGetSpindleButtonStatus" Id="{c473a336-0237-4c66-88e5-98fa19213db6}">
       <Declaration><![CDATA[METHOD mGetSpindleButtonStatus : BOOL
 VAR_INPUT
 END_VAR
@@ -246,7 +298,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mHandwheelProcess" Id="{4ad2bd03-1187-4ae9-aa27-81fb063ee394}">
+    <Method Name="mHandwheelProcess" Id="{89dbf797-4e07-467a-8919-a78a12e6555e}">
       <Declaration><![CDATA[METHOD mHandwheelProcess : BOOL
 VAR_INPUT
 	index   : INT;
@@ -271,13 +323,17 @@ panelInfoOutput.Handwheel_dPos[index] := handwheelTotalPos[index];
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mHandwheelReset" Id="{0f4017f3-eac0-4d25-abb0-385882c17183}">
-      <Declaration><![CDATA[METHOD mHandwheelReset : BOOL
-VAR_INPUT
-END_VAR
+    <Method Name="mHandwheelReset" Id="{5e9aa5a1-207b-4418-9478-944e4853d057}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+
+METHOD mHandwheelReset : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mHandwheelReset := FALSE;
+        <ST><![CDATA[mHandwheelReset := S_FALSE;
 
 handwheelLastPos := handwheelCurrPos;
 
@@ -285,26 +341,37 @@ MEMSET(ADR(handwheelTotalPos),0, SIZEOF(handwheelTotalPos));
 	
 MEMSET(ADR(panelInfoOutput.Handwheel_dPos),0,SIZEOF(PanelInfo.Handwheel_dPos));
 
-mHandwheelReset := TRUE;
+mHandwheelReset := S_OK;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mInitialize" Id="{e7f12931-efc0-448a-a8eb-96cafc689eac}">
-      <Declaration><![CDATA[METHOD mInitialize : BOOL
-VAR_INPUT
-END_VAR
+    <Method Name="mInitialize" Id="{5c5134ea-d2af-4a24-aa12-e8c20f7abd8e}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+
+METHOD mInitialize : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mAssignSpecifcButtonCoordinate();
 
 handwheelLastPos := handwheelCurrPos;
 
-mInitialize := TRUE;
+mInitialize := S_OK;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mInput" Id="{adbdfae4-bb3c-40d9-bea9-c43ebd3cf7c6}">
-      <Declaration><![CDATA[METHOD mInput : BOOL
+    <Method Name="mInput" Id="{e6ac1574-1af2-4628-a415-16a7b4580ad8}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+
+METHOD mInput : HRESULT
+
 VAR
 	iLoop : INT := 0;
 	jLoop : INT := 0;
@@ -314,10 +381,11 @@ END_VAR]]></Declaration>
 	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
 		buttonStatus[iLoop, jLoop] := mParsePanelInput(pInput[iLoop], jLoop);
 	END_FOR
-END_FOR]]></ST>
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mMutexCheck" Id="{9635a224-d223-4574-bba7-da8b91115418}">
+    <Method Name="mMutexCheck" Id="{fc71a66f-f141-40ed-afae-07fa135ef6c2}">
       <Declaration><![CDATA[METHOD mMutexCheck : BOOL
 VAR_IN_OUT
 	currentInput 	: ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
@@ -335,7 +403,7 @@ END_FOR
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mMutexCheckSub" Id="{810ff080-a820-405b-bb5a-950250157665}">
+    <Method Name="mMutexCheckSub" Id="{f1310209-cc44-4b32-9739-b5e67d048d41}">
       <Declaration><![CDATA[METHOD mMutexCheckSub : BOOL
 VAR_IN_OUT
 	current : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM - 1,0..GlobalVar.CHANNEL_BUTTON_NUM - 1] OF BOOL;
@@ -359,10 +427,14 @@ IF current[button2.row,button2.column] AND last[button1.row,button1.column] THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mOutput" Id="{16455b68-786c-4b08-9d2a-15a1d7639f10}">
-      <Declaration><![CDATA[METHOD mOutput : BOOL
-VAR_INPUT
-END_VAR
+    <Method Name="mOutput" Id="{3bd07e0f-fa6c-4710-a23f-018e0c9d955e}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+
+METHOD mOutput : HRESULT
 
 VAR
 	iLoop : INT := 0;
@@ -370,7 +442,9 @@ VAR
 	temp  :INT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mMutexCheck(buttonStatus, effectiveButtonStatus, valChanged);
+        <ST><![CDATA[mSpecialButtonHandle();
+
+mMutexCheck(buttonStatus, effectiveButtonStatus, valChanged);
 
 FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
@@ -391,40 +465,92 @@ FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 	valChanged[iLoop] := FALSE;
 END_FOR
 
-mGetServoButtonStatus();
-
-mGetHandWheelRatio();
-
-mGetHandwheelEnabledAxis();
-
-mGetSpindleButtonStatus();
-
-mGetResetButtonStatus();]]></ST>
+mGetButtonStatus();
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mPanelInfoLoad" Id="{495a9b47-de44-46d0-b09e-035317e3cbd3}">
-      <Declaration><![CDATA[METHOD mPanelInfoLoad : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mParsePanelInput" Id="{39e19588-76a1-4ec1-8eb6-1111fb5927cd}">
+    <Method Name="mParsePanelInput" Id="{0157b1aa-a59b-4beb-9a0f-8e1f9cd03c37}">
       <Declaration><![CDATA[METHOD mParsePanelInput : BOOL
 VAR_INPUT
 	input   	: USINT;
 	parseDigit  : INT;
 END_VAR
-
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF ((SHR(input,parseDigit) AND 2#1) = 2#1) THEN
 	mParsePanelInput := TRUE;
 ELSE
 	mParsePanelInput := FALSE;
-END_IF]]></ST>
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSpecialButtonHandle" Id="{82f57fb0-8b79-4e84-9618-ec1e976ad42e}">
+      <Declaration><![CDATA[METHOD mSpecialButtonHandle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset Button -- light on only when pressed and signal lasts for 5 ms
+IF effectiveButtonStatus[Reset_Button.row, Reset_Button.column] THEN
+	iResetCount := iResetCount + 1;
+	IF iResetCount >= GlobalVar.RESET_DURATION THEN
+		buttonStatus[Reset_Button.row, Reset_Button.column] := TRUE;
+		pInput[Reset_Button.row] := INT_TO_USINT(SHL(1, Reset_Button.column));
+		iResetCount := 0;
+	END_IF
+END_IF
+
+// Spindle Stop Button -- always light on except press CW or CCW
+//effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] := NOT(effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] OR effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column]);
+
+//IF effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT bSpindleStopSet) THEN
+//	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] + INT_TO_USINT(SHL(1, Spindle_Stop.column));
+//	bSpindleStopSet := TRUE;
+//END_IF
+
+//IF effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] OR effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column] THEN
+//	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] - INT_TO_USINT(SHL(1, Spindle_Stop.column));	
+//	bSpindleStopSet := FALSE;
+//END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{6f46d9bc-8c9c-4612-89ff-0cb7c2d620fa}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+
+VAR
+	ipPanel : IPanelProcess;
+	ipUnk : ITcUnknown;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_IPanelProcess)) THEN
+	ipPanel := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipPanel);
+	TcAddRef();
+	TcQueryInterface := S_OK;
+ELSIF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_ITcUnknown)) THEN
+	ipUnk := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipUnk);
+	TcAddRef(); 
+	TcQueryInterface := S_OK;
+ELSE
+	TcQueryInterface := SUPER^.TcQueryInterface(iid, pipItf);
+END_IF
+]]></ST>
       </Implementation>
     </Method>
   </POU>

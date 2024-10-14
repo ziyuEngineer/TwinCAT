@@ -2,108 +2,6 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{54E74FBE-0A82-440E-8829-BF368D27C93C}">MotionCommand</Name>
-			<BitSize>2048</BitSize>
-			<SubItem>
-				<Name>pos</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>vel</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>320</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>acc</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>640</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>kp</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>960</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>kv</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>1280</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>ka</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>1600</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>opMode</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>80</BitSize>
-				<BitOffs>1920</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>commandIndex</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>2016</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{CD234A31-FBE0-42F5-87FD-FD933FBAF1B6}"/>
-				<Hide GUID="{341BCF45-B2B8-4B4E-A1C2-468B7C95C255}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{7F159061-AF6A-9337-89A4-23918E83D4F5}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..1023] OF MotionCommand</Name>
-			<BitSize>2097152</BitSize>
-			<BaseType GUID="{54E74FBE-0A82-440E-8829-BF368D27C93C}">MotionCommand</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>1024</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..5] OF USINT</Name>
-			<BitSize>48</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>6</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
 			<BitSize>48</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
@@ -173,78 +71,16 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Name>
-			<BitSize>16</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
-			<EnumInfo>
-				<Text><![CDATA[eIdle]]></Text>
-				<Enum>0</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eInitialization]]></Text>
-				<Enum>1</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eDisabled]]></Text>
-				<Enum>2</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eStandby]]></Text>
-				<Enum>3</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eMoving]]></Text>
-				<Enum>4</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eHandwheel]]></Text>
-				<Enum>5</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eLimitViolation]]></Text>
-				<Enum>6</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eFault]]></Text>
-				<Enum>7</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eEmergency]]></Text>
-				<Enum>8</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eTest]]></Text>
-				<Enum>9</Enum>
-			</EnumInfo>
-			<Hides>
-				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
-				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
-				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
-				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
-			</Hides>
+			<Name GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..5] OF USINT</Name>
+			<BitSize>48</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>6</Elements>
+			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{BB3E412C-1E30-308F-230E-534194B5C329}" AutoDeleteType="true">StateMachine</Name>
-			<BitSize>96</BitSize>
-			<SubItem>
-				<Name>CurrState</Name>
-				<Type GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>StateFlag</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>10</Elements>
-				</ArrayInfo>
-				<BitSize>80</BitSize>
-				<BitOffs>16</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</Name>
+			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
 			<BitSize>512</BitSize>
 			<SubItem>
 				<Name>ServoOn</Name>
@@ -286,6 +122,12 @@
 				<BitSize>8</BitSize>
 				<BitOffs>464</BitOffs>
 			</SubItem>
+			<SubItem>
+				<Name>Execute</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>472</BitOffs>
+			</SubItem>
 			<Hides>
 				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
 				<Hide GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}"/>
@@ -295,25 +137,46 @@
 				<Hide GUID="{6655CC85-0535-4A1E-AD8C-A024EFFAB728}"/>
 				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
 				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
+				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..9] OF BOOL</Name>
-			<BitSize>80</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>10</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..19] OF LREAL</Name>
-			<BitSize>1280</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>20</Elements>
-			</ArrayInfo>
+			<Name GUID="{75F6F238-A022-446E-8F56-58206FCA8931}">InterfaceRPC</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name RpcEnable="cpp">ExecuteCommandsContinuously</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>n_min_data_start</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type>
+					<BitSize>16</BitSize>
+				</Parameter>
+				<Parameter>
+					<Name>buffer_size</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000006}" ReferenceTo="true" RpcDirection="out">INT</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">EnterRecoveryState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>b_Enter</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" RpcDirection="in">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{C70AD3AE-80F7-4AFB-A130-4FB32DE8E2EA}"/>
+				<Hide GUID="{4C946553-707F-4CD1-9F6E-8EA033F4F64F}"/>
+				<Hide GUID="{E77D7290-E22C-441B-A38B-2D6C2EB34B56}"/>
+				<Hide GUID="{BDB70224-8ADB-4A67-BA02-29339488814C}"/>
+				<Hide GUID="{F7764EE2-1985-4955-AB83-94F720E843B1}"/>
+				<Hide GUID="{B3DCB58A-8089-4641-9A0C-E878C1926708}"/>
+			</Hides>
 		</DataType>
 		<DataType>
 			<Name GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Name>
@@ -481,7 +344,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</Name>
+			<Name GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}">DriverInput</Name>
 			<BitSize>192</BitSize>
 			<SubItem>
 				<Name>StatusWord</Name>
@@ -525,9 +388,190 @@
 				<BitSize>16</BitSize>
 				<BitOffs>160</BitOffs>
 			</SubItem>
+			<SubItem>
+				<Name>ActualOpMode</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>176</BitOffs>
+			</SubItem>
 			<Hides>
 				<Hide GUID="{BBFCA707-D69C-480D-A79E-A9CA0E101CE3}"/>
 				<Hide GUID="{54CBDCB3-6261-493E-A98E-F0E5454AD0E6}"/>
+				<Hide GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>CommandType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SourceActionBlockIndex</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Index</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment>
+				<BitSize>32</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{F8220079-266A-492E-8DEF-DFA52E623682}"/>
+				<Hide GUID="{F9EDFA92-02A8-44F3-86C0-C2E70B85BE12}"/>
+				<Hide GUID="{F02A1AC5-2FED-483E-B214-6DC50232399F}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Name>
+			<BitSize>5824</BitSize>
+			<SubItem>
+				<Name>MotionType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>40</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Acc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>704</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>1024</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kv</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>2624</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ka</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>4224</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{3A94D6B3-A565-40B9-9D0A-0030CBAFC8C3}"/>
+				<Hide GUID="{16AA0362-867D-4218-A7B5-BA6062BA4B24}"/>
+				<Hide GUID="{2A63D5C6-A5D8-4066-BEF1-983C4E418526}"/>
+				<Hide GUID="{A235E7F2-7BB0-46A7-BCE8-BFFF71D17665}"/>
+				<Hide GUID="{2A3B81D4-0EF6-4B4A-AD18-478298C176A1}"/>
+				<Hide GUID="{301B2C3F-D8C0-47A1-B981-F89599A22B00}"/>
+				<Hide GUID="{7ADC56C8-B70E-48CA-B4E1-4C915E3B35C7}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>CommandFunction</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Data</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{2B6BE5EE-52EB-448E-92E1-341E176F71F4}"/>
+				<Hide GUID="{64F68B0B-33E7-4F4B-BD43-AEC9B2F372A0}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</Name>
+			<BitSize>6080</BitSize>
+			<SubItem>
+				<Name>Meta_Data</Name>
+				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
+				<BitSize>96</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Motion_Command</Name>
+				<Type GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Type>
+				<BitSize>5824</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Other_Command</Name>
+				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>5952</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{EB98B21F-EB74-47E4-8B9D-D1AFAC746B87}"/>
+				<Hide GUID="{E2EA3320-D8C4-4DF4-AC30-E80AA866AF2E}"/>
+				<Hide GUID="{75391721-483B-4FE5-90C5-29B3C6BEC790}"/>
+				<Hide GUID="{767483FE-A6EC-41F8-8876-C27738991F9E}"/>
+				<Hide GUID="{4E423183-8701-4DAA-A8EA-355058DD022B}"/>
+				<Hide GUID="{0F7219A1-4DC4-4A21-96BA-36F97984D3C9}"/>
+				<Hide GUID="{16B96479-BD57-4C6B-A691-B6A69A071FC3}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -569,24 +613,56 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true" AutoDeleteType="true">OpMode</Name>
+			<Name GUID="{131977EF-E050-44EA-B063-7A4112666AE9}" PersistentType="true" AutoDeleteType="true">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
-				<Text><![CDATA[CSP]]></Text>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eHandwheel]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eLimitViolation]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eEmergency]]></Text>
 				<Enum>8</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text><![CDATA[CSV]]></Text>
+				<Text><![CDATA[eTest]]></Text>
 				<Enum>9</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text><![CDATA[CST]]></Text>
+				<Text><![CDATA[eRecovery]]></Text>
 				<Enum>10</Enum>
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}">AxisInformation</Name>
+			<Name GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}">AxisInformation</Name>
 			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>CurrentPos</Name>
@@ -608,8 +684,8 @@
 			</SubItem>
 			<SubItem>
 				<Name>CurrentMode</Name>
-				<Type GUID="{75816603-8B01-41ED-9F49-1001E13236B1}">OpMode</Type>
-				<BitSize>16</BitSize>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
 				<BitOffs>144</BitOffs>
 			</SubItem>
 			<SubItem>
@@ -635,15 +711,245 @@
 				<Hide GUID="{89C501C9-E712-4F41-A99C-ADBA4943DB6D}"/>
 				<Hide GUID="{467AD5B8-7168-4B73-971D-AB0FE4CC3F9D}"/>
 				<Hide GUID="{2BCEDEC1-7056-4DC5-8A0C-80C1031418DB}"/>
+				<Hide GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}"/>
+				<Hide GUID="{15726BA4-C8DB-417E-9CF6-716ECACDD86D}"/>
+				<Hide GUID="{4CED151F-2FC1-4843-A565-44A37271C8BB}"/>
+				<Hide GUID="{ED3398C0-BD35-4950-9314-40380A9C4C56}"/>
+				<Hide GUID="{6D8582AA-8BE8-4FC7-93F6-5F78057CD77A}"/>
+				<Hide GUID="{505053EB-D4B7-4C19-91A6-3B370151116D}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}" PersistentType="true">SystemState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eHandwheel]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eLimitViolation]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eEmergency]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eTest]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eRecovery]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
+				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
+				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
+				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
+				<Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}"/>
+				<Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true">OpMode</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[CSP]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CSV]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CST]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{7170CE2E-D23E-4E18-B6B0-72D322427021}" PersistentType="true">NewInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+		</DataType>
+		<DataType>
+			<Name GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}" PersistentType="true">NewInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+		</DataType>
+		<DataType>
+			<Name GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}" PersistentType="true">ISoEProcess</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>mInitialize</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>bExecute</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>mReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>bExecute</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{18DA995F-FB4B-43A0-9EE2-BB6CE9289E4F}" PersistentType="true">ISoEProcess</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>mInitialize</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>bExecute</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}"/>
+				<Hide GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{C2C6ED4E-0802-4458-8413-C8EBDD616CEE}" PersistentType="true">ISoEProcess</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>mInitialize</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>bExecute</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}"/>
+				<Hide GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}"/>
+				<Hide GUID="{18DA995F-FB4B-43A0-9EE2-BB6CE9289E4F}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{970DA61A-269B-41C3-8941-02F0458E1BF8}" PersistentType="true">ISoEProcess</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>mInitialize</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>bExecute</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}"/>
+				<Hide GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}"/>
+				<Hide GUID="{18DA995F-FB4B-43A0-9EE2-BB6CE9289E4F}"/>
+				<Hide GUID="{C2C6ED4E-0802-4458-8413-C8EBDD616CEE}"/>
+				<Hide GUID="{BAFF237F-2ED5-4D7B-BADD-4B2EBA2F5066}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}" PersistentType="true">IPanelProcess</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>mInitialize</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mFaultReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mInput</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mOutput</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>mHandwheelReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Hides>
+				<Hide GUID="{D4731370-F5F0-4676-96D8-ABCFDC5715C8}"/>
+				<Hide GUID="{AA0B3BE1-33A7-4B93-B5B5-C54ECF6AFC21}"/>
+				<Hide GUID="{8D446B8C-6A9A-4C63-9156-0A30D9AB0B07}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
 	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
 		<System>
-			<Settings MaxCpus="8" NonWinCpus="7">
+			<Settings MaxCpus="8" NonWinCpus="7" MaxStackSize="2048">
 				<Cpu RtLimit="90" BaseTime="500"/>
 				<Cpu CpuId="1" BaseTime="500"/>
-				<IoIdleTask Priority="8" Affinity="#x00000001"/>
+				<Debugger Priority="61"/>
+				<IoIdleTask Priority="8" CycleTime="2500" Affinity="#x00000001"/>
 			</Settings>
 			<Licenses>
 				<Target>
@@ -651,78 +957,54 @@
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="3" Priority="4" CycleTime="10000" AmsPort="350" Affinity="#x00000002" AdtTasks="true">
+				<Task Id="3" Priority="4" CycleTime="2500" AmsPort="350" Affinity="#x00000002" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="10000" AmsPort="352" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
+				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="2500" AmsPort="352" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
 					<Name>MotionControl</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{7FE4D865-90AE-AF7C-46F5-1215B3AEA2B2}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{DDCFD53B-E86D-78F1-5398-660631BF0AC6}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>MAIN.fb_CommandProcess.mInputData</Name>
-							<Comment><![CDATA[array stores data form host machine ]]></Comment>
-							<Type GUID="{7F159061-AF6A-9337-89A4-23918E83D4F5}">ARRAY [0..1023] OF MotionCommand</Type>
+							<Name>MAIN.rpc_SoEProcess.stPlcDriveRef</Name>
+							<Type GUID="{B2DE7DAD-C980-41EC-8760-D7DB4324C2C2}">ARRAY [0..4,0..1] OF Tc2_EtherCAT.ST_PlcDriveRef</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_CommandProcess.iWriteIndex</Name>
-							<Comment><![CDATA[ sum of received data]]></Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_PanelInfoProcess.pInput</Name>
+							<Name>MAIN.rpc_PanelProcess.pInput</Name>
 							<Comment><![CDATA[ Connect to panel input channel 1 2 3 4 5 7 ]]></Comment>
 							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_PanelInfoProcess.handwheelCurrPos</Name>
+							<Name>MAIN.rpc_PanelProcess.handwheelCurrPos</Name>
 							<Type>USINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fb_SoEProcess.stPlcDriveRef</Name>
-							<Type GUID="{B2DE7DAD-C980-41EC-8760-D7DB4324C2C2}">ARRAY [0..4,0..1] OF Tc2_EtherCAT.ST_PlcDriveRef</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.mSystemState</Name>
-							<Type GUID="{BB3E412C-1E30-308F-230E-534194B5C329}">StateMachine</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTask Outputs</Name>
 						<Var>
-							<Name>MAIN.fb_CommandProcess.mOutputData</Name>
-							<Comment><![CDATA[data read from buffer  ]]></Comment>
-							<Type GUID="{54E74FBE-0A82-440E-8829-BF368D27C93C}">MotionCommand</Type>
+							<Name>MAIN.rpc_SoEProcess.objID</Name>
+							<Type>OTCID</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_CommandProcess.iReadIndex</Name>
-							<Comment><![CDATA[ sum of sent data]]></Comment>
-							<Type>UDINT</Type>
+							<Name>MAIN.rpc_PanelProcess.objID</Name>
+							<Type>OTCID</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_PanelInfoProcess.pOutput</Name>
+							<Name>MAIN.rpc_PanelProcess.pOutput</Name>
 							<Comment><![CDATA[ Connect to panel output channel 1 2 3 4 5 7]]></Comment>
 							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.fb_PanelInfoProcess.panelInfoOutput</Name>
+							<Name>MAIN.rpc_PanelProcess.panelInfoOutput</Name>
 							<Comment><![CDATA[ Necessary information sent to Cpp module]]></Comment>
-							<Type GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.mockButtons</Name>
-							<Type GUID="{8993EA93-CD58-786C-177B-BF571BCDFBE6}">ARRAY [0..9] OF BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.Outputs2Cpp</Name>
-							<Type GUID="{27115652-0073-BB7D-AAEE-D30849BAC0A3}">ARRAY [0..19] OF LREAL</Type>
+							<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-07-11T19:08:24">
@@ -748,6 +1030,66 @@
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-09-24T15:27:00">
+						<OwnerA Name="OutputSrc" Prefix="TIPC^Portal^Portal Instance" Type="2">
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+								<Link VarA="MAIN.fb_CommandProcess.mOutputData" TypeA="FullCommand" InOutA="1" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="Inputs^CommandData" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-12T14:50:56">
+						<OwnerA Name="InputDst" Prefix="TIPC^Portal^Portal Instance" Type="1">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Gantry">
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" TypeA="BYTE" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="InfoData^Chn1" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nDriveNo" TypeA="BYTE" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="InfoData^Chn0" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+							</OwnerB>
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nDriveNo" TypeA="BYTE" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="InfoData^Chn1" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^aNetId" TypeA="Tc2_System.T_AmsNetIdArr" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" VarB="InfoData^AdsAddr^netId" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nDriveNo" TypeA="BYTE" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="InfoData^Chn0" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nSlaveAddr" TypeA="UINT" InOutA="0" ParentTypeA="ST_PlcDriveRef" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="InfoData^AdsAddr^port" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-12T17:02:40">
+						<OwnerA Name="InputDst" Prefix="TIPC^Portal^Portal Instance" Type="1">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 3 (iA-MPA64B0 2xMII)">
+								<Link VarA="MAIN.fb_PanelInfoProcess.handwheelCurrPos" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^TEACH_HANDWHEEL" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[0]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN1" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[1]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN2" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[2]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN3" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[3]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN4" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[4]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN5" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pInput[5]" TypeA="USINT" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Inputs^PIO_IN7" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+						<OwnerA Name="OutputSrc" Prefix="TIPC^Portal^Portal Instance" Type="2">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 3 (iA-MPA64B0 2xMII)">
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[0]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT1" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[1]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT2" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[2]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT3" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[3]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT4" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[4]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT5" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.fb_PanelInfoProcess.pOutput[5]" TypeA="USINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000002}" VarB="PANEL_Outputs^PIO_OUT7" RestoreInfo="ANotFound"/>
+							</OwnerB>
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+								<Link VarA="MAIN.fb_PanelInfoProcess.panelInfoOutput" TypeA="PanelInfo" InOutA="1" GuidA="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}" VarB="Inputs^PanelInformation" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-12T17:16:18">
+						<OwnerA Name="InputDst" Prefix="TIPC^Portal^Portal Instance" Type="1">
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+								<Link VarA="MAIN.mSystemState" TypeA="StateMachine" InOutA="0" GuidA="{AA3ACD93-3C2F-137A-774D-F9D8A7C2A64C}" VarB="Outputs^SystemStateMachine" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
@@ -756,11 +1098,11 @@
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
 							<Priority>4</Priority>
-							<CycleTime>1000000</CycleTime>
+							<CycleTime>250000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="4" OTCID="#x08502002"/>
+						<TaskPouOid Prio="4" OTCID="#x08502003"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
@@ -786,7 +1128,7 @@
 									<OTCID>#x02010050</OTCID>
 								</ManualConfig>
 								<Priority>6</Priority>
-								<CycleTime>1000000</CycleTime>
+								<CycleTime>250000</CycleTime>
 							</Context>
 						</Contexts>
 						<Interfaces>
@@ -801,6 +1143,10 @@
 							</Interface>
 							<Interface DisableCodeGeneration="true">
 								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{75F6F238-A022-446E-8F56-58206FCA8931}">InterfaceRPC</Type>
+								<ContextId>1</ContextId>
 							</Interface>
 						</Interfaces>
 						<Parameters>
@@ -864,28 +1210,22 @@
 								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>760</ByteSize>
-								<Symbol>
-									<Name>CommandData</Name>
-									<BitSize>2048</BitSize>
-									<BaseType GUID="{54E74FBE-0A82-440E-8829-BF368D27C93C}">MotionCommand</BaseType>
-									<BitOffs>0</BitOffs>
-								</Symbol>
+								<ByteSize>778760</ByteSize>
 								<Symbol>
 									<Name>AxisInputs</Name>
 									<BitSize>1920</BitSize>
-									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
+									<BaseType GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}">DriverInput</BaseType>
 									<ArrayInfo>
 										<LBound>0</LBound>
 										<Elements>10</Elements>
 									</ArrayInfo>
-									<BitOffs>2048</BitOffs>
+									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>PanelInformation</Name>
 									<BitSize>512</BitSize>
-									<BaseType GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}">PanelInfo</BaseType>
-									<BitOffs>3968</BitOffs>
+									<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
+									<BitOffs>1920</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>mockButton</Name>
@@ -895,7 +1235,7 @@
 										<LBound>0</LBound>
 										<Elements>10</Elements>
 									</ArrayInfo>
-									<BitOffs>4480</BitOffs>
+									<BitOffs>2432</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>TestInputs</Name>
@@ -905,20 +1245,48 @@
 										<LBound>0</LBound>
 										<Elements>20</Elements>
 									</ArrayInfo>
-									<BitOffs>4608</BitOffs>
+									<BitOffs>2560</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>SpindleInput</Name>
 									<BitSize>192</BitSize>
-									<BaseType GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}">DriverInput</BaseType>
-									<BitOffs>5888</BitOffs>
+									<BaseType GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}">DriverInput</BaseType>
+									<BitOffs>3840</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>CommandInput</Name>
+									<BitSize>6225920</BitSize>
+									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>1024</Elements>
+									</ArrayInfo>
+									<BitOffs>4032</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>CommandWriteIndex</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>6229952</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>OidSoEProcess</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+									<BitOffs>6229984</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>OidPanelProcess</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+									<BitOffs>6230016</BitOffs>
 								</Symbol>
 							</DataArea>
 							<DataArea>
 								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>536</ByteSize>
+								<ByteSize>2048</ByteSize>
 								<Symbol>
 									<Name>AxisOutputs</Name>
 									<BitSize>1600</BitSize>
@@ -930,22 +1298,18 @@
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>StateMachine</Name>
-									<BitSize>96</BitSize>
+									<Name>SystemStateMachine</Name>
+									<BitSize>32</BitSize>
 									<SubItem>
-										<Name>CurrentState</Name>
-										<Type GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}">SystemState</Type>
+										<Name>AxisGroupState</Name>
+										<Type GUID="{131977EF-E050-44EA-B063-7A4112666AE9}">SystemState</Type>
 										<BitSize>16</BitSize>
 										<BitOffs>0</BitOffs>
 									</SubItem>
 									<SubItem>
-										<Name>StateFlag</Name>
-										<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
-										<ArrayInfo>
-											<LBound>0</LBound>
-											<Elements>10</Elements>
-										</ArrayInfo>
-										<BitSize>80</BitSize>
+										<Name>SpindleState</Name>
+										<Type GUID="{131977EF-E050-44EA-B063-7A4112666AE9}">SystemState</Type>
+										<BitSize>16</BitSize>
 										<BitOffs>16</BitOffs>
 									</SubItem>
 									<BitOffs>1600</BitOffs>
@@ -955,7 +1319,7 @@
 									<BitSize>2368</BitSize>
 									<SubItem>
 										<Name>AxisStatus</Name>
-										<Type GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}">AxisInformation</Type>
+										<Type GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}">AxisInformation</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
 											<Elements>6</Elements>
@@ -969,13 +1333,31 @@
 										<BitSize>64</BitSize>
 										<BitOffs>2304</BitOffs>
 									</SubItem>
-									<BitOffs>1728</BitOffs>
+									<BitOffs>1664</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>SpindleOutput</Name>
 									<BitSize>160</BitSize>
 									<BaseType GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</BaseType>
-									<BitOffs>4096</BitOffs>
+									<BitOffs>4032</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>CommandReadIndex</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>4192</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>TestAxisGroup</Name>
+									<BitSize>6080</BitSize>
+									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
+									<BitOffs>4224</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>TestSpindle</Name>
+									<BitSize>6080</BitSize>
+									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
+									<BitOffs>10304</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -984,6 +1366,18 @@
 								<PTCID>#x03002060</PTCID>
 								<Name>CyclicCaller</Name>
 								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000002</PTCID>
+								<Name>PLC_SoEProcess</Name>
+								<Type GUID="{970DA61A-269B-41C3-8941-02F0458E1BF8}">ISoEProcess</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000003</PTCID>
+								<Name>PLC_PanelProcess</Name>
+								<Type GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}">IPanelProcess</Type>
+								<ContextId>1</ContextId>
 							</InterfacePointer>
 						</InterfacePointers>
 						<Deployment>
@@ -1935,7 +2329,7 @@
 							</Value>
 							<Value>
 								<Name>CycleTime</Name>
-								<Value>1000000</Value>
+								<Value>250000</Value>
 							</Value>
 						</ParameterValues>
 						<InterfacePointerValues>
@@ -1943,8 +2337,31 @@
 								<Name>CyclicCaller</Name>
 								<OTCID>#x02010050</OTCID>
 							</Value>
+							<Value>
+								<Name>PLC_SoEProcess</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
+							<Value>
+								<Name>PLC_PanelProcess</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
 						</InterfacePointerValues>
 					</TmcDesc>
+					<UnrestoredVarLinks ImportTime="2024-09-25T10:31:44">
+						<OwnerA Name="Outputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="2">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="StateMachine" GrpA="Outputs" TypeA="StateMachine" InOutA="1" GuidA="{06332655-6DE4-DFDF-CD7D-8D855F7676C4}" VarB="PlcTask Inputs^MAIN.mSystemState"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-09-27T09:48:02">
+						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="1">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="AxisGroupCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataAxisGroup"/>
+								<Link VarA="SpindleCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataSpindle"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
 				</Instance>
 			</Project>
 			<Project File="tinyxml2.xti"/>
@@ -1955,46 +2372,46 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2002-0850-0020-500820000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-2002-0850-0020-500832000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500820000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500832000403}" Id="#x02030030"/>
 		<MappingInfo Identifier="{00000000-0010-0304-2000-010111000403}" Id="#x02030020"/>
-		<MappingInfo Identifier="{08502002-0050-0201-0020-500820000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502003-0050-0201-0020-500820000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^Portal^Portal Instance">
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 3 (iA-MPA64B0 2xMII)">
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_PanelInfoProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[3]" VarB="PANEL_Outputs^PIO_OUT4"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[4]" VarB="PANEL_Outputs^PIO_OUT5"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.pOutput[5]" VarB="PANEL_Outputs^PIO_OUT7"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[3]" VarB="PANEL_Outputs^PIO_OUT4"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[4]" VarB="PANEL_Outputs^PIO_OUT5"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[5]" VarB="PANEL_Outputs^PIO_OUT7"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Gantry">
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" VarB="InfoData^Chn1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nDriveNo" VarB="InfoData^Chn0"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[0,1]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,0]^nDriveNo" VarB="InfoData^Chn1"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,1]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,1]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[0,1]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^ZY">
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nDriveNo" VarB="InfoData^Chn1"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[1,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nDriveNo" VarB="InfoData^Chn0"/>
-				<Link VarA="PlcTask Inputs^MAIN.fb_SoEProcess.stPlcDriveRef[2,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[1,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[1,0]^nDriveNo" VarB="InfoData^Chn1"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[1,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[2,0]^aNetId" VarB="InfoData^AdsAddr^netId"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[2,0]^nDriveNo" VarB="InfoData^Chn0"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef[2,0]^nSlaveAddr" VarB="InfoData^AdsAddr^port"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
-				<Link VarA="PlcTask Inputs^MAIN.mSystemState" VarB="Outputs^StateMachine"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputData" VarB="Inputs^CommandData"/>
-				<Link VarA="PlcTask Outputs^MAIN.fb_PanelInfoProcess.panelInfoOutput" VarB="Inputs^PanelInformation"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.objID" VarB="Inputs^OidPanelProcess"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.panelInfoOutput" VarB="Inputs^PanelInformation"/>
+				<Link VarA="PlcTask Outputs^MAIN.rpc_SoEProcess.objID" VarB="Inputs^OidSoEProcess"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

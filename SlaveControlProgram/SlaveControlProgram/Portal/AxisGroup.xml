@@ -7,7 +7,7 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>-24991640</AbsZeroPos>
+			<AbsZeroPos>-25001649</AbsZeroPos>
 			<UpperPosLimit>968360</UpperPosLimit>
 			<LowerPosLimit>-27421640</LowerPosLimit>
 			<TransmissionRatio>10.0</TransmissionRatio>
@@ -28,7 +28,7 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>524222090</AbsZeroPos>
+			<AbsZeroPos>524692244</AbsZeroPos>
 			<UpperPosLimit>550182090</UpperPosLimit>
 			<LowerPosLimit>521792090</LowerPosLimit>
 			<TransmissionRatio>10.0</TransmissionRatio>
@@ -62,9 +62,9 @@
 			<NegativeHardBit>1</NegativeHardBit>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
-			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
-			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
 		</axis>
     </axes>
     <axes> <!-- Z轴参数 -->
@@ -85,9 +85,9 @@
 			<NegativeHardBit>3</NegativeHardBit>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
-			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
-			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
 		</axis>
 	</axes>
     <axes> <!-- A轴参数 -->

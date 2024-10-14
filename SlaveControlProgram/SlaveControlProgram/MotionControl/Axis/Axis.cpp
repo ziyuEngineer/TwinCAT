@@ -81,11 +81,11 @@ bool CAxis::Disable()
 	return m_Driver.Disable();
 }
 
-
 void CAxis::HoldPosition()
 {
 	if (!m_bStandbyPosSet)
 	{
+		//StandStill();
 		m_StandbyPos = m_FdbPos;
 		m_bStandbyPosSet = true;
 	}
@@ -94,6 +94,26 @@ void CAxis::HoldPosition()
 		m_Driver.SetOperationMode(OpMode::CSP);
 		m_CmdPos = m_StandbyPos;
 	}
+}
+
+void CAxis::StandStill()
+{
+	switch (m_Driver.m_OperationMode)
+	{
+	case OpMode::CSP:
+		//m_CmdPos = m_FdbPos;
+		//HoldPosition();
+		break;
+
+	case OpMode::CSV:
+		m_CmdVel = 0.0;
+		break;
+
+	case OpMode::CST:
+		m_CmdTor = 0; // Need further consideration, set value to additive torque.
+		break;
+	}
+		
 }
 
 void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback)

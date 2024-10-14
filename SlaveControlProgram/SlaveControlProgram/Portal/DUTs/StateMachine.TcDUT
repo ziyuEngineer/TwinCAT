@@ -3,8 +3,8 @@
   <DUT Name="StateMachine" Id="{8ccc48ca-66a8-486a-83a1-492780320d5a}">
     <Declaration><![CDATA[TYPE StateMachine :
 STRUCT
-	CurrState : SystemState;
-	StateFlag : ARRAY [0..9] OF BOOL;
+	AxisGroupState : SystemState;
+	SpindleState : SystemState;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

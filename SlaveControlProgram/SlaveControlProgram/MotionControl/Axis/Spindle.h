@@ -25,10 +25,14 @@ public:
 
 	void HoldPosition();
 	void Move(double _cmd, OpMode _mode);
+	void Move(FullCommand _cmd);
 	void SetZeroPoint();
 
 	double m_FdbPos;
 	double m_FdbVel;
 	double m_FdbTor;
 	OpMode m_CurrentOpMode;
+
+	double m_ZeroPoint;
+	bool m_bSetZeroPoint = false;
 };

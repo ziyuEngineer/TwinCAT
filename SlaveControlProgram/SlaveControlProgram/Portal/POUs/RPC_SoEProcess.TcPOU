@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="RPC_SoEProcess" Id="{0e961ccc-564a-4ae5-b7c8-be75a2c09028}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK RPC_SoEProcess EXTENDS TcBaseModuleRegistered IMPLEMENTS ISoEProcess
+
+VAR
+	fbSoEReset : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF FB_SoEReset_ByDriveRef; //SoE Reset
+	stPlcDriveRef AT %I* : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF ST_PlcDriveRef;
+	stDriveRef : ARRAY [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF ST_DriveRef;
+	bBusyFlag : ARRAY  [0..GlobalVar.MC_AXIS_NUM-1, 0..GlobalVar.MC_DRIVER_MAX_NUM_PER_AXIS-1] OF BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_reinit" Id="{58e72f56-4e30-4a2f-9c0d-942644bf6bd0}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.FB_reinit();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mInitialize" Id="{e68b46f7-1bbf-4718-a542-23489a344d15}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'mInitialize'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mInitialize : HRESULT
+
+VAR
+	loopAxis 	: INT := 0;
+	loopJoint 	: INT := 0;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mInitialize := S_FALSE;
+
+FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO
+	FOR loopJoint := 0 TO GlobalVar.MC_DRIVER_NUM_PER_AXIS[loopAxis] - 1 DO
+		stDriveRef[loopAxis,loopJoint].sNetId  := F_CreateAmsNetId(stPlcDriveRef[loopAxis,loopJoint].aNetId); // convert the byte array into a string
+		stDriveRef[loopAxis,loopJoint].nSlaveAddr := stPlcDriveRef[loopAxis,loopJoint].nSlaveAddr;
+		stDriveRef[loopAxis,loopJoint].nDriveNo := stPlcDriveRef[loopAxis,loopJoint].nDriveNo;
+		stDriveRef[loopAxis,loopJoint].nDriveType := stPlcDriveRef[loopAxis,loopJoint].nDriveType;
+	END_FOR
+END_FOR
+
+// Now, use magic numbers for index since motors of A/C-axis are disabled, will use pre-defined global vars instead in the future.
+IF (stDriveRef[0, 0].sNetId <> '') AND (stDriveRef[0, 0].nSlaveAddr <> 0) AND (stDriveRef[0, 1].sNetId <> '') AND (stDriveRef[0, 1].nSlaveAddr <> 0) AND
+	(stDriveRef[1, 0].sNetId <> '') AND (stDriveRef[1, 0].nSlaveAddr <> 0) AND (stDriveRef[2, 0].sNetId <> '') AND (stDriveRef[2, 0].nSlaveAddr <> 0) THEN
+	mInitialize := S_OK;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mReset" Id="{6f04f64a-9355-4a19-9d69-2dd1d6f2dd26}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'mReset'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mReset : HRESULT
+VAR_INPUT
+	bExecute	: BOOL;
+END_VAR
+VAR
+	loopAxis 	: INT := 0;
+	loopJoint 	: INT := 0;
+	tempRet     : HRESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mReset := S_FALSE;
+
+IF bExecute THEN
+	FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO 
+		FOR loopJoint := 0 TO GlobalVar.MC_DRIVER_NUM_PER_AXIS[loopAxis] - 1 DO  
+			fbSoEReset[loopAxis, loopJoint](stDriveRef := stDriveRef[loopAxis, loopJoint], 
+										bExecute := TRUE, tTimeout := TIME#10S,
+										bBusy=>bBusyFlag[loopAxis, loopJoint], bError=>, iAdsErrId=>, iSercosErrId=>);
+			tempRet := S_FALSE;
+			IF NOT bBusyFlag[loopAxis, loopJoint] THEN // This output is set when the function block is activated, and remains set until a feedback is received.
+				fbSoEReset[loopAxis, loopJoint](stDriveRef := stDriveRef[loopAxis, loopJoint], 
+											bExecute := FALSE, tTimeout := TIME#10S,
+											bBusy=>, bError=>, iAdsErrId=>, iSercosErrId=>);				
+				tempRet := S_OK;
+			END_IF
+			mReset := tempRet AND S_OK;
+		END_FOR
+	END_FOR
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{c52567dc-1bfd-4f9f-b30e-70df7a552f1c}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+
+VAR
+	ipSoE : ISoEProcess;
+	ipUnk : ITcUnknown;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_ISoEProcess)) THEN
+	ipSoE := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipSoE);
+	TcAddRef();
+	TcQueryInterface := S_OK;
+ELSIF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_ITcUnknown)) THEN
+	ipUnk := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipUnk);
+	TcAddRef(); 
+	TcQueryInterface := S_OK;
+ELSE
+	TcQueryInterface := SUPER^.TcQueryInterface(iid, pipItf);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

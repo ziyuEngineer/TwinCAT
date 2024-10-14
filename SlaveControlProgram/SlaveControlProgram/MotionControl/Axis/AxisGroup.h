@@ -22,7 +22,7 @@ public:
 	bool Disable();
 	bool Enable();
 	void HoldPosition();
-	void Move(MotionCommand _cmd);
+	void Move(FullCommand _cmd);
 	void Handwheel(PanelInfo _panel);
 	void SingleAxisMove(AxisNum _axis_index, double _cmd, OpMode _mode);
 	void ReturnToZeroPoint(AxisNum _axis_index);

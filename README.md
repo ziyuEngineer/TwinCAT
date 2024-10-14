@@ -123,27 +123,38 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | 3 | \ |
 | 4 | Standby状态下，若为True，状态跳转至Moving |
 | 5 | \ |
-| 6 | Emergency状态下，若为True，状态跳转至Disabled <br> LimitViolation状态下，若为True，状态跳转至Standby <br> Fault状态下，若为True，状态跳转至Standby|
+| 6 | \ |
 | 7 | \ |
-| 8 | \ |
-| 9 | Standby状态下，若为True，状态跳转至Test |
+| 8 | Spindle在Standby状态下，若为True，Spindle状态跳转至Test |
+| 9 | AxisGroup在Standby状态下，若为True，AxisGroup状态跳转至Test |
 
 ### StateControl
 
 1. 接受状态跳转指令，根据状态不同，接收或者生成对应的控制指令，包含控制字，位置/速度/扭矩;
 2. xxxxxx
 
-| 系统状态 | C++ 执行任务 |
+| AxisGroup状态 | C++ 执行任务 |
 | :----: | :----: |
 | Idle | \ |
-| Initialization | 接收m_Parameters中的轴控制参数，更新AxisGroup和Spindle对应电机的成员变量 |
+| Initialization | 接收m_Parameters中的轴控制参数，更新AxisGroup对应电机的成员变量 |
 | Disabled | 等待使能信号，使能成功后跳转至Standby |
 | Standby | 使电机位置保持，等待状态跳转信号 |
 | Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
 | Handwheel | 接收PLC端发送的手摇行程，使电机完成相对运动 |
 | LimitViolation | 等待Reset信号，跳转至Standby |
-| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Standby |
-| Emergency | 松开急停后，跳转至Disabled状态 |
+| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Disabled |
+| Emergency | 松开急停后，等待Reset信号，跳转至Disabled状态 |
+| Test | 测试模式，根据输入的测试用例编号完成指定测试 |
+
+| Spindle状态 | C++ 执行任务 |
+| :----: | :----: |
+| Idle | \ |
+| Initialization | 接收m_Parameters中的轴控制参数，更新Spindle对应电机的成员变量 |
+| Disabled | 等待使能信号，使能成功后跳转至Standby |
+| Standby | 使电机位置保持，等待状态跳转信号 |
+| Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
+| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Disabled |
+| Emergency | 松开急停后，等待Reset信号，跳转至Disabled状态 |
 | Test | 测试模式，根据输入的测试用例编号完成指定测试 |
 
 ### Output

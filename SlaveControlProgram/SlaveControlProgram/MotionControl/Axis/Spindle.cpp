@@ -63,7 +63,16 @@ void CSpindle::Move(double _cmd, OpMode _mode)
 	m_Axis.Move(_cmd, _mode, kInterpolated, true);
 }
 
+void CSpindle::Move(FullCommand _cmd)
+{
+	m_Axis.Move(_cmd.Other_Command.Data, OpMode::CSV, kInterpolated, true);
+}
+
 void CSpindle::SetZeroPoint()
 {
-
+	if (!m_bSetZeroPoint)
+	{
+		m_ZeroPoint = static_cast<double>(static_cast<int>(m_FdbPos));
+		m_bSetZeroPoint = true;
+	}
 }

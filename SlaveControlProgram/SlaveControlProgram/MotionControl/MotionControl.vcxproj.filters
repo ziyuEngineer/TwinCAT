@@ -28,6 +28,18 @@
     <Filter Include="Controller">
       <UniqueIdentifier>{f058df8e-8e11-43c1-a9ed-6ef410f5fccf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{a8d21581-85c9-4ad6-9621-1f33e138f734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine\Spindle">
+      <UniqueIdentifier>{32d6f3fa-1874-439a-a128-6e5eacdc272a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine\AxisGroup">
+      <UniqueIdentifier>{6ca54a2a-279a-404c-8b2c-746248c6a9ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommandProcess">
+      <UniqueIdentifier>{0bdcbcd5-d923-4c2e-9ee0-206923189f4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -75,6 +87,84 @@
     <ClInclude Include="Controller\FiveAxisController.h">
       <Filter>Controller</Filter>
     </ClInclude>
+    <ClInclude Include="StateMachine\tinyfsm.hpp">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupDisabled.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupEmergency.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupFault.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupHandwheel.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupIdle.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupInitialize.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupStateMachine.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupMoving.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupStandby.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupTest.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleStateMachine.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleIdle.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleInitialize.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleDisabled.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleStandby.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleTest.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleMoving.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleFault.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SpindleEmergency.h">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\FsmList.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\FsmCommon.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupRecovery.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandProcess\CommandManager.h">
+      <Filter>CommandProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="Common Files\Matrix.h">
+      <Filter>Common Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupLimitViolation.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TcPch.cpp">
@@ -117,6 +207,18 @@
       <Filter>Controller</Filter>
     </ClCompile>
     <ClCompile Include="Common Files\CommonDefine.cpp">
+      <Filter>Common Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine\AxisGroupStateMachine.cpp">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine\SpindleStateMachine.cpp">
+      <Filter>StateMachine\Spindle</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandProcess\CommandManager.cpp">
+      <Filter>CommandProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Common Files\Matrix.cpp">
       <Filter>Common Files</Filter>
     </ClCompile>
   </ItemGroup>

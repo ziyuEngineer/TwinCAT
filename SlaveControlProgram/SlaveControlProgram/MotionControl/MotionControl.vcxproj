@@ -49,10 +49,36 @@
     <ClInclude Include="Axis\Driver.h" />
     <ClInclude Include="Axis\Biquad.h" />
     <ClInclude Include="Axis\Spindle.h" />
+    <ClInclude Include="CommandProcess\CommandManager.h" />
     <ClInclude Include="Common Files\CommonDefine.h" />
+    <ClInclude Include="Common Files\Matrix.h" />
     <ClInclude Include="Controller\FiveAxisController.h" />
     <ClInclude Include="MotionControl.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="StateMachine\AxisGroupLimitViolation.h" />
+    <ClInclude Include="StateMachine\FsmCommon.h" />
+    <ClInclude Include="StateMachine\FsmList.h" />
+    <ClInclude Include="StateMachine\SpindleDisabled.h" />
+    <ClInclude Include="StateMachine\SpindleEmergency.h" />
+    <ClInclude Include="StateMachine\SpindleFault.h" />
+    <ClInclude Include="StateMachine\SpindleIdle.h" />
+    <ClInclude Include="StateMachine\SpindleInitialize.h" />
+    <ClInclude Include="StateMachine\SpindleMoving.h" />
+    <ClInclude Include="StateMachine\SpindleStandby.h" />
+    <ClInclude Include="StateMachine\SpindleStateMachine.h" />
+    <ClInclude Include="StateMachine\SpindleTest.h" />
+    <ClInclude Include="StateMachine\AxisGroupDisabled.h" />
+    <ClInclude Include="StateMachine\AxisGroupEmergency.h" />
+    <ClInclude Include="StateMachine\AxisGroupFault.h" />
+    <ClInclude Include="StateMachine\AxisGroupHandwheel.h" />
+    <ClInclude Include="StateMachine\AxisGroupIdle.h" />
+    <ClInclude Include="StateMachine\AxisGroupInitialize.h" />
+    <ClInclude Include="StateMachine\AxisGroupStateMachine.h" />
+    <ClInclude Include="StateMachine\AxisGroupMoving.h" />
+    <ClInclude Include="StateMachine\AxisGroupRecovery.h" />
+    <ClInclude Include="StateMachine\AxisGroupStandby.h" />
+    <ClInclude Include="StateMachine\AxisGroupTest.h" />
+    <ClInclude Include="StateMachine\tinyfsm.hpp" />
     <ClInclude Include="TcPch.h" />
     <ClInclude Include="MotionControlClassFactory.h" />
     <ClInclude Include="MotionControlCtrl.h" />
@@ -66,9 +92,13 @@
     <ClCompile Include="Axis\Driver.cpp" />
     <ClCompile Include="Axis\Biquad.cpp" />
     <ClCompile Include="Axis\Spindle.cpp" />
+    <ClCompile Include="CommandProcess\CommandManager.cpp" />
     <ClCompile Include="Common Files\CommonDefine.cpp" />
+    <ClCompile Include="Common Files\Matrix.cpp" />
     <ClCompile Include="Controller\FiveAxisController.cpp" />
     <ClCompile Include="MotionControl.cpp" />
+    <ClCompile Include="StateMachine\SpindleStateMachine.cpp" />
+    <ClCompile Include="StateMachine\AxisGroupStateMachine.cpp" />
     <ClCompile Include="TcPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">Create</PrecompiledHeader>
@@ -226,13 +256,16 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">
     <ClCompile>
-      <AdditionalIncludeDirectories>./Controller;./Axis;./Common Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\CommandProcess;$(ProjectDir)..\tinyxml2\extern;$(ProjectDir)..\ruckig\extern\include;.\StateMachine;.\Controller;.\Axis;.\Common Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>tinyxml2.lib;ruckig.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\ruckig\extern\include;$(ProjectDir)..\tinyxml2\extern;.\Controller;.\Common Files;.\Axis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\StateMachine;$(ProjectDir)..\ruckig\extern\include;$(ProjectDir)..\tinyxml2\extern;.\Controller;.\Common Files;.\CommandProcess;.\Axis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

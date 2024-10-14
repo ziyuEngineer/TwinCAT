@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CDevEtherCATDef" SubType="111">
-	<Device Id="3" DevType="111" DevFlags="#x0003" AmsPort="28675" AmsNetId="169.254.41.58.4.1" RemoteName="Device 3 (EtherCAT)" InfoImageId="3">
+	<Device Id="3" DevType="111" DevFlags="#x0003" AmsPort="28675" AmsNetId="10.136.96.186.4.1" RemoteName="Device 3 (EtherCAT)" InfoImageId="3">
 		<Name>__FILENAME__</Name>
 		<AddressInfo>
 			<Pnp>
@@ -59,6 +59,7 @@
 				<Link VarA="Spindle^Receive PDO mapping 1^Target velocity" VarB="Outputs^SpindleOutput^TargetVelocity"/>
 				<Link VarA="Spindle^Transmit PDO mapping 1^Digital inputs" VarB="Inputs^SpindleInput^DigitalInput_1" Size="16"/>
 				<Link VarA="Spindle^Transmit PDO mapping 1^Error code" VarB="Inputs^SpindleInput^ErrorCode"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Modes of operation display" VarB="Inputs^SpindleInput^ActualOpMode"/>
 				<Link VarA="Spindle^Transmit PDO mapping 1^Position actual value" VarB="Inputs^SpindleInput^ActualAbsPos"/>
 				<Link VarA="Spindle^Transmit PDO mapping 1^Statusword" VarB="Inputs^SpindleInput^StatusWord"/>
 				<Link VarA="Spindle^Transmit PDO mapping 1^Torque actual value" VarB="Inputs^SpindleInput^ActualTor"/>

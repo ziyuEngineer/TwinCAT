@@ -2,21 +2,13 @@
 #pragma hdrstop
 #include "FiveAxisController.h"
 
+ISoEProcess* CFiveAxisController::m_pSoEProcess = nullptr;
+IPanelProcess* CFiveAxisController::m_pPanelProcess = nullptr;
+
 CFiveAxisController::CFiveAxisController()
 {
-	m_CurrSysState = SystemState::eIdle;
-
-	permittedTransitionsIn[SystemState::eIdle] = { eInitialization };
-	permittedTransitionsIn[SystemState::eInitialization] = { eDisabled };
-	permittedTransitionsIn[SystemState::eDisabled] = { eStandby, eEmergency };
-	permittedTransitionsIn[SystemState::eStandby] = { eDisabled, eHandwheel, eMoving, eTest, eLimitViolation, eFault };
-	permittedTransitionsIn[SystemState::eMoving] = { eStandby, eDisabled, eLimitViolation, eFault };
-	permittedTransitionsIn[SystemState::eHandwheel] = { eStandby, eDisabled, eLimitViolation, eFault };
-	permittedTransitionsIn[SystemState::eLimitViolation] = { eStandby, eFault };
-	permittedTransitionsIn[SystemState::eFault] = { eStandby };
-	permittedTransitionsIn[SystemState::eEmergency] = { eDisabled };
-	permittedTransitionsIn[SystemState::eTest] = { eStandby, eLimitViolation, eFault };
-
+	m_AxisGroupState = SystemState::eIdle;
+	m_SpindleState = SystemState::eIdle;
 }
 
 
@@ -25,27 +17,13 @@ CFiveAxisController::~CFiveAxisController()
 
 }
 
-/**
- * @brief Cyclic process inputs and outputs
- *
- */
-void CFiveAxisController::Run()
-{
-	Input();
-
-	SafetyCheck();
-
-	StateControl();
-
-	Output();
-}
-
 void CFiveAxisController::MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs, MotionControlParameter* _pParameters)
 {
 	m_pInputs = _pInputs;
 	m_pOutputs = _pOutputs;
 	m_AxisGroup.MapParameters(_pInputs, _pOutputs, _pParameters);
 	m_Spindle.MapParameters(_pInputs, _pOutputs, _pParameters);
+	m_CommandManager.MapParameters(_pInputs, _pOutputs);
 }
 
 bool CFiveAxisController::PostConstruction()
@@ -59,8 +37,10 @@ bool CFiveAxisController::PostConstruction()
  */
 void CFiveAxisController::Input()
 {
+	m_CommandManager.Input();
 	m_AxisGroup.Input();
 	m_Spindle.Input();
+	PanelProcess();
 }
 
 /**
@@ -69,10 +49,12 @@ void CFiveAxisController::Input()
  */
 void CFiveAxisController::Output()
 {
-	m_pOutputs->StateMachine.CurrentState = m_CurrSysState;
+	m_pOutputs->SystemStateMachine.AxisGroupState = m_AxisGroupState;
+	m_pOutputs->SystemStateMachine.SpindleState = m_SpindleState;
 
 	m_AxisGroup.Output();
 	m_Spindle.Output();
+	m_CommandManager.Output();
 
 	for (int i = 0; i < kActualAxisNum; i++)
 	{
@@ -82,7 +64,7 @@ void CFiveAxisController::Output()
 		m_pOutputs->AxisInfo.AxisStatus[i].CurrentMode = m_AxisGroup.m_CurrentOpMode[i];
 
 		m_pOutputs->AxisInfo.AxisStatus[i].CommandPos = m_AxisGroup.m_Axes[i][0].m_CmdPos;
-		m_pOutputs->AxisInfo.AxisStatus[i].CommandVel = m_AxisGroup.m_Axes[i][0].m_CmdPosBeforeInterpolated; // Only for observing
+		m_pOutputs->AxisInfo.AxisStatus[i].CommandVel = m_AxisGroup.m_Axes[i][0].m_CmdVel;
 		m_pOutputs->AxisInfo.AxisStatus[i].CommandTor = m_AxisGroup.m_Axes[i][0].m_CmdTor;
 	}
 
@@ -93,193 +75,53 @@ void CFiveAxisController::Output()
 	m_pOutputs->AxisInfo.AxisStatus[5].CurrentTor = m_Spindle.m_FdbTor;
 	m_pOutputs->AxisInfo.AxisStatus[5].CurrentMode = m_Spindle.m_CurrentOpMode;
 
-	m_pOutputs->AxisInfo.AxisStatus[5].CommandPos = m_Spindle.m_Axis.m_CmdVelBeforeInterpolated; // Only for observing
+	m_pOutputs->AxisInfo.AxisStatus[5].CommandPos = m_Spindle.m_Axis.m_CmdPos;
 	m_pOutputs->AxisInfo.AxisStatus[5].CommandVel = m_Spindle.m_Axis.m_CmdVel;
 	m_pOutputs->AxisInfo.AxisStatus[5].CommandTor = m_Spindle.m_Axis.m_CmdTor;
-}
 
-/**
- * @brief check if system state is abnormal.
- *
- */
-void CFiveAxisController::SafetyCheck()
-{
-	SystemState requestState;
-	if (m_CurrSysState > SystemState::eInitialization)
+	// Locally Observe
+	m_pOutputs->TestAxisGroup = m_CommandManager.m_Command;
+
+	// Matrix test
+	/*
+	Mat5x5 _matrix1;
+	Mat5x5 _matrix2;
+	_matrix1.eye();
+	_matrix2 = _matrix1;
+	m_pOutputs->TestAxisGroup.Other_Command.Data = _matrix1(1, 1);
+	m_pOutputs->TestSpindle.Other_Command.Data = _matrix2(4, 4);*/
+
+	if (m_pInputs->mockButton[6])
 	{
-		requestState = m_AxisGroup.SafetyCheck();
-		if (requestState != SystemState::eIdle)
-		{
-			RequestStateChange(&m_CurrSysState, requestState);
-		}
+		MatrixTest();
 	}
 }
 
-/**
- * @brief State machine control, enables the system to perform the corresponding actions of the state machine
- */
-void CFiveAxisController::StateControl()
+void CFiveAxisController::CommonModuleProcess()
 {
-	switch (m_CurrSysState)
+	if (!m_bMovingStart)
 	{
-	case eIdle:
-		RequestStateChange(&m_CurrSysState, SystemState::eInitialization);
-		break;
+		m_bMovingStart = IsMovingStarted();
+	}
+	else
+	{
+		// Update local command to AxisGroup and Spindle
+		GetCommand();
+	}
 
-	case eInitialization:
-		if (!m_bInit)
-		{
-			StateInitialize();
-		}
-		else
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-		}
-		break;
-
-	case eDisabled:
-		if (m_pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (SystemEnable())
-			{
-				RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-			}
-		}
-		break;
-
-	case eStandby:
-		if (!m_pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (SystemDisable())
-			{
-				RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-			}
-		}
-		else if (m_pInputs->PanelInformation.Handwheel_EnabledAxisNum != 0)// check whether axis button is pressed 
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eHandwheel);
-		}
-		else if (m_pInputs->mockButton[4]) // moving, button status from host application
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eMoving);
-		}
-		else if (m_pInputs->mockButton[9]) // test, button status from host application
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eTest);
-		}
-		else
-		{
-			StateStandby();
-		}
-		break;
-
-	case eMoving:
-		if (!m_pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (SystemDisable()){
-				RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-			}
-		}
-		else if (m_pInputs->mockButton[4])
-		{
-			if (m_pInputs->CommandData.commandIndex > 0) // Local command has been updated
-			{
-				StateMoving();
-			}
-		}
-		else
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-		}
-		break;
-
-	case eHandwheel:
-		if (!m_pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (m_AxisGroup.Disable()) {
-				RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-			}
-		}
-		else if (m_pInputs->PanelInformation.Handwheel_EnabledAxisNum != 0)
-		{
-			StateHandwheel();
-		}
-		else
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-		}
-		break;
-
-	case eLimitViolation:
-		if (!m_pInputs->PanelInformation.Reset) // reset button from panel
-		{
-			StateLimitViolation();
-		}
-		else
-		{
-			if (m_AxisGroup.Enable()) {
-				RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-			}
-		}
-		break;
-
-	case eFault:
-		if (!m_pInputs->PanelInformation.Reset) // reset button  from panel
-		{
-			m_pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = false;
-		}
-		else
-		{
-			// Notify plc module to Reset SoE
-			m_pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = true;
-
-			if (m_AxisGroup.Enable()) {
-				RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-				m_pOutputs->StateMachine.StateFlag[static_cast<int>(eFault)] = false;
-			}
-		}
-		break;
-
-	case eEmergency:
-		if (m_pInputs->PanelInformation.Reset)
-		{
-			if (m_AxisGroup.Disable())
-			{
-				RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-			}
-		}
-		break;
-
-	case eTest:
-		if (!m_pInputs->PanelInformation.ServoOn) // check whether servo-on button is pressed 
-		{
-			if (SystemDisable()) {
-				RequestStateChange(&m_CurrSysState, SystemState::eDisabled);
-			}
-		}
-		else if (m_pInputs->mockButton[9])
-		{
-			StateTest();
-		}
-		else
-		{
-			RequestStateChange(&m_CurrSysState, SystemState::eStandby);
-		}
-		break;
-
-	default:
-		break;
+	if (!m_bMovingFinish)
+	{
+		m_bMovingFinish = IsMovingFinished();
+	}
+	else
+	{
+		ResetCommand();
 	}
 }
 
-void CFiveAxisController::RequestStateChange(SystemState* _current_state, SystemState _request_state)
+SystemState CFiveAxisController::AxisGroupSafetyCheck()
 {
-	auto iterator = permittedTransitionsIn.find(*_current_state);
-
-	if (iterator->second.find(_request_state) != iterator->second.end())
-	{
-		*_current_state = _request_state;
-	}
+	return m_AxisGroup.SafetyCheck();
 }
 
 /**
@@ -288,39 +130,35 @@ void CFiveAxisController::RequestStateChange(SystemState* _current_state, System
  * @return true
  * @return false
  */
-bool CFiveAxisController::StateInitialize()
+bool CFiveAxisController::AxisGroupInitialize()
 {
-	if (m_AxisGroup.Initialize() && m_Spindle.Initialize())
-	{
-		m_bInit = true;
-	}
-
-	return m_bInit;
+	return m_AxisGroup.Initialize();
 }
 
 /**
  * @brief Action under standby state, hold current positions
  *
  */
-void CFiveAxisController::StateStandby()
+void CFiveAxisController::AxisGroupStandby()
 {
 	m_AxisGroup.HoldPosition();
-	m_Spindle.HoldPosition();
 }
 
 /**
  * @brief Action under moving state, execute commands received from plc module
  */
-void CFiveAxisController::StateMoving()
+void CFiveAxisController::AxisGroupMoving()
 {
-	m_AxisGroup.Move(m_pInputs->CommandData);
-	// TODO: Distinguish command type, only axis group moves; only spindle move; move together.
+	if (m_CommandManager.m_Command.Meta_Data.CommandType == CommandType::eMotion)
+	{
+		m_AxisGroup.Move(m_CommandManager.m_Command);
+	}
 }
 
 /**
  * @brief Action under handwheel state, add incremental positions calculated by plc module to current positions
  */
-void CFiveAxisController::StateHandwheel()
+void CFiveAxisController::AxisGroupHandwheel()
 {
 	m_AxisGroup.Handwheel(m_pInputs->PanelInformation);
 }
@@ -329,26 +167,29 @@ void CFiveAxisController::StateHandwheel()
  * @brief Action under limit violation state, disable motors when exceeding limits
  * 
  */
-void CFiveAxisController::StateLimitViolation()
+void CFiveAxisController::AxisGroupLimitViolation()
 {
-	m_AxisGroup.Disable();
-	m_Spindle.Disable();
+	//AxisGroupDisable();
+	m_AxisGroup.HoldPosition();
 }
 
-void CFiveAxisController::StateFault()
+void CFiveAxisController::AxisGroupFault()
 {
-	m_AxisGroup.Disable();
-	m_Spindle.Disable();
+	m_pPanelProcess->mFaultReset(); // turn off all buttons
+	AxisGroupDisable();
+}
+
+void CFiveAxisController::AxisGroupRecovery()
+{
+	m_AxisGroup.Handwheel(m_pInputs->PanelInformation);
 }
 
 // Test Function ------------------------------------------------------------------------------------
 /**
  * @brief Action under test state, execute corresponding test case triggered by host machine or plc module
  *
- * @param m_pInputs
- * @param m_pOutputs
  */
-void CFiveAxisController::StateTest()
+void CFiveAxisController::AxisGroupTest()
 {
 	int TestMode = m_pInputs->TestInputs[0];
 
@@ -390,8 +231,7 @@ void CFiveAxisController::StateTest()
 		break;
 
 	case 5:
-		// Spindle CSV Test
-		m_Spindle.Move(m_pInputs->TestInputs[5], OpMode::CSV);
+		
 		break;
 
 	case 6:
@@ -416,11 +256,6 @@ void CFiveAxisController::StateTest()
 		break;
 
 	case 9:
-		
-		break;
-
-	case 10:
-		
 		break;
 
 	default:
@@ -429,12 +264,212 @@ void CFiveAxisController::StateTest()
 	}
 }
 
-bool CFiveAxisController::SystemEnable()
+bool CFiveAxisController::AxisGroupEnable()
 {
-	return m_AxisGroup.Enable() && m_Spindle.Enable();
+	return m_AxisGroup.Enable();
 }
 
-bool CFiveAxisController::SystemDisable()
+bool CFiveAxisController::AxisGroupDisable()
 {
-	return m_AxisGroup.Disable() && m_Spindle.Disable();
+	return m_AxisGroup.Disable();
+}
+
+bool CFiveAxisController::SpindleInitialize()
+{
+	return m_Spindle.Initialize();
+}
+
+void CFiveAxisController::SpindleStandby()
+{
+	m_Spindle.HoldPosition(); // or set velocity to zero
+}
+
+void CFiveAxisController::SpindleMoving()
+{
+	if(m_CommandManager.m_Command.Meta_Data.CommandType == CommandType::eOther)
+	{
+		m_Spindle.Move(m_CommandManager.m_Command);
+	}
+}
+
+void CFiveAxisController::SpindleFault()
+{
+	m_pPanelProcess->mFaultReset(); // turn off all buttons
+	SpindleDisable();
+}
+
+void CFiveAxisController::SpindleTest()
+{
+	int TestMode = m_pInputs->TestInputs[10];
+
+	switch (TestMode)
+	{
+	case 0:
+		// Default mode
+		m_Spindle.HoldPosition();
+		m_SimTimeSpindle = 0.0;
+		break;
+
+	case 1:
+		// Spindle CSV Test
+		m_Spindle.Move(m_pInputs->TestInputs[11], OpMode::CSV);
+		break;
+
+	case 2:
+		if (m_SimTimeSpindle < 5.0) 
+		{
+			m_Spindle.Move(m_pInputs->TestInputs[12], OpMode::CSV);
+		}
+		else
+		{
+			m_Spindle.Move(-m_pInputs->TestInputs[12], OpMode::CSV);
+		}
+
+		if (m_SimTimeSpindle < 10.0)
+		{
+			m_SimTimeSpindle = m_SimTimeSpindle + 0.001;
+		}
+		else
+		{
+			m_SimTimeSpindle = 0.0;
+		}
+		break;
+
+	case 3:
+		break;
+
+	case 4:
+		break;
+
+	case 5:
+		break;
+
+	default:
+		break;
+	}
+}
+
+bool CFiveAxisController::SpindleEnable()
+{
+	return m_Spindle.Enable();
+}
+
+bool CFiveAxisController::SpindleDisable()
+{
+	return m_Spindle.Disable();
+}
+
+SystemState CFiveAxisController::SpindleSafetyCheck()
+{
+	// TODO
+	return SystemState::eIdle;
+}
+
+bool CFiveAxisController::IsServoButtonOn()
+{
+	return m_pInputs->PanelInformation.ServoOn || m_pInputs->mockButton[3]/* For quick test*/;
+}
+
+bool CFiveAxisController::IsHandwheelStateSelected()
+{
+	return (m_pInputs->PanelInformation.Handwheel_EnabledAxisNum != 0);
+}
+
+bool CFiveAxisController::IsTestStateSelected()
+{
+	return m_pInputs->mockButton[9];
+}
+
+bool CFiveAxisController::IsResetSelected()
+{
+	return m_pInputs->PanelInformation.Reset;
+}
+
+bool CFiveAxisController::IsMovingStarted()
+{
+	m_bMovingFinish = false;
+	return m_CommandManager.Initialize();
+}
+
+bool CFiveAxisController::IsMovingFinished()
+{
+	// Currently, only a stop motion instruction is placed at the end of the ringbuffer, 
+	// which applies to AxisGroup and Spindle.
+	return (m_CommandManager.m_Command.Meta_Data.CommandType == CommandType::eSignalFinalized);
+}
+
+void CFiveAxisController::NotifyPlcResetSoE(bool _bSignal)
+{
+	// Invoke plc method
+	m_pSoEProcess->mReset(_bSignal);
+}
+
+bool CFiveAxisController::IsSpindleTestSelected()
+{
+	return m_pInputs->mockButton[8];
+}
+
+void CFiveAxisController::GetCommand()
+{
+	if (m_AxisGroupState == SystemState::eMoving && m_SpindleState == SystemState::eMoving)
+	{
+		m_CommandManager.GetCommand();
+	}
+	else
+	{
+		// TODO: report error
+	}
+}
+
+void CFiveAxisController::ResetCommand()
+{
+	m_CommandManager.Reset();
+	m_bMovingStart = false;
+}
+
+void CFiveAxisController::HandwheelCommandReset()
+{
+	m_pPanelProcess->mHandwheelReset();
+}
+
+int CFiveAxisController::GetBufferSize()
+{
+	return m_CommandManager.GetBufferSize();
+}
+
+bool CFiveAxisController::SetBufferStartLength(int _min)
+{
+	m_CommandManager.SetMinLengthToStart(_min);
+	return (m_CommandManager.m_MinStartLength > 0);
+}
+
+bool CFiveAxisController::IsReadyToMove()
+{
+	return (m_AxisGroupState == SystemState::eStandby && m_SpindleState == SystemState::eStandby);
+}
+
+bool CFiveAxisController::IsReadyToReceiveCmd()
+{
+	return (m_pInputs->CommandWriteIndex == 0);
+}
+
+void CFiveAxisController::SetRecoveryFlag(bool _bEnter)
+{
+	m_bEnterRecoveryState = _bEnter;
+}
+
+void CFiveAxisController::PanelProcess()
+{
+	m_pPanelProcess->mInput(); // Parse input signal
+	m_pPanelProcess->mOutput(); // Update button status
+}
+
+void CFiveAxisController::MatrixTest()
+{
+	Matrix<200, 200> _matrix;
+	Vector<200> _vec;
+
+	Vector<200> _nRet;
+
+	_nRet = _matrix * _vec;
 }

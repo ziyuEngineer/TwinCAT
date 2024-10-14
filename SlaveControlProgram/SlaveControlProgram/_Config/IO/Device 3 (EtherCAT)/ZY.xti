@@ -123,7 +123,7 @@
 								<Data type="uint16">0.0410</Data>
 							</Parameter>
 							<Parameter>
-								<Comment>Winding resistance Ph-Ph 20�C</Comment>
+								<Comment>Winding resistance Ph-Ph 20?C</Comment>
 								<Name>R</Name>
 								<Data type="uint16">13.2</Data>
 							</Parameter>
@@ -203,7 +203,7 @@
 							<Parameter>
 								<Comment>Motor temp sensor R(T)</Comment>
 								<Name>TempSensorR(T)</Name>
-								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="�C">
+								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="?C">
 									<item>-29.5</item>
 									<item>2.2</item>
 									<item>31.3</item>
@@ -349,7 +349,7 @@
 								<Data type="uint16">0.0370</Data>
 							</Parameter>
 							<Parameter>
-								<Comment>Winding resistance Ph-Ph 20�C</Comment>
+								<Comment>Winding resistance Ph-Ph 20?C</Comment>
 								<Name>R</Name>
 								<Data type="uint16">39.4</Data>
 							</Parameter>
@@ -474,7 +474,7 @@
 							<Parameter>
 								<Comment>Motor temp sensor R(T)</Comment>
 								<Name>TempSensorR(T)</Name>
-								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="�C">
+								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="?C">
 									<item>-40.0</item>
 									<item>-15.5</item>
 									<item>9.0</item>
@@ -617,6 +617,9 @@
 					<InitCmd DriveNo="1" IDN="32861" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="0" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="1" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
+					<InitCmd DriveNo="0" IDN="33088" MotorDataLevel="0" DisableMode="0">
+						<RetainData>24002400d6000600ca0002002c9d5b002c9d5b000000000000000000000000002260000000000000</RetainData>
+					</InitCmd>
 					<InitCmd DriveNo="0" IDN="33093" MotorDataLevel="0" DisableMode="0">
 						<RetainData>16001a004a756e2020322032303232202c2031363a32353a3539</RetainData>
 					</InitCmd>
@@ -747,7 +750,7 @@
 			<SyncMan>001880002600010001000000800080008000001826010000</SyncMan>
 			<SyncMan>001a80002200010002000000800080008000001a22010000</SyncMan>
 			<SyncMan>001018002400010003000000000000000000001024010000</SyncMan>
-			<SyncMan>001124002200010004000000000000000000001122010000</SyncMan>
+			<SyncMan>001138002200010004000000000000000000001122010000</SyncMan>
 			<SyncMan>002000002400010005000000000000000000002024010000</SyncMan>
 			<SyncMan>002400002000010006000000000000000000002420010000</SyncMan>
 			<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
@@ -875,6 +878,15 @@
 				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
 					<Type>INT</Type>
 				</Entry>
+				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Effective velocity command value" BitLen="32" Index="#x81f8">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
+					<Type>INT</Type>
+				</Entry>
 			</Pdo>
 			<Pdo Name="AT 2" Index="#x1010" Flags="#x0001" SyncMan="3">
 				<Entry Name="Drive status word" BitLen="16" Index="#x0087" Flags="#x00000800">
@@ -896,6 +908,15 @@
 					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
+					<Type>INT</Type>
+				</Entry>
+				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Effective velocity command value" BitLen="32" Index="#x81f8">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
 					<Type>INT</Type>
 				</Entry>
 			</Pdo>

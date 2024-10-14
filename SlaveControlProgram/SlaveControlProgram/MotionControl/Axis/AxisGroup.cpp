@@ -131,29 +131,27 @@ void CAxisGroup::HoldPosition()
 			// Reset m_InitPos_Handwheel, prepare for entering eHandwheel state next time.
 			m_InitPos_Handwheel[i] = m_Axes[i][j].m_StandbyPos;
 		}
-		
 	}
-
 }
 
-void CAxisGroup::Move(MotionCommand _cmd)
+void CAxisGroup::Move(FullCommand _cmd)
 {
 	OpMode tempMode;
 	for (int i = 0; i < kActualAxisNum; i++)
 	{
 		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
 		{
-			tempMode = static_cast<OpMode>(_cmd.opMode[i]);
+			tempMode = static_cast<OpMode>(_cmd.Motion_Command.MotionType[i]);
 			switch (tempMode)
 			{
 			case OpMode::CSP:
-				m_Axes[i][j].Move(_cmd.pos[i], OpMode::CSP, kNotInterpolated, false);
+				m_Axes[i][j].Move(_cmd.Motion_Command.Pos[i], OpMode::CSP, kNotInterpolated, false);
 				break;
 			case OpMode::CST:
-				m_Axes[i][j].Move(_cmd.acc[i], OpMode::CST, kNotInterpolated, false);
+				m_Axes[i][j].Move(_cmd.Motion_Command.Acc[i], OpMode::CST, kNotInterpolated, false);
 				break;
 			case OpMode::CSV:
-				m_Axes[i][j].Move(_cmd.vel[i], OpMode::CSV, kNotInterpolated, false);
+				m_Axes[i][j].Move(_cmd.Motion_Command.Vel[i], OpMode::CSV, kNotInterpolated, false);
 				break;
 			default:
 				//m_Axes[i][j].HoldPosition();

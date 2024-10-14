@@ -22,6 +22,7 @@
 	PANEL_CHANNEL_NUM   :INT := 6;
 	CHANNEL_BUTTON_NUM  :INT := 8;
 	HANDWHEEL_FULL_SCALE :INT := 256;
+	RESET_DURATION :INT := 5;
 END_VAR
 
 // Define buttons of panel to improve code readability
@@ -36,10 +37,13 @@ VAR_GLOBAL
 	Spindle_CW			: PanelButton;
 	Spindle_CCW			: PanelButton;
 	Spindle_Stop		: PanelButton;
+	Spindle_Direct      : PanelButton;
 	Tenth_Ratio   		: PanelButton;
 	Hundredth_Ratio   	: PanelButton;
 	Thousandth_Ratio   	: PanelButton;
 	Reset_Button        : PanelButton;
+	Execute_Button      : PanelButton;
+	Cyclical_Run        : PanelButton;
 END_VAR
 ]]></Declaration>
   </GVL>

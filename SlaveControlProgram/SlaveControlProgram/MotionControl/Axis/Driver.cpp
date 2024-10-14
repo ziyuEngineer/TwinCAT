@@ -233,20 +233,27 @@ namespace Driver
 	 */
 	OpMode CDriver::GetActualOperationMode()
 	{
-		unsigned int parsed_mode = m_OpModeMask & (m_StatusWord >> 8);
-		switch(parsed_mode)
+		switch (m_DriverParam->DriverType)
 		{
 		case 0:
-			return OpMode::CSP;
-			break;
+			m_ActualOpMode = m_OpModeMask & (m_StatusWord >> 8);
+			switch (m_ActualOpMode)
+			{
+			case 0:
+				return OpMode::CSP;
+				break;
+			case 1:
+				return OpMode::CST;
+				break;
+			case 2:
+				return OpMode::CSV;
+				break;
+			default:
+				return OpMode::CSP;
+				break;
+			}
 		case 1:
-			return OpMode::CST;
-			break;
-		case 2:
-			return OpMode::CSV;
-			break;
-		default:
-			return OpMode::CSP;
+			return static_cast<OpMode>(m_ActualOpMode);
 			break;
 		}
 
@@ -575,6 +582,7 @@ namespace Driver
 			m_WarningCode = m_DriverInput->WarningCode;
 
 			m_DigitalInput = m_DriverInput->DigitalInput_1;
+			m_ActualOpMode = m_DriverInput->ActualOpMode;
 		}
 	}
 

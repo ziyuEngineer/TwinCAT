@@ -29,6 +29,7 @@ namespace Driver
 		short m_ErrorCode = 0;
 		short m_WarningCode = 0;
 		short m_DigitalInput = 0;
+		char m_ActualOpMode;
 
 		// Output to driver
 		unsigned short m_ControlWord = 0;

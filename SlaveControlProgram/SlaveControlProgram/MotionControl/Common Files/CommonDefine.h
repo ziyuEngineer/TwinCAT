@@ -32,6 +32,10 @@ constexpr int kMaxRead = 8192;
 constexpr bool kInterpolated = true;
 constexpr bool kNotInterpolated = false;
 
+// Command buffer define
+constexpr int kCommandMaxLength = 1024;
+constexpr int kCommandBufferMask = kCommandMaxLength - 1;
+
 /**
  * @brief Restrict a given value 'x' to be within the range specified by 'minimum' and 'maximum'.
  * 

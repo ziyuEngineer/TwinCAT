@@ -6,11 +6,6 @@ VAR
 	bInit 	  : BOOL := FALSE; // flag for initialization
 	bTaskDone : BOOL := FALSE;
 END_VAR
-
-// Command related
-VAR
-	fb_CommandProcess : FB_CommandProcess; // Process data from host and transfer data to Cpp
-END_VAR
 	
 // Scope Server
 VAR
@@ -21,26 +16,10 @@ VAR
 	bExportData    		  		: BOOL := FALSE; 		  		// Flag of exporting data to file
 END_VAR
 
-// Initialize and Config load
+// RPC module
 VAR
-	bBufferFilled 	 : BOOL := FALSE; // Flag reflects success or failure of initializing ring buffer
-	bPanelInfoLoaded : BOOL := FALSE; // Flag reflects success or failure of loading panel info file
-	bPanelReset		 : BOOL := FALSE; // Flag triggers action which turn off all buttons.
-	bDriveInfoRetrieved : BOOL := FALSE; // Flag reflects success or failure of retrieving drive information
-	bHandwheelReset  : BOOL := FALSE;
-	fb_PanelInfoProcess : FB_PanelInfoProcess;
-	fb_SoEProcess : FB_SoEProcess;
-END_VAR
-
-// State Machine
-VAR
-	mSystemState AT %I* : StateMachine;
-END_VAR
-
-// Test variables
-VAR
-	mockButtons AT %Q* : ARRAY [0..9] OF BOOL;
-	Outputs2Cpp AT %Q* : ARRAY [0..19] OF LREAL;
+	rpc_SoEProcess : RPC_SoEProcess('MAIN.rpc_SoEProcess');
+	rpc_PanelProcess : RPC_PanelProcess('MAIN.rpc_PanelProcess');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -48,8 +27,6 @@ END_VAR
 	bInit := mInitialize();
 ELSE
 	mInput();
-
-	mStateControl();
 
 	mOutput();
 END_IF
@@ -69,70 +46,24 @@ fb_ExportScopeData(
 	config					:= GlobalVar.RECORD_CONFIG_XML_PATH);
 	]]></ST>
     </Implementation>
-    <Method Name="mFault" Id="{44dfe878-374b-4cf2-8886-c8d5503863d9}">
-      <Declaration><![CDATA[METHOD mFault : BOOL
-VAR_INPUT
-END_VAR
-VAR
-	loopAxis : INT := 0;
-	loopJoint : INT := 0;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF NOT bPanelReset THEN
-	bPanelReset := fb_PanelInfoProcess.mFaultReset();
-END_IF
-
-FOR loopAxis := 0 TO GlobalVar.MC_AXIS_NUM - 1 DO 
-	FOR loopJoint := 0 TO GlobalVar.MC_DRIVER_NUM_PER_AXIS[loopAxis] - 1 DO  
-		IF mSystemState.StateFlag[TO_INT(SystemState.eFault)] THEN
-			fb_SoEProcess.mReset(loopAxis, loopJoint);
-		END_IF
-	END_FOR
-END_FOR
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mHandwheel" Id="{893b1e71-908c-4167-b5f5-ac66d0ee3542}">
-      <Declaration><![CDATA[METHOD mHandwheel : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[bHandwheelReset := FALSE;
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="mInitialize" Id="{9586f67e-0d90-4ec0-811a-a2c911cc73f9}">
       <Declaration><![CDATA[METHOD mInitialize : BOOL
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Wait for the following initialization
-// Step 1. Retrieve drive information
-// Step 2. Current module finish loading panel processing module;
+
 mInitialize := FALSE;
 
 // Get time to generate suffix of files saved by scope server
 fb_GenerateFileSuffixByTime();
 
-// Step 1
-IF NOT bDriveInfoRetrieved THEN
-	bDriveInfoRetrieved := fb_SoEProcess.mInitialize();
-END_IF
-
-// Step 2
-IF NOT bPanelInfoLoaded THEN
-	bPanelInfoLoaded := fb_PanelInfoProcess.mInitialize();
-END_IF
-
 // Finish all initialization steps.
-IF bDriveInfoRetrieved AND bPanelInfoLoaded THEN
-	
-	// Start recording data
-	bScopeRun := TRUE;
-	
-	// End initialization
-	mInitialize := TRUE;
-END_IF
+// Start recording data
+bScopeRun := TRUE;
+
+// End initialization
+mInitialize := TRUE;
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -143,24 +74,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Receive inputs from Hardware and other modules.
-
-fb_PanelInfoProcess();
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mMoving" Id="{0eb6e177-2bf8-4f5c-959e-8eba05381b3c}">
-      <Declaration><![CDATA[METHOD mMoving : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF NOT bBufferFilled THEN
-	// Consider this step as initialization in Moving state
-	// Host Machine fills command buffer;
-	bBufferFilled := fb_CommandProcess.mInitialize();
-ELSE
-	fb_CommandProcess.mSendCommand();
-END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -183,68 +96,6 @@ IF bTaskDone THEN
 END_IF
 
 ]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mStandBy" Id="{c42b5ab1-fe93-406b-b500-2cde5df4b0ad}">
-      <Declaration><![CDATA[METHOD mStandBy : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF bBufferFilled THEN
-	// Reset flag which is used for the initialization step of Moving state
-	bBufferFilled := fb_CommandProcess.mReset();;
-END_IF
-
-IF NOT bHandwheelReset THEN
-	bHandwheelReset := fb_PanelInfoProcess.mHandwheelReset();;
-END_IF
-
-IF bPanelReset THEN
-	bPanelReset := FALSE;
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mStateControl" Id="{90d3d97d-307c-4bcc-a0ae-c32f432a8cb3}">
-      <Declaration><![CDATA[METHOD mStateControl : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE mSystemState.CurrState OF
-	
-	SystemState.eIdle:
-		;
-	
-	SystemState.eInitialization:
-		;
-	
-	SystemState.eDisabled:
-		;
-	
-	SystemState.eStandBy:
-		mStandby();
-	
-	SystemState.eMoving:
-		mMoving();
-	
-	SystemState.eHandwheel:
-		mHandwheel();
-	
-	SystemState.eLimitViolation:
-		;
-	
-	SystemState.eFault:
-		mFault();
-	
-	SystemState.eEmergency:
-		;
-	
-	SystemState.eTest:
-		;
-	
-END_CASE]]></ST>
       </Implementation>
     </Method>
   </POU>

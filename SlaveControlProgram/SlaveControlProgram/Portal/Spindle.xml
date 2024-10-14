@@ -2,12 +2,12 @@
 <Spindle>
     <axes> <!-- Spindle -->
 		<axis>
-			<AbsEncoderDir>-1</AbsEncoderDir>
+			<AbsEncoderDir>1</AbsEncoderDir>
 			<AbsEncoderRes>8388608</AbsEncoderRes> <!-- 2^23-->
 			<RatedCurr>1.85</RatedCurr>
 			<RatedTor>0.8</RatedTor>
-			<TorDir>-1</TorDir>
-			<AbsZeroPos>-10086</AbsZeroPos>
+			<TorDir>1</TorDir>
+			<AbsZeroPos>0</AbsZeroPos>
 			<UpperPosLimit>100</UpperPosLimit>
 			<LowerPosLimit>-100</LowerPosLimit>
 			<TransmissionRatio>1.0</TransmissionRatio>

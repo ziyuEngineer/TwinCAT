@@ -59,6 +59,7 @@ public:
 	bool Disable();
 
 	void HoldPosition();
+	void StandStill();
 	void Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback);
 	void ReturnToZeroPoint();
 
