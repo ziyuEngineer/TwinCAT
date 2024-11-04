@@ -47,6 +47,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 ## Portal Project Brief
 
+提供C++模块调用的RPC接口；
+
 ### mInput
 
 1. 接收部分硬件的输入信号, 如控制面板等；
@@ -56,136 +58,126 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 | 变量名 | 类型 | 大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| MAIN.fb_CommandProcess.mInputData | ARRAY [0..1023] OF MotionCommand | 262144.0 | 上位机写入 | 存储host指令的Buffer | \ |
-| MAIN.fb_CommandProcess.iWriteIndex | UDINT | 4.0 | 上位机写入 | host指令的个数 | \ |
-| MAIN.fb_PanelInfoProcess.pInput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Inputs | 获取面板输入通道的值 | \ |
-| MAIN.fb_PanelInfoProcess.handwheelCurrPos | USINT | 1.0 | TEACH_HANDWHEEL . PANEL_Inputs . Panel . Device 3 (EtherCAT) . Devices | 获取手轮当前位置 | \ |
-| MAIN.fb_SoEProcess.stPlcDriveRef | ARRAY [0..3,0..0] OF Tc2_EtherCAT.ST_PlcDriveRef | 40.0 | (netId/port/Chn).AdsAddr.InfoData.ZY | 访问驱动器 | \ |
-| MAIN.mSystemState | StateMachine | 12.0 | StateMachine  | 系统当前状态及各状态下的标志位 | \ |
+| MAIN.rpc_PanelProcess.pInput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Inputs | 获取面板输入通道的值 | \ |
+| MAIN.rpc_PanelProcess.handwheelCurrPos | USINT | 1.0 | TEACH_HANDWHEEL . PANEL_Inputs . Panel . Device 3 (EtherCAT) . Devices | 获取手轮当前位置 | \ |
+| MAIN.rpc_SoEProcess.stPlcDriveRef | ARRAY [0..4,0..1] OF Tc2_EtherCAT.ST_PlcDriveRef | 100.0 | (netId/port/Chn).AdsAddr.InfoData.(ZY/Gantry) | 访问驱动器 | \ |
 | \ | \ | \ | \ | \ | \ |
-
-### mStateControl
-
-| 系统状态 | PLC 执行任务 |
-| :----: | :----: |
-| Idle | \ |
-| Initialization | 面板处理功能块初始化；SoE地址信息获取 |
-| Disabled | \ |
-| Standby | 重置RingBuffer；手摇功能所需数据重置 |
-| Moving | 将RingBuffer中数据发送给C++模块 |
-| Handwheel | \ |
-| LimitViolation | \ |
-| Fault | 重置SoE |
-| Emergency | \ |
-| Test | \ |
 
 ### mOutput
 
-1. 将上位机传入的指令信号通过变量链接的形式传给C++模块的Input;
-2. xxxxxx
+1. xxxxxxx
 
 #### Data Area -- PLC Outputs
 
 | 变量名 | 类型 | 大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| MAIN.fb_CommandProcess.iReadIndex | UDINT | 4.0 | 上位机读取 | 下位机消耗指令的个数 | \ |
-| MAIN.fb_CommandProcess.mOutputData | MotionCommand | 256.0 | CommandData | 从Buffer中取出的指令 | 、 |
-| MAIN.fb_PanelInfoProcess.pOutput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Outputs  | 给面板输出通道发送值 | \ |
-| MAIN.fb_PanelInfoProcess.panelInfoOutput | PanelInfo | 56.0 | PanelInformation  | 给C++端发送面板信息，如按钮状态，手轮行程等 | \ |
-| MAIN.mockButtons | ARRAY [0..9] OF BOOL | 10.0 | mockButtons  | 测试用，链接到C++中对应变量 | \ |
-| MAIN.Outputs2Cpp | ARRAY [0..19] OF LREAL | 160.0 | TestInputs  | 测试用，链接到C++中对应变量，用于切换Test模式下的测试用例 | \ |
+| MAIN.rpc_SoEProcess.objID | OTCID | 4.0 | OidSoEProcess . Inputs . MotionControl_Obj3 (ModuleAxisGroup) . MotionControl | SoE清错功能块的object ID | \ |
+| MAIN.rpc_PanelProcess.objID | OTCID | 4.0 | OidPanelProcess . Inputs . MotionControl_Obj1 (MotionControl) . MotionControl | 面板处理功能块的object ID | \ |
+| MAIN.rpc_PanelProcess.pOutput | ARRAY [0..5] OF USINT | 6.0 | PANEL_Outputs  | 给面板输出通道发送值 | \ |
+| MAIN.rpc_PanelProcess.panelInfoOutput | PanelInfo | 64.0 | PanelInformation.Inputs.MotionControl_Obj1 (MotionControl).MotionControl  | 给C++端发送面板信息，如按钮状态，手轮行程等 | \ |
+| \ | \ | \ | \ | \ | \ |
 
 ## MotionControl Project Brief
 
+主模块状态机的运行，指令信号的处理(包括面板信号读取以及RingBuffer指令)；
+
 ### Input
 
-1. 接收电机驱动器的输入信号，如编码器位置、速度、力矩、错误码等，计算并更新轴和关节的反馈位置(单位: mm)、扭矩(单位：1/1000)和速度(单位: mm/s)
+1. 接收PLC模块传递的解析后的面板信号；
 2. xxxxxx
 
-#### Data Area -- C++ Inputs
+#### Data Area -- MotionControl Inputs
 
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| CommandData | MotionCommand | 256。0 | MAIN.fb_CommandProcess.mOutputData | 接收PLC收到的application发送的运动指令 | \ |
-| MotionCtrlParam | ARRAY [0..5] OF MotionControlInfo | 384.0 | MAIN.fb_MotorInfoLoad.McInfo | 接收PLC解析MotionControl.xml得到的轴参数 | 后续弃用 |
-| AxisInputs | ARRAY [0..9] OF DriverInput | 240.0 | I/O中电机的Input通道 | 接收驱动器的反馈信息 | \ |
-| PanelInformation | PanelInfo | 56.0 | MAIN.fb_PanelInfoProcess.panelInfoOutput | 接收面板按钮的状态信息等 | \ |
-| mockButton | ARRAY [0..9] OF BOOL | 10.0 | application写入 | 触发状态跳转 | \ |
-| TestInputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试写入用，后续会删除 | \ |
-
-#### 以下为每个muckButton对应的功能
-
-| mockButton按键编号 | 功能 |
-| :----: | :----: |
-| 0 | \ |
-| 1 | \ |
-| 2 | \ |
-| 3 | \ |
-| 4 | Standby状态下，若为True，状态跳转至Moving |
-| 5 | \ |
-| 6 | \ |
-| 7 | \ |
-| 8 | Spindle在Standby状态下，若为True，Spindle状态跳转至Test |
-| 9 | AxisGroup在Standby状态下，若为True，AxisGroup状态跳转至Test |
+| Commandinput | ARRAY [0..1023] OF FullCommand | 778240.0 | 上位机写入 | 加工指令 | \ |
+| CommandWriteIndex | UDINT | 4.0 | 上位机写入 | 下一个要写入的指令位置 | \ |
+| PanelInformation | PanelInfo | 64.0 | MAIN.rpc_PanelProcess.panelInfoOutput.PlcTask Outputs.Portal Instance.Portal | 接收面板按钮的状态信息等 | \ |
+| OidPanelProcess | OTCID | 4.0 | MAIN.rpc_PanelProcess.objID.PlcTask Outputs.Portal Instance.Portal | 初始化RPC | \ |
 
 ### StateControl
 
-1. 接受状态跳转指令，根据状态不同，接收或者生成对应的控制指令，包含控制字，位置/速度/扭矩;
-2. xxxxxx
-
-| AxisGroup状态 | C++ 执行任务 |
-| :----: | :----: |
-| Idle | \ |
-| Initialization | 接收m_Parameters中的轴控制参数，更新AxisGroup对应电机的成员变量 |
-| Disabled | 等待使能信号，使能成功后跳转至Standby |
-| Standby | 使电机位置保持，等待状态跳转信号 |
-| Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
-| Handwheel | 接收PLC端发送的手摇行程，使电机完成相对运动 |
-| LimitViolation | 等待Reset信号，跳转至Standby |
-| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Disabled |
-| Emergency | 松开急停后，等待Reset信号，跳转至Disabled状态 |
-| Test | 测试模式，根据输入的测试用例编号完成指定测试 |
-
-| Spindle状态 | C++ 执行任务 |
-| :----: | :----: |
-| Idle | \ |
-| Initialization | 接收m_Parameters中的轴控制参数，更新Spindle对应电机的成员变量 |
-| Disabled | 等待使能信号，使能成功后跳转至Standby |
-| Standby | 使电机位置保持，等待状态跳转信号 |
-| Moving | 接收PLC端传递的控制指令，使电机完成对应运动 |
-| Fault | 等待Reset信号，发送指令到PLC端，使其重置SoE，清错后跳转至Disabled |
-| Emergency | 松开急停后，等待Reset信号，跳转至Disabled状态 |
-| Test | 测试模式，根据输入的测试用例编号完成指定测试 |
+见[:arrow_right:](https://www.processon.com/diagraming/66b97fb9ce68f62ecf3af744)
 
 ### Output
 
-1. 将StateControl中的控制指令转换成输出给电机驱动器的指令信号，如控制字，目标位置、速度、扭矩等
-2. 生成错误码，传递给上位机；
-3. xxxxxx
+1. 更新主模块状态机，供上位机读取；
+2. xxxxxx
 
-#### Data Area -- C++ Outputs
+#### Data Area -- MotionControl Outputs
 
 | 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| AxisOutputs | ARRAY [0..9] OF DriverOutput | 160.0 | I/O中电机的Output通道 | 发送指令给驱动器 | \ |
-| AxisInfoOutputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试，观测变量用，后续会删除 | \ |
-| StateMachine | SystemState | 12.0 | MAIN.mSystemState | 系统当前状态及各状态下的标志位 | \ |
+| CommandReadIndex | UDINT | 4.0 | 上位机读取 | 下一个要写入的指令位置 | \ |
+| MainState | SystemState | 2.0 | 上位机读取 | 主模块当前状态 | \ |
+| ManualMovingCommand | 自定义结构体 | 48.0 | ManualMovingCommand.Inputs.MotionControl_Obj3 (ModuleAxisGroup).MotionControl | 手摇状态所需信息 | \ |
+| ContinuousMovingCommand | FullCommand | 760.0 | ContinuousMovingCommand.Inputs.MotionControl_Obj3 (ModuleAxisGroup).MotionControl | 加工指令 | \ |
 
-#### 以下为StateMachine展开后各变量的说明
+## ModuleSpindle Project Brief
 
-| 变量名 | 说明 | 功能 |
+主轴状态机的运行，主轴电机的控制；
+
+### ModuleSpindle - Input
+
+1. 接收主轴电机信号；
+2. xxxxxx
+
+#### Data Area -- ModuleSpindle Inputs
+
+| 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| SpindleInput | DriverInput | 24.0 | 主轴电机的Input通道 | \ | \ |
+| SpindleTestInputs | ARRAY [0..19] OF LREAL | 160.0 | \ | 测试用 | \ |
+
+### ModuleSpindle - Output
+
+1. 给主轴电机发送指令；
+2. xxxxxx
+
+#### Data Area -- ModuleSpindle Outputs
+
+| 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| SpindleOutput | DriverOutput | 20.0 | 主轴电机的Output通道 | \ | \ |
+| SpindleState | SpindleState | 2.0 | 上位机读取 | 主轴当前状态机 | \ |
+| SpindleInfo | AxisInformation | 48.0 | 上位机读取 | 主轴当前信息 | \ |
+
+## ModuleAxisGroup Project Brief
+
+加工轴状态机的运行，加工轴电机的控制；
+
+### ModuleAxisGroup - Input
+
+1. 接收加工轴电机信号；；
+2. xxxxxx
+
+#### Data Area -- ModuleAxisGroup Inputs
+
+| 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| OidSoEProcess | OTCID | 4.0 | MAIN.rpc_SoEProcess.objID.PlcTask Outputs.Portal Instance.Portal | 初始化SoE功能块RPC | \ |
+| AxisInputs | ARRAY [0..9] OF DriverInput | 240.0 | 加工轴电机的Input通道 | \ | \ |
+| ContinuousMovingCommand | FullCommand | 760.0 | ContinuousMovingCommand.Outputs.MotionControl_Obj1 (MotionControl).MotionControl | 连续加工指令 | \ |
+| ManualMovingCommand | 自定义结构体 | 48.0 | ManualMovingCommand.Outputs.MotionControl_Obj1 (MotionControl).MotionControl | 手摇运动指令 | \ |
+
+### ModuleAxisGroup - Output
+
+1. 给加工轴电机发送指令；
+2. xxxxxx
+
+#### Data Area -- ModuleAxisGroup Outputs
+
+| 变量名 | 类型 |  大小 | Linked To | 用途 | 备注 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| AxisOutputs | ARRAY [0..9] OF DriverOutput | 200.0 | 加工轴电机的Output通道 | \ | \ |
+| AxisGroupState | AxisGroupState | 2.0 | 上位机读取 | 加工轴当前状态机 | \ |
+| AxisInfo | 自定义结构体 | 248.0 | 上位机读取 | 加工轴当前信息 | \ |
+
+### 主模块及子系统状态机对应关系
+| MainState | AxisGroupState |  SpindleState |
 | :----: | :----: | :----: |
-| CurrentState | 系统当前状态 | \ |
-| StateFlag[0] | Idle标志位 | 暂未启用 |
-| StateFlag[1] | Initialization标志位 | 暂未启用 |
-| StateFlag[2] | Disabled标志位 | 暂未启用 |
-| StateFlag[3] | Standby标志位 | 暂未启用 |
-| StateFlag[4] | Moving标志位 | 暂未启用 |
-| StateFlag[5] | Handwheel标志位 | 暂未启用 |
-| StateFlag[6] | LimitViolation标志位 | 暂未启用 |
-| StateFlag[7] | Fault标志位 | 通知PLC端重置SoE以清除错误 |
-| StateFlag[8] | Emergency标志位 | 暂未启用 |
-| StateFlag[9] | Test标志位 | 暂未启用 |
+| Disabled | Disabled | Disabled |
+
 
 ### Safety Module
 

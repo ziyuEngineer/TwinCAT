@@ -121,9 +121,9 @@ mGenerateMutexPair(A_Axis, B_Axis);
 mGenerateMutexPair(A_Axis, C_Axis);
 mGenerateMutexPair(B_Axis, C_Axis);
 
-mGenerateMutexPair(Spindle_CW, Spindle_CCW);
-mGenerateMutexPair(Spindle_CW, Spindle_Stop);
-mGenerateMutexPair(Spindle_CCW, Spindle_Stop);
+//mGenerateMutexPair(Spindle_CW, Spindle_CCW);
+//mGenerateMutexPair(Spindle_CW, Spindle_Stop);
+//mGenerateMutexPair(Spindle_CCW, Spindle_Stop);
 
 mGenerateMutexPair(Tenth_Ratio, Hundredth_Ratio);
 mGenerateMutexPair(Tenth_Ratio, Thousandth_Ratio);
@@ -178,6 +178,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[mGetServoButtonStatus();
 
+mGetExecuteButtonStatus();
+
 mGetHandWheelRatio();
 
 mGetHandwheelEnabledAxis();
@@ -187,6 +189,22 @@ mGetSpindleButtonStatus();
 mGetResetButtonStatus();
 
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetExecuteButtonStatus" Id="{ccd90036-2806-476e-823e-ff79139ec63f}">
+      <Declaration><![CDATA[METHOD mGetExecuteButtonStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Execute_Button.pressed := effectiveButtonStatus[Execute_Button.row, Execute_Button.column];
+
+IF Execute_Button.pressed THEN
+	panelInfoOutput.Execute := TRUE;
+
+ELSE	
+	panelInfoOutput.Execute := FALSE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="mGetHandwheelEnabledAxis" Id="{39dc7124-cdf4-44e7-b698-df2fee352ffb}">
@@ -448,6 +466,13 @@ mMutexCheck(buttonStatus, effectiveButtonStatus, valChanged);
 
 FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
+		
+		IF (iLoop = Spindle_Stop.row AND jLoop = Spindle_Stop.column) OR
+		   (iLoop = Spindle_CCW.row AND jLoop = Spindle_CCW.column) OR
+ 		   (iLoop = Spindle_CW.row AND jLoop = Spindle_CW.column)	THEN
+			CONTINUE;
+		END_IF
+		
 		IF buttonStatus[iLoop, jLoop] AND ((lastInput[iLoop] <> pInput[iLoop]) OR valChanged[iLoop]) THEN
 			effectiveButtonStatus[iLoop, jLoop] := NOT effectiveButtonStatus[iLoop, jLoop];
 			
@@ -458,12 +483,14 @@ FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 			ELSE
 				pOutput[iLoop] := pOutput[iLoop] - INT_TO_USINT(temp);
 			END_IF
-		
 		END_IF
+		
 	END_FOR
 	lastInput[iLoop] := pInput[iLoop];
 	valChanged[iLoop] := FALSE;
 END_FOR
+
+mSpindleButtonsHandle();
 
 mGetButtonStatus();
 ]]></ST>
@@ -500,20 +527,52 @@ IF effectiveButtonStatus[Reset_Button.row, Reset_Button.column] THEN
 		iResetCount := 0;
 	END_IF
 END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSpindleButtonsHandle" Id="{6eee9e60-4736-4f7f-9b67-28923567cccf}">
+      <Declaration><![CDATA[METHOD mSpindleButtonsHandle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Spindle Stop Button -- always light on except press CW or CCW
+effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] := NOT(effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] OR effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column]);
 
-// Spindle Stop Button -- always light on except press CW or CCW
-//effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] := NOT(effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] OR effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column]);
+IF buttonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column]) THEN
+	effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] := TRUE;
+	
+	IF effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] THEN
+		pOutput[Spindle_CW.row] := pOutput[Spindle_CW.row] - INT_TO_USINT(SHL(1, Spindle_CW.column));
+		effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] := FALSE;
+	END_IF
+	
+	IF effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column] THEN
+		pOutput[Spindle_CCW.row] := pOutput[Spindle_CCW.row] - INT_TO_USINT(SHL(1, Spindle_CCW.column));
+		effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column] := FALSE;
+	END_IF
+	
+END_IF
 
-//IF effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT bSpindleStopSet) THEN
-//	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] + INT_TO_USINT(SHL(1, Spindle_Stop.column));
-//	bSpindleStopSet := TRUE;
-//END_IF
+IF buttonStatus[Spindle_CW.row, Spindle_CW.column] AND effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column]) THEN
+	effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] := TRUE;
+	pOutput[Spindle_CW.row] := pOutput[Spindle_CW.row] + INT_TO_USINT(SHL(1, Spindle_CW.column));
+END_IF
 
-//IF effectiveButtonStatus[Spindle_CW.row, Spindle_CW.column] OR effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column] THEN
-//	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] - INT_TO_USINT(SHL(1, Spindle_Stop.column));	
-//	bSpindleStopSet := FALSE;
-//END_IF
+IF buttonStatus[Spindle_CCW.row, Spindle_CCW.column] AND effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column]) THEN
+	effectiveButtonStatus[Spindle_CCW.row, Spindle_CCW.column] := TRUE;
+	pOutput[Spindle_CCW.row] := pOutput[Spindle_CCW.row] + INT_TO_USINT(SHL(1, Spindle_CCW.column));
+END_IF
 
+IF effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column] AND (NOT bSpindleStopSet) THEN
+	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] + INT_TO_USINT(SHL(1, Spindle_Stop.column));
+	bSpindleStopSet := TRUE;
+END_IF
+
+IF (NOT effectiveButtonStatus[Spindle_Stop.row, Spindle_Stop.column]) AND bSpindleStopSet THEN
+	pOutput[Spindle_Stop.row] := pOutput[Spindle_Stop.row] - INT_TO_USINT(SHL(1, Spindle_Stop.column));	
+	bSpindleStopSet := FALSE;
+END_IF
 ]]></ST>
       </Implementation>
     </Method>

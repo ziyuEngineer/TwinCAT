@@ -50,34 +50,52 @@
     <ClInclude Include="Axis\Biquad.h" />
     <ClInclude Include="Axis\Spindle.h" />
     <ClInclude Include="CommandProcess\CommandManager.h" />
+    <ClInclude Include="CommandProcess\ring_buffer.hh" />
     <ClInclude Include="Common Files\CommonDefine.h" />
     <ClInclude Include="Common Files\Matrix.h" />
-    <ClInclude Include="Controller\FiveAxisController.h" />
+    <ClInclude Include="Controller\AxisGroupController.h" />
+    <ClInclude Include="Controller\CommandController.h" />
+    <ClInclude Include="Controller\SpindleController.h" />
+    <ClInclude Include="ModuleAxisGroup.h" />
+    <ClInclude Include="ModuleSafety.h" />
+    <ClInclude Include="ModuleSpindle.h" />
     <ClInclude Include="MotionControl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StateMachine\AxisGroupLimitViolation.h" />
+    <ClInclude Include="StateMachine\AxisGroupPreContinuousMoving.h" />
+    <ClInclude Include="StateMachine\AxisGroupPreStandby.h" />
     <ClInclude Include="StateMachine\FsmCommon.h" />
-    <ClInclude Include="StateMachine\FsmList.h" />
+    <ClInclude Include="StateMachine\MainStateBuffering.h" />
+    <ClInclude Include="StateMachine\MainStateContinuousExecution.h" />
+    <ClInclude Include="StateMachine\MainStateDisabled.h" />
+    <ClInclude Include="StateMachine\MainStateFault.h" />
+    <ClInclude Include="StateMachine\MainStateMachine.h" />
+    <ClInclude Include="StateMachine\MainStateManual.h" />
+    <ClInclude Include="StateMachine\MainStatePreStandby.h" />
+    <ClInclude Include="StateMachine\MainStateRecovery.h" />
+    <ClInclude Include="StateMachine\MainStateStandby.h" />
+    <ClInclude Include="StateMachine\MainStateTest.h" />
     <ClInclude Include="StateMachine\SpindleDisabled.h" />
     <ClInclude Include="StateMachine\SpindleEmergency.h" />
     <ClInclude Include="StateMachine\SpindleFault.h" />
     <ClInclude Include="StateMachine\SpindleIdle.h" />
     <ClInclude Include="StateMachine\SpindleInitialize.h" />
-    <ClInclude Include="StateMachine\SpindleMoving.h" />
-    <ClInclude Include="StateMachine\SpindleStandby.h" />
+    <ClInclude Include="StateMachine\SpindleLocate.h" />
+    <ClInclude Include="StateMachine\SpindlePostMoving.h" />
+    <ClInclude Include="StateMachine\SpindlePreMoving.h" />
+    <ClInclude Include="StateMachine\SpindleRotate.h" />
+    <ClInclude Include="StateMachine\SpindleEnable.h" />
     <ClInclude Include="StateMachine\SpindleStateMachine.h" />
-    <ClInclude Include="StateMachine\SpindleTest.h" />
     <ClInclude Include="StateMachine\AxisGroupDisabled.h" />
     <ClInclude Include="StateMachine\AxisGroupEmergency.h" />
     <ClInclude Include="StateMachine\AxisGroupFault.h" />
-    <ClInclude Include="StateMachine\AxisGroupHandwheel.h" />
+    <ClInclude Include="StateMachine\AxisGroupManualMoving.h" />
     <ClInclude Include="StateMachine\AxisGroupIdle.h" />
     <ClInclude Include="StateMachine\AxisGroupInitialize.h" />
     <ClInclude Include="StateMachine\AxisGroupStateMachine.h" />
-    <ClInclude Include="StateMachine\AxisGroupMoving.h" />
+    <ClInclude Include="StateMachine\AxisGroupContinuousMoving.h" />
     <ClInclude Include="StateMachine\AxisGroupRecovery.h" />
     <ClInclude Include="StateMachine\AxisGroupStandby.h" />
-    <ClInclude Include="StateMachine\AxisGroupTest.h" />
     <ClInclude Include="StateMachine\tinyfsm.hpp" />
     <ClInclude Include="TcPch.h" />
     <ClInclude Include="MotionControlClassFactory.h" />
@@ -95,8 +113,14 @@
     <ClCompile Include="CommandProcess\CommandManager.cpp" />
     <ClCompile Include="Common Files\CommonDefine.cpp" />
     <ClCompile Include="Common Files\Matrix.cpp" />
-    <ClCompile Include="Controller\FiveAxisController.cpp" />
+    <ClCompile Include="Controller\AxisGroupController.cpp" />
+    <ClCompile Include="Controller\CommandController.cpp" />
+    <ClCompile Include="Controller\SpindleController.cpp" />
+    <ClCompile Include="ModuleAxisGroup.cpp" />
+    <ClCompile Include="ModuleSafety.cpp" />
+    <ClCompile Include="ModuleSpindle.cpp" />
     <ClCompile Include="MotionControl.cpp" />
+    <ClCompile Include="StateMachine\MainStateMachine.cpp" />
     <ClCompile Include="StateMachine\SpindleStateMachine.cpp" />
     <ClCompile Include="StateMachine\AxisGroupStateMachine.cpp" />
     <ClCompile Include="TcPch.cpp">
@@ -265,7 +289,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\StateMachine;$(ProjectDir)..\ruckig\extern\include;$(ProjectDir)..\tinyxml2\extern;.\Controller;.\Common Files;.\CommandProcess;.\Axis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\StateMachine;$(ProjectDir)..\ruckig\extern\include;$(ProjectDir)..\tinyxml2\extern;.\Controller;.\Common Files;.\CommandProcess;.\Axis;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

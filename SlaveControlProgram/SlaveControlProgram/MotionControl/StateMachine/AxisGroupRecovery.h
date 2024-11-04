@@ -6,23 +6,21 @@ class AxisGroupRecovery : public AxisGroupStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eRecovery);
+        report_current_state(AxisGroupState::eAxisGroupRecovery);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
-        if (!s_pController->m_bEnterRecoveryState)
-        {
-            transit<AxisGroupStandby>();
-        }
-        else
-        {
-            s_pController->AxisGroupRecovery();
-        }
+       s_pController->AxisGroupRecovery();
     }
 
     void exit() override 
     {
-        s_pController->HandwheelCommandReset();
+        
+    };
+
+    void react(EventAxisGroupExitRecoveryState const&) override
+    {
+        transit<AxisGroupStandby>();
     };
 };

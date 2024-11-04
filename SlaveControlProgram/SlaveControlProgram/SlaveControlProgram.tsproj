@@ -141,7 +141,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{75F6F238-A022-446E-8F56-58206FCA8931}">InterfaceRPC</Name>
+			<Name GUID="{0A661E3E-E020-43B6-B916-4725F5A024F4}">IMotionControlInterface</Name>
 			<BitSize X64="64">32</BitSize>
 			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
 			<Method>
@@ -158,16 +158,26 @@
 					<Type GUID="{18071995-0000-0000-0000-000000000006}" ReferenceTo="true" RpcDirection="out">INT</Type>
 					<BitSize X64="64">32</BitSize>
 				</Parameter>
+				<Parameter>
+					<Name>op_mode</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000003}" RpcDirection="in">SINT</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
 			</Method>
 			<Method>
 				<Name RpcEnable="cpp">EnterRecoveryState</Name>
 				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
 				<ReturnBitSize>32</ReturnBitSize>
 				<Parameter>
-					<Name>b_Enter</Name>
+					<Name>is_entered</Name>
 					<Type GUID="{18071995-0000-0000-0000-000000000030}" RpcDirection="in">BOOL</Type>
 					<BitSize>8</BitSize>
 				</Parameter>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
 			</Method>
 			<Hides>
 				<Hide GUID="{C70AD3AE-80F7-4AFB-A130-4FB32DE8E2EA}"/>
@@ -176,6 +186,440 @@
 				<Hide GUID="{BDB70224-8ADB-4A67-BA02-29339488814C}"/>
 				<Hide GUID="{F7764EE2-1985-4955-AB83-94F720E843B1}"/>
 				<Hide GUID="{B3DCB58A-8089-4641-9A0C-E878C1926708}"/>
+				<Hide GUID="{75F6F238-A022-446E-8F56-58206FCA8931}"/>
+				<Hide GUID="{7B5F3667-9010-4928-8E7B-BEAA3E7D8A6E}"/>
+				<Hide GUID="{30A861F3-F64B-453A-AE46-1A36980C4A13}"/>
+				<Hide GUID="{73968DE1-2650-44D1-AE7D-EBED40F2B70E}"/>
+				<Hide GUID="{969C38E8-83DA-4C1C-89BE-87EBF872B043}"/>
+				<Hide GUID="{D57097F6-3BBA-4685-A6EF-110FE1798263}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>CommandType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SourceActionBlockIndex</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Index</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment>
+				<BitSize>32</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{F8220079-266A-492E-8DEF-DFA52E623682}"/>
+				<Hide GUID="{F9EDFA92-02A8-44F3-86C0-C2E70B85BE12}"/>
+				<Hide GUID="{F02A1AC5-2FED-483E-B214-6DC50232399F}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Name>
+			<BitSize>5824</BitSize>
+			<SubItem>
+				<Name>MotionType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>40</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Acc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>704</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>1024</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kv</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>2624</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ka</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>4224</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{3A94D6B3-A565-40B9-9D0A-0030CBAFC8C3}"/>
+				<Hide GUID="{16AA0362-867D-4218-A7B5-BA6062BA4B24}"/>
+				<Hide GUID="{2A63D5C6-A5D8-4066-BEF1-983C4E418526}"/>
+				<Hide GUID="{A235E7F2-7BB0-46A7-BCE8-BFFF71D17665}"/>
+				<Hide GUID="{2A3B81D4-0EF6-4B4A-AD18-478298C176A1}"/>
+				<Hide GUID="{301B2C3F-D8C0-47A1-B981-F89599A22B00}"/>
+				<Hide GUID="{7ADC56C8-B70E-48CA-B4E1-4C915E3B35C7}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>CommandFunction</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Data</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{2B6BE5EE-52EB-448E-92E1-341E176F71F4}"/>
+				<Hide GUID="{64F68B0B-33E7-4F4B-BD43-AEC9B2F372A0}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{2F16927A-438E-48DD-8307-5E0544670663}" PersistentType="true">FullCommand</Name>
+			<BitSize>6080</BitSize>
+			<SubItem>
+				<Name>metaData</Name>
+				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
+				<BitSize>96</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>motionCommand</Name>
+				<Type GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Type>
+				<BitSize>5824</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>otherCommand</Name>
+				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>5952</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{EB98B21F-EB74-47E4-8B9D-D1AFAC746B87}"/>
+				<Hide GUID="{E2EA3320-D8C4-4DF4-AC30-E80AA866AF2E}"/>
+				<Hide GUID="{75391721-483B-4FE5-90C5-29B3C6BEC790}"/>
+				<Hide GUID="{767483FE-A6EC-41F8-8876-C27738991F9E}"/>
+				<Hide GUID="{4E423183-8701-4DAA-A8EA-355058DD022B}"/>
+				<Hide GUID="{0F7219A1-4DC4-4A21-96BA-36F97984D3C9}"/>
+				<Hide GUID="{16B96479-BD57-4C6B-A691-B6A69A071FC3}"/>
+				<Hide GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}"/>
+				<Hide GUID="{E3EF5EA9-14FE-486F-B00C-C6654E2B23D8}"/>
+				<Hide GUID="{E6030987-8B4F-4DF9-AC31-9B5FC7F863B1}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}" PersistentType="true">SystemState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[ePreStandby]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eManual]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eBuffering]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eContinuousExecution]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eTest]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eRecovery]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
+				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
+				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
+				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
+				<Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}"/>
+				<Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}"/>
+				<Hide GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}"/>
+				<Hide GUID="{833B279D-60BB-4E3E-9B42-E6EDF428F330}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Name>
+			<BitSize>64</BitSize>
+			<SubItem>
+				<Name>TargetVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{276DEF9E-CF6B-4DFD-905E-E3B781BA52EB}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Name>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>MaxVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxAcc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxJerk</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{8A347EB1-4573-44B1-A5B0-A37A6D7DEA9A}"/>
+				<Hide GUID="{5B4DFD79-1ED9-434F-B6F2-12614A65D378}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}">SpindlePosition</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>TargetPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>TargetVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{62DD47E9-E88F-4381-BF70-F2DC26CA45BD}"/>
+				<Hide GUID="{CA678CAC-AF0E-4BB6-AD6B-F3A4A8306BAE}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleEnable]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePreMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleRotating]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePositioning]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePostMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleEmergency]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleFault]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleTest]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}" ReferenceTo="true">SpindleState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestSpindleEnable</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>IsSpindleEnable</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_enable</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsSpindleMoving</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_moving</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+				<Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}"/>
+				<Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}"/>
+				<Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}"/>
+				<Hide GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}"/>
+				<Hide GUID="{048BA0D4-73FC-499F-827C-3BB78DA7F97B}"/>
+				<Hide GUID="{FC176F31-D778-4295-BD45-09EAC14C42D8}"/>
+				<Hide GUID="{424E12A8-D9A0-451D-B5FD-5AAA98BF5639}"/>
+				<Hide GUID="{8F0DD787-4F15-4931-9CE8-9DD0B566C5A5}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -401,180 +845,6 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Name>
-			<BitSize>96</BitSize>
-			<SubItem>
-				<Name>CommandType</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
-				<BitSize>8</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>SourceActionBlockIndex</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Index</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment>
-				<BitSize>32</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{F8220079-266A-492E-8DEF-DFA52E623682}"/>
-				<Hide GUID="{F9EDFA92-02A8-44F3-86C0-C2E70B85BE12}"/>
-				<Hide GUID="{F02A1AC5-2FED-483E-B214-6DC50232399F}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Name>
-			<BitSize>5824</BitSize>
-			<SubItem>
-				<Name>MotionType</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>40</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Pos</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Vel</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>384</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Acc</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
-				<BitOffs>704</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Kp</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
-				<BitOffs>1024</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Kv</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
-				<BitOffs>2624</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Ka</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
-				<BitOffs>4224</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{3A94D6B3-A565-40B9-9D0A-0030CBAFC8C3}"/>
-				<Hide GUID="{16AA0362-867D-4218-A7B5-BA6062BA4B24}"/>
-				<Hide GUID="{2A63D5C6-A5D8-4066-BEF1-983C4E418526}"/>
-				<Hide GUID="{A235E7F2-7BB0-46A7-BCE8-BFFF71D17665}"/>
-				<Hide GUID="{2A3B81D4-0EF6-4B4A-AD18-478298C176A1}"/>
-				<Hide GUID="{301B2C3F-D8C0-47A1-B981-F89599A22B00}"/>
-				<Hide GUID="{7ADC56C8-B70E-48CA-B4E1-4C915E3B35C7}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Name>
-			<BitSize>128</BitSize>
-			<SubItem>
-				<Name>CommandFunction</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Data</Name>
-				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<BitSize>64</BitSize>
-				<BitOffs>64</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{2B6BE5EE-52EB-448E-92E1-341E176F71F4}"/>
-				<Hide GUID="{64F68B0B-33E7-4F4B-BD43-AEC9B2F372A0}"/>
-			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</Name>
-			<BitSize>6080</BitSize>
-			<SubItem>
-				<Name>Meta_Data</Name>
-				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
-				<BitSize>96</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Motion_Command</Name>
-				<Type GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Type>
-				<BitSize>5824</BitSize>
-				<BitOffs>128</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Other_Command</Name>
-				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
-				<BitSize>128</BitSize>
-				<BitOffs>5952</BitOffs>
-			</SubItem>
-			<Hides>
-				<Hide GUID="{EB98B21F-EB74-47E4-8B9D-D1AFAC746B87}"/>
-				<Hide GUID="{E2EA3320-D8C4-4DF4-AC30-E80AA866AF2E}"/>
-				<Hide GUID="{75391721-483B-4FE5-90C5-29B3C6BEC790}"/>
-				<Hide GUID="{767483FE-A6EC-41F8-8876-C27738991F9E}"/>
-				<Hide GUID="{4E423183-8701-4DAA-A8EA-355058DD022B}"/>
-				<Hide GUID="{0F7219A1-4DC4-4A21-96BA-36F97984D3C9}"/>
-				<Hide GUID="{16B96479-BD57-4C6B-A691-B6A69A071FC3}"/>
-			</Hides>
-		</DataType>
-		<DataType>
 			<Name GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</Name>
 			<BitSize>160</BitSize>
 			<SubItem>
@@ -611,55 +881,6 @@
 				<Hide GUID="{701C4C47-148F-4C36-A38D-AAF6DFACF7E3}"/>
 				<Hide GUID="{EC6E6204-239F-476C-8280-1984DD110714}"/>
 			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{131977EF-E050-44EA-B063-7A4112666AE9}" PersistentType="true" AutoDeleteType="true">SystemState</Name>
-			<BitSize>16</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
-			<EnumInfo>
-				<Text><![CDATA[eIdle]]></Text>
-				<Enum>0</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eInitialization]]></Text>
-				<Enum>1</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eDisabled]]></Text>
-				<Enum>2</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eStandby]]></Text>
-				<Enum>3</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eMoving]]></Text>
-				<Enum>4</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eHandwheel]]></Text>
-				<Enum>5</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eLimitViolation]]></Text>
-				<Enum>6</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eFault]]></Text>
-				<Enum>7</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eEmergency]]></Text>
-				<Enum>8</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eTest]]></Text>
-				<Enum>9</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eRecovery]]></Text>
-				<Enum>10</Enum>
-			</EnumInfo>
 		</DataType>
 		<DataType>
 			<Name GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}">AxisInformation</Name>
@@ -720,7 +941,368 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}" PersistentType="true">SystemState</Name>
+			<Name GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" PersistentType="true">AxisGroupState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupStandby]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupManualMoving]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupContinuousMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupLimitViolation]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupEmergency]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupFault]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupRecovery]]></Text>
+				<Enum>11</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupTest]]></Text>
+				<Enum>12</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{8989BAB0-9461-408E-922B-96B63909C27B}"/>
+				<Hide GUID="{EFA474EE-ADDE-4FA0-89FE-F6507C000B54}"/>
+				<Hide GUID="{16294158-E78B-47AB-8E1F-B62E7B0FD108}"/>
+				<Hide GUID="{98BEA1D2-1D7D-47D8-AE08-ED944CDA7104}"/>
+				<Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true">OpMode</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[CSP]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CSV]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[CST]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" ReferenceTo="true">AxisGroupState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestEnterHandwheel</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestQuitHandwheel</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestContinuousMoving</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestAxisGroupEnable</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestAxisGroupDisable</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestReset</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>RequestRecovery</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_entered</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+					<BitSize>8</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestChangeOpMode</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>mode</Name>
+					<Type GUID="{75816603-8B01-41ED-9F49-1001E13236B1}">OpMode</Type>
+					<BitSize>16</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsAxisGroupStandby</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_standby</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsAxisGroupMoving</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_moving</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsAxisGroupOpModeSwitched</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_switched</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsAxisGroupDisabled</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_disabled</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>IsAxisGroupManualMoving</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>is_manual</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF9DC5F-3D7E-491D-8181-54342B9B9992}"/>
+				<Hide GUID="{F51FD43D-DD1B-41BA-9284-26B74148E02D}"/>
+				<Hide GUID="{228F5A97-1E1F-44D7-9516-B4636955B1DF}"/>
+				<Hide GUID="{24D3BC88-71DB-4EA3-917D-F683664D52B5}"/>
+				<Hide GUID="{D6E808D9-4932-4478-944F-CA624D13C56D}"/>
+				<Hide GUID="{9691EEE1-1274-438B-B656-3A30B975E573}"/>
+				<Hide GUID="{2214023B-6745-490F-8A17-7C27C9C0ABFE}"/>
+				<Hide GUID="{115ED070-7F4D-41B8-8567-EBBC25B6F958}"/>
+				<Hide GUID="{41256761-004B-4CC4-9B97-2AB712E0F3F0}"/>
+				<Hide GUID="{3FCB14A1-30C5-4997-81FF-FA9A0B8282C0}"/>
+				<Hide GUID="{BD16502D-4CA7-40EA-8502-F89F540528F6}"/>
+				<Hide GUID="{F116E771-74BC-4959-896F-F67032062479}"/>
+				<Hide GUID="{137BF08C-0A94-404B-8E11-401090B35676}"/>
+				<Hide GUID="{388CFAB5-2642-4A3F-9496-4A72F166E0BC}"/>
+				<Hide GUID="{CC5819BA-EA81-4F94-90C1-391C24480A17}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{8F0DD787-4F15-4931-9CE8-9DD0B566C5A5}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}" ReferenceTo="true">SpindleState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestSpindleEnable</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+				<Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}"/>
+				<Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}"/>
+				<Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}"/>
+				<Hide GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}"/>
+				<Hide GUID="{048BA0D4-73FC-499F-827C-3BB78DA7F97B}"/>
+				<Hide GUID="{FC176F31-D778-4295-BD45-09EAC14C42D8}"/>
+				<Hide GUID="{424E12A8-D9A0-451D-B5FD-5AAA98BF5639}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}" PersistentType="true">AxisGroupState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupStandby]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupManualMoving]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupContinuousMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupLimitViolation]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupEmergency]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupFault]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupRecovery]]></Text>
+				<Enum>11</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupTest]]></Text>
+				<Enum>12</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{CA678CAC-AF0E-4BB6-AD6B-F3A4A8306BAE}" AutoDeleteType="true">SpindlePosition</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>Pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{62DD47E9-E88F-4381-BF70-F2DC26CA45BD}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}" AutoDeleteType="true">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -777,19 +1359,132 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true">OpMode</Name>
+			<Name GUID="{048BA0D4-73FC-499F-827C-3BB78DA7F97B}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{CA678CAC-AF0E-4BB6-AD6B-F3A4A8306BAE}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}" ReferenceTo="true">SystemState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+				<Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}"/>
+				<Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}"/>
+				<Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}"/>
+				<Hide GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{E3EF5EA9-14FE-486F-B00C-C6654E2B23D8}" PersistentType="true">FullCommand</Name>
+			<BitSize>6080</BitSize>
+			<SubItem>
+				<Name>metaData</Name>
+				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
+				<BitSize>96</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>motionCommand</Name>
+				<Type GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Type>
+				<BitSize>5824</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>otherCommand</Name>
+				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>5952</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{131977EF-E050-44EA-B063-7A4112666AE9}" PersistentType="true">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
-				<Text><![CDATA[CSP]]></Text>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eHandwheel]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eLimitViolation]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eEmergency]]></Text>
 				<Enum>8</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text><![CDATA[CSV]]></Text>
+				<Text><![CDATA[eTest]]></Text>
 				<Enum>9</Enum>
 			</EnumInfo>
 			<EnumInfo>
-				<Text><![CDATA[CST]]></Text>
+				<Text><![CDATA[eRecovery]]></Text>
 				<Enum>10</Enum>
 			</EnumInfo>
 		</DataType>
@@ -942,14 +1637,294 @@
 				<Hide GUID="{8D446B8C-6A9A-4C63-9156-0A30D9AB0B07}"/>
 			</Hides>
 		</DataType>
+		<DataType>
+			<Name GUID="{276DEF9E-CF6B-4DFD-905E-E3B781BA52EB}">SpindleRot</Name>
+			<BitSize>64</BitSize>
+			<SubItem>
+				<Name>TargetVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{5B4DFD79-1ED9-434F-B6F2-12614A65D378}">SpindleVelLimit</Name>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>MaxVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxAcc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MaxJerk</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{8A347EB1-4573-44B1-A5B0-A37A6D7DEA9A}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{62DD47E9-E88F-4381-BF70-F2DC26CA45BD}">SpindlePosition</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>Pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{B341D318-2526-4393-B001-BE33341DBC6B}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name RpcEnable="cpp">RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{276DEF9E-CF6B-4DFD-905E-E3B781BA52EB}" RpcDirection="in">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{5B4DFD79-1ED9-434F-B6F2-12614A65D378}" RpcDirection="in">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{62DD47E9-E88F-4381-BF70-F2DC26CA45BD}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name RpcEnable="cpp">RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}" RpcDirection="in">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name RpcEnable="cpp">SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}" RpcDirection="in">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{CA678CAC-AF0E-4BB6-AD6B-F3A4A8306BAE}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}" ReferenceTo="true">SystemState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+				<Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}"/>
+				<Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}"/>
+				<Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{98BEA1D2-1D7D-47D8-AE08-ED944CDA7104}" PersistentType="true">AxisGroupState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupStandby]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupManualMoving]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupContinuousMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupLimitViolation]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupEmergency]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupFault]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupRecovery]]></Text>
+				<Enum>11</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupTest]]></Text>
+				<Enum>12</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{8989BAB0-9461-408E-922B-96B63909C27B}"/>
+				<Hide GUID="{EFA474EE-ADDE-4FA0-89FE-F6507C000B54}"/>
+				<Hide GUID="{16294158-E78B-47AB-8E1F-B62E7B0FD108}"/>
+				<Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{424E12A8-D9A0-451D-B5FD-5AAA98BF5639}" PersistentType="true">ISpindleInterface</Name>
+			<BitSize X64="64">32</BitSize>
+			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+			<Method>
+				<Name>RequestRotating</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>RotData</Name>
+					<Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestStop</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+			</Method>
+			<Method>
+				<Name>SetVelLimit</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>VelLimit</Name>
+					<Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Type>
+					<BitSize>192</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>RequestPositioning</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>PositionData</Name>
+					<Type GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}" RpcDirection="in">SpindlePosition</Type>
+					<BitSize>128</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>ReportCurrentState</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>curr_state</Name>
+					<Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}" ReferenceTo="true">SpindleState</Type>
+					<BitSize X64="64">32</BitSize>
+				</Parameter>
+			</Method>
+			<Hides>
+				<Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}"/>
+				<Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}"/>
+				<Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}"/>
+				<Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}"/>
+				<Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}"/>
+				<Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}"/>
+				<Hide GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}"/>
+				<Hide GUID="{048BA0D4-73FC-499F-827C-3BB78DA7F97B}"/>
+				<Hide GUID="{FC176F31-D778-4295-BD45-09EAC14C42D8}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="8" NonWinCpus="7" MaxStackSize="2048">
 				<Cpu RtLimit="90" BaseTime="500"/>
 				<Cpu CpuId="1" BaseTime="500"/>
+				<Cpu CpuId="2" BaseTime="500"/>
+				<Cpu CpuId="3" BaseTime="500"/>
 				<Debugger Priority="61"/>
-				<IoIdleTask Priority="8" CycleTime="2500" Affinity="#x00000001"/>
+				<IoIdleTask Priority="14" CycleTime="2500" Affinity="#x00000001"/>
 			</Settings>
 			<Licenses>
 				<Target>
@@ -957,17 +1932,29 @@
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="3" Priority="4" CycleTime="2500" AmsPort="350" Affinity="#x00000002" AdtTasks="true">
+				<Task Id="3" Priority="10" CycleTime="2500" AmsPort="350" Affinity="#x00000002" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="5" CreateSymbols="true" Priority="6" CycleTime="2500" AmsPort="352" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
+				<Task Id="5" CreateSymbols="true" Priority="4" CycleTime="2500" AmsPort="352" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
 					<Name>MotionControl</Name>
+				</Task>
+				<Task Id="4" Priority="6" CycleTime="2500" AmsPort="351" Affinity="#x00000004" DisableFpExceptions="true" AdtTasks="true">
+					<Name>ModuleSpindle</Name>
+				</Task>
+				<Task Id="6" Priority="8" CycleTime="2500" AmsPort="353" Affinity="#x00000004" DisableFpExceptions="true" AdtTasks="true">
+					<Name>ModuleAxisGroup</Name>
+				</Task>
+				<Task Id="7" Priority="12" CycleTime="2500" AmsPort="354" Affinity="#x00000008" AdtTasks="true">
+					<Name>ModuleTest</Name>
+				</Task>
+				<Task Id="8" Priority="16" CycleTime="100000" AmsPort="355" Affinity="#x00000001" AdtTasks="true">
+					<Name>TestHMI</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{DDCFD53B-E86D-78F1-5398-660631BF0AC6}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{D7B4D001-37C9-3DF2-53A7-6E4917BB3864}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1097,15 +2084,16 @@
 							<ManualConfig>
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
-							<Priority>4</Priority>
+							<Priority>10</Priority>
 							<CycleTime>250000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="4" OTCID="#x08502003"/>
+						<TaskPouOid Prio="10" OTCID="#x08502003"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
+			<Project File="TestHMI.xti"/>
 			<PlcAuxTask Affinity="#x00000001"/>
 		</Plc>
 		<Cpp>
@@ -1127,6 +2115,267 @@
 								<ManualConfig>
 									<OTCID>#x02010050</OTCID>
 								</ManualConfig>
+								<Priority>4</Priority>
+								<CycleTime>250000</CycleTime>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{0A661E3E-E020-43B6-B916-4725F5A024F4}">IMotionControlInterface</Type>
+								<ContextId>1</ContextId>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter HideParameter="true">
+								<Name>TraceLevelMax</Name>
+								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+								<PTCID>#x03002103</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter ShowSubItems="true" CreateSymbol="true">
+								<Name>Parameter</Name>
+								<BitSize>8</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+						</Parameters>
+						<DataAreas>
+							<DataArea>
+								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
+								<Name>Inputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>778312</ByteSize>
+								<Symbol>
+									<Name>PanelInformation</Name>
+									<BitSize>512</BitSize>
+									<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>CommandInput</Name>
+									<BitSize>6225920</BitSize>
+									<BaseType GUID="{2F16927A-438E-48DD-8307-5E0544670663}">FullCommand</BaseType>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>1024</Elements>
+									</ArrayInfo>
+									<BitOffs>512</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>CommandWriteIndex</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>6226432</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>OidPanelProcess</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+									<BitOffs>6226464</BitOffs>
+								</Symbol>
+							</DataArea>
+							<DataArea>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
+								<Name>Outputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>816</ByteSize>
+								<Symbol>
+									<Name>CommandReadIndex</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>MainState</Name>
+									<BitSize>16</BitSize>
+									<BaseType GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}">SystemState</BaseType>
+									<BitOffs>32</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>ManualMovingCommand</Name>
+									<BitSize>384</BitSize>
+									<SubItem>
+										<Name>SelectedAxis</Name>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+										<BitSize>16</BitSize>
+										<BitOffs>0</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>MovingCommand</Name>
+										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+										<ArrayInfo>
+											<LBound>0</LBound>
+											<Elements>5</Elements>
+										</ArrayInfo>
+										<BitSize>320</BitSize>
+										<BitOffs>64</BitOffs>
+									</SubItem>
+									<BitOffs>64</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>ContinuousMovingCommand</Name>
+									<BitSize>6080</BitSize>
+									<BaseType GUID="{2F16927A-438E-48DD-8307-5E0544670663}">FullCommand</BaseType>
+									<BitOffs>448</BitOffs>
+								</Symbol>
+							</DataArea>
+						</DataAreas>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002060</PTCID>
+								<Name>CyclicCaller</Name>
+								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000003</PTCID>
+								<Name>PLC_PanelProcess</Name>
+								<Type GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}">IPanelProcess</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000004</PTCID>
+								<Name>ModuleSpindle_Interface</Name>
+								<Type GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}">ISpindleInterface</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000002</PTCID>
+								<Name>ModuleAxisGroup_Interface</Name>
+								<Type GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+						</InterfacePointers>
+						<Deployment>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+						</Deployment>
+						<ParameterValues>
+							<Value>
+								<Name>TraceLevelMax</Name>
+								<EnumText>tlAlways</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>CyclicCaller</Name>
+								<OTCID>#x02010050</OTCID>
+							</Value>
+							<Value>
+								<Name>PLC_PanelProcess</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
+							<Value>
+								<Name>ModuleSpindle_Interface</Name>
+								<OTCID>#x01010010</OTCID>
+							</Value>
+							<Value>
+								<Name>ModuleAxisGroup_Interface</Name>
+								<OTCID>#x01010030</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+					<UnrestoredVarLinks ImportTime="2024-09-25T10:31:44">
+						<OwnerA Name="Outputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="2">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="StateMachine" GrpA="Outputs" TypeA="StateMachine" InOutA="1" GuidA="{06332655-6DE4-DFDF-CD7D-8D855F7676C4}" VarB="PlcTask Inputs^MAIN.mSystemState"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-09-27T09:48:02">
+						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="1">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="AxisGroupCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataAxisGroup"/>
+								<Link VarA="SpindleCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataSpindle"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-14T15:40:30">
+						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="1">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Spindle">
+								<Link VarA="SpindleInput^ActualAbsPos" GrpA="Inputs" TypeA="DINT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="Transmit PDO mapping 1^Position actual value"/>
+								<Link VarA="SpindleInput^ActualOpMode" GrpA="Inputs" TypeA="SINT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000003}" VarB="Transmit PDO mapping 1^Modes of operation display"/>
+								<Link VarA="SpindleInput^ActualTor" GrpA="Inputs" TypeA="INT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000006}" VarB="Transmit PDO mapping 1^Torque actual value"/>
+								<Link VarA="SpindleInput^ActualVel" GrpA="Inputs" TypeA="DINT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="Transmit PDO mapping 1^Velocity actual value"/>
+								<Link VarA="SpindleInput^DigitalInput_1" GrpA="Inputs" TypeA="INT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000006}" VarB="Transmit PDO mapping 1^Digital inputs" Size="16"/>
+								<Link VarA="SpindleInput^ErrorCode" GrpA="Inputs" TypeA="INT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000006}" VarB="Transmit PDO mapping 1^Error code"/>
+								<Link VarA="SpindleInput^StatusWord" GrpA="Inputs" TypeA="UINT" InOutA="0" ParentTypeA="DriverInput" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="Transmit PDO mapping 1^Statusword"/>
+							</OwnerB>
+						</OwnerA>
+						<OwnerA Name="Outputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="2">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Spindle">
+								<Link VarA="SpindleOutput^ControlWord" GrpA="Outputs" TypeA="UINT" InOutA="1" ParentTypeA="DriverOutput" GuidA="{18071995-0000-0000-0000-000000000005}" VarB="Receive PDO mapping 1^Controlword"/>
+								<Link VarA="SpindleOutput^OperationMode" GrpA="Outputs" TypeA="SINT" InOutA="1" ParentTypeA="DriverOutput" GuidA="{18071995-0000-0000-0000-000000000003}" VarB="Receive PDO mapping 1^Modes of operation"/>
+								<Link VarA="SpindleOutput^TargetPosition" GrpA="Outputs" TypeA="DINT" InOutA="1" ParentTypeA="DriverOutput" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="Receive PDO mapping 1^Target position"/>
+								<Link VarA="SpindleOutput^TargetTorque" GrpA="Outputs" TypeA="INT" InOutA="1" ParentTypeA="DriverOutput" GuidA="{18071995-0000-0000-0000-000000000006}" VarB="Receive PDO mapping 1^Target torque"/>
+								<Link VarA="SpindleOutput^TargetVelocity" GrpA="Outputs" TypeA="DINT" InOutA="1" ParentTypeA="DriverOutput" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="Receive PDO mapping 1^Target velocity"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-17T15:42:47">
+						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="1">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="OidSoEProcess" GrpA="Inputs" TypeA="OTCID" InOutA="0" GuidA="{18071995-0000-0000-0000-00000000000F}" VarB="PlcTask Outputs^MAIN.rpc_SoEProcess.objID"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2024-10-24T09:50:16">
+						<OwnerA Name="DataArea" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="5">
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+								<Link VarA="ContinuousMovingCommand" GrpA="DataArea" TypeA="FullCommand" InOutA="4" GuidA="{2F16927A-438E-48DD-8307-5E0544670663}" VarB="Data Pointer^ContinuousMovingCommand"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+				</Instance>
+				<Instance Id="#x01010010" KeepUnrestoredLinks="2">
+					<Name>MotionControl_Obj2 (ModuleSpindle)</Name>
+					<TmcDesc GUID="{3754DD69-AF00-4776-A53A-881A1FC83436}">
+						<Name>ModuleSpindle</Name>
+						<CLSID ClassFactory="MotionControl">{3754DD69-AF00-4776-A53A-881A1FC83436}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+								<ManualConfig>
+									<OTCID>#x02010040</OTCID>
+								</ManualConfig>
 								<Priority>6</Priority>
 								<CycleTime>250000</CycleTime>
 							</Context>
@@ -1145,7 +2394,7 @@
 								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
 							</Interface>
 							<Interface>
-								<Type GUID="{75F6F238-A022-446E-8F56-58206FCA8931}">InterfaceRPC</Type>
+								<Type GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}">ISpindleInterface</Type>
 								<ContextId>1</ContextId>
 							</Interface>
 						</Interfaces>
@@ -1160,38 +2409,18 @@
 							</Parameter>
 							<Parameter ShowSubItems="true" CreateSymbol="true">
 								<Name>Parameter</Name>
-								<BitSize>9152</BitSize>
-								<SubItem>
-									<Name>DriverParameter</Name>
-									<Type GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Type>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>10</Elements>
-									</ArrayInfo>
-									<BitSize>5120</BitSize>
-									<BitOffs>0</BitOffs>
-								</SubItem>
+								<BitSize>832</BitSize>
 								<SubItem>
 									<Name>SpindleDriverParam</Name>
 									<Type GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Type>
 									<BitSize>512</BitSize>
-									<BitOffs>5120</BitOffs>
-								</SubItem>
-								<SubItem>
-									<Name>AxisGroupInterpolationParam</Name>
-									<Type GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Type>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>10</Elements>
-									</ArrayInfo>
-									<BitSize>3200</BitSize>
-									<BitOffs>5632</BitOffs>
+									<BitOffs>0</BitOffs>
 								</SubItem>
 								<SubItem>
 									<Name>SpindleInterpolationParam</Name>
 									<Type GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Type>
 									<BitSize>320</BitSize>
-									<BitOffs>8832</BitOffs>
+									<BitOffs>512</BitOffs>
 								</SubItem>
 								<PTCID>#x00000001</PTCID>
 								<ContextId>1</ContextId>
@@ -1210,7 +2439,278 @@
 								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>778760</ByteSize>
+								<ByteSize>184</ByteSize>
+								<Symbol>
+									<Name>SpindleInput</Name>
+									<BitSize>192</BitSize>
+									<BaseType GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}">DriverInput</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>SpindleTestInputs</Name>
+									<BitSize>1280</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>20</Elements>
+									</ArrayInfo>
+									<BitOffs>192</BitOffs>
+								</Symbol>
+							</DataArea>
+							<DataArea>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
+								<Name>Outputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>72</ByteSize>
+								<Symbol>
+									<Name>SpindleOutput</Name>
+									<BitSize>160</BitSize>
+									<BaseType GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>SpindleState</Name>
+									<BitSize>16</BitSize>
+									<BaseType GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</BaseType>
+									<BitOffs>160</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>SpindleInfo</Name>
+									<BitSize>384</BitSize>
+									<BaseType GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}">AxisInformation</BaseType>
+									<BitOffs>192</BitOffs>
+								</Symbol>
+							</DataArea>
+						</DataAreas>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002060</PTCID>
+								<Name>CyclicCaller</Name>
+								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+						</InterfacePointers>
+						<Deployment>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+						</Deployment>
+						<ParameterValues>
+							<Value>
+								<Name>TraceLevelMax</Name>
+								<EnumText>tlAlways</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncRes</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.RatedCurrent</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.RatedTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TorDir</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsZeroPos</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PosUpperLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PosLowerLimit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TransmissionRatio</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.TorPdoMax</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AdditiveTorque</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.AbsEncType</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.PositiveHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.NegativeHardBit</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.DriverType</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleDriverParam.Exposed</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxVelocity</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxAcceleration</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.MaxJerk</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.CycleTime</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.SpindleInterpolationParam.Tolerance</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>CycleTime</Name>
+								<Value>250000</Value>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>CyclicCaller</Name>
+								<OTCID>#x02010040</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+					<UnrestoredVarLinks ImportTime="2024-10-22T10:11:55">
+						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)" Type="1">
+							<OwnerB Name="TIPC^Portal^Portal Instance">
+								<Link VarA="PanelInformation" GrpA="Inputs" TypeA="PanelInfo" InOutA="0" GuidA="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}" VarB="PlcTask Outputs^MAIN.rpc_PanelProcess.panelInfoOutput"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+				</Instance>
+				<Instance Id="#x01010030" KeepUnrestoredLinks="2">
+					<Name>MotionControl_Obj3 (ModuleAxisGroup)</Name>
+					<TmcDesc GUID="{A90978E9-B255-4D60-BDE4-57E17617BD77}">
+						<Name>ModuleAxisGroup</Name>
+						<CLSID ClassFactory="MotionControl">{A90978E9-B255-4D60-BDE4-57E17617BD77}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+								<ManualConfig>
+									<OTCID>#x02010060</OTCID>
+								</ManualConfig>
+								<Priority>8</Priority>
+								<CycleTime>250000</CycleTime>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Type>
+								<ContextId>1</ContextId>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter HideParameter="true">
+								<Name>TraceLevelMax</Name>
+								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+								<PTCID>#x03002103</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter ShowSubItems="true">
+								<Name>Parameter</Name>
+								<BitSize>8320</BitSize>
+								<SubItem>
+									<Name>DriverParameter</Name>
+									<Type GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}">MotionControlInfo</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>5120</BitSize>
+									<BitOffs>0</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>AxisGroupInterpolationParam</Name>
+									<Type GUID="{8A554618-FB22-4EDD-9FCF-D053B7A70EC0}">InterpolationParameter</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>3200</BitSize>
+									<BitOffs>5120</BitOffs>
+								</SubItem>
+								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>CycleTime</Name>
+								<Comment TxtId=""><![CDATA[Cycle time of task]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03002080</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+						</Parameters>
+						<DataAreas>
+							<DataArea>
+								<AreaNo AreaType="InputDst">0</AreaNo>
+								<Name>Inputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>1216</ByteSize>
+								<Symbol>
+									<Name>OidSoEProcess</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
 								<Symbol>
 									<Name>AxisInputs</Name>
 									<BitSize>1920</BitSize>
@@ -1219,23 +2719,7 @@
 										<LBound>0</LBound>
 										<Elements>10</Elements>
 									</ArrayInfo>
-									<BitOffs>0</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>PanelInformation</Name>
-									<BitSize>512</BitSize>
-									<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
-									<BitOffs>1920</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>mockButton</Name>
-									<BitSize>80</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>10</Elements>
-									</ArrayInfo>
-									<BitOffs>2432</BitOffs>
+									<BitOffs>32</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>TestInputs</Name>
@@ -1245,48 +2729,41 @@
 										<LBound>0</LBound>
 										<Elements>20</Elements>
 									</ArrayInfo>
-									<BitOffs>2560</BitOffs>
+									<BitOffs>1984</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>SpindleInput</Name>
-									<BitSize>192</BitSize>
-									<BaseType GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}">DriverInput</BaseType>
-									<BitOffs>3840</BitOffs>
+									<Name>ContinuousMovingCommand</Name>
+									<BitSize>6080</BitSize>
+									<BaseType GUID="{2F16927A-438E-48DD-8307-5E0544670663}">FullCommand</BaseType>
+									<BitOffs>3264</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>CommandInput</Name>
-									<BitSize>6225920</BitSize>
-									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
-									<ArrayInfo>
-										<LBound>0</LBound>
-										<Elements>1024</Elements>
-									</ArrayInfo>
-									<BitOffs>4032</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>CommandWriteIndex</Name>
-									<BitSize>32</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
-									<BitOffs>6229952</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>OidSoEProcess</Name>
-									<BitSize>32</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
-									<BitOffs>6229984</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>OidPanelProcess</Name>
-									<BitSize>32</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
-									<BitOffs>6230016</BitOffs>
+									<Name>ManualMovingCommand</Name>
+									<BitSize>384</BitSize>
+									<SubItem>
+										<Name>SelectedAxis</Name>
+										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+										<BitSize>16</BitSize>
+										<BitOffs>0</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>MovingCommand</Name>
+										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+										<ArrayInfo>
+											<LBound>0</LBound>
+											<Elements>5</Elements>
+										</ArrayInfo>
+										<BitSize>320</BitSize>
+										<BitOffs>64</BitOffs>
+									</SubItem>
+									<BitOffs>9344</BitOffs>
 								</Symbol>
 							</DataArea>
 							<DataArea>
 								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>2048</ByteSize>
+								<ByteSize>456</ByteSize>
 								<Symbol>
 									<Name>AxisOutputs</Name>
 									<BitSize>1600</BitSize>
@@ -1298,66 +2775,31 @@
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>SystemStateMachine</Name>
-									<BitSize>32</BitSize>
-									<SubItem>
-										<Name>AxisGroupState</Name>
-										<Type GUID="{131977EF-E050-44EA-B063-7A4112666AE9}">SystemState</Type>
-										<BitSize>16</BitSize>
-										<BitOffs>0</BitOffs>
-									</SubItem>
-									<SubItem>
-										<Name>SpindleState</Name>
-										<Type GUID="{131977EF-E050-44EA-B063-7A4112666AE9}">SystemState</Type>
-										<BitSize>16</BitSize>
-										<BitOffs>16</BitOffs>
-									</SubItem>
+									<Name>AxisGroupState</Name>
+									<BitSize>16</BitSize>
+									<BaseType GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}">AxisGroupState</BaseType>
 									<BitOffs>1600</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>AxisInfo</Name>
-									<BitSize>2368</BitSize>
+									<BitSize>1984</BitSize>
 									<SubItem>
 										<Name>AxisStatus</Name>
 										<Type GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}">AxisInformation</Type>
 										<ArrayInfo>
 											<LBound>0</LBound>
-											<Elements>6</Elements>
+											<Elements>5</Elements>
 										</ArrayInfo>
-										<BitSize>2304</BitSize>
+										<BitSize>1920</BitSize>
 										<BitOffs>0</BitOffs>
 									</SubItem>
 									<SubItem>
 										<Name>GantryDeviation</Name>
 										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
 										<BitSize>64</BitSize>
-										<BitOffs>2304</BitOffs>
+										<BitOffs>1920</BitOffs>
 									</SubItem>
 									<BitOffs>1664</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>SpindleOutput</Name>
-									<BitSize>160</BitSize>
-									<BaseType GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}">DriverOutput</BaseType>
-									<BitOffs>4032</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>CommandReadIndex</Name>
-									<BitSize>32</BitSize>
-									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
-									<BitOffs>4192</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>TestAxisGroup</Name>
-									<BitSize>6080</BitSize>
-									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
-									<BitOffs>4224</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>TestSpindle</Name>
-									<BitSize>6080</BitSize>
-									<BaseType GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}">FullCommand</BaseType>
-									<BitOffs>10304</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -1369,14 +2811,8 @@
 							</InterfacePointer>
 							<InterfacePointer>
 								<PTCID>#x00000002</PTCID>
-								<Name>PLC_SoEProcess</Name>
+								<Name>PLC_SoeProcess</Name>
 								<Type GUID="{970DA61A-269B-41C3-8941-02F0458E1BF8}">ISoEProcess</Type>
-								<ContextId>1</ContextId>
-							</InterfacePointer>
-							<InterfacePointer>
-								<PTCID>#x00000003</PTCID>
-								<Name>PLC_PanelProcess</Name>
-								<Type GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}">IPanelProcess</Type>
 								<ContextId>1</ContextId>
 							</InterfacePointer>
 						</InterfacePointers>
@@ -2044,70 +3480,6 @@
 								<EnumText>FALSE</EnumText>
 							</Value>
 							<Value>
-								<Name>Parameter.SpindleDriverParam.AbsEncDir</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.AbsEncRes</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.RatedCurrent</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.RatedTorque</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.TorDir</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.AbsZeroPos</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.PosUpperLimit</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.PosLowerLimit</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.TransmissionRatio</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.TorPdoMax</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.AdditiveTorque</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.AbsEncType</Name>
-								<EnumText>FALSE</EnumText>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.PositiveHardBit</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.NegativeHardBit</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.DriverType</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleDriverParam.Exposed</Name>
-								<EnumText>FALSE</EnumText>
-							</Value>
-							<Value>
 								<Name>Parameter.AxisGroupInterpolationParam[0].MaxVelocity</Name>
 								<Value>0</Value>
 							</Value>
@@ -2308,26 +3680,6 @@
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Parameter.SpindleInterpolationParam.MaxVelocity</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleInterpolationParam.MaxAcceleration</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleInterpolationParam.MaxJerk</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleInterpolationParam.CycleTime</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Parameter.SpindleInterpolationParam.Tolerance</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
 								<Name>CycleTime</Name>
 								<Value>250000</Value>
 							</Value>
@@ -2335,47 +3687,36 @@
 						<InterfacePointerValues>
 							<Value>
 								<Name>CyclicCaller</Name>
-								<OTCID>#x02010050</OTCID>
+								<OTCID>#x02010060</OTCID>
 							</Value>
 							<Value>
-								<Name>PLC_SoEProcess</Name>
-								<OTCID>#x00000000</OTCID>
-							</Value>
-							<Value>
-								<Name>PLC_PanelProcess</Name>
+								<Name>PLC_SoeProcess</Name>
 								<OTCID>#x00000000</OTCID>
 							</Value>
 						</InterfacePointerValues>
 					</TmcDesc>
-					<UnrestoredVarLinks ImportTime="2024-09-25T10:31:44">
-						<OwnerA Name="Outputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="2">
-							<OwnerB Name="TIPC^Portal^Portal Instance">
-								<Link VarA="StateMachine" GrpA="Outputs" TypeA="StateMachine" InOutA="1" GuidA="{06332655-6DE4-DFDF-CD7D-8D855F7676C4}" VarB="PlcTask Inputs^MAIN.mSystemState"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2024-09-27T09:48:02">
-						<OwnerA Name="Inputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="1">
-							<OwnerB Name="TIPC^Portal^Portal Instance">
-								<Link VarA="AxisGroupCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataAxisGroup"/>
-								<Link VarA="SpindleCommand" GrpA="Inputs" TypeA="FullCommand" InOutA="0" GuidA="{DA968A32-D27D-4418-BD17-1BA7D385549F}" VarB="PlcTask Outputs^MAIN.fb_CommandProcess.mOutputDataSpindle"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
 				</Instance>
 			</Project>
 			<Project File="tinyxml2.xti"/>
 			<Project File="ruckig.xti"/>
+			<Project File="ModuleTest.xti"/>
 		</Cpp>
 		<Io>
 			<Device File="Device 3 (EtherCAT).xti" Id="3"/>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2003-0850-0020-500820000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{00000000-2003-0850-0020-500832000403}" Id="#x02030030"/>
-		<MappingInfo Identifier="{00000000-0010-0304-2000-010111000403}" Id="#x02030020"/>
-		<MappingInfo Identifier="{08502003-0050-0201-0020-500820000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500833000403}" Id="#x02030050"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500842000403}" Id="#x02030030"/>
+		<MappingInfo Identifier="{00000000-0010-0304-3000-010111000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-0020-0304-1000-010120000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{02010040-2041-0850-1000-010140205008}" Id="#x020300a0" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010050-2003-0850-2000-010100205008}" Id="#x02030060" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010050-0060-0201-2000-010130000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010060-2003-0850-3000-010100205008}" Id="#x02030070" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010060-2041-0850-3000-010140205008}" Id="#x020300b0" Watchdog="a0000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010060-0070-0201-3000-010150000101}" Id="#x02030090" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{02010070-2041-0850-5000-010140205008}" Id="#x02030080" Watchdog="a0000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^Portal^Portal Instance">
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 3 (iA-MPA64B0 2xMII)">
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
@@ -2411,7 +3752,14 @@
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
 				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.objID" VarB="Inputs^OidPanelProcess"/>
 				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.panelInfoOutput" VarB="Inputs^PanelInformation"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
 				<Link VarA="PlcTask Outputs^MAIN.rpc_SoEProcess.objID" VarB="Inputs^OidSoEProcess"/>
+			</OwnerB>
+		</OwnerA>
+		<OwnerA Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+				<Link VarA="Outputs^ContinuousMovingCommand" VarB="Inputs^ContinuousMovingCommand"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

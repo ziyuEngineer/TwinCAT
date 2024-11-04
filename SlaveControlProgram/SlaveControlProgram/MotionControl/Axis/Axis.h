@@ -17,15 +17,15 @@ private:
 	Biquad m_FdbVelFilter;
 	InterpolationParameter* m_InterpolationParam;
 
-	// The following variable will only be used in position or velocity interpolation,
-	// so initialzie it as CST mode;
-	OpMode m_LastOpMode = OpMode::CST;
+	PositionInterpolator1D m_PositionInterpolator;
+	VelocityInterpolator1D m_VelocityInterpolator;
+	PositionInterpolator1D::State m_CurrentStatePos;
+	VelocityInterpolator1D::State m_CurrentStateVel;
+	bool m_IsPosInterpolationFinished = false;
+	bool m_IsVelInterpolationFinished = false;
 
-	void InterpolationReset(OpMode _mode);
-
-	bool m_bStandbyPosSet = false;
+	bool m_IsStandbyPosSet = false;
 	
-
 public:	
 	double m_CmdPos;
 	double m_CmdVel;
@@ -34,9 +34,7 @@ public:
 
 	double m_CmdPosBeforeInterpolated; // observe only
 	double m_CmdVelBeforeInterpolated;
-	bool m_bPosInterpolationFinished = false;
-	bool m_bVelInterpolationFinished = false;
-
+	
 	double m_FdbPos;
 	double m_FdbPosFiltered;
 	double m_FdbVel;
@@ -48,7 +46,7 @@ public:
 	double m_StandbyPos;
 	
 public:
-	void MapParameters(DriverInput* _DriverInput, DriverOutput* _DriverOutput, MotionControlInfo* _DriverParam, InterpolationParameter* _InterpolationParameter);
+	void MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param, InterpolationParameter* interpolation_parameter);
 	bool PostConstruction();
 
 	void Input();
@@ -57,18 +55,19 @@ public:
 	bool Initialize();
 	bool Enable();
 	bool Disable();
+	void SwitchOperationMode(OpMode mode);
+	bool IsOpModeSwitched();
+	bool IsEnabled();
 
 	void HoldPosition();
 	void StandStill();
-	void Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback);
+	void Move(double cmd, OpMode mode, bool is_interpolated, bool update_feedback);
 	void ReturnToZeroPoint();
 
 	bool IsExceedingLimit();
 	bool IsEmergency();
 	bool IsFault();
 
-	PositionInterpolator1D m_PositionInterpolator;
-	VelocityInterpolator1D m_VelocityInterpolator;
-	PositionInterpolator1D::State m_CurrentStatePos;
-	VelocityInterpolator1D::State m_CurrentStateVel;
+	void InterpolationReset(OpMode _mode);
+	void UpdatePositionCommand();
 };

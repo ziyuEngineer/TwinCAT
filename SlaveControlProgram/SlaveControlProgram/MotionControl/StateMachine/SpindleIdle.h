@@ -6,11 +6,11 @@ class SpindleIdle : public SpindleStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eIdle);
+        report_current_state(SpindleState::eSpindleIdle);
     }
 
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         transit<SpindleInitialize>();
     }

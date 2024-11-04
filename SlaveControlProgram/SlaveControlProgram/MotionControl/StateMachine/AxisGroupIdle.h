@@ -6,10 +6,10 @@ class AxisGroupIdle : public AxisGroupStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eIdle);
+        report_current_state(AxisGroupState::eAxisGroupIdle);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         transit<AxisGroupInitialize>();
     }

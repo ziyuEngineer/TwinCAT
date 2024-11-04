@@ -1,16 +1,19 @@
 #pragma once
 #include "FsmCommon.h"
+#include "AxisGroupController.h"
 
 class AxisGroupIdle;
 class AxisGroupInitialize;
 class AxisGroupDisabled;
+class AxisGroupPreStandby;
 class AxisGroupStandby;
-class AxisGroupHandwheel;
-class AxisGroupMoving;
+class AxisGroupManualMoving;
+class AxisGroupPreContinuousMoving;
+class AxisGroupContinuousMoving;
 class AxisGroupFault;
-class AxisGroupTest;
 class AxisGroupEmergency;
 class AxisGroupRecovery;
+class AxisGroupLimitViolation;
 
 class AxisGroupStateMachine : public tinyfsm::Fsm<AxisGroupStateMachine>
 {
@@ -21,17 +24,31 @@ public:
 
     virtual void exit() {};
 
-    struct AutoModeRequested : tinyfsm::Event {};
+    virtual void react(EventCycleUpdate const&) = 0;
 
-    struct SystemFaultClearRequested : tinyfsm::Event {};
+    virtual void react(EventAxisGroupDeselectAxis const&) {};
 
-    virtual void react(Cycle_Update const&) = 0;
+    virtual void react(EventAxisGroupSelectAxis const&) {};
 
-    //virtual void react(SystemSafetyCheck const&) = 0;
+    virtual void react(EventAxisGroupServoOn const&) {};
+
+    virtual void react(EventAxisGroupDisable const&) {};
+
+    virtual void react(EventAxisGroupContinuouslyMove const&) {};
+
+    virtual void react(EventAxisGroupStop const&) {};
+
+    virtual void react(EventAxisGroupEnterRecoveryState const&) {};
+
+    virtual void react(EventAxisGroupExitRecoveryState const&) {};
+
+    virtual void react(EventAxisGroupResetError const&) {};
+
+    virtual void react(EventAxisGroupPreMovingChangeOpMode const&) {};
 
     virtual void SafetyCheck();
     
-    static CFiveAxisController* s_pController;
+    static CAxisGroupController* s_pController;
 
     static void start()
     {
@@ -45,7 +62,7 @@ public:
         }
     }
 
-    static void report_current_state(SystemState _sysState)
+    static void report_current_state(AxisGroupState _sysState)
     {
         s_pController->m_AxisGroupState = _sysState;
     }

@@ -6,20 +6,18 @@ class AxisGroupLimitViolation : public AxisGroupStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eLimitViolation);
+        report_current_state(AxisGroupState::eAxisGroupLimitViolation);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
-        if (s_pController->m_bEnterRecoveryState)
-        {
-            transit<AxisGroupRecovery>();
-        }
-        else
-        {
-            s_pController->AxisGroupLimitViolation();
-        }
+        s_pController->AxisGroupLimitViolation();
     }
 
     void exit() override {};
+
+    void react(EventAxisGroupEnterRecoveryState const&) override
+    {
+        transit<AxisGroupRecovery>();
+    };
 };

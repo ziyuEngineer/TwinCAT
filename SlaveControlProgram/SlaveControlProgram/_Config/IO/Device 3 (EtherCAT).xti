@@ -12,8 +12,11 @@
 		<Image Id="2" AddrType="9" ImageType="3">
 			<Name>Image</Name>
 		</Image>
-		<Image Id="1" AddrType="10" ImageType="3">
+		<Image Id="1" ImageFlags="#x00000030" AddrType="10" ImageType="3">
 			<Name>Image-2</Name>
+		</Image>
+		<Image Id="4" AddrType="10" ImageType="3">
+			<Name>Image-3</Name>
 		</Image>
 		<Box File="ZY.xti" Id="1">
 			<EtherCAT PortABoxInfo="#x00ffffff"/>
@@ -31,7 +34,20 @@
 	</Device>
 	<Mappings>
 		<OwnerA>
-			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
+				<Link VarA="Spindle^Receive PDO mapping 1^Controlword" VarB="Outputs^SpindleOutput^ControlWord"/>
+				<Link VarA="Spindle^Receive PDO mapping 1^Modes of operation" VarB="Outputs^SpindleOutput^OperationMode"/>
+				<Link VarA="Spindle^Receive PDO mapping 1^Target position" VarB="Outputs^SpindleOutput^TargetPosition"/>
+				<Link VarA="Spindle^Receive PDO mapping 1^Target torque" VarB="Outputs^SpindleOutput^TargetTorque"/>
+				<Link VarA="Spindle^Receive PDO mapping 1^Target velocity" VarB="Outputs^SpindleOutput^TargetVelocity"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Error code" VarB="Inputs^SpindleInput^ErrorCode"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Modes of operation display" VarB="Inputs^SpindleInput^ActualOpMode"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Position actual value" VarB="Inputs^SpindleInput^ActualAbsPos"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Statusword" VarB="Inputs^SpindleInput^StatusWord"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Torque actual value" VarB="Inputs^SpindleInput^ActualTor"/>
+				<Link VarA="Spindle^Transmit PDO mapping 1^Velocity actual value" VarB="Inputs^SpindleInput^ActualVel"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
 				<Link VarA="Gantry^AT 1^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[1]^ErrorCode"/>
 				<Link VarA="Gantry^AT 1^Digital inputs, state" VarB="Inputs^AxisInputs[1]^DigitalInput_1"/>
 				<Link VarA="Gantry^AT 1^Drive status word" VarB="Inputs^AxisInputs[1]^StatusWord"/>
@@ -52,27 +68,13 @@
 				<Link VarA="Gantry^MDT 2^Position command value" VarB="Outputs^AxisOutputs[0]^TargetPosition"/>
 				<Link VarA="Gantry^MDT 2^Torque/force command value" VarB="Outputs^AxisOutputs[0]^TargetTorque"/>
 				<Link VarA="Gantry^MDT 2^Velocity command value" VarB="Outputs^AxisOutputs[0]^TargetVelocity"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Controlword" VarB="Outputs^SpindleOutput^ControlWord"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Modes of operation" VarB="Outputs^SpindleOutput^OperationMode"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target position" VarB="Outputs^SpindleOutput^TargetPosition"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target torque" VarB="Outputs^SpindleOutput^TargetTorque"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target velocity" VarB="Outputs^SpindleOutput^TargetVelocity"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Digital inputs" VarB="Inputs^SpindleInput^DigitalInput_1" Size="16"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Error code" VarB="Inputs^SpindleInput^ErrorCode"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Modes of operation display" VarB="Inputs^SpindleInput^ActualOpMode"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Position actual value" VarB="Inputs^SpindleInput^ActualAbsPos"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Statusword" VarB="Inputs^SpindleInput^StatusWord"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Torque actual value" VarB="Inputs^SpindleInput^ActualTor"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Velocity actual value" VarB="Inputs^SpindleInput^ActualVel"/>
 				<Link VarA="ZY^AT 1^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[3]^ErrorCode"/>
-				<Link VarA="ZY^AT 1^Class 2 diagnostic (C2D)" VarB="Inputs^AxisInputs[3]^WarningCode"/>
 				<Link VarA="ZY^AT 1^Digital inputs, state" VarB="Inputs^AxisInputs[3]^DigitalInput_1"/>
 				<Link VarA="ZY^AT 1^Drive status word" VarB="Inputs^AxisInputs[3]^StatusWord"/>
 				<Link VarA="ZY^AT 1^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[3]^ActualAbsPos"/>
 				<Link VarA="ZY^AT 1^Torque/force feedback value" VarB="Inputs^AxisInputs[3]^ActualTor"/>
 				<Link VarA="ZY^AT 1^Velocity feedback 1 value" VarB="Inputs^AxisInputs[3]^ActualVel"/>
 				<Link VarA="ZY^AT 2^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[2]^ErrorCode"/>
-				<Link VarA="ZY^AT 2^Class 2 diagnostic (C2D)" VarB="Inputs^AxisInputs[2]^WarningCode"/>
 				<Link VarA="ZY^AT 2^Digital inputs, state" VarB="Inputs^AxisInputs[2]^DigitalInput_1"/>
 				<Link VarA="ZY^AT 2^Drive status word" VarB="Inputs^AxisInputs[2]^StatusWord"/>
 				<Link VarA="ZY^AT 2^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[2]^ActualAbsPos"/>

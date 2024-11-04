@@ -1,40 +1,38 @@
 #pragma once
 #include "AxisGroupStateMachine.h"
+#include "AxisGroupPreContinuousMoving.h"
 
 class AxisGroupStandby : public AxisGroupStateMachine
 {
 public:
     void entry() override
     {
-        report_current_state(SystemState::eStandby);
+        report_current_state(AxisGroupState::eAxisGroupStandby);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         SafetyCheck();
 
-        if (!s_pController->IsServoButtonOn())
-        {
-            if (s_pController->AxisGroupDisable())
-            {
-                transit<AxisGroupDisabled>();
-            }
-        }
-        else if (s_pController->IsHandwheelStateSelected())
-        {
-            transit<AxisGroupHandwheel>();
-        }
-        else if (s_pController->m_bMovingStart)
-        {
-            transit<AxisGroupMoving>();
-        }
-        else if (s_pController->IsTestStateSelected())
-        {
-            transit<AxisGroupTest>();
-        }
-        else
-        {
-            s_pController->AxisGroupStandby();
-        }
+        s_pController->AxisGroupStandStill();
+    }
+
+    void exit() override
+    {}
+
+    void react(EventAxisGroupDisable const&) override
+    {
+        transit<AxisGroupDisabled>();
+    }
+
+    void react(EventAxisGroupSelectAxis const& ) override
+    {
+        transit<AxisGroupManualMoving>();
+    }
+
+    void react(EventAxisGroupPreMovingChangeOpMode const& event) override
+    {
+        state<AxisGroupPreContinuousMoving>().SetMovingOpMode(event.requestMode);
+        transit<AxisGroupPreContinuousMoving>();
     }
 };

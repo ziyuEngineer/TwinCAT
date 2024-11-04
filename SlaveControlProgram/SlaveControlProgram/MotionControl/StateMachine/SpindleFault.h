@@ -6,10 +6,10 @@ class SpindleFault : public SpindleStateMachine
 public:
 	void entry() override
 	{
-		report_current_state(SystemState::eFault);
+		report_current_state(SpindleState::eSpindleFault);
 	}
 
-	void react(Cycle_Update const&) override
+	void react(EventCycleUpdate const&) override
 	{
 		
 	}

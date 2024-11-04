@@ -1,13 +1,16 @@
 #pragma once
 #include "FsmCommon.h"
+#include "SpindleController.h"
 
 class SpindleIdle;
 class SpindleInitialize;
 class SpindleDisabled;
-class SpindleStandby;
-class SpindleMoving;
+class SpindleEnable;
+class SpindlePreMoving;
+class SpindleRotate;
+class SpindleLocate;
+class SpindlePostMoving;
 class SpindleFault;
-class SpindleTest;
 class SpindleEmergency;
 
 class SpindleStateMachine : public tinyfsm::Fsm<SpindleStateMachine>
@@ -19,11 +22,21 @@ public:
 
     virtual void exit() {};
 
-    virtual void react(Cycle_Update const&) = 0;
+    virtual void react(EventCycleUpdate const&) = 0;
+
+    virtual void react(EventSpindleRotating const&) {};
+
+    virtual void react(EventSpindlePositioning const&) {};
+
+    virtual void react(EventSpindleStop const&) {};
+
+    virtual void react(EventSpindleSetLimit const&) {};
+
+    virtual void react(EventSpindleEnable const&) {};
 
     virtual void SafetyCheck();
 
-    static CFiveAxisController* s_pController;
+    static CSpindleController* s_pController;
 
     static void start()
     {
@@ -37,7 +50,7 @@ public:
         }
     }
 
-    static void report_current_state(SystemState _sysState)
+    static void report_current_state(SpindleState _sysState)
     {
         s_pController->m_SpindleState = _sysState;
     }

@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CNestedCppProjDef">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
+			<BitSize>512</BitSize>
+			<SubItem>
+				<Name>ServoOn</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_EnabledAxisNum</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_dPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Cmd</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Reset</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>464</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Execute</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>472</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
+				<Hide GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}"/>
+				<Hide GUID="{21F594ED-79F9-4224-B411-FA634796D40B}"/>
+				<Hide GUID="{04B926C3-7D88-4A7F-BC8F-FDE858BA32A8}"/>
+				<Hide GUID="{EEDEAD04-D7B3-4DEC-B075-AF0D60B911BC}"/>
+				<Hide GUID="{6655CC85-0535-4A1E-AD8C-A024EFFAB728}"/>
+				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
+				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
+				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
+			</Hides>
+		</DataType>
+	</DataTypes>
+	<Project GUID="{B8C3DEC1-955C-4AC6-90D2-2201E11F31E1}" Name="ModuleTest" PrjFilePath="..\..\ModuleTest\ModuleTest.vcxproj" TmcFilePath="..\..\ModuleTest\ModuleTest.tmc">
+		<Instance Id="#x01010050" KeepUnrestoredLinks="2">
+			<Name>ModuleTest_Obj1 (ModuleTest)</Name>
+			<TmcDesc GUID="{F02A5A57-D261-4DB6-A06D-A7FBBC0B5825}">
+				<Name>ModuleTest</Name>
+				<CLSID ClassFactory="ModuleTest">{F02A5A57-D261-4DB6-A06D-A7FBBC0B5825}</CLSID>
+				<Licenses>
+					<License>
+						<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+					</License>
+				</Licenses>
+				<InitSequence>PSO</InitSequence>
+				<Contexts>
+					<Context>
+						<Id>1</Id>
+						<ManualConfig>
+							<OTCID>#x02010070</OTCID>
+						</ManualConfig>
+						<Priority>12</Priority>
+						<CycleTime>250000</CycleTime>
+					</Context>
+				</Contexts>
+				<Interfaces>
+					<Interface DisableCodeGeneration="true">
+						<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+					</Interface>
+					<Interface>
+						<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+					</Interface>
+					<Interface DisableCodeGeneration="true">
+						<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+					</Interface>
+					<Interface DisableCodeGeneration="true">
+						<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+					</Interface>
+				</Interfaces>
+				<Parameters>
+					<Parameter HideParameter="true">
+						<Name>TraceLevelMax</Name>
+						<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+						<BitSize>32</BitSize>
+						<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+						<PTCID>#x03002103</PTCID>
+						<ContextId>1</ContextId>
+					</Parameter>
+					<Parameter>
+						<Name>Parameter</Name>
+						<BitSize>128</BitSize>
+						<SubItem>
+							<Name>data1</Name>
+							<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+							<BitSize>32</BitSize>
+							<BitOffs>0</BitOffs>
+						</SubItem>
+						<SubItem>
+							<Name>data2</Name>
+							<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+							<BitSize>32</BitSize>
+							<BitOffs>32</BitOffs>
+						</SubItem>
+						<SubItem>
+							<Name>data3</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+							<BitSize>64</BitSize>
+							<BitOffs>64</BitOffs>
+						</SubItem>
+						<PTCID>#x00000001</PTCID>
+						<ContextId>1</ContextId>
+					</Parameter>
+				</Parameters>
+				<DataAreas>
+					<DataArea>
+						<AreaNo AreaType="InputDst">0</AreaNo>
+						<Name>Inputs</Name>
+						<ContextId>1</ContextId>
+						<ByteSize>64</ByteSize>
+						<Symbol>
+							<Name>MockPanel</Name>
+							<BitSize>512</BitSize>
+							<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
+							<BitOffs>0</BitOffs>
+						</Symbol>
+					</DataArea>
+					<DataArea>
+						<AreaNo AreaType="OutputSrc">1</AreaNo>
+						<Name>Outputs</Name>
+						<ContextId>1</ContextId>
+						<ByteSize>48</ByteSize>
+						<Symbol>
+							<Name>MockManualMovingCommand</Name>
+							<BitSize>384</BitSize>
+							<SubItem>
+								<Name>SelectedAxis</Name>
+								<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+								<BitSize>16</BitSize>
+								<BitOffs>0</BitOffs>
+							</SubItem>
+							<SubItem>
+								<Name>MockCommandPos</Name>
+								<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+								<ArrayInfo>
+									<LBound>0</LBound>
+									<Elements>5</Elements>
+								</ArrayInfo>
+								<BitSize>320</BitSize>
+								<BitOffs>64</BitOffs>
+							</SubItem>
+							<BitOffs>0</BitOffs>
+						</Symbol>
+					</DataArea>
+				</DataAreas>
+				<InterfacePointers>
+					<InterfacePointer>
+						<PTCID>#x03002060</PTCID>
+						<Name>CyclicCaller</Name>
+						<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+					</InterfacePointer>
+					<InterfacePointer>
+						<PTCID>#x00000002</PTCID>
+						<Name>TestAxisGroup_Interface</Name>
+						<Type GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Type>
+						<ContextId>1</ContextId>
+					</InterfacePointer>
+					<InterfacePointer>
+						<PTCID>#x00000003</PTCID>
+						<Name>TestSpindle_Interface</Name>
+						<Type GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}">ISpindleInterface</Type>
+						<ContextId>1</ContextId>
+					</InterfacePointer>
+				</InterfacePointers>
+				<Deployment>
+					<FileEntry TargetPlatform="TwinCAT RT (x86)">
+						<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+						<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+					</FileEntry>
+					<FileEntry TargetPlatform="TwinCAT RT (x86)">
+						<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+						<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+					</FileEntry>
+					<FileEntry TargetPlatform="TwinCAT RT (x64)">
+						<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+						<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+					</FileEntry>
+					<FileEntry TargetPlatform="TwinCAT RT (x64)">
+						<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+						<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+					</FileEntry>
+				</Deployment>
+				<ParameterValues>
+					<Value>
+						<Name>TraceLevelMax</Name>
+						<EnumText>tlAlways</EnumText>
+					</Value>
+					<Value>
+						<Name>Parameter.data1</Name>
+						<Value>0</Value>
+					</Value>
+					<Value>
+						<Name>Parameter.data2</Name>
+						<Value>0</Value>
+					</Value>
+					<Value>
+						<Name>Parameter.data3</Name>
+						<Value>0</Value>
+					</Value>
+				</ParameterValues>
+				<InterfacePointerValues>
+					<Value>
+						<Name>CyclicCaller</Name>
+						<OTCID>#x02010070</OTCID>
+					</Value>
+					<Value>
+						<Name>TestAxisGroup_Interface</Name>
+						<OTCID>#x01010030</OTCID>
+					</Value>
+					<Value>
+						<Name>TestSpindle_Interface</Name>
+						<OTCID>#x01010010</OTCID>
+					</Value>
+				</InterfacePointerValues>
+			</TmcDesc>
+		</Instance>
+	</Project>
+	<Mappings>
+		<OwnerA Name="ModuleTest_Obj1 (ModuleTest)">
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+				<Link VarA="Outputs^MockManualMovingCommand" VarB="Inputs^ManualMovingCommand"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmItem>

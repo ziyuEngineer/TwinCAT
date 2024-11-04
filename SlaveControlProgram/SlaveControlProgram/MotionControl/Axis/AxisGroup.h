@@ -8,12 +8,9 @@ public:
 	CAxisGroup();
 	~CAxisGroup();
 
-//private:
-//	CAxis m_Axes[kMaxAxisNum][kMaxMotorNumPerAxis];
-
 public:
 	CAxis m_Axes[kMaxAxisNum][kMaxMotorNumPerAxis];
-	void MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs, MotionControlParameter* _pParameters);
+	void MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, ModuleAxisGroupParameter* parameters);
 	bool PostConstruction();
 
 	bool Initialize();
@@ -21,13 +18,18 @@ public:
 	void Output();
 	bool Disable();
 	bool Enable();
+	bool IsEnabled();
 	void HoldPosition();
-	void Move(FullCommand _cmd);
-	void Handwheel(PanelInfo _panel);
-	void SingleAxisMove(AxisNum _axis_index, double _cmd, OpMode _mode);
-	void ReturnToZeroPoint(AxisNum _axis_index);
+	void StandStill();
+	void Move(FullCommand cmd);
+	void Handwheel(int axis_selected, double cmd[5]);
+	void SingleAxisMove(AxisNum axis_index, double cmd, OpMode mode);
+	void ReturnToZeroPoint(AxisNum axis_index);
+	void ResetInterpolator(OpMode mode);
+	void SwitchOpMode(OpMode mode);
+	bool IsOpModeSwitched();
 
-	SystemState SafetyCheck();
+	AxisGroupState SafetyCheck();
 
 	double m_FdbPos[kMaxAxisNum];
 	double m_FdbVel[kMaxAxisNum];

@@ -3,7 +3,1133 @@
   <Vendor>
     <Name>C++ Module Vendor</Name>
   </Vendor>
-  <DataTypes ><DataType><Name GUID="{54e74fbe-0a82-440e-8829-bf368d27c93c}">MotionCommand</Name><BitSize>2048</BitSize><SubItem><Name>pos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>vel</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>320</BitOffs></SubItem><SubItem><Name>acc</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>640</BitOffs></SubItem><SubItem><Name>kp</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>960</BitOffs></SubItem><SubItem><Name>kv</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>1280</BitOffs></SubItem><SubItem><Name>ka</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>1600</BitOffs></SubItem><SubItem><Name>opMode</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>80</BitSize><BitOffs>1920</BitOffs></SubItem><SubItem><Name>commandIndex</Name><Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type><BitSize>32</BitSize><BitOffs>2016</BitOffs></SubItem><Hides><Hide GUID="{cd234a31-fbe0-42f5-87fd-fd933fbaf1b6}" /></Hides></DataType><DataType><Name GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Name><BitSize>512</BitSize><SubItem><Name>AbsEncDir</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><Comment TxtId=""><![CDATA[Absolute Encoder (positive) Direction]]></Comment><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>AbsEncRes</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Absolute Encoder Resolution]]></Comment><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>RatedCurrent</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><Comment TxtId=""><![CDATA[Rated Current]]></Comment><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>RatedTorque</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><Comment TxtId=""><![CDATA[Rated Torque]]></Comment><BitSize>64</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>TorDir</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><Comment TxtId=""><![CDATA[Torque (positive)Direction]]></Comment><BitSize>16</BitSize><BitOffs>192</BitOffs></SubItem><SubItem><Name>AbsZeroPos</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Zero Position of Absolute Encoder]]></Comment><BitSize>32</BitSize><BitOffs>224</BitOffs></SubItem><SubItem><Name>PosUpperLimit</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Position Upper Limit of absolute encoder]]></Comment><BitSize>32</BitSize><BitOffs>256</BitOffs></SubItem><SubItem><Name>PosLowerLimit</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Position Lower Limit of absolute encoder]]></Comment><BitSize>32</BitSize><BitOffs>288</BitOffs></SubItem><SubItem><Name>TransmissionRatio</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>320</BitOffs></SubItem><SubItem><Name>TorPdoMax</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>384</BitOffs></SubItem><SubItem><Name>AdditiveTorque</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>400</BitOffs></SubItem><SubItem><Name>AbsEncType</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>416</BitOffs></SubItem><SubItem><Name>PositiveHardBit</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>432</BitOffs></SubItem><SubItem><Name>NegativeHardBit</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>448</BitOffs></SubItem><SubItem><Name>DriverType</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>464</BitOffs></SubItem><SubItem><Name>Exposed</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>480</BitOffs></SubItem><Hides><Hide GUID="{7277dca6-b413-41d3-a0a3-18c7fb71da27}" /><Hide GUID="{a7d30aa7-de0f-4d81-b94c-5ae394390349}" /><Hide GUID="{58baee27-66ba-4e11-946f-1d1e0db3e6d2}" /><Hide GUID="{91560d14-88e7-4870-93fc-c62289f249c4}" /><Hide GUID="{3ce33675-efab-4fb1-a5c7-63d03f7b7ff3}" /><Hide GUID="{1eade0bf-0e40-47ac-bfa2-37826bc9272d}" /><Hide GUID="{974cb096-a280-4f2a-beb6-817045dbce3f}" /><Hide GUID="{2bd6a7aa-88a2-4ef3-8d0e-67903d4dc5dd}" /><Hide GUID="{906ffaca-4191-4ccd-bac1-eaccd15dd2b8}" /><Hide GUID="{4584f69f-7729-4006-ad12-2d16674a2db4}" /><Hide GUID="{c2e784bb-1a77-4cba-8fec-0d0fdb94f2d8}" /><Hide GUID="{ff5df032-dd94-452b-a05b-6af7b3e87b09}" /><Hide GUID="{d2a646ce-cb53-4790-ab47-3cb0c83f74c9}" /><Hide GUID="{53c390c3-5e50-4be8-b750-55db3104ea46}" /><Hide GUID="{2fb4c30b-56b1-4c1b-bebc-f12db744c10d}" /><Hide GUID="{735c7f0e-e310-4f28-89b6-a4af9a5158ae}" /><Hide GUID="{b437fd1a-14b6-47f9-b277-72f55df6234f}" /><Hide GUID="{a3e4c313-6b77-4c9c-8695-27705b851033}" /></Hides></DataType><DataType><Name GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</Name><BitSize>192</BitSize><SubItem><Name>StatusWord</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>ActualAbsPos</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>ActualTor</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>ActualVel</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>96</BitOffs></SubItem><SubItem><Name>ErrorCode</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>WarningCode</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>144</BitOffs></SubItem><SubItem><Name>DigitalInput_1</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>160</BitOffs></SubItem><SubItem><Name>ActualOpMode</Name><Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type><BitSize>8</BitSize><BitOffs>176</BitOffs></SubItem><Hides><Hide GUID="{bbfca707-d69c-480d-a79e-a9ca0e101ce3}" /><Hide GUID="{54cbdcb3-6261-493e-a98e-f0e5454ad0e6}" /><Hide GUID="{bc7271fa-55c3-4aa8-bb20-a421faf1bb9f}" /></Hides></DataType><DataType><Name GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</Name><BitSize>160</BitSize><SubItem><Name>ControlWord</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>TargetPosition</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>TargetTorque</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>TargetVelocity</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>96</BitOffs></SubItem><SubItem><Name>OperationMode</Name><Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type><BitSize>8</BitSize><BitOffs>128</BitOffs></SubItem><Hides><Hide GUID="{701c4c47-148f-4c36-a38d-aaf6dfacf7e3}" /><Hide GUID="{ec6e6204-239f-476c-8280-1984dd110714}" /></Hides></DataType><DataType><Name GUID="{131977ef-e050-44ea-b063-7a4112666ae9}" PersistentType="true">SystemState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eIdle]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eInitialization]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eDisabled]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eStandby]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[eMoving]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eHandwheel]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eLimitViolation]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eFault]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eEmergency]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[eTest]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[eRecovery]]></Text><Enum>10</Enum></EnumInfo><Hides><Hide GUID="{7148d75a-9bea-48c6-a587-9899cae91ca7}" /><Hide GUID="{f68e0faf-5f38-45cf-83df-b0ad64425c4b}" /><Hide GUID="{c13d1fc9-f727-49b3-8cbb-be25a30e8308}" /><Hide GUID="{5bb6b81b-9cd1-4de0-b0c1-611cd8034b49}" /><Hide GUID="{19f1cfb7-c2cd-4bf7-aa2d-c3c6265ba72d}" /><Hide GUID="{191a9c97-8559-464e-9a53-dc124b174c7e}" /></Hides></DataType><DataType><Name GUID="{13c5ed93-554d-47d2-9a08-d46cc349eddd}">PanelInfo</Name><BitSize>512</BitSize><SubItem><Name>ServoOn</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>Handwheel_EnabledAxisNum</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>16</BitOffs></SubItem><SubItem><Name>Handwheel_Ratio</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>Handwheel_dPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>Spindle_Cmd</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>448</BitOffs></SubItem><SubItem><Name>Reset</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>464</BitOffs></SubItem><SubItem><Name>Execute</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>472</BitOffs></SubItem><Hides><Hide GUID="{96bba480-0f95-47b3-ab92-a9260c8dbb85}" /><Hide GUID="{eab6ee99-3542-4a5e-883f-595e396d7a5c}" /><Hide GUID="{21f594ed-79f9-4224-b411-fa634796d40b}" /><Hide GUID="{04b926c3-7d88-4a7f-bc8f-fde858ba32a8}" /><Hide GUID="{eedead04-d7b3-4dec-b075-af0d60b911bc}" /><Hide GUID="{6655cc85-0535-4a1e-ad8c-a024effab728}" /><Hide GUID="{52517799-e493-47d3-a597-89e237f5efdb}" /><Hide GUID="{440a3a92-197d-4ba4-a96c-578b47a147f2}" /><Hide GUID="{95413d15-9e1d-4cb4-acf8-2935ab049785}" /></Hides></DataType><DataType><Name GUID="{75816603-8b01-41ed-9f49-1001e13236b1}" PersistentType="true">OpMode</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[CSP]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[CSV]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[CST]]></Text><Enum>10</Enum></EnumInfo><Hides><Hide GUID="{46cace8d-66c6-4527-a7eb-da852284167a}" /><Hide GUID="{b9fe7ddd-7676-4a0f-bb6e-4b12dbfec427}" /><Hide GUID="{0bc470a9-f028-4f4d-ac8a-4649a0a47b5b}" /><Hide GUID="{1565e93c-2f51-40a4-90d6-111da793c08b}" /><Hide GUID="{16bed8c3-d4dc-4880-b24b-bb635bdae274}" /></Hides></DataType><DataType><Name GUID="{760aeb87-af7b-4178-b0af-c2e7472652e4}">DriverState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType><EnumInfo><Text><![CDATA[eNotReadyForPowerUp]]></Text><Enum>0</Enum><Comment><![CDATA[2#0000 0000 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eShutDownError]]></Text><Enum>40960</Enum><Comment><![CDATA[2#1010 0000 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eLogicReadyForPowerOn]]></Text><Enum>16384</Enum><Comment><![CDATA[2#0100 0000 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[ePowerStageLocked]]></Text><Enum>32768</Enum><Comment><![CDATA[2#1000 0000 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eReadyToOperate]]></Text><Enum>49152</Enum><Comment><![CDATA[2#1100 0000 0000 0000]]></Comment></EnumInfo><Hides><Hide GUID="{f433f0b2-b4ff-4b1b-b09b-02ea35b25be9}" /><Hide GUID="{7d765350-0e9a-4faa-8319-97e9f4a96dfd}" /><Hide GUID="{facdd4b4-b018-4c59-b9b8-086d2b2de715}" /><Hide GUID="{3eb39b80-a351-4eaf-a116-58d0c098626e}" /><Hide GUID="{0997f833-ff0c-4e82-ab1a-e469b2976eb9}" /><Hide GUID="{5c9423b9-55fe-4f9e-a3d5-e0875fb5135e}" /><Hide GUID="{6ff55fed-ef76-42f1-bba3-5543e79aad12}" /><Hide GUID="{f28c9f08-2ee2-4238-816d-a3da5510b84a}" /><Hide GUID="{0138fa9e-9cd0-4165-832b-85a12d9bf63c}" /><Hide GUID="{f1a73fe8-38d8-4f10-8af2-2ffe7f01d141}" /><Hide GUID="{442afdc4-1e2b-409a-afcd-d217ca368616}" /></Hides></DataType><DataType><Name GUID="{8a0cbd64-a622-4812-96e8-6466f6fad96d}">MasterControlWord</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType><EnumInfo><Text><![CDATA[eHaltDrive]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eStopDrive]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eControlUnitSync]]></Text><Enum>1024</Enum></EnumInfo><EnumInfo><Text><![CDATA[eRestartDrive]]></Text><Enum>8192</Enum><Comment><![CDATA[2#0010 0000 000 00000, which is also Disable Drive]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eDriveOff]]></Text><Enum>24576</Enum><Comment><![CDATA[2#0110 0000 0000 0000, which is also Enable Drive]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eDriveOn_CSP]]></Text><Enum>57344</Enum><Comment><![CDATA[2#1110 0000 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eDriveOn_CST]]></Text><Enum>57600</Enum><Comment><![CDATA[2#1110 0001 0000 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eDriveOn_CSV]]></Text><Enum>57856</Enum><Comment><![CDATA[2#1110 0010 0000 0000]]></Comment></EnumInfo><Hides><Hide GUID="{fc87f529-59df-42f7-8954-0d5361314b23}" /><Hide GUID="{ac826df9-6f4b-4676-a3de-cd4e6902303a}" /><Hide GUID="{e1883dbd-06bc-46d8-bfa3-d5af5eb9b07f}" /><Hide GUID="{2a32eaa1-4348-4399-902e-dba415afdde1}" /><Hide GUID="{f4714244-783e-424a-b498-55b8ddc7c92b}" /><Hide GUID="{31725bf9-6b5c-4d79-9427-04c019941ddd}" /><Hide GUID="{c0263373-fe94-4b83-8956-59aaa7e6743f}" /><Hide GUID="{c0fe9b20-10bc-4535-acbe-2721889ff5e8}" /><Hide GUID="{6d496e12-e542-4fb2-b115-5748b18f3bb9}" /><Hide GUID="{fb1829e7-cb1a-44b8-8e95-8bcebed39fe6}" /><Hide GUID="{19084321-c368-4890-923c-46f0a96bf2dd}" /><Hide GUID="{e2955690-358f-4e1f-8136-ebcd1842757e}" /><Hide GUID="{ff76876c-aba4-488b-9da7-902e62eca1cc}" /><Hide GUID="{04ed30f0-938e-4de5-9dd9-3a6ec15050e0}" /><Hide GUID="{02f5d3de-02be-4c63-9788-0b147cd7ca69}" /><Hide GUID="{03effd06-2bc3-4eee-90cb-dde17d6359d6}" /><Hide GUID="{81c666de-2ad9-450d-b6b8-48a96530cc48}" /></Hides></DataType><DataType><Name GUID="{4cc52115-110b-4a46-936a-8c0b97df661e}" PersistentType="true">AxisOrder</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[Axis_X]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[Axis_Y]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[Axis_Z]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[Axis_A]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[Axis_C]]></Text><Enum>5</Enum></EnumInfo><Hides><Hide GUID="{9aaeff74-1a44-4c42-a8af-546457e88ed2}" /><Hide GUID="{1f923fee-2d98-4fa5-b75b-5001f74401e1}" /></Hides></DataType><DataType><Name GUID="{30a75c5d-e2c3-49ab-a295-5f256b553724}">AxisInformation</Name><BitSize>384</BitSize><SubItem><Name>CurrentPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>CurrentVel</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>CurrentTor</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>CurrentMode</Name><Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type><BitSize>8</BitSize><BitOffs>144</BitOffs></SubItem><SubItem><Name>CommandPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>192</BitOffs></SubItem><SubItem><Name>CommandVel</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>256</BitOffs></SubItem><SubItem><Name>CommandTor</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>320</BitOffs></SubItem><Hides><Hide GUID="{e6fc791c-bc72-4a0e-a780-8035a43e030e}" /><Hide GUID="{89c501c9-e712-4f41-a99c-adba4943db6d}" /><Hide GUID="{467ad5b8-7168-4b73-971d-ab0fe4cc3f9d}" /><Hide GUID="{2bcedec1-7056-4dc5-8a0c-80c1031418db}" /><Hide GUID="{5dd60ab0-71f1-498e-8938-f34ced0a4c68}" /><Hide GUID="{15726ba4-c8db-417e-9cf6-716ecacdd86d}" /><Hide GUID="{4ced151f-2fc1-4843-a565-44a37271c8bb}" /><Hide GUID="{ed3398c0-bd35-4950-9314-40380a9c4c56}" /><Hide GUID="{6d8582aa-8be8-4fc7-93f6-5f78057cd77a}" /><Hide GUID="{505053eb-d4b7-4c19-91a6-3b370151116d}" /></Hides></DataType><DataType><Name GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Name><BitSize>320</BitSize><SubItem><Name>MaxVelocity</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>MaxAcceleration</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>MaxJerk</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>CycleTime</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>192</BitOffs></SubItem><SubItem><Name>Tolerance</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>256</BitOffs></SubItem><Hides><Hide GUID="{227fe46a-f57f-49cd-8cc3-37166cb3fb2d}" /></Hides></DataType><DataType><Name GUID="{b0c94ecf-2c99-4196-87cb-d77c19f16c25}" PersistentType="true">ControlWord_General</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eDisableVoltage]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eQuickStop]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eShutdown]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eDisableOperation]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSwitchOn]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eEnableOperation]]></Text><Enum>15</Enum></EnumInfo><EnumInfo><Text><![CDATA[eFaultReset]]></Text><Enum>128</Enum></EnumInfo><Hides><Hide GUID="{4270ceea-da79-4360-a204-7ba44f4b849c}" /><Hide GUID="{003d6f98-865c-42d2-84e4-3d66c3f3f0d4}" /><Hide GUID="{57debd5c-52ed-4e67-84c7-97973b36063b}" /><Hide GUID="{3e8d92be-40a0-473f-9b4a-557abef78314}" /><Hide GUID="{c0aed21a-7972-46d2-8f43-4e70d7335530}" /><Hide GUID="{4b5ac5bb-8b06-4426-bef8-58d5594e8029}" /></Hides></DataType><DataType><Name GUID="{09fbe7f9-69a6-4823-ace3-891f5ea25396}" PersistentType="true">DriverState_General</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eNotReadyToSwitchOn]]></Text><Enum>0</Enum><Comment><![CDATA[x0xx 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eSwitchOnDisabled]]></Text><Enum>64</Enum><Comment><![CDATA[x1xx 0000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eReadyToSwitchOn]]></Text><Enum>33</Enum><Comment><![CDATA[x01x 0001]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eSwitchedOn]]></Text><Enum>35</Enum><Comment><![CDATA[x01x 0011]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eOperationEnabled]]></Text><Enum>39</Enum><Comment><![CDATA[x01x 0111]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eQuickStopActive]]></Text><Enum>7</Enum><Comment><![CDATA[x00x 0111]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eFaultReactionActive]]></Text><Enum>15</Enum><Comment><![CDATA[x0xx 1111]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eDriverFault]]></Text><Enum>8</Enum><Comment><![CDATA[x0xx 1000]]></Comment></EnumInfo><EnumInfo><Text><![CDATA[eQuickStopBit]]></Text><Enum>32</Enum><Comment><![CDATA[0010 0000]]></Comment></EnumInfo><Hides><Hide GUID="{b829b2df-2faa-4437-ac7c-30f59346d1df}" /><Hide GUID="{ff934e28-f8f1-4ed8-ba3f-c932e671b156}" /><Hide GUID="{bd2f2de2-217d-4c03-ba2f-761212ceaddc}" /><Hide GUID="{003fdfe0-907c-4d5c-b5a0-6dd7db368896}" /><Hide GUID="{93303a28-b20b-48bd-ab13-7d90722c8c55}" /><Hide GUID="{263bb24d-7c7b-4a1c-994b-273061a4ef8b}" /><Hide GUID="{2ef43425-1cd8-4b8c-885a-83c336515a3a}" /><Hide GUID="{edcd443a-df9c-4d2d-ae08-4157390fa207}" /><Hide GUID="{f35952ce-96ec-40ab-8e67-6e538d4595e6}" /><Hide GUID="{aad5c3cd-d2d5-46fe-bd9c-dc9af7934969}" /></Hides></DataType><DataType><Name GUID="{da968a32-d27d-4418-bd17-1ba7d385549f}" PersistentType="true">FullCommand</Name><BitSize>6080</BitSize><SubItem><Name>Meta_Data</Name><Type GUID="{6c52ff3c-3f1e-4df4-b88e-56eae4037b12}">MetaData</Type><BitSize>96</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>Motion_Command</Name><Type GUID="{cd793b8a-bcc8-462b-a724-63edd950fd54}">NewMotionCommand</Type><BitSize>5824</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>Other_Command</Name><Type GUID="{0c8c736f-2009-4a9b-ba79-a373a15b7252}">OtherCommand</Type><BitSize>128</BitSize><BitOffs>5952</BitOffs></SubItem><Hides><Hide GUID="{eb98b21f-eb74-47e4-8b9d-d1afac746b87}" /><Hide GUID="{e2ea3320-d8c4-4df4-ac30-e80aa866af2e}" /><Hide GUID="{75391721-483b-4fe5-90c5-29b3c6bec790}" /><Hide GUID="{767483fe-a6ec-41f8-8876-c27738991f9e}" /><Hide GUID="{4e423183-8701-4daa-a8ea-355058dd022b}" /><Hide GUID="{0f7219a1-4dc4-4a21-96ba-36f97984d3c9}" /><Hide GUID="{16b96479-bd57-4c6b-a691-b6a69a071fc3}" /></Hides></DataType><DataType><Name GUID="{cd793b8a-bcc8-462b-a724-63edd950fd54}" PersistentType="true">NewMotionCommand</Name><BitSize>5824</BitSize><SubItem><Name>MotionType</Name><Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>40</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>Pos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>Vel</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>384</BitOffs></SubItem><SubItem><Name>Acc</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>704</BitOffs></SubItem><SubItem><Name>Kp</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>1600</BitSize><BitOffs>1024</BitOffs></SubItem><SubItem><Name>Kv</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>1600</BitSize><BitOffs>2624</BitOffs></SubItem><SubItem><Name>Ka</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>1600</BitSize><BitOffs>4224</BitOffs></SubItem><Hides><Hide GUID="{3a94d6b3-a565-40b9-9d0a-0030cbafc8c3}" /><Hide GUID="{16aa0362-867d-4218-a7b5-ba6062ba4b24}" /><Hide GUID="{2a63d5c6-a5d8-4066-bef1-983c4e418526}" /><Hide GUID="{a235e7f2-7bb0-46a7-bce8-bfff71d17665}" /><Hide GUID="{2a3b81d4-0ef6-4b4a-ad18-478298c176a1}" /><Hide GUID="{301b2c3f-d8c0-47a1-b981-f89599a22b00}" /><Hide GUID="{7adc56c8-b70e-48ca-b4e1-4c915e3b35c7}" /></Hides></DataType><DataType><Name GUID="{6c52ff3c-3f1e-4df4-b88e-56eae4037b12}" PersistentType="true">MetaData</Name><BitSize>96</BitSize><SubItem><Name>CommandType</Name><Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type><BitSize>8</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>SourceActionBlockIndex</Name><Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>Index</Name><Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type><Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment><BitSize>32</BitSize><BitOffs>64</BitOffs></SubItem><Hides><Hide GUID="{f8220079-266a-492e-8def-dfa52e623682}" /><Hide GUID="{f9edfa92-02a8-44f3-86c0-c2e70b85be12}" /><Hide GUID="{f02a1ac5-2fed-483e-b214-6dc50232399f}" /></Hides></DataType><DataType><Name GUID="{0c8c736f-2009-4a9b-ba79-a373a15b7252}">OtherCommand</Name><BitSize>128</BitSize><SubItem><Name>CommandFunction</Name><Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type><BitSize>32</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>Data</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><Hides><Hide GUID="{2b6be5ee-52eb-448e-92e1-341e176f71f4}" /><Hide GUID="{64f68b0b-33e7-4f4b-bd43-aec9b2f372a0}" /></Hides></DataType><DataType><Name GUID="{b25f8e0a-8174-4882-b713-311192f6b289}" PersistentType="true">CommandType</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eMotion]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eOther]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSignalFinalized]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eNone]]></Text><Enum>0</Enum></EnumInfo><Hides><Hide GUID="{9b3829d1-5c3c-420b-9f22-0695f00b249e}" /><Hide GUID="{6e8cadaa-3871-4d6c-9302-046173fc2e05}" /><Hide GUID="{884016d6-45d2-4e6e-9144-faf819530c8e}" /></Hides></DataType><DataType><Name GUID="{75f6f238-a022-446e-8f56-58206fca8931}">InterfaceRPC</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-e000-000000000064}">ITcUnknown</BaseType><Method><Name RpcEnable="cpp">ExecuteCommandsContinuously</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType><Parameter><Name>n_min_data_start</Name><Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type></Parameter><Parameter><Name>buffer_size</Name><Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="out" ReferenceTo="true">INT</Type></Parameter></Method><Method><Name RpcEnable="cpp">EnterRecoveryState</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType><Parameter><Name>b_Enter</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" RpcDirection="in">BOOL</Type></Parameter></Method><Hides><Hide GUID="{c70ad3ae-80f7-4afb-a130-4fb32de8e2ea}" /><Hide GUID="{4c946553-707f-4cd1-9f6e-8ea033f4f64f}" /><Hide GUID="{e77d7290-e22c-441b-a38b-2d6c2eb34b56}" /><Hide GUID="{bdb70224-8adb-4a67-ba02-29339488814c}" /><Hide GUID="{f7764ee2-1985-4955-ab83-94f720e843b1}" /><Hide GUID="{b3dcb58a-8089-4641-9a0c-e878c1926708}" /></Hides></DataType><DataType><Name GUID="{970DA61A-269B-41C3-8941-02F0458E1BF8}" PersistentType="true">ISoEProcess</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType><Method><Name>mInitialize</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>mReset</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>bExecute</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize></Parameter></Method><Hides><Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}" /><Hide GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}" /><Hide GUID="{18DA995F-FB4B-43A0-9EE2-BB6CE9289E4F}" /><Hide GUID="{C2C6ED4E-0802-4458-8413-C8EBDD616CEE}" /><Hide GUID="{BAFF237F-2ED5-4D7B-BADD-4B2EBA2F5066}" /></Hides></DataType><DataType><Name GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}" PersistentType="true">IPanelProcess</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType><Method><Name>mInitialize</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>mFaultReset</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>mInput</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>mOutput</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>mHandwheelReset</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Hides><Hide GUID="{D4731370-F5F0-4676-96D8-ABCFDC5715C8}" /><Hide GUID="{AA0B3BE1-33A7-4B93-B5B5-C54ECF6AFC21}" /><Hide GUID="{8D446B8C-6A9A-4C63-9156-0A30D9AB0B07}" /></Hides></DataType></DataTypes>
+  <DataTypes>
+    <DataType>
+      <Name GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Name>
+      <BitSize>512</BitSize>
+      <SubItem>
+        <Name>AbsEncDir</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <Comment TxtId=""><![CDATA[Absolute Encoder (positive) Direction]]></Comment>
+        <BitSize>16</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>AbsEncRes</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <Comment TxtId=""><![CDATA[Absolute Encoder Resolution]]></Comment>
+        <BitSize>32</BitSize>
+        <BitOffs>32</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>RatedCurrent</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <Comment TxtId=""><![CDATA[Rated Current]]></Comment>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>RatedTorque</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <Comment TxtId=""><![CDATA[Rated Torque]]></Comment>
+        <BitSize>64</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TorDir</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <Comment TxtId=""><![CDATA[Torque (positive)Direction]]></Comment>
+        <BitSize>16</BitSize>
+        <BitOffs>192</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>AbsZeroPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <Comment TxtId=""><![CDATA[Zero Position of Absolute Encoder]]></Comment>
+        <BitSize>32</BitSize>
+        <BitOffs>224</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>PosUpperLimit</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <Comment TxtId=""><![CDATA[Position Upper Limit of absolute encoder]]></Comment>
+        <BitSize>32</BitSize>
+        <BitOffs>256</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>PosLowerLimit</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <Comment TxtId=""><![CDATA[Position Lower Limit of absolute encoder]]></Comment>
+        <BitSize>32</BitSize>
+        <BitOffs>288</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TransmissionRatio</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>320</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TorPdoMax</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>384</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>AdditiveTorque</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>400</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>AbsEncType</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>416</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>PositiveHardBit</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>432</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>NegativeHardBit</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>448</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>DriverType</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>464</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Exposed</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>480</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{7277dca6-b413-41d3-a0a3-18c7fb71da27}" />
+        <Hide GUID="{a7d30aa7-de0f-4d81-b94c-5ae394390349}" />
+        <Hide GUID="{58baee27-66ba-4e11-946f-1d1e0db3e6d2}" />
+        <Hide GUID="{91560d14-88e7-4870-93fc-c62289f249c4}" />
+        <Hide GUID="{3ce33675-efab-4fb1-a5c7-63d03f7b7ff3}" />
+        <Hide GUID="{1eade0bf-0e40-47ac-bfa2-37826bc9272d}" />
+        <Hide GUID="{974cb096-a280-4f2a-beb6-817045dbce3f}" />
+        <Hide GUID="{2bd6a7aa-88a2-4ef3-8d0e-67903d4dc5dd}" />
+        <Hide GUID="{906ffaca-4191-4ccd-bac1-eaccd15dd2b8}" />
+        <Hide GUID="{4584f69f-7729-4006-ad12-2d16674a2db4}" />
+        <Hide GUID="{c2e784bb-1a77-4cba-8fec-0d0fdb94f2d8}" />
+        <Hide GUID="{ff5df032-dd94-452b-a05b-6af7b3e87b09}" />
+        <Hide GUID="{d2a646ce-cb53-4790-ab47-3cb0c83f74c9}" />
+        <Hide GUID="{53c390c3-5e50-4be8-b750-55db3104ea46}" />
+        <Hide GUID="{2fb4c30b-56b1-4c1b-bebc-f12db744c10d}" />
+        <Hide GUID="{735c7f0e-e310-4f28-89b6-a4af9a5158ae}" />
+        <Hide GUID="{b437fd1a-14b6-47f9-b277-72f55df6234f}" />
+        <Hide GUID="{a3e4c313-6b77-4c9c-8695-27705b851033}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</Name>
+      <BitSize>192</BitSize>
+      <SubItem>
+        <Name>StatusWord</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>ActualAbsPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>32</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>ActualTor</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>ActualVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>96</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>ErrorCode</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>WarningCode</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>144</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>DigitalInput_1</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>160</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>ActualOpMode</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>176</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{bbfca707-d69c-480d-a79e-a9ca0e101ce3}" />
+        <Hide GUID="{54cbdcb3-6261-493e-a98e-f0e5454ad0e6}" />
+        <Hide GUID="{bc7271fa-55c3-4aa8-bb20-a421faf1bb9f}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</Name>
+      <BitSize>160</BitSize>
+      <SubItem>
+        <Name>ControlWord</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetPosition</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>32</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetTorque</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetVelocity</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>96</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>OperationMode</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{701c4c47-148f-4c36-a38d-aaf6dfacf7e3}" />
+        <Hide GUID="{ec6e6204-239f-476c-8280-1984dd110714}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{9b565fbb-17c1-45ce-82ea-7792eff0874b}" PersistentType="true">SystemState</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eIdle]]></Text>
+        <Enum>0</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDisabled]]></Text>
+        <Enum>1</Enum>
+      </EnumInfo><EnumInfo>
+        <Text><![CDATA[ePreStandby]]></Text>
+        <Enum>2</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eStandby]]></Text>
+        <Enum>3</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eManual]]></Text>
+        <Enum>4</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eBuffering]]></Text>
+        <Enum>5</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eContinuousExecution]]></Text>
+        <Enum>6</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eFault]]></Text>
+        <Enum>7</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eTest]]></Text>
+        <Enum>8</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eRecovery]]></Text>
+        <Enum>9</Enum>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}" />
+        <Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}" />
+        <Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}" />
+        <Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}" />
+        <Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}" />
+        <Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}" /><Hide GUID="{191a9c97-8559-464e-9a53-dc124b174c7e}" /><Hide GUID="{833b279d-60bb-4e3e-9b42-e6edf428f330}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{13c5ed93-554d-47d2-9a08-d46cc349eddd}">PanelInfo</Name>
+      <BitSize>512</BitSize>
+      <SubItem>
+        <Name>ServoOn</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Handwheel_EnabledAxisNum</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>16</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Handwheel_Ratio</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Handwheel_dPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>320</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Spindle_Cmd</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>448</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Reset</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>464</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Execute</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>472</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{96bba480-0f95-47b3-ab92-a9260c8dbb85}" />
+        <Hide GUID="{eab6ee99-3542-4a5e-883f-595e396d7a5c}" />
+        <Hide GUID="{21f594ed-79f9-4224-b411-fa634796d40b}" />
+        <Hide GUID="{04b926c3-7d88-4a7f-bc8f-fde858ba32a8}" />
+        <Hide GUID="{eedead04-d7b3-4dec-b075-af0d60b911bc}" />
+        <Hide GUID="{6655cc85-0535-4a1e-ad8c-a024effab728}" />
+        <Hide GUID="{52517799-e493-47d3-a597-89e237f5efdb}" />
+        <Hide GUID="{440a3a92-197d-4ba4-a96c-578b47a147f2}" />
+        <Hide GUID="{95413d15-9e1d-4cb4-acf8-2935ab049785}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{75816603-8b01-41ed-9f49-1001e13236b1}" PersistentType="true">OpMode</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[CSP]]></Text>
+        <Enum>8</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[CSV]]></Text>
+        <Enum>9</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[CST]]></Text>
+        <Enum>10</Enum>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{46cace8d-66c6-4527-a7eb-da852284167a}" />
+        <Hide GUID="{b9fe7ddd-7676-4a0f-bb6e-4b12dbfec427}" />
+        <Hide GUID="{0bc470a9-f028-4f4d-ac8a-4649a0a47b5b}" />
+        <Hide GUID="{1565e93c-2f51-40a4-90d6-111da793c08b}" />
+        <Hide GUID="{16bed8c3-d4dc-4880-b24b-bb635bdae274}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{760aeb87-af7b-4178-b0af-c2e7472652e4}">DriverState</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eNotReadyForPowerUp]]></Text>
+        <Enum>0</Enum>
+        <Comment><![CDATA[2#0000 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eShutDownError]]></Text>
+        <Enum>40960</Enum>
+        <Comment><![CDATA[2#1010 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eLogicReadyForPowerOn]]></Text>
+        <Enum>16384</Enum>
+        <Comment><![CDATA[2#0100 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[ePowerStageLocked]]></Text>
+        <Enum>32768</Enum>
+        <Comment><![CDATA[2#1000 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eReadyToOperate]]></Text>
+        <Enum>49152</Enum>
+        <Comment><![CDATA[2#1100 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{f433f0b2-b4ff-4b1b-b09b-02ea35b25be9}" />
+        <Hide GUID="{7d765350-0e9a-4faa-8319-97e9f4a96dfd}" />
+        <Hide GUID="{facdd4b4-b018-4c59-b9b8-086d2b2de715}" />
+        <Hide GUID="{3eb39b80-a351-4eaf-a116-58d0c098626e}" />
+        <Hide GUID="{0997f833-ff0c-4e82-ab1a-e469b2976eb9}" />
+        <Hide GUID="{5c9423b9-55fe-4f9e-a3d5-e0875fb5135e}" />
+        <Hide GUID="{6ff55fed-ef76-42f1-bba3-5543e79aad12}" />
+        <Hide GUID="{f28c9f08-2ee2-4238-816d-a3da5510b84a}" />
+        <Hide GUID="{0138fa9e-9cd0-4165-832b-85a12d9bf63c}" />
+        <Hide GUID="{f1a73fe8-38d8-4f10-8af2-2ffe7f01d141}" />
+        <Hide GUID="{442afdc4-1e2b-409a-afcd-d217ca368616}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{8a0cbd64-a622-4812-96e8-6466f6fad96d}">MasterControlWord</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eHaltDrive]]></Text>
+        <Enum>0</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eStopDrive]]></Text>
+        <Enum>1</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eControlUnitSync]]></Text>
+        <Enum>1024</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eRestartDrive]]></Text>
+        <Enum>8192</Enum>
+        <Comment><![CDATA[2#0010 0000 000 00000, which is also Disable Drive]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDriveOff]]></Text>
+        <Enum>24576</Enum>
+        <Comment><![CDATA[2#0110 0000 0000 0000, which is also Enable Drive]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDriveOn_CSP]]></Text>
+        <Enum>57344</Enum>
+        <Comment><![CDATA[2#1110 0000 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDriveOn_CST]]></Text>
+        <Enum>57600</Enum>
+        <Comment><![CDATA[2#1110 0001 0000 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDriveOn_CSV]]></Text>
+        <Enum>57856</Enum>
+        <Comment><![CDATA[2#1110 0010 0000 0000]]></Comment>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{fc87f529-59df-42f7-8954-0d5361314b23}" />
+        <Hide GUID="{ac826df9-6f4b-4676-a3de-cd4e6902303a}" />
+        <Hide GUID="{e1883dbd-06bc-46d8-bfa3-d5af5eb9b07f}" />
+        <Hide GUID="{2a32eaa1-4348-4399-902e-dba415afdde1}" />
+        <Hide GUID="{f4714244-783e-424a-b498-55b8ddc7c92b}" />
+        <Hide GUID="{31725bf9-6b5c-4d79-9427-04c019941ddd}" />
+        <Hide GUID="{c0263373-fe94-4b83-8956-59aaa7e6743f}" />
+        <Hide GUID="{c0fe9b20-10bc-4535-acbe-2721889ff5e8}" />
+        <Hide GUID="{6d496e12-e542-4fb2-b115-5748b18f3bb9}" />
+        <Hide GUID="{fb1829e7-cb1a-44b8-8e95-8bcebed39fe6}" />
+        <Hide GUID="{19084321-c368-4890-923c-46f0a96bf2dd}" />
+        <Hide GUID="{e2955690-358f-4e1f-8136-ebcd1842757e}" />
+        <Hide GUID="{ff76876c-aba4-488b-9da7-902e62eca1cc}" />
+        <Hide GUID="{04ed30f0-938e-4de5-9dd9-3a6ec15050e0}" />
+        <Hide GUID="{02f5d3de-02be-4c63-9788-0b147cd7ca69}" />
+        <Hide GUID="{03effd06-2bc3-4eee-90cb-dde17d6359d6}" />
+        <Hide GUID="{81c666de-2ad9-450d-b6b8-48a96530cc48}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{4cc52115-110b-4a46-936a-8c0b97df661e}" PersistentType="true">AxisOrder</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[Axis_X]]></Text>
+        <Enum>1</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[Axis_Y]]></Text>
+        <Enum>2</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[Axis_Z]]></Text>
+        <Enum>3</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[Axis_A]]></Text>
+        <Enum>4</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[Axis_C]]></Text>
+        <Enum>5</Enum>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{9aaeff74-1a44-4c42-a8af-546457e88ed2}" />
+        <Hide GUID="{1f923fee-2d98-4fa5-b75b-5001f74401e1}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{30a75c5d-e2c3-49ab-a295-5f256b553724}">AxisInformation</Name>
+      <BitSize>384</BitSize>
+      <SubItem>
+        <Name>CurrentPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CurrentVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CurrentTor</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CurrentMode</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>144</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CommandPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>192</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CommandVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>256</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CommandTor</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>320</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{e6fc791c-bc72-4a0e-a780-8035a43e030e}" />
+        <Hide GUID="{89c501c9-e712-4f41-a99c-adba4943db6d}" />
+        <Hide GUID="{467ad5b8-7168-4b73-971d-ab0fe4cc3f9d}" />
+        <Hide GUID="{2bcedec1-7056-4dc5-8a0c-80c1031418db}" />
+        <Hide GUID="{5dd60ab0-71f1-498e-8938-f34ced0a4c68}" />
+        <Hide GUID="{15726ba4-c8db-417e-9cf6-716ecacdd86d}" />
+        <Hide GUID="{4ced151f-2fc1-4843-a565-44a37271c8bb}" />
+        <Hide GUID="{ed3398c0-bd35-4950-9314-40380a9c4c56}" />
+        <Hide GUID="{6d8582aa-8be8-4fc7-93f6-5f78057cd77a}" />
+        <Hide GUID="{505053eb-d4b7-4c19-91a6-3b370151116d}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Name>
+      <BitSize>320</BitSize>
+      <SubItem>
+        <Name>MaxVelocity</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>MaxAcceleration</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>MaxJerk</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>CycleTime</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>192</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Tolerance</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>256</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{227fe46a-f57f-49cd-8cc3-37166cb3fb2d}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{f1f3c2d0-7f5a-4c6c-a483-0a5fa097c058}" PersistentType="true">ControlWordGeneral</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eDisableVoltage]]></Text>
+        <Enum>0</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eQuickStop]]></Text>
+        <Enum>2</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eShutdown]]></Text>
+        <Enum>6</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDisableOperation]]></Text>
+        <Enum>7</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eSwitchOn]]></Text>
+        <Enum>7</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eEnableOperation]]></Text>
+        <Enum>15</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eFaultReset]]></Text>
+        <Enum>128</Enum>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{4270ceea-da79-4360-a204-7ba44f4b849c}" />
+        <Hide GUID="{003d6f98-865c-42d2-84e4-3d66c3f3f0d4}" />
+        <Hide GUID="{57debd5c-52ed-4e67-84c7-97973b36063b}" />
+        <Hide GUID="{3e8d92be-40a0-473f-9b4a-557abef78314}" />
+        <Hide GUID="{c0aed21a-7972-46d2-8f43-4e70d7335530}" />
+        <Hide GUID="{4b5ac5bb-8b06-4426-bef8-58d5594e8029}" />
+        <Hide GUID="{b0c94ecf-2c99-4196-87cb-d77c19f16c25}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{6b6236f7-1899-4101-9ccb-762e700ef682}" PersistentType="true">DriverStateGeneral</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eNotReadyToSwitchOn]]></Text>
+        <Enum>0</Enum>
+        <Comment><![CDATA[x0xx 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eSwitchOnDisabled]]></Text>
+        <Enum>64</Enum>
+        <Comment><![CDATA[x1xx 0000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eReadyToSwitchOn]]></Text>
+        <Enum>33</Enum>
+        <Comment><![CDATA[x01x 0001]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eSwitchedOn]]></Text>
+        <Enum>35</Enum>
+        <Comment><![CDATA[x01x 0011]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eOperationEnabled]]></Text>
+        <Enum>39</Enum>
+        <Comment><![CDATA[x01x 0111]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eQuickStopActive]]></Text>
+        <Enum>7</Enum>
+        <Comment><![CDATA[x00x 0111]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eFaultReactionActive]]></Text>
+        <Enum>15</Enum>
+        <Comment><![CDATA[x0xx 1111]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eDriverFault]]></Text>
+        <Enum>8</Enum>
+        <Comment><![CDATA[x0xx 1000]]></Comment>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eQuickStopBit]]></Text>
+        <Enum>32</Enum>
+        <Comment><![CDATA[0010 0000]]></Comment>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{b829b2df-2faa-4437-ac7c-30f59346d1df}" />
+        <Hide GUID="{ff934e28-f8f1-4ed8-ba3f-c932e671b156}" />
+        <Hide GUID="{bd2f2de2-217d-4c03-ba2f-761212ceaddc}" />
+        <Hide GUID="{003fdfe0-907c-4d5c-b5a0-6dd7db368896}" />
+        <Hide GUID="{93303a28-b20b-48bd-ab13-7d90722c8c55}" />
+        <Hide GUID="{263bb24d-7c7b-4a1c-994b-273061a4ef8b}" />
+        <Hide GUID="{2ef43425-1cd8-4b8c-885a-83c336515a3a}" />
+        <Hide GUID="{edcd443a-df9c-4d2d-ae08-4157390fa207}" />
+        <Hide GUID="{f35952ce-96ec-40ab-8e67-6e538d4595e6}" />
+        <Hide GUID="{aad5c3cd-d2d5-46fe-bd9c-dc9af7934969}" />
+        <Hide GUID="{09fbe7f9-69a6-4823-ace3-891f5ea25396}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{2f16927a-438e-48dd-8307-5e0544670663}" PersistentType="true">FullCommand</Name>
+      <BitSize>6080</BitSize>
+      <SubItem>
+        <Name>metaData</Name>
+        <Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
+        <BitSize>96</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>motionCommand</Name>
+        <Type GUID="{CD793B8A-BCC8-462B-A724-63EDD950FD54}">NewMotionCommand</Type>
+        <BitSize>5824</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>otherCommand</Name>
+        <Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
+        <BitSize>128</BitSize>
+        <BitOffs>5952</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{EB98B21F-EB74-47E4-8B9D-D1AFAC746B87}" />
+        <Hide GUID="{E2EA3320-D8C4-4DF4-AC30-E80AA866AF2E}" />
+        <Hide GUID="{75391721-483B-4FE5-90C5-29B3C6BEC790}" />
+        <Hide GUID="{767483FE-A6EC-41F8-8876-C27738991F9E}" />
+        <Hide GUID="{4E423183-8701-4DAA-A8EA-355058DD022B}" />
+        <Hide GUID="{0F7219A1-4DC4-4A21-96BA-36F97984D3C9}" />
+        <Hide GUID="{16B96479-BD57-4C6B-A691-B6A69A071FC3}" />
+        <Hide GUID="{DA968A32-D27D-4418-BD17-1BA7D385549F}" />
+        <Hide GUID="{E3EF5EA9-14FE-486F-B00C-C6654E2B23D8}" />
+        <Hide GUID="{e6030987-8b4f-4df9-ac31-9b5fc7f863b1}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{cd793b8a-bcc8-462b-a724-63edd950fd54}" PersistentType="true">NewMotionCommand</Name>
+      <BitSize>5824</BitSize>
+      <SubItem>
+        <Name>MotionType</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>40</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Pos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>320</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Vel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>320</BitSize>
+        <BitOffs>384</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Acc</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>320</BitSize>
+        <BitOffs>704</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Kp</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>1600</BitSize>
+        <BitOffs>1024</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Kv</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>1600</BitSize>
+        <BitOffs>2624</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Ka</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <ArrayInfo>
+          <LBound>0</LBound>
+          <Elements>5</Elements>
+        </ArrayInfo>
+        <BitSize>1600</BitSize>
+        <BitOffs>4224</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{3a94d6b3-a565-40b9-9d0a-0030cbafc8c3}" />
+        <Hide GUID="{16aa0362-867d-4218-a7b5-ba6062ba4b24}" />
+        <Hide GUID="{2a63d5c6-a5d8-4066-bef1-983c4e418526}" />
+        <Hide GUID="{a235e7f2-7bb0-46a7-bce8-bfff71d17665}" />
+        <Hide GUID="{2a3b81d4-0ef6-4b4a-ad18-478298c176a1}" />
+        <Hide GUID="{301b2c3f-d8c0-47a1-b981-f89599a22b00}" />
+        <Hide GUID="{7adc56c8-b70e-48ca-b4e1-4c915e3b35c7}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{6c52ff3c-3f1e-4df4-b88e-56eae4037b12}" PersistentType="true">MetaData</Name>
+      <BitSize>96</BitSize>
+      <SubItem>
+        <Name>CommandType</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>SourceActionBlockIndex</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>32</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Index</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+        <Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment>
+        <BitSize>32</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{f8220079-266a-492e-8def-dfa52e623682}" />
+        <Hide GUID="{f9edfa92-02a8-44f3-86c0-c2e70b85be12}" />
+        <Hide GUID="{f02a1ac5-2fed-483e-b214-6dc50232399f}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{0c8c736f-2009-4a9b-ba79-a373a15b7252}">OtherCommand</Name>
+      <BitSize>128</BitSize>
+      <SubItem>
+        <Name>CommandFunction</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+        <BitSize>32</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Data</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{2b6be5ee-52eb-448e-92e1-341e176f71f4}" />
+        <Hide GUID="{64f68b0b-33e7-4f4b-bd43-aec9b2f372a0}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{b25f8e0a-8174-4882-b713-311192f6b289}" PersistentType="true">CommandType</Name>
+      <BitSize>16</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[eMotion]]></Text>
+        <Enum>1</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eOther]]></Text>
+        <Enum>4</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eSignalFinalized]]></Text>
+        <Enum>5</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[eNone]]></Text>
+        <Enum>0</Enum>
+      </EnumInfo>
+      <Hides>
+        <Hide GUID="{9b3829d1-5c3c-420b-9f22-0695f00b249e}" />
+        <Hide GUID="{6e8cadaa-3871-4d6c-9302-046173fc2e05}" />
+        <Hide GUID="{884016d6-45d2-4e6e-9144-faf819530c8e}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{0a661e3e-e020-43b6-b916-4725f5a024f4}">IMotionControlInterface</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-e000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name RpcEnable="cpp">ExecuteCommandsContinuously</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+        <Parameter>
+          <Name>n_min_data_start</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type>
+        </Parameter>
+        <Parameter>
+          <Name>buffer_size</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="out" ReferenceTo="true">INT</Type>
+        </Parameter><Parameter><Name>op_mode</Name><Type GUID="{18071995-0000-0000-0000-000000000003}" RpcDirection="in">SINT</Type></Parameter>
+      </Method>
+      <Method>
+        <Name RpcEnable="cpp">EnterRecoveryState</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+        <Parameter>
+          <Name>is_entered</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000030}" RpcDirection="in">BOOL</Type>
+        </Parameter>
+      </Method><Method><Name RpcEnable="cpp">RequestStop</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType></Method>
+      <Hides>
+        <Hide GUID="{c70ad3ae-80f7-4afb-a130-4fb32de8e2ea}" />
+        <Hide GUID="{4c946553-707f-4cd1-9f6e-8ea033f4f64f}" />
+        <Hide GUID="{e77d7290-e22c-441b-a38b-2d6c2eb34b56}" />
+        <Hide GUID="{bdb70224-8adb-4a67-ba02-29339488814c}" />
+        <Hide GUID="{f7764ee2-1985-4955-ab83-94f720e843b1}" />
+        <Hide GUID="{b3dcb58a-8089-4641-9a0c-e878c1926708}" /><Hide GUID="{75f6f238-a022-446e-8f56-58206fca8931}" /><Hide GUID="{7b5f3667-9010-4928-8e7b-beaa3e7d8a6e}" /><Hide GUID="{30a861f3-f64b-453a-ae46-1a36980c4a13}" /><Hide GUID="{73968de1-2650-44d1-ae7d-ebed40f2b70e}" /><Hide GUID="{969c38e8-83da-4c1c-89be-87ebf872b043}" /><Hide GUID="{d57097f6-3bba-4685-a6ef-110fe1798263}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{970DA61A-269B-41C3-8941-02F0458E1BF8}" PersistentType="true">ISoEProcess</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>mInitialize</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>mReset</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>bExecute</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+          <BitSize>8</BitSize>
+        </Parameter>
+      </Method>
+      <Hides>
+        <Hide GUID="{90CE08C5-80A2-4B32-B4F1-763A933FE3AF}" />
+        <Hide GUID="{8FE387DD-41F1-4858-B80A-7328922B0154}" />
+        <Hide GUID="{18DA995F-FB4B-43A0-9EE2-BB6CE9289E4F}" />
+        <Hide GUID="{C2C6ED4E-0802-4458-8413-C8EBDD616CEE}" />
+        <Hide GUID="{BAFF237F-2ED5-4D7B-BADD-4B2EBA2F5066}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{BAA6EC0B-E089-4261-B526-D49D4945A12E}" PersistentType="true">IPanelProcess</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>mInitialize</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>mFaultReset</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>mInput</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>mOutput</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>mHandwheelReset</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Hides>
+        <Hide GUID="{D4731370-F5F0-4676-96D8-ABCFDC5715C8}" />
+        <Hide GUID="{AA0B3BE1-33A7-4B93-B5B5-C54ECF6AFC21}" />
+        <Hide GUID="{8D446B8C-6A9A-4C63-9156-0A30D9AB0B07}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{9c29111d-2ab9-43bb-ace9-11cadbf59920}">SpindleRot</Name>
+      <BitSize>64</BitSize>
+      <SubItem>
+        <Name>TargetVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{276def9e-cf6b-4dfd-905e-e3b781ba52eb}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{9689cd0c-e531-4687-bb83-6d4bb1f2f1cd}">SpindleVelLimit</Name>
+      <BitSize>192</BitSize>
+      <SubItem>
+        <Name>MaxVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>MaxAcc</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>MaxJerk</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{8a347eb1-4573-44b1-a5b0-a37a6d7dea9a}" />
+        <Hide GUID="{5b4dfd79-1ed9-434f-b6f2-12614a65d378}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{cf8e28de-cfd4-4727-86e6-c55d5891dd9f}" PersistentType="true">ISpindleInterface</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-e000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>RequestRotating</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <Parameter>
+          <Name>RotData</Name>
+          <Type GUID="{9c29111d-2ab9-43bb-ace9-11cadbf59920}">SpindleRot</Type>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>RequestStop</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+      </Method>
+      <Method>
+        <Name>SetVelLimit</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <Parameter>
+          <Name>VelLimit</Name>
+          <Type GUID="{9689cd0c-e531-4687-bb83-6d4bb1f2f1cd}">SpindleVelLimit</Type>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>RequestPositioning</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <Parameter>
+          <Name>PositionData</Name>
+          <Type GUID="{beac0974-f61c-4504-bef4-0c5c6361cd2e}" RpcDirection="in">SpindlePosition</Type>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>ReportCurrentState</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <Parameter>
+          <Name>curr_state</Name>
+          <Type GUID="{df678954-0cc7-4b57-a830-ad3ad6d5ffce}" ReferenceTo="true">SpindleState</Type>
+        </Parameter>
+      </Method><Method><Name>RequestSpindleEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>IsSpindleEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_enable</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Method><Name>IsSpindleMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_moving</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method>
+      <Hides>
+        <Hide GUID="{dcf1bb23-1e65-45ba-9e16-10a89c246f30}" />
+        <Hide GUID="{d891ffda-b7ce-4d35-a943-63c5c5df95b3}" />
+        <Hide GUID="{c436dfb3-dfad-4b2e-a521-f818f7322a59}" />
+        <Hide GUID="{b341d318-2526-4393-b001-be33341dbc6b}" />
+        <Hide GUID="{8505f000-4f40-469a-b113-ff15b31d6ed2}" />
+        <Hide GUID="{d7a51d84-b582-454f-9fea-8a207b328c12}" />
+        <Hide GUID="{8284d067-edc8-435f-8f34-29a66e3c3402}" /><Hide GUID="{048ba0d4-73fc-499f-827c-3bb78da7f97b}" /><Hide GUID="{fc176f31-d778-4295-bd45-09eac14c42d8}" /><Hide GUID="{424e12a8-d9a0-451d-b5fd-5aaa98bf5639}" /><Hide GUID="{8f0dd787-4f15-4931-9ce8-9dd0b566c5a5}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{beac0974-f61c-4504-bef4-0c5c6361cd2e}">SpindlePosition</Name>
+      <BitSize>128</BitSize>
+      <SubItem>
+        <Name>TargetPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{62dd47e9-e88f-4381-bf70-f2dc26ca45bd}" /><Hide GUID="{ca678cac-af0e-4bb6-ad6b-f3a4a8306bae}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{77803924-0147-4db7-b733-98772013dae4}">SpindleCommand</Name>
+      <BitSize>192</BitSize>
+      <SubItem>
+        <Name>ModeOfOperation</Name>
+        <Type GUID="{75816603-8b01-41ed-9f49-1001e13236b1}">OpMode</Type>
+        <BitSize>16</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetPos</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>64</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>TargetVel</Name>
+        <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+        <BitSize>64</BitSize>
+        <BitOffs>128</BitOffs>
+      </SubItem>
+      <Hides>
+        <Hide GUID="{11711e07-fc28-4114-b9da-7dd08a8b399d}" />
+        <Hide GUID="{2848480f-e5fe-433c-ac7c-12907a0af514}" />
+      </Hides>
+    </DataType><DataType><Name GUID="{08cc0d90-8987-4a20-a338-22772737a054}">IAxisGroupInterface</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-e000-000000000064}">ITcUnknown</BaseType><Method><Name>ReportCurrentState</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>curr_state</Name><Type GUID="{f83d71b3-edf7-41e0-b7ad-30bcaeb092e9}" ReferenceTo="true">AxisGroupState</Type></Parameter></Method><Method><Name>RequestEnterHandwheel</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestQuitHandwheel</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestContinuousMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestStop</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestAxisGroupEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestAxisGroupDisable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestReset</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType></Method><Method><Name>RequestRecovery</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_entered</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type></Parameter></Method><Method><Name>RequestChangeOpMode</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>mode</Name><Type GUID="{75816603-8b01-41ed-9f49-1001e13236b1}">OpMode</Type></Parameter></Method><Method><Name>IsAxisGroupStandby</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_standby</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Method><Name>IsAxisGroupMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_moving</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Method><Name>IsAxisGroupOpModeSwitched</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_switched</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Method><Name>IsAxisGroupDisabled</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_disabled</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Method><Name>IsAxisGroupManualMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><Parameter><Name>is_manual</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type></Parameter></Method><Hides><Hide GUID="{dcf9dc5f-3d7e-491d-8181-54342b9b9992}" /><Hide GUID="{f51fd43d-dd1b-41ba-9284-26b74148e02d}" /><Hide GUID="{228f5a97-1e1f-44d7-9516-b4636955b1df}" /><Hide GUID="{24d3bc88-71db-4ea3-917d-f683664d52b5}" /><Hide GUID="{d6e808d9-4932-4478-944f-ca624d13c56d}" /><Hide GUID="{9691eee1-1274-438b-b656-3a30b975e573}" /><Hide GUID="{2214023b-6745-490f-8a17-7c27c9c0abfe}" /><Hide GUID="{115ed070-7f4d-41b8-8567-ebbc25b6f958}" /><Hide GUID="{41256761-004b-4cc4-9b97-2ab712e0f3f0}" /><Hide GUID="{3fcb14a1-30c5-4997-81ff-fa9a0b8282c0}" /><Hide GUID="{bd16502d-4ca7-40ea-8502-f89f540528f6}" /><Hide GUID="{f116e771-74bc-4959-896f-f67032062479}" /><Hide GUID="{137bf08c-0a94-404b-8e11-401090b35676}" /><Hide GUID="{388cfab5-2642-4a3f-9496-4a72f166e0bc}" /><Hide GUID="{cc5819ba-ea81-4f94-90c1-391c24480a17}" /></Hides></DataType><DataType><Name GUID="{f83d71b3-edf7-41e0-b7ad-30bcaeb092e9}" PersistentType="true">AxisGroupState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eAxisGroupIdle]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupInitialization]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupDisabled]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupPreStandby]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupStandby]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupManualMoving]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupContinuousMoving]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupLimitViolation]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupEmergency]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupFault]]></Text><Enum>10</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupRecovery]]></Text><Enum>11</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupTest]]></Text><Enum>12</Enum></EnumInfo><Hides><Hide GUID="{8989bab0-9461-408e-922b-96b63909c27b}" /><Hide GUID="{efa474ee-adde-4fa0-89fe-f6507c000b54}" /><Hide GUID="{16294158-e78b-47ab-8e1f-b62e7b0fd108}" /><Hide GUID="{a38dc09a-adb5-468e-8e1c-56e9cea6e747}" /></Hides></DataType><DataType><Name GUID="{df678954-0cc7-4b57-a830-ad3ad6d5ffce}" PersistentType="true">SpindleState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eSpindleIdle]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleInitialization]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleDisabled]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleEnable]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePreMoving]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleRotating]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePositioning]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePostMoving]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleEmergency]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleFault]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleTest]]></Text><Enum>10</Enum></EnumInfo></DataType><DataType><Name GUID="{79339e68-6e3a-41af-8d1f-a9030aa0d6d8}">CommandFunction</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eSpindle]]></Text><Enum>500</Enum></EnumInfo><EnumInfo><Text><![CDATA[eM30]]></Text><Enum>1000</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSetTool]]></Text><Enum>2</Enum></EnumInfo><Hides><Hide GUID="{c5ddd3ef-7e32-42c0-8438-6ee808944ce2}" /></Hides></DataType>
+  </DataTypes>
   <Groups>
     <Group SortOrder="701">
       <Name>C++</Name>
@@ -38,7 +1164,11 @@
         </Interface>
         <Interface DisableCodeGeneration="true">
           <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
-        </Interface><Interface><Type GUID="{75f6f238-a022-446e-8f56-58206fca8931}">InterfaceRPC</Type><ContextId>1</ContextId></Interface>
+        </Interface>
+        <Interface>
+          <Type GUID="{0a661e3e-e020-43b6-b916-4725f5a024f4}">IMotionControlInterface</Type>
+          <ContextId>1</ContextId>
+        </Interface>
       </Interfaces>
       <Parameters>
         <Parameter HideParameter="true">
@@ -49,21 +1179,45 @@
           <ContextId>1</ContextId>
         </Parameter>
         <Parameter CreateSymbol="true">
-          <Name>Parameter</Name><BitSize>9152</BitSize><SubItem><Name>DriverParameter</Name><Type GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Type><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitSize>5120</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>SpindleDriverParam</Name><Type GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Type><BitSize>512</BitSize><BitOffs>5120</BitOffs></SubItem><SubItem><Name>AxisGroupInterpolationParam</Name><Type GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Type><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitSize>3200</BitSize><BitOffs>5632</BitOffs></SubItem><SubItem><Name>SpindleInterpolationParam</Name><Type GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Type><BitSize>320</BitSize><BitOffs>8832</BitOffs></SubItem>
+          <Name>Parameter</Name><BitSize>8</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000030}" >BOOL</BaseType>
           <PTCID>#x00000001</PTCID>
           <ContextId>1</ContextId>
-        </Parameter><Parameter><Name>CycleTime</Name><Comment TxtId=""><![CDATA[Cycle time of task]]></Comment><BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><PTCID>#x03002080</PTCID><ContextId>1</ContextId></Parameter>
+        </Parameter>
       </Parameters>
       <DataAreas>
         <DataArea>
           <AreaNo AreaType="InputDst">0</AreaNo>
           <Name>Inputs</Name>
-          <ContextId>1</ContextId><ByteSize>778760</ByteSize><Symbol><Name>AxisInputs</Name><BitSize>1920</BitSize><BaseType GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>0</BitOffs></Symbol><Symbol><Name>PanelInformation</Name><BitSize>512</BitSize><BaseType GUID="{13c5ed93-554d-47d2-9a08-d46cc349eddd}">PanelInfo</BaseType><BitOffs>1920</BitOffs></Symbol><Symbol><Name>mockButton</Name><BitSize>80</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>2432</BitOffs></Symbol><Symbol><Name>TestInputs</Name><BitSize>1280</BitSize><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType><ArrayInfo><LBound>0</LBound><Elements>20</Elements></ArrayInfo><BitOffs>2560</BitOffs></Symbol><Symbol><Name>SpindleInput</Name><BitSize>192</BitSize><BaseType GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</BaseType><BitOffs>3840</BitOffs></Symbol><Symbol><Name>CommandInput</Name><BitSize>6225920</BitSize><BaseType GUID="{da968a32-d27d-4418-bd17-1ba7d385549f}">FullCommand</BaseType><ArrayInfo><LBound>0</LBound><Elements>1024</Elements></ArrayInfo><BitOffs>4032</BitOffs></Symbol><Symbol><Name>CommandWriteIndex</Name><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><BitOffs>6229952</BitOffs></Symbol><Symbol><Name>OidSoEProcess</Name><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-00000000000f}">OTCID</BaseType><BitOffs>6229984</BitOffs></Symbol><Symbol><Name>OidPanelProcess</Name><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-00000000000f}">OTCID</BaseType><BitOffs>6230016</BitOffs></Symbol>
+          <ContextId>1</ContextId><ByteSize>778312</ByteSize>
+          <Symbol>
+            <Name>PanelInformation</Name><BitSize>512</BitSize>
+            <BaseType GUID="{13c5ed93-554d-47d2-9a08-d46cc349eddd}">PanelInfo</BaseType><BitOffs>0</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>CommandInput</Name><BitSize>6225920</BitSize>
+            <BaseType GUID="{2f16927a-438e-48dd-8307-5e0544670663}">FullCommand</BaseType>
+            <ArrayInfo>
+              <LBound>0</LBound>
+              <Elements>1024</Elements>
+            </ArrayInfo><BitOffs>512</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>CommandWriteIndex</Name><BitSize>32</BitSize>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><BitOffs>6226432</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>OidPanelProcess</Name><BitSize>32</BitSize>
+            <BaseType GUID="{18071995-0000-0000-0000-00000000000f}">OTCID</BaseType><BitOffs>6226464</BitOffs>
+          </Symbol>
         </DataArea>
         <DataArea>
           <AreaNo AreaType="OutputSrc">1</AreaNo>
           <Name>Outputs</Name>
-          <ContextId>1</ContextId><ByteSize>2048</ByteSize><Symbol><Name>AxisOutputs</Name><BitSize>1600</BitSize><BaseType GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>0</BitOffs></Symbol><Symbol><Name>SystemStateMachine</Name><BitSize>32</BitSize><SubItem><Name>AxisGroupState</Name><Type GUID="{131977ef-e050-44ea-b063-7a4112666ae9}">SystemState</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>SpindleState</Name><Type GUID="{131977ef-e050-44ea-b063-7a4112666ae9}">SystemState</Type><BitSize>16</BitSize><BitOffs>16</BitOffs></SubItem><BitOffs>1600</BitOffs></Symbol><Symbol><Name>AxisInfo</Name><BitSize>2368</BitSize><SubItem><Name>AxisStatus</Name><Type GUID="{30a75c5d-e2c3-49ab-a295-5f256b553724}">AxisInformation</Type><ArrayInfo><LBound>0</LBound><Elements>6</Elements></ArrayInfo><BitSize>2304</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>GantryDeviation</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>2304</BitOffs></SubItem><BitOffs>1664</BitOffs></Symbol><Symbol><Name>SpindleOutput</Name><BitSize>160</BitSize><BaseType GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</BaseType><BitOffs>4032</BitOffs></Symbol><Symbol><Name>CommandReadIndex</Name><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><BitOffs>4192</BitOffs></Symbol><Symbol><Name>TestAxisGroup</Name><BitSize>6080</BitSize><BaseType GUID="{da968a32-d27d-4418-bd17-1ba7d385549f}">FullCommand</BaseType><BitOffs>4224</BitOffs></Symbol><Symbol><Name>TestSpindle</Name><BitSize>6080</BitSize><BaseType GUID="{da968a32-d27d-4418-bd17-1ba7d385549f}">FullCommand</BaseType><BitOffs>10304</BitOffs></Symbol>
+          <ContextId>1</ContextId><ByteSize>816</ByteSize>
+          <Symbol>
+            <Name>CommandReadIndex</Name><BitSize>32</BitSize>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><BitOffs>0</BitOffs>
+          </Symbol><Symbol><Name>MainState</Name><BitSize>16</BitSize><BaseType GUID="{9b565fbb-17c1-45ce-82ea-7792eff0874b}">SystemState</BaseType><BitOffs>32</BitOffs></Symbol><Symbol><Name>ManualMovingCommand</Name><BitSize>384</BitSize><SubItem><Name>SelectedAxis</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>MovingCommand</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>64</BitOffs></SubItem><BitOffs>64</BitOffs></Symbol><Symbol><Name>ContinuousMovingCommand</Name><BitSize>6080</BitSize><BaseType GUID="{2f16927a-438e-48dd-8307-5e0544670663}">FullCommand</BaseType><BitOffs>448</BitOffs></Symbol>
         </DataArea>
       </DataAreas>
       <InterfacePointers>
@@ -71,7 +1225,358 @@
           <PTCID>#x03002060</PTCID>
           <Name>CyclicCaller</Name>
           <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
-        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>PLC_SoEProcess</Name><Type GUID="{970da61a-269b-41c3-8941-02f0458e1bf8}">ISoEProcess</Type><ContextId>1</ContextId></InterfacePointer><InterfacePointer><PTCID>#x00000003</PTCID><Name>PLC_PanelProcess</Name><Type GUID="{baa6ec0b-e089-4261-b526-d49d4945a12e}">IPanelProcess</Type><ContextId>1</ContextId></InterfacePointer>
+        </InterfacePointer>
+        <InterfacePointer>
+          <PTCID>#x00000003</PTCID>
+          <Name>PLC_PanelProcess</Name>
+          <Type GUID="{baa6ec0b-e089-4261-b526-d49d4945a12e}">IPanelProcess</Type>
+          <ContextId>1</ContextId>
+        </InterfacePointer>
+        <InterfacePointer>
+          <PTCID>#x00000004</PTCID>
+          <Name>ModuleSpindle_Interface</Name>
+          <Type GUID="{cf8e28de-cfd4-4727-86e6-c55d5891dd9f}">ISpindleInterface</Type>
+          <ContextId>1</ContextId>
+        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>ModuleAxisGroup_Interface</Name><Type GUID="{08cc0d90-8987-4a20-a338-22772737a054}">IAxisGroupInterface</Type><ContextId>1</ContextId></InterfacePointer>
+      </InterfacePointers>
+      <DataPointers>
+      </DataPointers>
+      <Deployment>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+      </Deployment>
+    </Module>
+    <Module GUID="{3754dd69-af00-4776-a53a-881a1fc83436}" Group="C++">
+      <Name>ModuleSpindle</Name>
+      <CLSID ClassFactory="MotionControl">{3754dd69-af00-4776-a53a-881a1fc83436}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{cf8e28de-cfd4-4727-86e6-c55d5891dd9f}">ISpindleInterface</Type>
+          <ContextId>1</ContextId>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter CreateSymbol="true">
+          <Name>Parameter</Name>
+          <BitSize>832</BitSize>
+          <SubItem>
+            <Name>SpindleDriverParam</Name>
+            <Type GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Type>
+            <BitSize>512</BitSize>
+            <BitOffs>0</BitOffs>
+          </SubItem>
+          <SubItem>
+            <Name>SpindleInterpolationParam</Name>
+            <Type GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Type>
+            <BitSize>320</BitSize>
+            <BitOffs>512</BitOffs>
+          </SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>CycleTime</Name>
+          <Comment TxtId=""><![CDATA[Cycle time of task]]></Comment>
+          <BitSize>32</BitSize>
+          <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          <PTCID>#x03002080</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId><ByteSize>184</ByteSize>
+          <Symbol>
+            <Name>SpindleInput</Name><BitSize>192</BitSize>
+            <BaseType GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</BaseType><BitOffs>0</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>SpindleTestInputs</Name><BitSize>1280</BitSize>
+            <BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType>
+            <ArrayInfo>
+              <LBound>0</LBound>
+              <Elements>20</Elements>
+            </ArrayInfo><BitOffs>192</BitOffs>
+          </Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId>
+          <ByteSize>72</ByteSize>
+          <Symbol>
+            <Name>SpindleOutput</Name>
+            <BitSize>160</BitSize>
+            <BaseType GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</BaseType>
+            <BitOffs>0</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>SpindleState</Name>
+            <BitSize>16</BitSize>
+            <BaseType GUID="{df678954-0cc7-4b57-a830-ad3ad6d5ffce}">SpindleState</BaseType>
+            <BitOffs>160</BitOffs>
+          </Symbol>
+          <Symbol>
+            <Name>SpindleInfo</Name>
+            <BitSize>384</BitSize>
+            <BaseType GUID="{30a75c5d-e2c3-49ab-a295-5f256b553724}">AxisInformation</BaseType>
+            <BitOffs>192</BitOffs>
+          </Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+      </Deployment>
+    </Module>
+    <Module GUID="{b956c8e0-7a9e-4b80-b4b5-cb85d7fb7af1}" Group="C++">
+      <Name>ModuleSafety</Name>
+      <CLSID ClassFactory="MotionControl">{b956c8e0-7a9e-4b80-b4b5-cb85d7fb7af1}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>Parameter</Name>
+          <SubItem>
+            <Name>data1</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data2</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data3</Name>
+            <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+          </SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId>
+          <Symbol>
+            <Name>Value</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+          <Symbol>
+            <Name>Status</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+          <Symbol>
+            <Name>Data</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId>
+          <Symbol>
+            <Name>Value</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+          <Symbol>
+            <Name>Control</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+          <Symbol>
+            <Name>Data</Name>
+            <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+          </Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+      </Deployment>
+    </Module>
+    <Module GUID="{a90978e9-b255-4d60-bde4-57e17617bd77}" Group="C++">
+      <Name>ModuleAxisGroup</Name>
+      <CLSID ClassFactory="MotionControl">{a90978e9-b255-4d60-bde4-57e17617bd77}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface><Interface><Type GUID="{08cc0d90-8987-4a20-a338-22772737a054}">IAxisGroupInterface</Type><ContextId>1</ContextId></Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>Parameter</Name><BitSize>8320</BitSize><SubItem><Name>DriverParameter</Name><Type GUID="{f512f522-e8d1-4d42-8e2e-f11b4cc4ae58}">MotionControlInfo</Type><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitSize>5120</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>AxisGroupInterpolationParam</Name><Type GUID="{8a554618-fb22-4edd-9fcf-d053b7a70ec0}">InterpolationParameter</Type><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitSize>3200</BitSize><BitOffs>5120</BitOffs></SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter><Parameter><Name>CycleTime</Name><Comment TxtId=""><![CDATA[Cycle time of task]]></Comment><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><PTCID>#x03002080</PTCID><ContextId>1</ContextId></Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId><ByteSize>1216</ByteSize><Symbol><Name>OidSoEProcess</Name><BitSize>32</BitSize><BaseType GUID="{18071995-0000-0000-0000-00000000000f}">OTCID</BaseType><BitOffs>0</BitOffs></Symbol><Symbol><Name>AxisInputs</Name><BitSize>1920</BitSize><BaseType GUID="{91114eb3-9644-4864-867e-7c4acbf08be8}">DriverInput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>32</BitOffs></Symbol><Symbol><Name>TestInputs</Name><BitSize>1280</BitSize><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType><ArrayInfo><LBound>0</LBound><Elements>20</Elements></ArrayInfo><BitOffs>1984</BitOffs></Symbol><Symbol><Name>ContinuousMovingCommand</Name><BitSize>6080</BitSize><BaseType GUID="{2f16927a-438e-48dd-8307-5e0544670663}">FullCommand</BaseType><BitOffs>3264</BitOffs></Symbol><Symbol><Name>ManualMovingCommand</Name><BitSize>384</BitSize><SubItem><Name>SelectedAxis</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>MovingCommand</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>64</BitOffs></SubItem><BitOffs>9344</BitOffs></Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId><ByteSize>456</ByteSize><Symbol><Name>AxisOutputs</Name><BitSize>1600</BitSize><BaseType GUID="{b4a9a927-0308-4bb0-8808-d7ad02af7fd9}">DriverOutput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>0</BitOffs></Symbol><Symbol><Name>AxisGroupState</Name><BitSize>16</BitSize><BaseType GUID="{f83d71b3-edf7-41e0-b7ad-30bcaeb092e9}">AxisGroupState</BaseType><BitOffs>1600</BitOffs></Symbol><Symbol><Name>AxisInfo</Name><BitSize>1984</BitSize><SubItem><Name>AxisStatus</Name><Type GUID="{30a75c5d-e2c3-49ab-a295-5f256b553724}">AxisInformation</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>1920</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>GantryDeviation</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><BitSize>64</BitSize><BitOffs>1920</BitOffs></SubItem><BitOffs>1664</BitOffs></Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>PLC_SoeProcess</Name><Type GUID="{970da61a-269b-41c3-8941-02f0458e1bf8}">ISoEProcess</Type><ContextId>1</ContextId></InterfacePointer>
       </InterfacePointers>
       <DataPointers ></DataPointers>
       <Deployment>

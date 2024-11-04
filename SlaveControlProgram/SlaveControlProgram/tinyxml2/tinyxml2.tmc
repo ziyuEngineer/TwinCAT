@@ -3,7 +3,7 @@
 	<Vendor>
 		<Name>C++ Module Vendor</Name>
 	</Vendor>
-	<DataTypes/>
+	<DataTypes></DataTypes>
 	<Groups>
 		<Group SortOrder="701">
 			<Name>C++</Name>

@@ -6,10 +6,10 @@ class AxisGroupInitialize : public AxisGroupStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eInitialization);
+        report_current_state(AxisGroupState::eAxisGroupInitialization);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         if (s_pController->AxisGroupInitialize())
         {

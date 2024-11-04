@@ -3,17 +3,17 @@
 
 #include "Axis.h"
 
-void CAxis::MapParameters(DriverInput* _DriverInput, DriverOutput* _DriverOutput, MotionControlInfo* _DriverParam, InterpolationParameter* _InterpolationParameter)
+void CAxis::MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param, InterpolationParameter* interpolation_parameter)
 {
-	m_Driver.MapParameters(_DriverInput, _DriverOutput, _DriverParam);
-	m_InterpolationParam = _InterpolationParameter;
+	m_Driver.MapParameters(driver_input, driver_output, driver_param);
+	m_InterpolationParam = interpolation_parameter;
 }
 
 bool CAxis::PostConstruction()
 {
-	bool bPostConstruction = false;
+	bool is_post_constructed = false;
 
-	bPostConstruction = (m_InterpolationParam->CycleTime > kEpsilon && fabs_(m_InterpolationParam->MaxVelocity) > kEpsilon
+	is_post_constructed = (m_InterpolationParam->CycleTime > kEpsilon && fabs_(m_InterpolationParam->MaxVelocity) > kEpsilon
 		&& fabs_(m_InterpolationParam->MaxAcceleration) > kEpsilon && fabs_(m_InterpolationParam->MaxJerk) > kEpsilon);
 
 	m_PositionInterpolator.SetCycleTime(m_InterpolationParam->CycleTime); // in [s]
@@ -26,7 +26,7 @@ bool CAxis::PostConstruction()
 	m_VelocityInterpolator.SetMaxAcceleration(m_InterpolationParam->MaxAcceleration);
 	m_VelocityInterpolator.SetMaxJerk(m_InterpolationParam->MaxJerk);
 
-	return bPostConstruction;
+	return is_post_constructed;
 }
 
 void CAxis::Input()
@@ -48,7 +48,7 @@ void CAxis::Output()
 	switch (m_Driver.m_OperationMode)
 	{
 	case OpMode::CSP:
-		m_Driver.SetTargetPosition(m_CmdPos);
+		//m_Driver.SetTargetPosition(m_CmdPos);
 		break;
 	case OpMode::CST:
 		m_Driver.SetTargetTorque(m_CmdTor);
@@ -60,6 +60,9 @@ void CAxis::Output()
 		m_Driver.ControlUnitSync();
 		break;
 	}
+
+	// Update position command every cycle to avoid F324 Error 
+	m_Driver.SetTargetPosition(m_CmdPos);
 
 	// Update output data to driver
 	m_Driver.Actuate();
@@ -81,28 +84,12 @@ bool CAxis::Disable()
 	return m_Driver.Disable();
 }
 
-void CAxis::HoldPosition()
+void CAxis::SwitchOperationMode(OpMode mode)
 {
-	if (!m_bStandbyPosSet)
-	{
-		//StandStill();
-		m_StandbyPos = m_FdbPos;
-		m_bStandbyPosSet = true;
-	}
-	else 
-	{
-		m_Driver.SetOperationMode(OpMode::CSP);
-		m_CmdPos = m_StandbyPos;
-	}
-}
-
-void CAxis::StandStill()
-{
-	switch (m_Driver.m_OperationMode)
+	switch (mode)
 	{
 	case OpMode::CSP:
-		//m_CmdPos = m_FdbPos;
-		//HoldPosition();
+		m_CmdPos = m_FdbPos;
 		break;
 
 	case OpMode::CSV:
@@ -113,30 +100,77 @@ void CAxis::StandStill()
 		m_CmdTor = 0; // Need further consideration, set value to additive torque.
 		break;
 	}
-		
+	m_Driver.SetOperationMode(mode);
 }
 
-void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFeedback)
+bool CAxis::IsOpModeSwitched()
 {
-	m_Driver.SetOperationMode(_mode);
+	return m_Driver.IsOpModeSwitched();
+}
 
-	switch (_mode)
+bool CAxis::IsEnabled()
+{
+	return m_Driver.IsEnableState();
+}
+
+void CAxis::HoldPosition()
+{
+	if (!m_IsStandbyPosSet)
+	{
+		m_StandbyPos = m_FdbPos;
+		m_IsStandbyPosSet = true;
+	}
+	else 
+	{
+		m_Driver.SetOperationMode(OpMode::CSP);
+		m_CmdPos = m_StandbyPos;
+	}
+}
+
+void CAxis::StandStill()
+{
+	switch (m_ActualOpMode)
 	{
 	case OpMode::CSP:
-		if (!_bInterpolated)
+		if (!m_IsStandbyPosSet)
 		{
-			m_CmdPos = _cmd;
+			m_StandbyPos = m_FdbPos;
+			m_IsStandbyPosSet = true;
 		}
 		else
 		{
-			if (m_LastOpMode != OpMode::CSP)
-			{
-				InterpolationReset(OpMode::CSP);
-				m_LastOpMode = OpMode::CSP;
-			}
+			m_CmdPos = m_StandbyPos;
+		}
+		break;
 
-			m_CmdPosBeforeInterpolated = _cmd;
-			if (_bUpdateFeedback)
+	case OpMode::CSV:
+		m_CmdVel = 0.0;
+		UpdatePositionCommand();
+		break;
+
+	case OpMode::CST:
+		m_CmdTor = 0; // Need further consideration, set value to additive torque.
+		UpdatePositionCommand();
+		break;
+	}
+	m_Driver.SetOperationMode(m_ActualOpMode);
+}
+
+void CAxis::Move(double cmd, OpMode mode, bool is_interpolated, bool update_feedback)
+{
+	m_Driver.SetOperationMode(mode);
+
+	switch (mode)
+	{
+	case OpMode::CSP:
+		if (!is_interpolated)
+		{
+			m_CmdPos = cmd;
+		}
+		else
+		{
+			m_CmdPosBeforeInterpolated = cmd;
+			if (update_feedback)
 			{
 				m_CurrentStatePos.position = m_FdbPosFiltered;
 				m_CurrentStatePos.velocity = m_FdbVelFiltered;
@@ -144,12 +178,12 @@ void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFe
 
 			m_PositionInterpolator.SetTargetState({ m_CmdPosBeforeInterpolated, 0.0, 0.0 });
 
-			if ((fabs_(_cmd - m_CmdPos) < m_InterpolationParam->Tolerance))
+			if ((fabs_(cmd - m_CmdPos) < m_InterpolationParam->Tolerance))
 			{
-				m_CmdPos = _cmd;
-				m_bPosInterpolationFinished = false;
+				m_CmdPos = cmd;
+				m_IsPosInterpolationFinished = false;
 			}
-			else if (!m_bPosInterpolationFinished)
+			else if (!m_IsPosInterpolationFinished)
 			{
 				PositionInterpolator1D::State next_state;
 				double temp_Time;
@@ -158,48 +192,43 @@ void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFe
 				//m_CurrentStatePos.acceleration = next_state.acceleration;
 				m_CurrentStatePos = next_state;
 
-				m_bPosInterpolationFinished = (result == ruckig::Result::Finished);
+				m_IsPosInterpolationFinished = (result == ruckig::Result::Finished);
 			}
 		}
 		break;
 
 	case OpMode::CST:
-		m_CmdTor = _cmd;
-		m_LastOpMode = OpMode::CST;
+		m_CmdTor = cmd;
+		UpdatePositionCommand();
 		break;
 
 	case OpMode::CSV:
-		if (!_bInterpolated)
+		if (!is_interpolated)
 		{
-			m_CmdVel = _cmd;
+			m_CmdVel = cmd;
 		}
 		else
 		{
-			if (m_LastOpMode != OpMode::CSV)
-			{
-				InterpolationReset(OpMode::CSV);
-				m_LastOpMode = OpMode::CSV;
-			}
-
-			m_CmdVelBeforeInterpolated = _cmd;
+			m_CmdVelBeforeInterpolated = cmd;
 			m_VelocityInterpolator.SetTargetState({ 0.0, m_CmdVelBeforeInterpolated, 0.0 });
 			m_CurrentStateVel.velocity = m_FdbVelFiltered;
 
-			if ((fabs_(_cmd - m_CmdVel) < m_InterpolationParam->Tolerance))
+			if ((fabs_(cmd - m_CmdVel) < m_InterpolationParam->Tolerance))
 			{
-				m_CmdVel = _cmd;
-				m_bVelInterpolationFinished = false; // reset for next interpolation
+				m_CmdVel = cmd;
+				m_IsVelInterpolationFinished = false; // reset for next interpolation
 			}
-			else if(!m_bVelInterpolationFinished)
+			else if(!m_IsVelInterpolationFinished)
 			{
 				VelocityInterpolator1D::State next_state;
 				double temp_Time;
 				const auto result = m_VelocityInterpolator.Update(m_CurrentStateVel, next_state, temp_Time);
 				m_CmdVel = next_state.velocity;
 				m_CurrentStateVel.acceleration = next_state.acceleration;
-				m_bVelInterpolationFinished = (result == ruckig::Result::Finished);
+				m_IsVelInterpolationFinished = (result == ruckig::Result::Finished);
 			}
 		}
+		UpdatePositionCommand();
 		break;
 
 	default:
@@ -209,9 +238,9 @@ void CAxis::Move(double _cmd, OpMode _mode, bool _bInterpolated, bool _bUpdateFe
 		break;
 	}
 
-	if (m_bStandbyPosSet)
+	if (m_IsStandbyPosSet)
 	{
-		m_bStandbyPosSet = false;
+		m_IsStandbyPosSet = false;
 	}
 }
 
@@ -235,19 +264,24 @@ bool CAxis::IsFault()
 	return m_Driver.IsFaultState();
 }
 
-void CAxis::InterpolationReset(OpMode _mode)
+void CAxis::InterpolationReset(OpMode mode)
 {
-	if (_mode == OpMode::CSP)
+	if (mode == OpMode::CSP)
 	{
 		m_PositionInterpolator.Reset();
 		m_PositionInterpolator.SetTargetState({ m_FdbPos, 0.0, 0.0 });
 		m_CurrentStatePos = { m_FdbPos, m_FdbVel, 0.0 };
 	}
-	else if (_mode == OpMode::CSV)
+	else if (mode == OpMode::CSV)
 	{
 		m_VelocityInterpolator.Reset();
 		m_VelocityInterpolator.SetTargetVelocity(0.0);
 		m_VelocityInterpolator.SetTargetAcceleration(0.0);
 		m_CurrentStateVel = { 0.0, m_FdbVel, 0.0 }; // set the initial state
 	}
+}
+
+void CAxis::UpdatePositionCommand()
+{
+	m_CmdPos = m_FdbPos;
 }

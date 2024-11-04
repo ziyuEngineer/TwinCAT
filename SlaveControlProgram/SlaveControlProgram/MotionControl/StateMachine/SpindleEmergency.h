@@ -6,18 +6,12 @@ class SpindleEmergency : public SpindleStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eEmergency);
+        report_current_state(SpindleState::eSpindleEmergency);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
-        if (s_pController->IsResetSelected())
-        {
-            if (s_pController->SpindleDisable())
-            {
-                transit<SpindleDisabled>();
-            }
-        }
+        
     }
 
     void exit() override {};

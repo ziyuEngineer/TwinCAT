@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Task Name="TestHMI" Id="{b138b8ca-7103-4520-94e1-180ccae5c44f}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>16</Priority>
+    <PouCall>
+      <Name>MAIN</Name>
+    </PouCall>
+    <TaskFBGuid>{a9553ddb-1175-4e1e-8cc6-d01d90793e20}</TaskFBGuid>
+    <Fb_init>{111ced28-6c3f-4715-bee9-54df344e6526}</Fb_init>
+    <Fb_exit>{bec0633e-1a66-4b73-aaeb-5837b553402e}</Fb_exit>
+    <CycleUpdate>{0ded4771-7ca0-4ae8-8869-44be454a924c}</CycleUpdate>
+    <PostCycleUpdate>{bc971403-8fd0-4580-b014-ed62c95442d3}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

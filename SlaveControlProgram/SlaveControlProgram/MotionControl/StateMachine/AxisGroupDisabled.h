@@ -6,25 +6,20 @@ class AxisGroupDisabled : public AxisGroupStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eDisabled);
+        report_current_state(AxisGroupState::eAxisGroupDisabled);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         SafetyCheck();
 
-        if (s_pController->IsServoButtonOn())
-        {
-            if (s_pController->AxisGroupEnable())
-            {
-                transit<AxisGroupStandby>();
-            }
-        }
-        else
-        {
-            s_pController->AxisGroupDisable();
-        }
+        s_pController->AxisGroupDisable();
     }
 
     void exit() override {};
+
+    void react(EventAxisGroupServoOn const&) override
+    {
+        transit<AxisGroupPreStandby>();
+    }
 };

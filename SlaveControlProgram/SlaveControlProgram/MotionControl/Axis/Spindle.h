@@ -8,12 +8,9 @@ public:
 	CSpindle();
 	~CSpindle();
 
-//private:
-//	CAxis m_Axis;
-
 public:
 	CAxis m_Axis;
-	void MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs, MotionControlParameter* _pParameters);
+	void MapParameters(ModuleSpindleInputs* inputs, ModuleSpindleOutputs* outputs, ModuleSpindleParameter* parameters);
 	bool PostConstruction();
 
 	bool Initialize();
@@ -22,17 +19,23 @@ public:
 
 	bool Enable();
 	bool Disable();
+	bool IsEnabled();
+	void SwitchOpMode(OpMode mode);
+	bool IsOpModeSwitched();
 
 	void HoldPosition();
-	void Move(double _cmd, OpMode _mode);
-	void Move(FullCommand _cmd);
-	void SetZeroPoint();
+	void StandStill();
+	void Move(double cmd, OpMode mode);
+	void Move(SpindlePosition cmd);
+	void Move(SpindleRot cmd);
+	void ResetInterpolator(OpMode mode);
 
 	double m_FdbPos;
 	double m_FdbVel;
 	double m_FdbTor;
 	OpMode m_CurrentOpMode;
 
+	void SetZeroPoint();
 	double m_ZeroPoint;
-	bool m_bSetZeroPoint = false;
+	bool m_IsZeroPointSet = false;
 };

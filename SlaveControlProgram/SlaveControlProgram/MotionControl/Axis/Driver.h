@@ -39,21 +39,21 @@ namespace Driver
 		long m_TargetVel = 0;
 
 	public:
-		void MapParameters(DriverInput* _DriverInput, DriverOutput* _DriverOutput, MotionControlInfo* _DriverParam);
+		void MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param);
 		void Scan();
 		void Actuate();
 
 		double  GetFeedbackPosition();
 		double  GetFeedbackVelocity();
-		void	ComputeAcceleration(double _input, double* _first_derivative, double* _second_derivative);
+		void	ComputeAcceleration(double input, double* first_derivative, double* second_derivative);
 		double  GetFeedbackTorque();
 
-		void    SetTargetTorque(double _cmd_tor);
-		void    SetTargetPosition(double _cmd_pos);
+		void    SetTargetTorque(double cmd_tor);
+		void    SetTargetPosition(double cmd_pos);
 		void    ReturnToZeroPosition();
-		void	SetTargetVelocity(double _cmd_vel);
+		void	SetTargetVelocity(double cmd_vel);
 		bool    SetDriverParam();
-		void    SetOperationMode(OpMode _mode);
+		void    SetOperationMode(OpMode mode);
 		OpMode	GetActualOperationMode();
 
 		void    ControlUnitSync();
@@ -64,12 +64,13 @@ namespace Driver
 		bool    IsFaultState();
 		bool    IsEmergencyState();
 		bool	IsLimitExceeded();
+		bool    IsOpModeSwitched();
 		short   CheckErrorCode();
 		short   CheckWarnCode();
 	
 	private:
 		DriverState	GetDriverState();
-		DriverState_General GetDriverState_General();
+		DriverStateGeneral GetDriverStateGeneral();
 		bool    IsDriverReady();
 		bool    IsDriverShielded();
 		bool    IsSoftLimitExceeded();
@@ -79,8 +80,8 @@ namespace Driver
 		bool    Disable_Beckhoff();
 		bool    Enable_General();
 		bool    Disable_General();
-		void    SetOperationMode_Beckhoff(OpMode _mode);
-		void    SetOperationMode_General(OpMode _mode);
+		void    SetOperationMode_Beckhoff(OpMode mode);
+		void    SetOperationMode_General(OpMode mode);
 	};
 }
 

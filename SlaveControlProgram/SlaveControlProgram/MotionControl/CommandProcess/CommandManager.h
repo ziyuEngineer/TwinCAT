@@ -1,34 +1,33 @@
 #pragma once
 #include "CommonDefine.h"
+#include "ring_buffer.hh"
 
-class CCommandManager
-{
+class CCommandManager {
 public:
-	CCommandManager();
-	~CCommandManager();
+    CCommandManager();
+    ~CCommandManager();
 
 protected:
-	ULONG* m_CommandWriteIndex = nullptr;
-	ULONG* m_CommandReadIndex = nullptr;
-	FullCommand* m_CommandInput = nullptr;
+    ULONG* m_CommandWriteIndex = nullptr;
+    ULONG* m_CommandReadIndex = nullptr;
+    FullCommand* m_CommandInput = nullptr;
+    Ringbuffer<FullCommand, kMaxBufferSize>* m_CommandBuffer;
 
 public:
-	void Input();
-	void Output();
+    void Input();
+    void Output();
 
-	void MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs);
-	
-	bool Initialize();
-	void GetCommand();
-	void Reset();
+    void MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs);
 
-	int GetBufferSize();
-	void SetMinLengthToStart(int _min);
+    bool GetCommandFromBuffer();
+    const FullCommand& GetCurrentCommand() const { return m_Command; };
+    void Reset();
 
-	FullCommand m_Command;
+    int GetMaxBufferSize();
+    int GetCurrentBufferSize();
 
-	ULONG m_LocalReadIndex;
-	ULONG m_LocalWriteIndex;
+    FullCommand m_Command;
 
-	int m_MinStartLength = 0;
+    ULONG m_LocalReadIndex;
+    ULONG m_LocalWriteIndex;
 };

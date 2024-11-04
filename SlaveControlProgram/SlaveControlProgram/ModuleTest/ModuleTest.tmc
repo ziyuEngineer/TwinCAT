@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes ><DataType><Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name><BitSize>512</BitSize><SubItem><Name>ServoOn</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>Handwheel_EnabledAxisNum</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>16</BitOffs></SubItem><SubItem><Name>Handwheel_Ratio</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>Handwheel_dPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>Spindle_Cmd</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>448</BitOffs></SubItem><SubItem><Name>Reset</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>464</BitOffs></SubItem><SubItem><Name>Execute</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>472</BitOffs></SubItem><Hides><Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}" /><Hide GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}" /><Hide GUID="{21F594ED-79F9-4224-B411-FA634796D40B}" /><Hide GUID="{04B926C3-7D88-4A7F-BC8F-FDE858BA32A8}" /><Hide GUID="{EEDEAD04-D7B3-4DEC-B075-AF0D60B911BC}" /><Hide GUID="{6655CC85-0535-4A1E-AD8C-A024EFFAB728}" /><Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}" /><Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}" /><Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}" /></Hides></DataType><DataType><Name GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}" PersistentType="true">ISpindleInterface</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType><Method><Name>RequestRotating</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>RotData</Name><Type GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Type><BitSize>64</BitSize></Parameter></Method><Method><Name>RequestStop</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>SetVelLimit</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>VelLimit</Name><Type GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Type><BitSize>192</BitSize></Parameter></Method><Method><Name>RequestPositioning</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>PositionData</Name><Type GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}" RpcDirection="in">SpindlePosition</Type><BitSize>128</BitSize></Parameter></Method><Method><Name>ReportCurrentState</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>curr_state</Name><Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}" ReferenceTo="true">SpindleState</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>RequestSpindleEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>IsSpindleEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_enable</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>IsSpindleMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_moving</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Hides><Hide GUID="{DCF1BB23-1E65-45BA-9E16-10A89C246F30}" /><Hide GUID="{D891FFDA-B7CE-4D35-A943-63C5C5DF95B3}" /><Hide GUID="{C436DFB3-DFAD-4B2E-A521-F818F7322A59}" /><Hide GUID="{B341D318-2526-4393-B001-BE33341DBC6B}" /><Hide GUID="{8505F000-4F40-469A-B113-FF15B31D6ED2}" /><Hide GUID="{D7A51D84-B582-454F-9FEA-8A207B328C12}" /><Hide GUID="{8284D067-EDC8-435F-8F34-29A66E3C3402}" /><Hide GUID="{048BA0D4-73FC-499F-827C-3BB78DA7F97B}" /><Hide GUID="{FC176F31-D778-4295-BD45-09EAC14C42D8}" /><Hide GUID="{424E12A8-D9A0-451D-B5FD-5AAA98BF5639}" /><Hide GUID="{8F0DD787-4F15-4931-9CE8-9DD0B566C5A5}" /></Hides></DataType><DataType><Name GUID="{9C29111D-2AB9-43BB-ACE9-11CADBF59920}">SpindleRot</Name><BitSize>64</BitSize><SubItem><Name>TargetVel</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><Hides><Hide GUID="{276DEF9E-CF6B-4DFD-905E-E3B781BA52EB}" /></Hides></DataType><DataType><Name GUID="{9689CD0C-E531-4687-BB83-6D4BB1F2F1CD}">SpindleVelLimit</Name><BitSize>192</BitSize><SubItem><Name>MaxVel</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>MaxAcc</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>MaxJerk</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>128</BitOffs></SubItem><Hides><Hide GUID="{8A347EB1-4573-44B1-A5B0-A37A6D7DEA9A}" /><Hide GUID="{5B4DFD79-1ED9-434F-B6F2-12614A65D378}" /></Hides></DataType><DataType><Name GUID="{BEAC0974-F61C-4504-BEF4-0C5C6361CD2E}">SpindlePosition</Name><BitSize>128</BitSize><SubItem><Name>TargetPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>TargetVel</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><Hides><Hide GUID="{62DD47E9-E88F-4381-BF70-F2DC26CA45BD}" /><Hide GUID="{CA678CAC-AF0E-4BB6-AD6B-F3A4A8306BAE}" /></Hides></DataType><DataType><Name GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eSpindleIdle]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleInitialization]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleDisabled]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleEnable]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePreMoving]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleRotating]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePositioning]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindlePostMoving]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleEmergency]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleFault]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[eSpindleTest]]></Text><Enum>10</Enum></EnumInfo></DataType><DataType><Name GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Name><BitSize X64="64">32</BitSize><BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType><Method><Name>ReportCurrentState</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>curr_state</Name><Type GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" ReferenceTo="true">AxisGroupState</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>RequestEnterHandwheel</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestQuitHandwheel</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestContinuousMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestStop</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestAxisGroupEnable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestAxisGroupDisable</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestReset</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize></Method><Method><Name>RequestRecovery</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_entered</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize></Parameter></Method><Method><Name>RequestChangeOpMode</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>mode</Name><Type GUID="{75816603-8B01-41ED-9F49-1001E13236B1}">OpMode</Type><BitSize>16</BitSize></Parameter></Method><Method><Name>IsAxisGroupStandby</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_standby</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>IsAxisGroupMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_moving</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>IsAxisGroupOpModeSwitched</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_switched</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>IsAxisGroupDisabled</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_disabled</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Method><Name>IsAxisGroupManualMoving</Name><ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType><ReturnBitSize>32</ReturnBitSize><Parameter><Name>is_manual</Name><Type GUID="{18071995-0000-0000-0000-000000000030}" ReferenceTo="true">BOOL</Type><BitSize X64="64">32</BitSize></Parameter></Method><Hides><Hide GUID="{DCF9DC5F-3D7E-491D-8181-54342B9B9992}" /><Hide GUID="{F51FD43D-DD1B-41BA-9284-26B74148E02D}" /><Hide GUID="{228F5A97-1E1F-44D7-9516-B4636955B1DF}" /><Hide GUID="{24D3BC88-71DB-4EA3-917D-F683664D52B5}" /><Hide GUID="{D6E808D9-4932-4478-944F-CA624D13C56D}" /><Hide GUID="{9691EEE1-1274-438B-B656-3A30B975E573}" /><Hide GUID="{2214023B-6745-490F-8A17-7C27C9C0ABFE}" /><Hide GUID="{115ED070-7F4D-41B8-8567-EBBC25B6F958}" /><Hide GUID="{41256761-004B-4CC4-9B97-2AB712E0F3F0}" /><Hide GUID="{3FCB14A1-30C5-4997-81FF-FA9A0B8282C0}" /><Hide GUID="{BD16502D-4CA7-40EA-8502-F89F540528F6}" /><Hide GUID="{F116E771-74BC-4959-896F-F67032062479}" /><Hide GUID="{137BF08C-0A94-404B-8E11-401090B35676}" /><Hide GUID="{388CFAB5-2642-4A3F-9496-4A72F166E0BC}" /><Hide GUID="{CC5819BA-EA81-4F94-90C1-391C24480A17}" /></Hides></DataType><DataType><Name GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" PersistentType="true">AxisGroupState</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[eAxisGroupIdle]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupInitialization]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupDisabled]]></Text><Enum>2</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupPreStandby]]></Text><Enum>3</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupStandby]]></Text><Enum>4</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupManualMoving]]></Text><Enum>5</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text><Enum>6</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupContinuousMoving]]></Text><Enum>7</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupLimitViolation]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupEmergency]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupFault]]></Text><Enum>10</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupRecovery]]></Text><Enum>11</Enum></EnumInfo><EnumInfo><Text><![CDATA[eAxisGroupTest]]></Text><Enum>12</Enum></EnumInfo><Hides><Hide GUID="{8989BAB0-9461-408E-922B-96B63909C27B}" /><Hide GUID="{EFA474EE-ADDE-4FA0-89FE-F6507C000B54}" /><Hide GUID="{16294158-E78B-47AB-8E1F-B62E7B0FD108}" /><Hide GUID="{98BEA1D2-1D7D-47D8-AE08-ED944CDA7104}" /><Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}" /></Hides></DataType><DataType><Name GUID="{75816603-8B01-41ED-9F49-1001E13236B1}" PersistentType="true">OpMode</Name><BitSize>16</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[CSP]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[CSV]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[CST]]></Text><Enum>10</Enum></EnumInfo></DataType></DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{f02a5a57-d261-4db6-a06d-a7fbbc0b5825}" Group="C++">
+      <Name>ModuleTest</Name>
+      <CLSID ClassFactory="ModuleTest">{f02a5a57-d261-4db6-a06d-a7fbbc0b5825}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>Parameter</Name>
+          <SubItem>
+            <Name>data1</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data2</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data3</Name>
+            <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+          </SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId><ByteSize>64</ByteSize><Symbol><Name>MockPanel</Name><BitSize>512</BitSize><BaseType GUID="{13c5ed93-554d-47d2-9a08-d46cc349eddd}">PanelInfo</BaseType><BitOffs>0</BitOffs></Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId><ByteSize>48</ByteSize><Symbol><Name>MockManualMovingCommand</Name><BitSize>384</BitSize><SubItem><Name>SelectedAxis</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>MockCommandPos</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>5</Elements></ArrayInfo><BitSize>320</BitSize><BitOffs>64</BitOffs></SubItem><BitOffs>0</BitOffs></Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>TestAxisGroup_Interface</Name><Type GUID="{08cc0d90-8987-4a20-a338-22772737a054}">IAxisGroupInterface</Type><ContextId>1</ContextId></InterfacePointer><InterfacePointer><PTCID>#x00000003</PTCID><Name>TestSpindle_Interface</Name><Type GUID="{cf8e28de-cfd4-4727-86e6-c55d5891dd9f}">ISpindleInterface</Type><ContextId>1</ContextId></InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+      </Deployment>
+    </Module>
+  </Modules>
+</TcModuleClass>

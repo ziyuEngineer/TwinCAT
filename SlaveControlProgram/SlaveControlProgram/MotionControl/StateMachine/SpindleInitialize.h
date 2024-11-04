@@ -6,10 +6,10 @@ class SpindleInitialize : public SpindleStateMachine
 public:
     void entry() override
     {
-        report_current_state(SystemState::eInitialization);
+        report_current_state(SpindleState::eSpindleInitialization);
     }
 
-    void react(Cycle_Update const&) override
+    void react(EventCycleUpdate const&) override
     {
         if (s_pController->SpindleInitialize())
         {

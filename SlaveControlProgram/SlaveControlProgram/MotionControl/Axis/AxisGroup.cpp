@@ -19,14 +19,14 @@ CAxisGroup::~CAxisGroup()
 	}
 }
 
-void CAxisGroup::MapParameters(MotionControlInputs* _pInputs, MotionControlOutputs* _pOutputs, MotionControlParameter* _pParameters)
+void CAxisGroup::MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, ModuleAxisGroupParameter* parameters)
 {
 	int driver_num = 0;
 	for (int i = 0; i < kActualAxisNum; i++)
 	{
 		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
 		{
-			m_Axes[i][j].MapParameters(_pInputs->AxisInputs + driver_num, _pOutputs->AxisOutputs + driver_num, _pParameters->DriverParameter + driver_num, _pParameters->AxisGroupInterpolationParam + driver_num);
+			m_Axes[i][j].MapParameters(inputs->AxisInputs + driver_num, outputs->AxisOutputs + driver_num, parameters->DriverParameter + driver_num, parameters->AxisGroupInterpolationParam + driver_num);
 			driver_num ++;
 		}
 	}
@@ -121,6 +121,21 @@ bool CAxisGroup::Enable()
 	return true;
 }
 
+bool CAxisGroup::IsEnabled()
+{
+	for (int i = 0; i < kActualAxisNum; i++)
+	{
+		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
+		{
+			if (!m_Axes[i][j].IsEnabled())
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 void CAxisGroup::HoldPosition()
 {
 	for (int i = 0; i < kActualAxisNum; i++)
@@ -134,24 +149,37 @@ void CAxisGroup::HoldPosition()
 	}
 }
 
-void CAxisGroup::Move(FullCommand _cmd)
+void CAxisGroup::StandStill()
+{
+	for (int i = 0; i < kActualAxisNum; i++)
+	{
+		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
+		{
+			m_Axes[i][j].StandStill();
+			// Reset m_InitPos_Handwheel, prepare for entering eHandwheel state next time.
+			m_InitPos_Handwheel[i] = m_Axes[i][j].m_FdbPos;
+		}
+	}
+}
+
+void CAxisGroup::Move(FullCommand cmd)
 {
 	OpMode tempMode;
 	for (int i = 0; i < kActualAxisNum; i++)
 	{
 		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
 		{
-			tempMode = static_cast<OpMode>(_cmd.Motion_Command.MotionType[i]);
+			tempMode = static_cast<OpMode>(cmd.motionCommand.MotionType[i]);
 			switch (tempMode)
 			{
 			case OpMode::CSP:
-				m_Axes[i][j].Move(_cmd.Motion_Command.Pos[i], OpMode::CSP, kNotInterpolated, false);
+				m_Axes[i][j].Move(cmd.motionCommand.Pos[i], OpMode::CSP, kNotInterpolated, false);
 				break;
 			case OpMode::CST:
-				m_Axes[i][j].Move(_cmd.Motion_Command.Acc[i], OpMode::CST, kNotInterpolated, false);
+				m_Axes[i][j].Move(cmd.motionCommand.Acc[i], OpMode::CST, kNotInterpolated, false);
 				break;
 			case OpMode::CSV:
-				m_Axes[i][j].Move(_cmd.Motion_Command.Vel[i], OpMode::CSV, kNotInterpolated, false);
+				m_Axes[i][j].Move(cmd.motionCommand.Vel[i], OpMode::CSV, kNotInterpolated, false);
 				break;
 			default:
 				//m_Axes[i][j].HoldPosition();
@@ -161,48 +189,48 @@ void CAxisGroup::Move(FullCommand _cmd)
 	}
 }
 
-void CAxisGroup::Handwheel(PanelInfo _panel)
+void CAxisGroup::Handwheel(int axis_selected, double cmd[5])
 {
-	if (_panel.Handwheel_EnabledAxisNum > 1)
+	if (axis_selected >= AxisOrder::Axis_X)
 	{
-		for (int i = 0; i < kDriverNumPerAxis[_panel.Handwheel_EnabledAxisNum - 1]; i++)
+		for (int i = 0; i < kDriverNumPerAxis[axis_selected - 1]; i++)
 		{
-			m_Axes[_panel.Handwheel_EnabledAxisNum - 1][i].Move(
-				_panel.Handwheel_dPos[_panel.Handwheel_EnabledAxisNum - 1]
-				+ m_InitPos_Handwheel[_panel.Handwheel_EnabledAxisNum - 1], OpMode::CSP, kInterpolated, true);
-		}
-	}
-	else
-	{
-		// Ignore feedback of axis when implement interpolation for gantry
-		for (int i = 0; i < kDriverNumPerAxis[_panel.Handwheel_EnabledAxisNum - 1]; i++)
-		{
-			m_Axes[_panel.Handwheel_EnabledAxisNum - 1][i].Move(
-				_panel.Handwheel_dPos[_panel.Handwheel_EnabledAxisNum - 1]
-				+ m_InitPos_Handwheel[_panel.Handwheel_EnabledAxisNum - 1], OpMode::CSP, kInterpolated, false);
+			m_Axes[axis_selected - 1][i].Move(cmd[axis_selected - 1]
+				+ m_InitPos_Handwheel[axis_selected - 1], OpMode::CSP, kInterpolated, false);
 		}
 	}
 }
 
-void CAxisGroup::SingleAxisMove(AxisNum _axis_index, double _cmd, OpMode _mode)
+void CAxisGroup::SingleAxisMove(AxisNum axis_index, double cmd, OpMode mode)
 {
-	int index = static_cast<int>(_axis_index);
+	int index = static_cast<int>(axis_index);
 	for (int j = 0; j < kDriverNumPerAxis[index]; j++)
 	{
-		m_Axes[index][j].Move(_cmd, _mode, kNotInterpolated, false);
+		m_Axes[index][j].Move(cmd, mode, kNotInterpolated, false);
 	}
 }
 
-void CAxisGroup::ReturnToZeroPoint(AxisNum _axis_index)
+void CAxisGroup::ReturnToZeroPoint(AxisNum axis_index)
 {
-	int index = static_cast<int>(_axis_index);
+	int index = static_cast<int>(axis_index);
 	for (int j = 0; j < kDriverNumPerAxis[index]; j++)
 	{
 		m_Axes[index][j].ReturnToZeroPoint();
 	}
 }
 
-SystemState CAxisGroup::SafetyCheck()
+void CAxisGroup::ResetInterpolator(OpMode mode)
+{
+	for (int i = 0; i < kActualAxisNum; i++)
+	{
+		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
+		{
+			m_Axes[i][j].InterpolationReset(mode);
+		}
+	}
+}
+
+AxisGroupState CAxisGroup::SafetyCheck()
 {
 	// Check abnormal status of axis group
 	for (int i = 0; i < kActualAxisNum; i++)
@@ -211,17 +239,43 @@ SystemState CAxisGroup::SafetyCheck()
 		{
 			if (m_Axes[i][j].IsFault())
 			{
-				return SystemState::eFault;
+				return AxisGroupState::eAxisGroupFault;
 			}
 			else if (m_Axes[i][j].IsEmergency())
 			{
-				return SystemState::eEmergency;
+				return AxisGroupState::eAxisGroupEmergency;
 			}
 			else if (m_Axes[i][j].IsExceedingLimit())
 			{
-				return SystemState::eLimitViolation;
+				return AxisGroupState::eAxisGroupLimitViolation;
 			}
 		}
 	}
-	return SystemState::eIdle;
+	return AxisGroupState::eAxisGroupIdle;
+}
+
+void CAxisGroup::SwitchOpMode(OpMode mode)
+{
+	for (int i = 0; i < kActualAxisNum; i++)
+	{
+		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
+		{
+			m_Axes[i][j].SwitchOperationMode(mode);
+		}
+	}
+}
+
+bool CAxisGroup::IsOpModeSwitched()
+{
+	for (int i = 0; i < kActualAxisNum; i++)
+	{
+		for (int j = 0; j < kDriverNumPerAxis[i]; j++)
+		{
+			if (!m_Axes[i][j].IsOpModeSwitched())
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }

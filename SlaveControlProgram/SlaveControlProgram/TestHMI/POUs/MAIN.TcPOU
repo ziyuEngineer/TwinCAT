@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{9975e3b8-0b70-4268-aeaa-39f8109de15f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	MockPanel AT%Q*: PanelInfo;
+	
+	SpindleCW : BOOL;
+	SpindleCCW : BOOL;
+	
+	Axis_X : BOOL;
+	Axis_Y : BOOL;
+	Axis_Z : BOOL;
+	IncrementalPos : INT;
+	Ratio_01 : BOOL;
+	Ratio_001 : BOOL;
+	Ratio_0001 : BOOL;
+	
+	TestAxisGroupState AT%I*: AxisGroupState;
+	TestSpindleState AT%I*: SpindleState;
+	AxisGroupStateListId : INT;
+	SpindleStateListId : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF SpindleCW THEN
+	MockPanel.Spindle_Cmd := 1;
+ELSIF SpindleCCW THEN
+	MockPanel.Spindle_Cmd := -1;
+ELSE
+	MockPanel.Spindle_Cmd := 0;
+END_IF
+
+IF Ratio_01 THEN
+	MockPanel.Handwheel_Ratio := 0.1;
+ELSIF Ratio_001 THEN
+	MockPanel.Handwheel_Ratio := 0.01;
+ELSIF Ratio_0001 THEN
+	MockPanel.Handwheel_Ratio := 0.001;
+ELSE
+	MockPanel.Handwheel_Ratio := 1.0;
+END_IF
+
+IF Axis_X THEN
+	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_X;
+	MockPanel.Handwheel_dPos[0] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+ELSIF Axis_Y THEN
+	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_Y;
+	MockPanel.Handwheel_dPos[1] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+ELSIF Axis_Z THEN
+	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_Z;
+	MockPanel.Handwheel_dPos[2] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+ELSE
+	MockPanel.Handwheel_EnabledAxisNum := 0;
+END_IF
+
+AxisGroupStateListId := TO_INT(TestAxisGroupState);
+SpindleStateListId := TO_INT(TestSpindleState);
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

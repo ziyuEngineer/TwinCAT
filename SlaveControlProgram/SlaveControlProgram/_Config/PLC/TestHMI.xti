@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CNestedPlcProjDef">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" PersistentType="true">AxisGroupState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupStandby]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupManualMoving]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPreContinuousMoving]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupContinuousMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupLimitViolation]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupEmergency]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupFault]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupRecovery]]></Text>
+				<Enum>11</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupTest]]></Text>
+				<Enum>12</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{8989BAB0-9461-408E-922B-96B63909C27B}"/>
+				<Hide GUID="{EFA474EE-ADDE-4FA0-89FE-F6507C000B54}"/>
+				<Hide GUID="{16294158-E78B-47AB-8E1F-B62E7B0FD108}"/>
+				<Hide GUID="{98BEA1D2-1D7D-47D8-AE08-ED944CDA7104}"/>
+				<Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleInitialization]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleDisabled]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleEnable]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePreMoving]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleRotating]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePositioning]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindlePostMoving]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleEmergency]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleFault]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSpindleTest]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
+			<BitSize>512</BitSize>
+			<SubItem>
+				<Name>ServoOn</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_EnabledAxisNum</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Handwheel_dPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Cmd</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>448</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Reset</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>464</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Execute</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>472</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
+				<Hide GUID="{EAB6EE99-3542-4A5E-883F-595E396D7A5C}"/>
+				<Hide GUID="{21F594ED-79F9-4224-B411-FA634796D40B}"/>
+				<Hide GUID="{04B926C3-7D88-4A7F-BC8F-FDE858BA32A8}"/>
+				<Hide GUID="{EEDEAD04-D7B3-4DEC-B075-AF0D60B911BC}"/>
+				<Hide GUID="{6655CC85-0535-4A1E-AD8C-A024EFFAB728}"/>
+				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
+				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
+				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
+			</Hides>
+		</DataType>
+	</DataTypes>
+	<Project GUID="{45018C8C-7E4F-4B7A-BF7E-E1AA09CAA9F9}" Name="TestHMI" PrjFilePath="..\..\TestHMI\TestHMI.plcproj" TmcFilePath="..\..\TestHMI\TestHMI.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{AB4683B8-0D4D-0FC3-7368-CADDF4CDCDD4}">
+			<Name>TestHMI Instance</Name>
+			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+			<Vars VarGrpType="1">
+				<Name>TestHMI Inputs</Name>
+				<Var>
+					<Name>MAIN.TestAxisGroupState</Name>
+					<Type GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}">AxisGroupState</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.TestSpindleState</Name>
+					<Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</Type>
+				</Var>
+			</Vars>
+			<Vars VarGrpType="2" AreaNo="1">
+				<Name>TestHMI Outputs</Name>
+				<Var>
+					<Name>MAIN.MockPanel</Name>
+					<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
+				</Var>
+			</Vars>
+			<Contexts>
+				<Context>
+					<Id>0</Id>
+					<Name>TestHMI</Name>
+					<ManualConfig>
+						<OTCID>#x02010080</OTCID>
+					</ManualConfig>
+					<Priority>16</Priority>
+					<CycleTime>10000000</CycleTime>
+				</Context>
+			</Contexts>
+			<TaskPouOids>
+				<TaskPouOid Prio="16" OTCID="#x08502041"/>
+			</TaskPouOids>
+		</Instance>
+	</Project>
+	<Mappings>
+		<OwnerA Name="TestHMI Instance">
+			<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+				<Link VarA="TestHMI Outputs^MAIN.MockPanel" VarB="Inputs^MockPanel"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
+				<Link VarA="TestHMI Inputs^MAIN.TestSpindleState" VarB="Outputs^SpindleState"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+				<Link VarA="TestHMI Inputs^MAIN.TestAxisGroupState" VarB="Outputs^AxisGroupState"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmItem>
