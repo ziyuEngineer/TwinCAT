@@ -74,7 +74,6 @@
     <ClInclude Include="StateMachine\MainStatePreStandby.h" />
     <ClInclude Include="StateMachine\MainStateRecovery.h" />
     <ClInclude Include="StateMachine\MainStateStandby.h" />
-    <ClInclude Include="StateMachine\MainStateTest.h" />
     <ClInclude Include="StateMachine\SpindleDisabled.h" />
     <ClInclude Include="StateMachine\SpindleEmergency.h" />
     <ClInclude Include="StateMachine\SpindleFault.h" />

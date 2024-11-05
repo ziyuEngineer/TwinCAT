@@ -10,7 +10,6 @@ class MainStateBuffering;
 class MainStateContinuousExecution;
 class MainStateFault;
 class MainStateRecovery;
-class MainStateTest;
 
 class MainStateMachine : public tinyfsm::Fsm<MainStateMachine>
 {

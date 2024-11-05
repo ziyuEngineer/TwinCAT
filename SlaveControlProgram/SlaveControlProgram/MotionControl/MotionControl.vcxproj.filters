@@ -219,9 +219,6 @@
     <ClInclude Include="StateMachine\MainStateDisabled.h">
       <Filter>StateMachine\MainState</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine\MainStateTest.h">
-      <Filter>StateMachine\MainState</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TcPch.cpp">

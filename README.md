@@ -20,7 +20,6 @@
 
 PLC数据类型和C++数据类型的映射关系[:arrow_right:](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/2529399691.html&id=2025525145742283335)
 
-
 ## Configuration
 
 Choose Target System选项中选择激活程序的目标设备，可以是笔记本(选择Local)也可以是远程连接的工控机，目前仅有Device-001工控机是连接硬件设备的，若要将程序激活在其他未直连硬件的设备上，需要先在工程里[禁用设备](https://tr.beckhoff.com.cn/mod/data/view.php?d=19&rid=1303)，而后生成解决方案，点击[Activate Configuration](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_c/110705163.html&id=)，若目标机器右下角状态栏内TwinCAT图标变为<font color = "Green">绿色</font>，即说明程序激活成功。
@@ -81,10 +80,23 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 主模块状态机的运行，指令信号的处理(包括面板信号读取以及RingBuffer指令)；
 
+### MainState各状态的actions
+
+| MainState | Actions |
+| :----: | :----: |
+| MainStateDisabled | **EventCycleUpdate**: 响应使能按钮信号，若被按下自动跳转至PreStandby |
+| MainStatePreStandby | **EventCycleUpdate**: 判断AxisGroup和Spindle是否在指定状态，若满足条件自动跳转至Standby |
+| MainStateStandby | **EventCycleUpdate**: 若使能按钮未被按下，自动跳转至Disabled；<br> 若面板上有加工轴被选中，自动跳转至Manual状态；<br> 若面板上主轴正反转按钮被选中，维持Standby状态，请求主轴按照默认转速正反转；<br> **EventContinuousExeCution**: 设置Buffering状态的成员变量m_MinDataLengthToStart以及m_RequestAxisGroupOpMode，跳转至状态Buffering|
+| MainStateManual | **EventCycleUpdate**: 若面板上加工轴未被选中，自动跳转至Standby状态；更新手摇运动指令；<br> **EventContinuousExeCution**: 设置Buffering状态的成员变量m_MinDataLengthToStart以及m_RequestAxisGroupOpMode，跳转至状态Buffering |
+| MainStateBuffering | **EventCycleUpdate**: 下位机ringbuffer存储上位机指令，若存储个数大于m_MinDataLengthToStart，面板加工按钮按下且加工轴切换至m_RequestAxisGroupOpMode，跳转至ContinuousExecution；<br> **EventStopContinuousMoving**: 清空ringbuffer，请求加工轴及主轴停止，跳转至Standby；|
+| MainStateContinuousExecution | **EventCycleUpdate**: 下位机ringbuffer存储上位机指令，更新给加工轴的指令，若接收到结束加工的指令，跳转至Standby；<br> **EventStopContinuousMoving**: 清空ringbuffer，请求加工轴及主轴停止，跳转至Standby；|
+| MainStateFault | TBD |
+| MainStateRecovery | TBD |
+
 ### Input
 
 1. 接收PLC模块传递的解析后的面板信号；
-2. xxxxxx
+2. 接收上位机发送的加工指令；
 
 #### Data Area -- MotionControl Inputs
 
@@ -97,12 +109,13 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 ### StateControl
 
-见[:arrow_right:](https://www.processon.com/diagraming/66b97fb9ce68f62ecf3af744)
+见状态机设计图[:arrow_right:](https://www.processon.com/diagraming/66b97fb9ce68f62ecf3af744)
 
 ### Output
 
 1. 更新主模块状态机，供上位机读取；
-2. xxxxxx
+2. 更新读取加工指令的索引值；
+3. 更新给加工轴的手动或者自动加工指令；
 
 #### Data Area -- MotionControl Outputs
 
@@ -116,6 +129,21 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 ## ModuleSpindle Project Brief
 
 主轴状态机的运行，主轴电机的控制；
+
+### SpindleState各状态的actions
+
+| SpindleState | Actions |
+| :----: | :----: |
+| SpindleIdle | **EventCycleUpdate**: 自动跳转至Initialize状态 |
+| SpindleInitialize | **EventCycleUpdate**: 设置轴参数完成后自动跳转至Disabled状态 |
+| SpindleDisabled | **EventCycleUpdate**: 给电机发送Disable指令；<br> **EventSpindleEnable**: 跳转至Enable状态；<br> **EventSpindleSetLimit**: 设置运动参数上下限 |
+| SpindleEnable | **EventCycleUpdate**: Nothing；<br> **EventSpindleRotating**: 设置PreMoving状态的成员变量m_SpindleRotateCommand、m_NextMovingState以及m_NextOpMode，跳转至状态PreMoving；<br> **EventSpindlePositioning**: 设置PreMoving状态的成员变量m_SpindleLocateCommand、m_NextMovingState以及m_NextOpMode，跳转至状态PreMoving |
+| SpindlePreMoving | **EventCycleUpdate**: 检查使能情况、电机模式是否切换、根据m_NextMovingState设置位置或者速度指令，而后跳转至Locate或者Rotate状态 |
+| SpindleLocate | **EventCycleUpdate**: 执行位置指令；<br> **EventSpindlePositioning**: 更新位置指令；<br> **EventSpindleStop**: 跳转至PostMoving |
+| SpindleRotate | **EventCycleUpdate**: 执行速度指令；<br> **EventSpindleRotating**: 更新速度指令；<br> **EventSpindleStop**: 跳转至PostMoving |
+| SpindlePostMoving | **EventCycleUpdate**: 电机减速，若电机停止运动，自动跳转至Enable |
+| SpindleFault | TBD |
+| SpindleRecovery | TBD |
 
 ### ModuleSpindle - Input
 
@@ -132,7 +160,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 ### ModuleSpindle - Output
 
 1. 给主轴电机发送指令；
-2. xxxxxx
+2. 更新主轴状态机，供上位机读取；
+3. 更新主轴的位置、速度等信息；
 
 #### Data Area -- ModuleSpindle Outputs
 
@@ -146,10 +175,25 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 
 加工轴状态机的运行，加工轴电机的控制；
 
+### AxisGroupState各状态的actions
+
+| AxisGroupState | Actions |
+| :----: | :----: |
+| AxisGroupIdle | **EventCycleUpdate**: 自动跳转至Initialize状态 |
+| AxisGroupInitialize | **EventCycleUpdate**: 设置轴参数完成后自动跳转至Disabled状态 |
+| AxisGroupDisabled | **EventCycleUpdate**: 给电机发送Disable指令；<br> **EventAxisGroupServoOn**: 跳转至PreStandby状态；|
+| AxisGroupPreStandby | **EventCycleUpdate**: 给电机发送使能信号，若所有轴使能成功跳转至Standby状态 |
+| AxisGroupStandby | **EventCycleUpdate**: 所有轴保持当前位置；<br> **EventAxisGroupDisable**: 跳转至Disabled状态；<br>  **EventAxisGroupSelectAxis**:  跳转至ManualMoving状态；<br> **EventAxisGroupPreMovingChangeOpMode**: 设置PreContinuousMoving的成员变量m_MovingOpMode，跳转至PreContinuousMoving状态|
+| AxisGroupManualMoving | **EventCycleUpdate**: 执行手摇指令；<br> **EventAxisGroupDeselectAxis**: 跳转至Standby状态 |
+| AxisGroupPreContinuousMoving | **EventCycleUpdate**: 切换电机OP模式；<br> **EventAxisGroupContinuouslyMove**: OP模式切换成功后跳转至ContinuousMoving状态 |
+| AxisGroupContinuousExecution | **EventCycleUpdate**: 执行加工指令；<br> **EventAxisGroupStop**: 跳转至Standby状态 |
+| AxisGroupFault | TBD |
+| AxisGroupRecovery | TBD |
+
 ### ModuleAxisGroup - Input
 
 1. 接收加工轴电机信号；；
-2. xxxxxx
+2. 接收主模块发送的加工轴的手动或者自动加工指令；
 
 #### Data Area -- ModuleAxisGroup Inputs
 
@@ -163,7 +207,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 ### ModuleAxisGroup - Output
 
 1. 给加工轴电机发送指令；
-2. xxxxxx
+2. 更新加工轴状态机，供上位机读取；
+3. 更新加工轴的位置、速度等信息；
 
 #### Data Area -- ModuleAxisGroup Outputs
 
@@ -174,10 +219,17 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | AxisInfo | 自定义结构体 | 248.0 | 上位机读取 | 加工轴当前信息 | \ |
 
 ### 主模块及子系统状态机对应关系
+
 | MainState | AxisGroupState |  SpindleState |
 | :----: | :----: | :----: |
-| Disabled | Disabled | Disabled |
-
+| Disabled | Idle->Initialize->Disabled | Idle->Initialize->Disabled |
+| PreStandby | Disabled->PreStandby->Standby | Disabled->Enable |
+| Standby | Standby | Enable/Rotate/Locate |
+| Manual | ManualMoving | Enable |
+| Buffering | Standby->PreContinuousMoving | Enable |
+| ContinuousExecution | PreContinuousMoving->ContinuousMoving | Enable->PreMoving->Rotate/Locate |
+| Fault | TBD | TBD |
+| Recovery | TBD | TBD |
 
 ### Safety Module
 
@@ -197,4 +249,3 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 6. 预留位，后续拓展使用；
 7. 预留位，后续拓展使用；
 8. 错误等级，有A、B、C、D、E五个等级；
-
