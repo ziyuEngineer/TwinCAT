@@ -30,6 +30,16 @@ public:
         SetCommand(spindle_cmd.spindleRot);
     }
 
+    void react(EventSpindleEnterFault const&) override
+    {
+        transit<SpindleFault>();
+    }
+
+    void react(EventSpindleDisable const&) override
+    {
+        transit<SpindlePostMoving>();
+    }
+
 protected:
     SpindleRot m_SpindleRotateCommand;
 

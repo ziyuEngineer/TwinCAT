@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AxisGroup>
+    <axes> <!-- Gantry -->
+		<axis>
+			<UpperPosLimit>220</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<FollowingError>5</FollowingError> <!--mm-->
+			<PositiveBit>1</PositiveBit>
+			<NegativeBit>0</NegativeBit>
+		</axis>
+		<axis>
+			<UpperPosLimit>220</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<FollowingError>5</FollowingError> <!--mm-->
+			<PositiveBit>3</PositiveBit>
+			<NegativeBit>2</NegativeBit>
+		</axis>
+		<gantry>
+			<IsGantry>1</IsGantry> <!--0:No, 1:Yes-->
+			<GantryDeviationTolerance>2</GantryDeviationTolerance> <!--mm-->
+		</gantry>
+    </axes>
+    <axes> <!-- Y轴 -->
+        <axis>
+			<UpperPosLimit>600</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
+			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<FollowingError>5</FollowingError> <!--mm-->
+			<PositiveBit>0</PositiveBit>
+			<NegativeBit>1</NegativeBit>
+		</axis>
+		<gantry>
+			<IsGantry>0</IsGantry> <!--0:No, 1:Yes-->
+			<GantryDeviationTolerance>11</GantryDeviationTolerance> <!--mm-->
+		</gantry>
+    </axes>
+    <axes> <!-- Z轴 -->
+		<axis>
+			<UpperPosLimit>2</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-590</LowerPosLimit> <!--mm-->
+			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<FollowingError>5</FollowingError> <!--mm-->
+			<PositiveBit>2</PositiveBit>
+			<NegativeBit>3</NegativeBit>
+		</axis>
+		<gantry>
+			<IsGantry>0</IsGantry> <!--0:No, 1:Yes-->
+			<GantryDeviationTolerance>22</GantryDeviationTolerance> <!--mm-->
+		</gantry>
+	</axes>
+    <axes> <!-- A轴 -->
+		<axis>
+			<UpperPosLimit>1000000000</UpperPosLimit> <!--degree-->
+			<LowerPosLimit>-1000000000</LowerPosLimit> <!--degree-->
+			<MaxVelocity>30</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
+			<FollowingError>5</FollowingError>
+			<PositiveBit>0</PositiveBit>
+			<NegativeBit>1</NegativeBit>
+		</axis>
+		<gantry>
+			<IsGantry>0</IsGantry> <!--0:No, 1:Yes-->
+			<GantryDeviationTolerance>321</GantryDeviationTolerance> <!--mm-->
+		</gantry>
+	</axes>
+	<axes> <!-- C轴参数 -->
+		<axis> 
+			<UpperPosLimit>1000000000</UpperPosLimit> <!--degree-->
+			<LowerPosLimit>-1000000000</LowerPosLimit> <!--degree-->
+			<MaxVelocity>30</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
+			<FollowingError>5</FollowingError>
+			<PositiveBit>0</PositiveBit>
+			<NegativeBit>1</NegativeBit>
+		</axis>
+		<gantry>
+			<IsGantry>0</IsGantry> <!--0:No, 1:Yes-->
+			<GantryDeviationTolerance>123</GantryDeviationTolerance> <!--mm-->
+		</gantry>
+	</axes>
+</AxisGroup>

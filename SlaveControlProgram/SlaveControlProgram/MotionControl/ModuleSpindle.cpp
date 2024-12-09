@@ -309,12 +309,6 @@ HRESULT CModuleSpindle::ParseFileAndAssignValue(const char* xml_spindle)
 			ptr_spindle = p_axis_spindle->FirstChildElement("AbsZeroPos");
 			m_Parameter.SpindleDriverParam.AbsZeroPos = atol(ptr_spindle->GetText());
 
-			ptr_spindle = p_axis_spindle->FirstChildElement("UpperPosLimit");
-			m_Parameter.SpindleDriverParam.PosUpperLimit = atol(ptr_spindle->GetText());
-
-			ptr_spindle = p_axis_spindle->FirstChildElement("LowerPosLimit");
-			m_Parameter.SpindleDriverParam.PosLowerLimit = atol(ptr_spindle->GetText());
-
 			ptr_spindle = p_axis_spindle->FirstChildElement("TransmissionRatio");
 			m_Parameter.SpindleDriverParam.TransmissionRatio = atof(ptr_spindle->GetText());
 
@@ -324,14 +318,8 @@ HRESULT CModuleSpindle::ParseFileAndAssignValue(const char* xml_spindle)
 			ptr_spindle = p_axis_spindle->FirstChildElement("AdditiveTor");
 			m_Parameter.SpindleDriverParam.AdditiveTorque = atoi(ptr_spindle->GetText());
 
-			ptr_spindle = p_axis_spindle->FirstChildElement("AbsEncodertype");
-			m_Parameter.SpindleDriverParam.AbsEncType = bool(atoi(ptr_spindle->GetText()));
-
-			ptr_spindle = p_axis_spindle->FirstChildElement("PositiveHardBit");
-			m_Parameter.SpindleDriverParam.PositiveHardBit = atoi(ptr_spindle->GetText());
-
-			ptr_spindle = p_axis_spindle->FirstChildElement("NegativeHardBit");
-			m_Parameter.SpindleDriverParam.NegativeHardBit = atoi(ptr_spindle->GetText());
+			ptr_spindle = p_axis_spindle->FirstChildElement("MoveType");
+			m_Parameter.SpindleDriverParam.MoveType = atoi(ptr_spindle->GetText());
 
 			ptr_spindle = p_axis_spindle->FirstChildElement("DriverType");
 			m_Parameter.SpindleDriverParam.DriverType = atoi(ptr_spindle->GetText());
@@ -459,6 +447,39 @@ HRESULT CModuleSpindle::IsSpindleMoving(bool& is_moving)
 	SpindleState curr_state = m_SpindleController.GetCurrentState();
 
 	is_moving = (curr_state == SpindleState::eSpindleRotating) || (curr_state == SpindleState::eSpindlePositioning);
+
+	m_csInstance.LeaveCriticalSection();
+	return hr;
+}
+
+HRESULT CModuleSpindle::RequestFault()
+{
+	HRESULT hr = S_OK;
+	m_csInstance.EnterCriticalSection();
+
+	m_SpindleStateMachine->dispatch(EventSpindleEnterFault());
+
+	m_csInstance.LeaveCriticalSection();
+	return hr;
+}
+
+HRESULT CModuleSpindle::RequestReset()
+{
+	HRESULT hr = S_OK;
+	m_csInstance.EnterCriticalSection();
+
+	m_SpindleStateMachine->dispatch(EventSpindleResetError());
+
+	m_csInstance.LeaveCriticalSection();
+	return hr;
+}
+
+HRESULT CModuleSpindle::RequestSpindleDisable()
+{
+	HRESULT hr = S_OK;
+	m_csInstance.EnterCriticalSection();
+
+	m_SpindleStateMachine->dispatch(EventSpindleDisable());
 
 	m_csInstance.LeaveCriticalSection();
 	return hr;

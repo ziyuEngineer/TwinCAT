@@ -17,8 +17,6 @@ public:
 
     void react(EventCycleUpdate const&) override
     {
-        SafetyCheck();
-
         if(m_IsAxisGroupInCSP)
         {
             s_pController->AxisGroupHandwheel();
@@ -40,4 +38,13 @@ public:
         transit<AxisGroupStandby>();
     }
 
+    void react(EventAxisGroupEnterFault const&) override
+    {
+        transit<AxisGroupFault>();
+    }
+
+    void react(EventAxisGroupDisable const&) override
+    {
+        transit<AxisGroupDisabled>();
+    }
 };

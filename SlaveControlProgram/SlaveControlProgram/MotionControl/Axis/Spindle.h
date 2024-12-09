@@ -29,11 +29,14 @@ public:
 	void Move(SpindlePosition cmd);
 	void Move(SpindleRot cmd);
 	void ResetInterpolator(OpMode mode);
+	void ClearError();
+	void QuickStop();
 
 	double m_FdbPos;
 	double m_FdbVel;
 	double m_FdbTor;
 	OpMode m_CurrentOpMode;
+	DriverStatus m_CurrentDriverStatus;
 
 	void SetZeroPoint();
 	double m_ZeroPoint;

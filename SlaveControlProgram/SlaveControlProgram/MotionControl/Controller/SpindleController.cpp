@@ -41,7 +41,7 @@ void CSpindleController::Input()
  */
 void CSpindleController::Output()
 {
-	m_pOutputs->SpindleState = m_SpindleState;
+	m_pOutputs->StateSpindle = m_SpindleState;
 
 	m_Spindle.Output();
 
@@ -49,6 +49,7 @@ void CSpindleController::Output()
 	m_pOutputs->SpindleInfo.CurrentVel = m_Spindle.m_FdbVel;
 	m_pOutputs->SpindleInfo.CurrentTor = m_Spindle.m_FdbTor;
 	m_pOutputs->SpindleInfo.CurrentMode = m_Spindle.m_CurrentOpMode;
+	m_pOutputs->SpindleInfo.CurrentStatus = static_cast<int>(m_Spindle.m_CurrentDriverStatus);
 
 	m_pOutputs->SpindleInfo.CommandPos = m_Spindle.m_Axis.m_CmdPos;
 	m_pOutputs->SpindleInfo.CommandVel = m_Spindle.m_Axis.m_CmdVel;
@@ -131,10 +132,9 @@ void CSpindleController::SpindleResetInterpolator(OpMode mode)
 	m_Spindle.ResetInterpolator(mode);
 }
 
-SpindleState CSpindleController::SpindleSafetyCheck()
+void CSpindleController::SpindleClearError()
 {
-	// TODO
-	return SpindleState::eSpindleIdle;
+	m_Spindle.ClearError();
 }
 
 void CSpindleController::SetSpindleVelLimit(SpindleVelLimit vel_limit)

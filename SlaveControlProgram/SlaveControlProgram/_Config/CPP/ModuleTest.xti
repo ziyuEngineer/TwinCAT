@@ -62,6 +62,156 @@
 				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
 			</Hides>
 		</DataType>
+		<DataType>
+			<Name GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>CommandType</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SourceActionBlockIndex</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Index</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<Comment TxtId=""><![CDATA[ULINT is not supported in TwinCAT.]]></Comment>
+				<BitSize>32</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{F8220079-266A-492E-8DEF-DFA52E623682}"/>
+				<Hide GUID="{F9EDFA92-02A8-44F3-86C0-C2E70B85BE12}"/>
+				<Hide GUID="{F02A1AC5-2FED-483E-B214-6DC50232399F}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{2288AC91-0B91-49E2-8120-4064BEBCA6CE}" PersistentType="true" AutoDeleteType="true">NewMotionCommand</Name>
+			<BitSize>5760</BitSize>
+			<SubItem>
+				<Name>Pos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Vel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Acc</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>320</BitSize>
+				<BitOffs>640</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>960</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Kv</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>2560</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Ka</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>5</Elements>
+				</ArrayInfo>
+				<BitSize>1600</BitSize>
+				<BitOffs>4160</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>CommandFunction</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Data</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{2B6BE5EE-52EB-448E-92E1-341E176F71F4}"/>
+				<Hide GUID="{64F68B0B-33E7-4F4B-BD43-AEC9B2F372A0}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{1ED6E5CA-471D-4209-B5E6-F93D33BD9C80}">FullCommand</Name>
+			<BitSize>6016</BitSize>
+			<SubItem>
+				<Name>metaData</Name>
+				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
+				<BitSize>96</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>motionCommand</Name>
+				<Type GUID="{2288AC91-0B91-49E2-8120-4064BEBCA6CE}">NewMotionCommand</Type>
+				<BitSize>5760</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>otherCommand</Name>
+				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>5888</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{79F659FD-F4F4-40AF-BB74-02CF7C4EBAEF}"/>
+				<Hide GUID="{E3EF5EA9-14FE-486F-B00C-C6654E2B23D8}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<Project GUID="{B8C3DEC1-955C-4AC6-90D2-2201E11F31E1}" Name="ModuleTest" PrjFilePath="..\..\ModuleTest\ModuleTest.vcxproj" TmcFilePath="..\..\ModuleTest\ModuleTest.tmc">
 		<Instance Id="#x01010050" KeepUnrestoredLinks="2">
@@ -138,19 +288,31 @@
 						<AreaNo AreaType="InputDst">0</AreaNo>
 						<Name>Inputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>64</ByteSize>
+						<ByteSize>72</ByteSize>
 						<Symbol>
 							<Name>MockPanel</Name>
 							<BitSize>512</BitSize>
 							<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
 							<BitOffs>0</BitOffs>
 						</Symbol>
+						<Symbol>
+							<Name>RecoveryButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>512</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>ContinuousButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>520</BitOffs>
+						</Symbol>
 					</DataArea>
 					<DataArea>
 						<AreaNo AreaType="OutputSrc">1</AreaNo>
 						<Name>Outputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>48</ByteSize>
+						<ByteSize>800</ByteSize>
 						<Symbol>
 							<Name>MockManualMovingCommand</Name>
 							<BitSize>384</BitSize>
@@ -172,6 +334,12 @@
 							</SubItem>
 							<BitOffs>0</BitOffs>
 						</Symbol>
+						<Symbol>
+							<Name>MockContinuousMovingCommand</Name>
+							<BitSize>6016</BitSize>
+							<BaseType GUID="{1ED6E5CA-471D-4209-B5E6-F93D33BD9C80}">FullCommand</BaseType>
+							<BitOffs>384</BitOffs>
+						</Symbol>
 					</DataArea>
 				</DataAreas>
 				<InterfacePointers>
@@ -183,13 +351,19 @@
 					<InterfacePointer>
 						<PTCID>#x00000002</PTCID>
 						<Name>TestAxisGroup_Interface</Name>
-						<Type GUID="{08CC0D90-8987-4A20-A338-22772737A054}">IAxisGroupInterface</Type>
+						<Type GUID="{92B58E62-00D3-492F-A964-14316BC3B3CF}">IAxisGroupInterface</Type>
 						<ContextId>1</ContextId>
 					</InterfacePointer>
 					<InterfacePointer>
 						<PTCID>#x00000003</PTCID>
 						<Name>TestSpindle_Interface</Name>
-						<Type GUID="{CF8E28DE-CFD4-4727-86E6-C55D5891DD9F}">ISpindleInterface</Type>
+						<Type GUID="{A5B190D2-781F-49A4-9D2B-66AD8519040D}">ISpindleInterface</Type>
+						<ContextId>1</ContextId>
+					</InterfacePointer>
+					<InterfacePointer>
+						<PTCID>#x00000004</PTCID>
+						<Name>TestSafety_Interface</Name>
+						<Type GUID="{DFA7B551-502B-4085-88E7-A88921AF739F}">ISafetyInterface</Type>
 						<ContextId>1</ContextId>
 					</InterfacePointer>
 				</InterfacePointers>
@@ -242,15 +416,12 @@
 						<Name>TestSpindle_Interface</Name>
 						<OTCID>#x01010010</OTCID>
 					</Value>
+					<Value>
+						<Name>TestSafety_Interface</Name>
+						<OTCID>#x01010040</OTCID>
+					</Value>
 				</InterfacePointerValues>
 			</TmcDesc>
 		</Instance>
 	</Project>
-	<Mappings>
-		<OwnerA Name="ModuleTest_Obj1 (ModuleTest)">
-			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
-				<Link VarA="Outputs^MockManualMovingCommand" VarB="Inputs^ManualMovingCommand"/>
-			</OwnerB>
-		</OwnerA>
-	</Mappings>
 </TcSmItem>

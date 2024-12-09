@@ -3,7 +3,7 @@
 
 #include "Axis.h"
 
-void CAxis::MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param, InterpolationParameter* interpolation_parameter)
+void CAxis::MapParameters(DriverInput* driver_input, DriverOutput* driver_output, const MotionControlInfo* driver_param, const InterpolationParameter* interpolation_parameter)
 {
 	m_Driver.MapParameters(driver_input, driver_output, driver_param);
 	m_InterpolationParam = interpolation_parameter;
@@ -41,6 +41,7 @@ void CAxis::Input()
 	m_FdbVelFiltered = m_FdbVelFilter.process(m_FdbVel);
 	m_FdbTor = m_Driver.GetFeedbackTorque();
 	m_ActualOpMode = m_Driver.GetActualOperationMode();
+	m_CurrentDriverStatus = m_Driver.GetActualDriverStatus();
 }
 
 void CAxis::Output()
@@ -111,6 +112,11 @@ bool CAxis::IsOpModeSwitched()
 bool CAxis::IsEnabled()
 {
 	return m_Driver.IsEnableState();
+}
+
+bool CAxis::IsDisabled()
+{
+	return m_Driver.IsDisableState();
 }
 
 void CAxis::HoldPosition()
@@ -249,11 +255,6 @@ void CAxis::ReturnToZeroPoint()
 	Move(0.0, OpMode::CSP, kInterpolated, true);
 }
 
-bool CAxis::IsExceedingLimit()
-{
-	return m_Driver.IsLimitExceeded();
-}
-
 bool CAxis::IsEmergency()
 {
 	return m_Driver.IsEmergencyState();
@@ -262,6 +263,17 @@ bool CAxis::IsEmergency()
 bool CAxis::IsFault()
 {
 	return m_Driver.IsFaultState();
+}
+
+void CAxis::ClearError()
+{
+	UpdatePositionCommand();
+	m_Driver.ClearError();
+}
+
+void CAxis::QuickStop()
+{
+	m_Driver.QuickStop();
 }
 
 void CAxis::InterpolationReset(OpMode mode)
@@ -284,4 +296,9 @@ void CAxis::InterpolationReset(OpMode mode)
 void CAxis::UpdatePositionCommand()
 {
 	m_CmdPos = m_FdbPos;
+}
+
+void CAxis::CompensateAdditiveTor(double add_tor)
+{
+	m_Driver.SetAdditiveTorque(add_tor);
 }

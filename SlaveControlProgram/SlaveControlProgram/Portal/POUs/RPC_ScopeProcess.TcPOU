@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="RPC_ScopeProcess" Id="{e776bf06-1248-4d20-b170-5a17443d4e9f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK RPC_ScopeProcess EXTENDS TcBaseModuleRegistered IMPLEMENTS IScopeProcess
+
+// Scope Server
+VAR
+	fb_GenerateFileSuffixByTime : FB_GenerateFileSuffixByTime; 	// Generate file suffix by system time
+	fb_ScopeServer 		  		: FB_ScopeServer; 	  			// Record .svdx file
+	bScopeRun 			  		: BOOL := FALSE; 		  		// Flag of starting or stoping scope server
+	fb_ExportScopeData 	  		: FB_ExportScopeData;   		// Export recorded data after finishing 
+	bExportData    		  		: BOOL := FALSE; 		  		// Flag of exporting data to file
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Scope Data Record
+fb_ScopeServer(
+	bExternalTriggerEvent	:= bScopeRun , 
+	sConfigFile				:= GlobalVar.RECORD_CONFIG_PATH, 
+	sSaveFile				:= CONCAT(GlobalVar.SAVE_SVDX_PREFIX, fb_GenerateFileSuffixByTime.SAVE_SVDX_SUFFIX));
+	
+fb_ExportScopeData(
+	sNetId					:= '' , 
+	bExport					:= bExportData , 
+	svd						:= fb_ScopeServer.sSaveFile , 
+	target					:= CONCAT(GlobalVar.SAVE_CSV_PREFIX, fb_GenerateFileSuffixByTime.SAVE_CSV_SUFFIX) , 
+	config					:= GlobalVar.RECORD_CONFIG_XML_PATH);
+	]]></ST>
+    </Implementation>
+    <Method Name="FB_reinit" Id="{f6a12a29-42ff-4d33-ad2b-7dd91e739632}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.FB_reinit();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mExportData" Id="{0ade6b5e-5439-4834-b628-604a7d853c32}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+
+METHOD mExportData : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mExportData := S_FALSE;
+bExportData := TRUE;
+mExportData := S_OK;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mInitialize" Id="{f5b77f8f-9277-41d4-bfce-db0ade021661}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+METHOD mInitialize : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mInitialize := S_FALSE;
+// Get time to generate suffix of files saved by scope server
+fb_GenerateFileSuffixByTime();
+bExportData := FALSE;
+mInitialize := S_OK;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mStartRecord" Id="{54172283-d079-41ed-a0c1-2165b3df6f50}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+
+METHOD mStartRecord : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mStartRecord := S_FALSE;
+// Start recording data
+bScopeRun := TRUE;
+mStartRecord := S_OK;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mStopRecord" Id="{330a11e3-51ab-4891-ba18-b1bf9e3ce6be}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+
+METHOD mStopRecord : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mStopRecord := S_FALSE;
+bScopeRun := FALSE;
+mStopRecord := S_OK;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{1cca8c54-1346-4de3-981e-6bf02c398f67}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+
+VAR
+	ipScope : IScopeProcess;
+	ipUnk : ITcUnknown;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_IScopeProcess)) THEN
+	ipScope := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipScope);
+	TcAddRef();
+	TcQueryInterface := S_OK;
+ELSIF GuidsEqual(ADR(iid), ADR(TC_GLOBAL_IID_LIST.IID_ITcUnknown)) THEN
+	ipUnk := THIS^; // cast to interface pointer
+	pipItf^ := ITCUNKNOWN_TO_PVOID(ipUnk);
+	TcAddRef(); 
+	TcQueryInterface := S_OK;
+ELSE
+	TcQueryInterface := SUPER^.TcQueryInterface(iid, pipItf);
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

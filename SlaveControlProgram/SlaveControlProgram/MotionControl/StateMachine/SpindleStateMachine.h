@@ -34,7 +34,11 @@ public:
 
     virtual void react(EventSpindleEnable const&) {};
 
-    virtual void SafetyCheck();
+    virtual void react(EventSpindleDisable const&) {};
+
+    virtual void react(EventSpindleEnterFault const&) {};
+
+    virtual void react(EventSpindleResetError const&) {};
 
     static CSpindleController* s_pController;
 
@@ -50,8 +54,8 @@ public:
         }
     }
 
-    static void report_current_state(SpindleState _sysState)
+    static void report_current_state(SpindleState sysState)
     {
-        s_pController->m_SpindleState = _sysState;
+        s_pController->m_SpindleState = sysState;
     }
 };

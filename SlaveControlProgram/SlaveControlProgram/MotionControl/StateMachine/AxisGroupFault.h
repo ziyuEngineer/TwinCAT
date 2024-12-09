@@ -14,16 +14,23 @@ public:
        s_pController->AxisGroupFault();
     }
 
-    void exit() override {};
+    void exit() override
+	{
+	}
 
 	void react(EventAxisGroupResetError const&) override
 	{
 		// Notify plc module to Reset SoE
 		s_pController->NotifyPlcResetSoE(true);
 
-		if (s_pController->AxisGroupEnable()) { // Send enable controlword to reset fault.
+		s_pController->AxisGroupClearError(); // Send enable controlword to reset fault.
+
+		if (s_pController->AxisGroupDisable()) 
+		{ 
 			transit<AxisGroupDisabled>();
-			s_pController->NotifyPlcResetSoE(false);
 		}
+		
+		/*s_pController->AxisGroupClearError();
+		transit<AxisGroupDisabled>();*/
 	};
 };

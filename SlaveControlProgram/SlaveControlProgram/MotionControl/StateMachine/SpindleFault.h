@@ -14,5 +14,15 @@ public:
 		
 	}
 
-	void exit() override {};
+	void exit() override {}
+
+	void react(EventSpindleResetError const&) override
+	{
+		s_pController->SpindleClearError();
+
+		if (s_pController->SpindleDisable())
+		{
+			transit<SpindleDisabled>();
+		}
+	}
 };

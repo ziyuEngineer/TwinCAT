@@ -8,15 +8,11 @@
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
 			<AbsZeroPos>-25001649</AbsZeroPos>
-			<UpperPosLimit>968360</UpperPosLimit>
-			<LowerPosLimit>-27421640</LowerPosLimit>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>150</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype> <!-- Distinguish encoder type between single-turn and multi-turns -->
-			<PositiveHardBit>2</PositiveHardBit>
-			<NegativeHardBit>3</NegativeHardBit>
-			<DriverType>0</DriverType> <!-- Distinguish motor types -->
+			<MoveType>0</MoveType> <!-- Distinguish move type, 0: linear, 1: rotate -->
+			<DriverType>0</DriverType> <!-- Distinguish motor types --> <!--0: Beckhoff, 1: DSP402-->
 			<Exposed>1</Exposed>
 			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
@@ -29,14 +25,10 @@
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
 			<AbsZeroPos>524692244</AbsZeroPos>
-			<UpperPosLimit>550182090</UpperPosLimit>
-			<LowerPosLimit>521792090</LowerPosLimit>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>150</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype>
-			<PositiveHardBit>1</PositiveHardBit>
-			<NegativeHardBit>0</NegativeHardBit>
+			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
 			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
@@ -51,15 +43,11 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>-1</TorDir>
-			<AbsZeroPos>34259914</AbsZeroPos>
-			<UpperPosLimit>-37939000</UpperPosLimit>
-			<LowerPosLimit>34259914</LowerPosLimit>
+			<AbsZeroPos>6570000</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
-			<TorPdoMax>150</TorPdoMax>
+			<TorPdoMax>1000</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype>
-			<PositiveHardBit>0</PositiveHardBit>
-			<NegativeHardBit>1</NegativeHardBit>
+			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
 			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
@@ -74,15 +62,11 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>-1</TorDir>
-			<AbsZeroPos>-21277700</AbsZeroPos>
-			<UpperPosLimit>-21277700</UpperPosLimit>
-			<LowerPosLimit>33128000</LowerPosLimit>
+			<AbsZeroPos>97400000</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
-			<TorPdoMax>150</TorPdoMax>
+			<TorPdoMax>1000</TorPdoMax>
 			<AdditiveTor>-10</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype>
-			<PositiveHardBit>2</PositiveHardBit>
-			<NegativeHardBit>3</NegativeHardBit>
+			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
 			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
@@ -97,15 +81,11 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>100</AbsZeroPos>
-			<UpperPosLimit>1000000000</UpperPosLimit>
-			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<AbsZeroPos>0</AbsZeroPos>
 			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>50</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype>
-			<PositiveHardBit>2</PositiveHardBit>
-			<NegativeHardBit>3</NegativeHardBit>
+			<MoveType>1</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>0</Exposed>
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->
@@ -120,15 +100,11 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>100</AbsZeroPos>
-			<UpperPosLimit>1000000000</UpperPosLimit>
-			<LowerPosLimit>-1000000000</LowerPosLimit>
+			<AbsZeroPos>0</AbsZeroPos>
 			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>50</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>0</AbsEncodertype>
-			<PositiveHardBit>2</PositiveHardBit>
-			<NegativeHardBit>3</NegativeHardBit>
+			<MoveType>1</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>0</Exposed>
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->

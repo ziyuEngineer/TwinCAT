@@ -15,7 +15,7 @@ private:
 	CDriver m_Driver;
 	Biquad m_FdbPosFilter;
 	Biquad m_FdbVelFilter;
-	InterpolationParameter* m_InterpolationParam;
+	const InterpolationParameter* m_InterpolationParam;
 
 	PositionInterpolator1D m_PositionInterpolator;
 	VelocityInterpolator1D m_VelocityInterpolator;
@@ -42,11 +42,12 @@ public:
 	double m_FdbAcc;
 	double m_FdbTor;
 	OpMode m_ActualOpMode;
+	DriverStatus m_CurrentDriverStatus;
 
 	double m_StandbyPos;
 	
 public:
-	void MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param, InterpolationParameter* interpolation_parameter);
+	void MapParameters(DriverInput* driver_input, DriverOutput* driver_output, const MotionControlInfo* driver_param, const InterpolationParameter* interpolation_parameter);
 	bool PostConstruction();
 
 	void Input();
@@ -58,16 +59,19 @@ public:
 	void SwitchOperationMode(OpMode mode);
 	bool IsOpModeSwitched();
 	bool IsEnabled();
+	bool IsDisabled();
 
 	void HoldPosition();
 	void StandStill();
 	void Move(double cmd, OpMode mode, bool is_interpolated, bool update_feedback);
 	void ReturnToZeroPoint();
 
-	bool IsExceedingLimit();
 	bool IsEmergency();
 	bool IsFault();
+	void ClearError();
+	void QuickStop();
 
 	void InterpolationReset(OpMode _mode);
 	void UpdatePositionCommand();
+	void CompensateAdditiveTor(double add_tor);
 };

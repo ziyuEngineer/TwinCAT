@@ -14,7 +14,8 @@ public:
         
     }
 
-    void exit() override {};
+    void exit() override
+    {}
 
     void react(EventAxisGroupResetError const&) override
     {
@@ -22,5 +23,10 @@ public:
         {
             transit<AxisGroupDisabled>();
         }
-    };
+    }
+
+    void react(EventAxisGroupEnterFault const&) override
+    {
+        transit<AxisGroupFault>();
+    }
 };

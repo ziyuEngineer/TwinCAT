@@ -20,83 +20,12 @@ END_VAR
 VAR
 	rpc_SoEProcess : RPC_SoEProcess('MAIN.rpc_SoEProcess');
 	rpc_PanelProcess : RPC_PanelProcess('MAIN.rpc_PanelProcess');
+	rpc_ScopeProcess : RPC_ScopeProcess('MAIN.rpc_ScopeProcess');
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF (NOT bInit) THEN
-	bInit := mInitialize();
-ELSE
-	mInput();
-
-	mOutput();
-END_IF
-
-
-// Scope Data Record
-fb_ScopeServer(
-	bExternalTriggerEvent	:= bScopeRun , 
-	sConfigFile				:= GlobalVar.RECORD_CONFIG_PATH, 
-	sSaveFile				:= CONCAT(GlobalVar.SAVE_SVDX_PREFIX, fb_GenerateFileSuffixByTime.SAVE_SVDX_SUFFIX));
-	
-fb_ExportScopeData(
-	sNetId					:= '' , 
-	bExport					:= bExportData , 
-	svd						:= fb_ScopeServer.sSaveFile , 
-	target					:= CONCAT(GlobalVar.SAVE_CSV_PREFIX, fb_GenerateFileSuffixByTime.SAVE_CSV_SUFFIX) , 
-	config					:= GlobalVar.RECORD_CONFIG_XML_PATH);
-	]]></ST>
+      <ST><![CDATA[rpc_ScopeProcess();
+]]></ST>
     </Implementation>
-    <Method Name="mInitialize" Id="{9586f67e-0d90-4ec0-811a-a2c911cc73f9}">
-      <Declaration><![CDATA[METHOD mInitialize : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Wait for the following initialization
-
-mInitialize := FALSE;
-
-// Get time to generate suffix of files saved by scope server
-fb_GenerateFileSuffixByTime();
-
-// Finish all initialization steps.
-// Start recording data
-bScopeRun := TRUE;
-
-// End initialization
-mInitialize := TRUE;
-
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mInput" Id="{4779c18a-9e96-4364-9e93-c017388d8244}">
-      <Declaration><![CDATA[METHOD mInput : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Receive inputs from Hardware and other modules.
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mOutput" Id="{e076596c-b196-4e95-9e7b-70f2484e0f67}">
-      <Declaration><![CDATA[METHOD mOutput : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Send outputs to Hardware and other modules.
-
-mOutput := FALSE;
-
-// TODO: add judgment on whether the task is finished
-IF bTaskDone THEN
-	bScopeRun := FALSE;
-	
-	// TODO: Add a delay between stop scope and start export
-	// bExportData := TRUE;
-END_IF
-
-]]></ST>
-      </Implementation>
-    </Method>
   </POU>
 </TcPlcObject>

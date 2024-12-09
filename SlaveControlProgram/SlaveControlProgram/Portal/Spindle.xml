@@ -8,14 +8,10 @@
 			<RatedTor>0.8</RatedTor>
 			<TorDir>1</TorDir>
 			<AbsZeroPos>0</AbsZeroPos>
-			<UpperPosLimit>100</UpperPosLimit>
-			<LowerPosLimit>-100</LowerPosLimit>
 			<TransmissionRatio>1.0</TransmissionRatio>
 			<TorPdoMax>100</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
-			<AbsEncodertype>FALSE</AbsEncodertype> <!-- Distinguish encoder type between single-turn and multi-turns -->
-			<PositiveHardBit>2</PositiveHardBit>
-			<NegativeHardBit>3</NegativeHardBit>
+			<MoveType>1</MoveType> <!-- Distinguish move type, 0: linear, 1: rotate -->
 			<DriverType>1</DriverType> <!-- Distinguish motor types -->
 			<Exposed>1</Exposed>
 			<MaxVelocity>50</MaxVelocity> <!--r/s-->

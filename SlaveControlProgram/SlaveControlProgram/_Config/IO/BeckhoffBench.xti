@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CDevEtherCATDef" SubType="111">
-	<Device Id="3" DevType="111" DevFlags="#x0003" AmsPort="28675" AmsNetId="10.136.96.186.4.1" RemoteName="Device 3 (EtherCAT)" InfoImageId="3">
+	<Device Id="3" DevType="111" DevFlags="#x0003" AmsPort="28675" AmsNetId="169.254.41.58.4.1" RemoteName="BeckhoffBench" InfoImageId="4">
 		<Name>__FILENAME__</Name>
 		<AddressInfo>
 			<Pnp>
@@ -9,13 +9,13 @@
 				<DeviceData>0001059a6ccb</DeviceData>
 			</Pnp>
 		</AddressInfo>
-		<Image Id="2" AddrType="9" ImageType="3">
+		<Image Id="3" AddrType="9" ImageType="3">
 			<Name>Image</Name>
 		</Image>
 		<Image Id="1" ImageFlags="#x00000030" AddrType="10" ImageType="3">
 			<Name>Image-2</Name>
 		</Image>
-		<Image Id="4" AddrType="10" ImageType="3">
+		<Image Id="2" AddrType="10" ImageType="3">
 			<Name>Image-3</Name>
 		</Image>
 		<Box File="ZY.xti" Id="1">
@@ -24,10 +24,10 @@
 		<Box File="Gantry.xti" Id="2">
 			<EtherCAT PortABoxInfo="#x01000001"/>
 		</Box>
-		<Box File="Box 3 (iA-MPA64B0 2xMII).xti" Id="3">
+		<Box File="Panel.xti" Id="3">
 			<EtherCAT PortABoxInfo="#x01000002"/>
 		</Box>
-		<Box File="Spindle.xti" Id="7">
+		<Box File="Drive 4 (MCDLN35BE).xti" Id="4">
 			<EtherCAT PortABoxInfo="#x01000003"/>
 		</Box>
 		<EtherCAT DcSyncMode="3"/>
@@ -35,27 +35,20 @@
 	<Mappings>
 		<OwnerA>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
-				<Link VarA="Spindle^Receive PDO mapping 1^Controlword" VarB="Outputs^SpindleOutput^ControlWord"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Modes of operation" VarB="Outputs^SpindleOutput^OperationMode"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target position" VarB="Outputs^SpindleOutput^TargetPosition"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target torque" VarB="Outputs^SpindleOutput^TargetTorque"/>
-				<Link VarA="Spindle^Receive PDO mapping 1^Target velocity" VarB="Outputs^SpindleOutput^TargetVelocity"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Error code" VarB="Inputs^SpindleInput^ErrorCode"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Modes of operation display" VarB="Inputs^SpindleInput^ActualOpMode"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Position actual value" VarB="Inputs^SpindleInput^ActualAbsPos"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Statusword" VarB="Inputs^SpindleInput^StatusWord"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Torque actual value" VarB="Inputs^SpindleInput^ActualTor"/>
-				<Link VarA="Spindle^Transmit PDO mapping 1^Velocity actual value" VarB="Inputs^SpindleInput^ActualVel"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Receive PDO mapping 1^Controlword" VarB="Outputs^SpindleOutput^ControlWord"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Receive PDO mapping 1^Modes of operation" VarB="Outputs^SpindleOutput^OperationMode"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Receive PDO mapping 1^Target position" VarB="Outputs^SpindleOutput^TargetPosition"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Transmit PDO mapping 1^Modes of operation display" VarB="Inputs^SpindleInput^ActualOpMode"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Transmit PDO mapping 1^Position actual value" VarB="Inputs^SpindleInput^ActualAbsPos"/>
+				<Link VarA="Drive 4 (MCDLN35BE)^Transmit PDO mapping 1^Statusword" VarB="Inputs^SpindleInput^StatusWord"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
 				<Link VarA="Gantry^AT 1^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[1]^ErrorCode"/>
-				<Link VarA="Gantry^AT 1^Digital inputs, state" VarB="Inputs^AxisInputs[1]^DigitalInput_1"/>
 				<Link VarA="Gantry^AT 1^Drive status word" VarB="Inputs^AxisInputs[1]^StatusWord"/>
 				<Link VarA="Gantry^AT 1^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[1]^ActualAbsPos"/>
 				<Link VarA="Gantry^AT 1^Torque/force feedback value" VarB="Inputs^AxisInputs[1]^ActualTor"/>
 				<Link VarA="Gantry^AT 1^Velocity feedback 1 value" VarB="Inputs^AxisInputs[1]^ActualVel"/>
 				<Link VarA="Gantry^AT 2^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[0]^ErrorCode"/>
-				<Link VarA="Gantry^AT 2^Digital inputs, state" VarB="Inputs^AxisInputs[0]^DigitalInput_1"/>
 				<Link VarA="Gantry^AT 2^Drive status word" VarB="Inputs^AxisInputs[0]^StatusWord"/>
 				<Link VarA="Gantry^AT 2^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[0]^ActualAbsPos"/>
 				<Link VarA="Gantry^AT 2^Torque/force feedback value" VarB="Inputs^AxisInputs[0]^ActualTor"/>
@@ -69,17 +62,16 @@
 				<Link VarA="Gantry^MDT 2^Torque/force command value" VarB="Outputs^AxisOutputs[0]^TargetTorque"/>
 				<Link VarA="Gantry^MDT 2^Velocity command value" VarB="Outputs^AxisOutputs[0]^TargetVelocity"/>
 				<Link VarA="ZY^AT 1^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[3]^ErrorCode"/>
-				<Link VarA="ZY^AT 1^Digital inputs, state" VarB="Inputs^AxisInputs[3]^DigitalInput_1"/>
 				<Link VarA="ZY^AT 1^Drive status word" VarB="Inputs^AxisInputs[3]^StatusWord"/>
 				<Link VarA="ZY^AT 1^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[3]^ActualAbsPos"/>
 				<Link VarA="ZY^AT 1^Torque/force feedback value" VarB="Inputs^AxisInputs[3]^ActualTor"/>
 				<Link VarA="ZY^AT 1^Velocity feedback 1 value" VarB="Inputs^AxisInputs[3]^ActualVel"/>
 				<Link VarA="ZY^AT 2^Class 1 diagnostic (C1D)" VarB="Inputs^AxisInputs[2]^ErrorCode"/>
-				<Link VarA="ZY^AT 2^Digital inputs, state" VarB="Inputs^AxisInputs[2]^DigitalInput_1"/>
 				<Link VarA="ZY^AT 2^Drive status word" VarB="Inputs^AxisInputs[2]^StatusWord"/>
 				<Link VarA="ZY^AT 2^Position feedback 1 value (motor feedback)" VarB="Inputs^AxisInputs[2]^ActualAbsPos"/>
 				<Link VarA="ZY^AT 2^Torque/force feedback value" VarB="Inputs^AxisInputs[2]^ActualTor"/>
 				<Link VarA="ZY^AT 2^Velocity feedback 1 value" VarB="Inputs^AxisInputs[2]^ActualVel"/>
+				<Link VarA="ZY^MDT 1^Additive torque/force command value" VarB="Outputs^AxisOutputs[3]^AdditiveTorque"/>
 				<Link VarA="ZY^MDT 1^Master control word" VarB="Outputs^AxisOutputs[3]^ControlWord"/>
 				<Link VarA="ZY^MDT 1^Position command value" VarB="Outputs^AxisOutputs[3]^TargetPosition"/>
 				<Link VarA="ZY^MDT 1^Torque/force command value" VarB="Outputs^AxisOutputs[3]^TargetTorque"/>
@@ -88,6 +80,12 @@
 				<Link VarA="ZY^MDT 2^Position command value" VarB="Outputs^AxisOutputs[2]^TargetPosition"/>
 				<Link VarA="ZY^MDT 2^Torque/force command value" VarB="Outputs^AxisOutputs[2]^TargetTorque"/>
 				<Link VarA="ZY^MDT 2^Velocity command value" VarB="Outputs^AxisOutputs[2]^TargetVelocity"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+				<Link VarA="Gantry^AT 1^Digital inputs, state" VarB="Inputs^DiagnosticInfo^AxisGroupDigitalInput[1]"/>
+				<Link VarA="Gantry^AT 2^Digital inputs, state" VarB="Inputs^DiagnosticInfo^AxisGroupDigitalInput[0]"/>
+				<Link VarA="ZY^AT 1^Digital inputs, state" VarB="Inputs^DiagnosticInfo^AxisGroupDigitalInput[3]"/>
+				<Link VarA="ZY^AT 2^Digital inputs, state" VarB="Inputs^DiagnosticInfo^AxisGroupDigitalInput[2]"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

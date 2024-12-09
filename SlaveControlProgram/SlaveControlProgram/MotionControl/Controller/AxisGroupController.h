@@ -9,7 +9,7 @@ public:
 	
 // Initialize
 public:
-	void MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, ModuleAxisGroupParameter* parameters);
+	void MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, const ModuleAxisGroupParameter* parameters);
 	bool PostConstruction();
 	static ISoEProcess* m_pSoEProcess;
 
@@ -18,6 +18,10 @@ private:
 	ModuleAxisGroupOutputs* m_pOutputs = nullptr;
 
 	CAxisGroup m_AxisGroup;
+
+	int m_ActualAxisNum = 0;
+	int m_ActualDriverNum = 0;
+	SHORT m_DriverNumPerAxis[5] = { 0 }; // INT type in tmc
 
 public:
 	// Cyclic Run
@@ -30,22 +34,21 @@ public:
 	bool AxisGroupInitialize();
 	void AxisGroupStandby();
 	void AxisGroupMoving();
+	//void AxisGroupGetCurrentPos();
 	void AxisGroupStandStill();
 	void AxisGroupHandwheel();
 	void AxisGroupLimitViolation();
 	void AxisGroupFault();
-	void AxisGroupRecovery();
 	bool AxisGroupEnable();
 	bool AxisGroupDisable();
 	bool IsAxisGroupEnabled();
+	bool IsAxisGroupDisabled();
 	void AxisGroupResetInterpolator(OpMode mode);
 	void AxisGroupSwitchOpMode(OpMode mode);
 	bool IsAxisGroupOpModeSwitched();
-	// Safety Module
-	AxisGroupState AxisGroupSafetyCheck();
 
-	// Local state switch trigger
 	void NotifyPlcResetSoE(bool is_executed);
+	void AxisGroupClearError();
 
 private:
 	// Test variables

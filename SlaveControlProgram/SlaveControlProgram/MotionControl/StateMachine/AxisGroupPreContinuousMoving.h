@@ -12,18 +12,16 @@ public:
     {
         report_current_state(AxisGroupState::eAxisGroupPreContinuousMoving);
         s_pController->AxisGroupSwitchOpMode(m_MovingOpMode);
+        m_IsAxisGroupOpModeSwitched = s_pController->IsAxisGroupOpModeSwitched();
     }
 
     void react(EventCycleUpdate const&) override
     {
-        SafetyCheck();
-        
         if (!m_IsAxisGroupOpModeSwitched)
         {
             s_pController->AxisGroupSwitchOpMode(m_MovingOpMode);
             m_IsAxisGroupOpModeSwitched = s_pController->IsAxisGroupOpModeSwitched();
         }
-
     }
 
     void exit() override
@@ -42,5 +40,10 @@ public:
     void SetMovingOpMode(OpMode mode)
     {
         m_MovingOpMode = mode;
+    }
+
+    void react(EventAxisGroupEnterFault const&) override
+    {
+        transit<AxisGroupFault>();
     }
 };

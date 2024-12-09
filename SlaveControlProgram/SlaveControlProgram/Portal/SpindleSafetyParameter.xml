@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spindle>
+    <axes> <!-- Spindle -->
+		<axis>
+			<UpperPosLimit>1000000</UpperPosLimit>
+			<LowerPosLimit>-1000000</LowerPosLimit>
+			<MaxVelocity>50</MaxVelocity> <!--r/s-->
+			<MaxAcceleration>5000</MaxAcceleration> <!--r/s^2-->
+			<FollowingError>2</FollowingError>
+		</axis>
+    </axes>
+</Spindle>

@@ -12,8 +12,6 @@ class AxisGroupPreContinuousMoving;
 class AxisGroupContinuousMoving;
 class AxisGroupFault;
 class AxisGroupEmergency;
-class AxisGroupRecovery;
-class AxisGroupLimitViolation;
 
 class AxisGroupStateMachine : public tinyfsm::Fsm<AxisGroupStateMachine>
 {
@@ -38,15 +36,11 @@ public:
 
     virtual void react(EventAxisGroupStop const&) {};
 
-    virtual void react(EventAxisGroupEnterRecoveryState const&) {};
-
-    virtual void react(EventAxisGroupExitRecoveryState const&) {};
+    virtual void react(EventAxisGroupEnterFault const&) {};
 
     virtual void react(EventAxisGroupResetError const&) {};
 
     virtual void react(EventAxisGroupPreMovingChangeOpMode const&) {};
-
-    virtual void SafetyCheck();
     
     static CAxisGroupController* s_pController;
 
@@ -62,8 +56,8 @@ public:
         }
     }
 
-    static void report_current_state(AxisGroupState _sysState)
+    static void report_current_state(AxisGroupState sysState)
     {
-        s_pController->m_AxisGroupState = _sysState;
+        s_pController->m_AxisGroupState = sysState;
     }
 };

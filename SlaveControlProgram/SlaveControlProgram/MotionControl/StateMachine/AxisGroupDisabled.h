@@ -11,8 +11,6 @@ public:
 
     void react(EventCycleUpdate const&) override
     {
-        SafetyCheck();
-
         s_pController->AxisGroupDisable();
     }
 

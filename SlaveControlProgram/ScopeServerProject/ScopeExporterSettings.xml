@@ -13,7 +13,7 @@
       <ExcludeDoubleTimestamp>True</ExcludeDoubleTimestamp>
       <HeaderKonfiguration>0</HeaderKonfiguration>
       <SortChannels>False</SortChannels>
-      <ContainEOF>True</ContainEOF>
+      <ContainEOF>False</ContainEOF>
       <IncludeTriggerInfos>False</IncludeTriggerInfos>
       <FullTimeStamp>False</FullTimeStamp>
       <IncludeMarkerTables>None</IncludeMarkerTables>

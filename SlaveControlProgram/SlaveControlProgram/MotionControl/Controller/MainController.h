@@ -1,11 +1,11 @@
 #pragma once
 #include "CommandManager.h"
 
-class CCommandController
+class CMainController
 {
 public:
-	CCommandController();
-	~CCommandController();
+	CMainController();
+	~CMainController();
 
 // Initialize
 public:
@@ -33,7 +33,9 @@ public:
 
 	// Command process
 	bool RingBufferDispatchCommand();
+	void EmptyRingBuffer();
 	void QuitMachining();
+	void ClearLocalCommand();
 
 	// Panel Information
 	bool IsServoOnPressed();
@@ -41,6 +43,11 @@ public:
 	bool IsExecutionPressed();
 	int IsSpindleMovingPressed();
 	void UpdateManualMovingCommand();
+	void UpdateManualCommandInRecoveryState(ModuleError dir, AxisOrder axis);
+	bool IsResetPressed();
+	bool PanelReset();
+	bool DeselectAxisAutomatically();
+	bool DeselectServoButtonAutomatically();
 
 	void RingBufferInput();
 	void RingBufferOutput();
@@ -57,6 +64,8 @@ public:
 	void RequestSpindleStop();
 	void RequestSpindleEnable();
 	void RequestSpindleDisable();
+	void RequestSpindleFault();
+	void RequestSpindleResetError();
 
 	// Invoke interfaces provided by AxisGroup module
 	void RequestAxisGroupServoOn();
@@ -66,8 +75,12 @@ public:
 	void RequestAxisGroupStop();
 	void RequestAxisGroupEnterHandwheel();
 	void RequestAxisGroupQuitHandwheel();
+	void RequestAxisGroupFault();
 	void RequestAxisGroupResetError();
-	void RequestAxisGroupRecoveryState(bool is_entered);
 	bool IsAxisGroupOpModeChanged();
 	bool IsAxisGroupDisabled();
+
+	// Safety module
+	ULONG GetErrorCode();
+	bool IsSystemNormal();
 };

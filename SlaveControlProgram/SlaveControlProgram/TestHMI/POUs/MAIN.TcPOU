@@ -4,6 +4,8 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	MockPanel AT%Q*: PanelInfo;
+	Recovery AT%Q*: BOOL;
+	ContinuousMoving AT%Q*: BOOL;
 	
 	SpindleCW : BOOL;
 	SpindleCCW : BOOL;
@@ -20,6 +22,11 @@ VAR
 	TestSpindleState AT%I*: SpindleState;
 	AxisGroupStateListId : INT;
 	SpindleStateListId : INT;
+	
+	TestMainState AT%I*: SystemState;
+	TestSafetyStatus AT%I*: SafetyState;
+	MainStateListId : INT;
+	SafetyStatusListId : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,7 +63,9 @@ END_IF
 
 AxisGroupStateListId := TO_INT(TestAxisGroupState);
 SpindleStateListId := TO_INT(TestSpindleState);
-]]></ST>
+MainStateListId := TO_INT(TestMainState);
+SafetyStatusListId := TO_INT(TestSafetyStatus);
+	]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

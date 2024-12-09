@@ -1,6 +1,6 @@
 #pragma once
 #include "FsmCommon.h"
-#include "CommandController.h"
+#include "MainController.h"
 
 class MainStateDisabled;
 class MainStatePreStandby;
@@ -26,7 +26,21 @@ public:
 
     virtual void react(EventStopContinuousMoving const&) {};
 
-    static CCommandController* s_pController;
+    virtual void react(EventRequestEnterRecoveryState const&) {};
+
+    virtual void react(EventRequestExitRecoveryState const&) {};
+
+    virtual void react(EventRequestEnterFaultState const&) {};
+
+    virtual void react(EventRequestExitFaultState const&) {};
+
+    virtual void react(EventRequestEnterStandbyState const&) {};
+
+    virtual void react(EventRequestEnterDisabledState const&) {};
+
+    virtual bool IsSafeToTransitState();
+
+    static CMainController* s_pController;
 
     static void start()
     {
@@ -40,8 +54,10 @@ public:
         }
     }
 
-    static void report_current_state(SystemState _sysState)
+    static void report_current_state(SystemState sysState)
     {
-        s_pController->m_MainState = _sysState;
+        s_pController->m_MainState = sysState;
     }
+
+    virtual void ParseErrorCode(ULONG error_code, ModuleError& err_type, AxisOrder& axis);
 };

@@ -22,3 +22,10 @@ enum class SpindleCase
 	SpindleLocating = 3,
 	SpindleStopMoving = 4
 };
+
+enum class SafetyModuleCase
+{
+	SafetyNull = 0,
+	SafetyEnterRecovery = 1,
+	SafetyExitRecovery = 2
+};

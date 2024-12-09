@@ -36,6 +36,7 @@ void CSpindle::Input()
 	m_FdbVel = m_Axis.m_FdbVel;
 	m_FdbTor = m_Axis.m_FdbTor;
 	m_CurrentOpMode = m_Axis.m_ActualOpMode;
+	m_CurrentDriverStatus = m_Axis.m_CurrentDriverStatus;
 }
 
 void CSpindle::Output()
@@ -96,6 +97,16 @@ void CSpindle::Move(SpindleRot cmd)
 void CSpindle::ResetInterpolator(OpMode mode)
 {
 	m_Axis.InterpolationReset(mode);
+}
+
+void CSpindle::ClearError()
+{
+	m_Axis.ClearError();
+}
+
+void CSpindle::QuickStop()
+{
+	m_Axis.QuickStop();
 }
 
 // Reserve for future use

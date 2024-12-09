@@ -15,11 +15,15 @@ CAxisGroupController::~CAxisGroupController()
 
 }
 
-void CAxisGroupController::MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, ModuleAxisGroupParameter* parameters)
+void CAxisGroupController::MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, const ModuleAxisGroupParameter* parameters)
 {
 	m_pInputs = inputs;
 	m_pOutputs = outputs;
 	m_AxisGroup.MapParameters(inputs, outputs, parameters);
+
+	m_ActualAxisNum = parameters->ActualAxisNum;
+	m_ActualDriverNum = parameters->TotalDriverNum;
+	memcpy(m_DriverNumPerAxis, parameters->DriverNumPerAxis, sizeof(m_DriverNumPerAxis));
 }
 
 bool CAxisGroupController::PostConstruction()
@@ -42,38 +46,35 @@ void CAxisGroupController::Input()
  */
 void CAxisGroupController::Output()
 {
-	m_pOutputs->AxisGroupState = m_AxisGroupState;
+	m_pOutputs->StateAxisGroup = m_AxisGroupState;
 
 	m_AxisGroup.Output();
 
-	for (int i = 0; i < kActualAxisNum; i++)
+	int driver_num = 0;
+	for (int j = 0; j < m_ActualAxisNum; j++)
 	{
-		m_pOutputs->AxisInfo.AxisStatus[i].CurrentPos = m_AxisGroup.m_FdbPos[i];
-		m_pOutputs->AxisInfo.AxisStatus[i].CurrentVel = m_AxisGroup.m_FdbVel[i];
-		m_pOutputs->AxisInfo.AxisStatus[i].CurrentTor = m_AxisGroup.m_FdbTor[i];
-		m_pOutputs->AxisInfo.AxisStatus[i].CurrentMode = m_AxisGroup.m_CurrentOpMode[i];
+		for (int k = 0; k < m_DriverNumPerAxis[j]; k++)
+		{
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CurrentPos = m_AxisGroup.m_Axes[j][k].m_FdbPos;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CurrentVel = m_AxisGroup.m_Axes[j][k].m_FdbVel;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CurrentTor = m_AxisGroup.m_Axes[j][k].m_FdbTor;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CurrentMode = m_AxisGroup.m_Axes[j][k].m_ActualOpMode;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CurrentStatus = static_cast<int>(m_AxisGroup.m_Axes[j][k].m_CurrentDriverStatus);
+															
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CommandPos = m_AxisGroup.m_Axes[j][k].m_CmdPos;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CommandVel = m_AxisGroup.m_Axes[j][k].m_CmdVel;
+			m_pOutputs->AxisGroupInfo.SingleAxisInformation[driver_num].CommandTor = m_AxisGroup.m_Axes[j][k].m_CmdTor;
 
-		m_pOutputs->AxisInfo.AxisStatus[i].CommandPos = m_AxisGroup.m_Axes[i][0].m_CmdPos;
-		m_pOutputs->AxisInfo.AxisStatus[i].CommandVel = m_AxisGroup.m_Axes[i][0].m_CmdVel;
-		m_pOutputs->AxisInfo.AxisStatus[i].CommandTor = m_AxisGroup.m_Axes[i][0].m_CmdTor;
+			driver_num++;
+		}
 	}
 
-	m_pOutputs->AxisInfo.GantryDeviation = m_AxisGroup.m_GantryDeviation;
-
-	// Locally Observe
-	// m_pOutputs->TestAxisGroup = m_CommandManager.m_Command;
-
+	m_pOutputs->AxisGroupInfo.GantryDeviation = m_AxisGroup.m_GantryDeviation;
 }
 
 AxisGroupState CAxisGroupController::GetCurrentState()
 {
 	return m_AxisGroupState;
-}
-
-
-AxisGroupState CAxisGroupController::AxisGroupSafetyCheck()
-{
-	return m_AxisGroup.SafetyCheck();
 }
 
 /**
@@ -97,11 +98,19 @@ void CAxisGroupController::AxisGroupStandby()
 }
 
 /**
- * @brief Action under moving state, execute commands received from plc module
+ * @brief Action under moving state, execute commands received from main module
  */
 void CAxisGroupController::AxisGroupMoving()
 {
-	m_AxisGroup.Move(m_pInputs->ContinuousMovingCommand);
+	if (static_cast<CommandType>(m_pInputs->ContinuousMovingCommand.metaData.CommandType) == CommandType::eMotion)
+	{
+		m_AxisGroup.Move(m_pInputs->ContinuousMovingCommand);
+	}
+	else if(m_pInputs->ContinuousMovingCommand.metaData.CommandType >= CommandType::eSingleAxisX)
+	{
+		AxisOrder moving_axis = static_cast<AxisOrder>(m_pInputs->ContinuousMovingCommand.metaData.CommandType - 9);
+		m_AxisGroup.SingleAxisMove(moving_axis, m_pInputs->ContinuousMovingCommand, true);
+	}
 }
 
 void CAxisGroupController::AxisGroupStandStill()
@@ -110,7 +119,7 @@ void CAxisGroupController::AxisGroupStandStill()
 }
 
 /**
- * @brief Action under handwheel state, add incremental positions calculated by plc module to current positions
+ * @brief Action under handwheel state, add incremental positions calculated by main module to current positions
  */
 void CAxisGroupController::AxisGroupHandwheel()
 {
@@ -123,18 +132,12 @@ void CAxisGroupController::AxisGroupHandwheel()
  */
 void CAxisGroupController::AxisGroupLimitViolation()
 {
-	//AxisGroupDisable();
 	m_AxisGroup.HoldPosition();
 }
 
 void CAxisGroupController::AxisGroupFault()
 {
 	AxisGroupDisable();
-}
-
-void CAxisGroupController::AxisGroupRecovery()
-{
-	//m_AxisGroup.Handwheel(m_pInputs->PanelInformation);
 }
 
 bool CAxisGroupController::AxisGroupEnable()
@@ -150,6 +153,11 @@ bool CAxisGroupController::AxisGroupDisable()
 bool CAxisGroupController::IsAxisGroupEnabled()
 {
 	return m_AxisGroup.IsEnabled();
+}
+
+bool CAxisGroupController::IsAxisGroupDisabled()
+{
+	return m_AxisGroup.IsDisabled();
 }
 
 void CAxisGroupController::AxisGroupResetInterpolator(OpMode mode)
@@ -171,5 +179,10 @@ void CAxisGroupController::NotifyPlcResetSoE(bool is_executed)
 {
 	// Invoke plc method
 	m_pSoEProcess->mReset(is_executed);
+}
+
+void CAxisGroupController::AxisGroupClearError()
+{
+	m_AxisGroup.ClearError();
 }
 

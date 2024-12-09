@@ -8,9 +8,13 @@ public:
 	CAxisGroup();
 	~CAxisGroup();
 
+private:
+	int m_ActualAxisNum = 0;
+	SHORT m_DriverNumPerAxis[5] = {0}; // INT type in tmc
+
 public:
 	CAxis m_Axes[kMaxAxisNum][kMaxMotorNumPerAxis];
-	void MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, ModuleAxisGroupParameter* parameters);
+	void MapParameters(ModuleAxisGroupInputs* inputs, ModuleAxisGroupOutputs* outputs, const ModuleAxisGroupParameter* parameters);
 	bool PostConstruction();
 
 	bool Initialize();
@@ -19,22 +23,21 @@ public:
 	bool Disable();
 	bool Enable();
 	bool IsEnabled();
+	bool IsDisabled();
 	void HoldPosition();
 	void StandStill();
 	void Move(FullCommand cmd);
 	void Handwheel(int axis_selected, double cmd[5]);
-	void SingleAxisMove(AxisNum axis_index, double cmd, OpMode mode);
-	void ReturnToZeroPoint(AxisNum axis_index);
+	void SingleAxisMove(AxisOrder axis_index, double cmd, OpMode mode);
+	void SingleAxisMove(AxisOrder axis_index, FullCommand cmd, bool is_additive_torque_implemented);
+	void ReturnToZeroPoint(AxisOrder axis_index);
 	void ResetInterpolator(OpMode mode);
 	void SwitchOpMode(OpMode mode);
 	bool IsOpModeSwitched();
 
-	AxisGroupState SafetyCheck();
+	void ClearError();
+	void QuickStop();
 
-	double m_FdbPos[kMaxAxisNum];
-	double m_FdbVel[kMaxAxisNum];
-	double m_FdbTor[kMaxAxisNum];
-	OpMode m_CurrentOpMode[kMaxAxisNum];
 	double m_GantryDeviation;
 	double m_InitPos_Handwheel[kMaxAxisNum];
 };

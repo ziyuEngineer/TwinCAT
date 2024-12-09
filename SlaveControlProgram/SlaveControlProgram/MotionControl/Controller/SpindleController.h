@@ -41,8 +41,7 @@ public:
 	void SpindleSwitchOpMode(OpMode mode);
 	bool IsSpindleOpModeSwitched();
 	void SpindleResetInterpolator(OpMode mode);
-	// Safety Module
-	SpindleState SpindleSafetyCheck();
+	void SpindleClearError();
 
 	// RPC
 	SpindleVelLimit m_SpindleVelLimit;

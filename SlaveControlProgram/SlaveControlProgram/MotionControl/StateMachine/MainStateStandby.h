@@ -1,6 +1,7 @@
 #pragma once
 #include "MainStateMachine.h"
 #include "MainStateBuffering.h"
+#include "MainStateFault.h"
 
 class MainStateStandby : public MainStateMachine
 {
@@ -21,7 +22,7 @@ public:
             }
         }
 
-        if (s_pController->IsManualModeSelected())
+        if (s_pController->IsManualModeSelected() && IsSafeToTransitState())
         {
             transit<MainStateManual>();
         }
@@ -42,9 +43,30 @@ public:
 
     void react(EventContinuousExecution const& event) override
     {
-        state<MainStateBuffering>().SetMinDataLengthToStart(event.minDataToStart);
-        state<MainStateBuffering>().SetAxisGroupOpMode(event.axisgroupOpMode);
-        transit<MainStateBuffering>();
+        if (IsSafeToTransitState())
+        {
+            state<MainStateBuffering>().SetMinDataLengthToStart(event.minDataToStart);
+            state<MainStateBuffering>().SetAxisGroupOpMode(event.axisgroupOpMode);
+            transit<MainStateBuffering>();
+        }
+    }
+
+    void react(EventRequestEnterFaultState const&) override
+    {
+        transit<MainStateFault>();
+    }
+
+    void react(EventRequestEnterRecoveryState const&) override
+    {
+        transit<MainStateRecovery>();
+    }
+
+    void react(EventRequestEnterDisabledState const&) override // Invoked by Safety module
+    {
+        s_pController->DeselectServoButtonAutomatically();
+        s_pController->RequestAxisGroupServoOff();
+        s_pController->RequestSpindleDisable();
+        transit<MainStateDisabled>();
     }
 
     void exit() override

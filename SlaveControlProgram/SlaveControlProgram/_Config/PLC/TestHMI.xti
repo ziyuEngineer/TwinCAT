@@ -115,6 +115,86 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
+			<Name GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}" PersistentType="true">SystemState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[ePreStandby]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eManual]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eBuffering]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eContinuousExecution]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eTest]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eRecovery]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<Hides>
+				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
+				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
+				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
+				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
+				<Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}"/>
+				<Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}"/>
+				<Hide GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}"/>
+				<Hide GUID="{833B279D-60BB-4E3E-9B42-E6EDF428F330}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{027C9C33-01AD-4189-9A4E-B1392F3124FB}">SafetyState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eSafetyStateNormal]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSafetyStateWarning]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSafetyStateEmergency]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSafetyStateFault]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eSafetyStateRecovery]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
 			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
 			<BitSize>512</BitSize>
 			<SubItem>
@@ -177,7 +257,7 @@
 		</DataType>
 	</DataTypes>
 	<Project GUID="{45018C8C-7E4F-4B7A-BF7E-E1AA09CAA9F9}" Name="TestHMI" PrjFilePath="..\..\TestHMI\TestHMI.plcproj" TmcFilePath="..\..\TestHMI\TestHMI.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{AB4683B8-0D4D-0FC3-7368-CADDF4CDCDD4}">
+		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{30B7674F-C298-F3C3-0260-E3A5CC8D22CE}">
 			<Name>TestHMI Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
@@ -190,9 +270,25 @@
 					<Name>MAIN.TestSpindleState</Name>
 					<Type GUID="{DF678954-0CC7-4B57-A830-AD3AD6D5FFCE}">SpindleState</Type>
 				</Var>
+				<Var>
+					<Name>MAIN.TestMainState</Name>
+					<Type GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}">SystemState</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.TestSafetyStatus</Name>
+					<Type GUID="{027C9C33-01AD-4189-9A4E-B1392F3124FB}">SafetyState</Type>
+				</Var>
 			</Vars>
 			<Vars VarGrpType="2" AreaNo="1">
 				<Name>TestHMI Outputs</Name>
+				<Var>
+					<Name>MAIN.Recovery</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.ContinuousMoving</Name>
+					<Type>BOOL</Type>
+				</Var>
 				<Var>
 					<Name>MAIN.MockPanel</Name>
 					<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
@@ -205,12 +301,12 @@
 					<ManualConfig>
 						<OTCID>#x02010080</OTCID>
 					</ManualConfig>
-					<Priority>16</Priority>
+					<Priority>18</Priority>
 					<CycleTime>10000000</CycleTime>
 				</Context>
 			</Contexts>
 			<TaskPouOids>
-				<TaskPouOid Prio="16" OTCID="#x08502041"/>
+				<TaskPouOid Prio="18" OTCID="#x08502041"/>
 			</TaskPouOids>
 		</Instance>
 	</Project>
@@ -218,12 +314,19 @@
 		<OwnerA Name="TestHMI Instance">
 			<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
 				<Link VarA="TestHMI Outputs^MAIN.MockPanel" VarB="Inputs^MockPanel"/>
+				<Link VarA="TestHMI Outputs^MAIN.Recovery" VarB="Inputs^RecoveryButton"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+				<Link VarA="TestHMI Inputs^MAIN.TestMainState" VarB="Outputs^MainState"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
-				<Link VarA="TestHMI Inputs^MAIN.TestSpindleState" VarB="Outputs^SpindleState"/>
+				<Link VarA="TestHMI Inputs^MAIN.TestSpindleState" VarB="Outputs^StateSpindle"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
-				<Link VarA="TestHMI Inputs^MAIN.TestAxisGroupState" VarB="Outputs^AxisGroupState"/>
+				<Link VarA="TestHMI Inputs^MAIN.TestAxisGroupState" VarB="Outputs^StateAxisGroup"/>
+			</OwnerB>
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+				<Link VarA="TestHMI Inputs^MAIN.TestSafetyStatus" VarB="Outputs^SafetyStatus"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

@@ -128,7 +128,7 @@
 								<Data type="uint16">0.0370</Data>
 							</Parameter>
 							<Parameter>
-								<Comment>Winding resistance Ph-Ph 20?C</Comment>
+								<Comment>Winding resistance Ph-Ph 20癈</Comment>
 								<Name>R</Name>
 								<Data type="uint16">39.4</Data>
 							</Parameter>
@@ -253,7 +253,7 @@
 							<Parameter>
 								<Comment>Motor temp sensor R(T)</Comment>
 								<Name>TempSensorR(T)</Name>
-								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="?C">
+								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="癈">
 									<item>-40.0</item>
 									<item>-15.5</item>
 									<item>9.0</item>
@@ -436,7 +436,7 @@
 								<Data type="uint16">0.0370</Data>
 							</Parameter>
 							<Parameter>
-								<Comment>Winding resistance Ph-Ph 20?C</Comment>
+								<Comment>Winding resistance Ph-Ph 20癈</Comment>
 								<Name>R</Name>
 								<Data type="uint16">39.4</Data>
 							</Parameter>
@@ -561,7 +561,7 @@
 							<Parameter>
 								<Comment>Motor temp sensor R(T)</Comment>
 								<Name>TempSensorR(T)</Name>
-								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="?C">
+								<DataTable type="int16[]" unitPrefix="-1" unitSiNumerator="癈">
 									<item>-40.0</item>
 									<item>-15.5</item>
 									<item>9.0</item>
@@ -709,6 +709,9 @@
 					<InitCmd DriveNo="1" IDN="32861" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="0" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
 					<InitCmd DriveNo="1" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
+					<InitCmd DriveNo="0" IDN="33088" MotorDataLevel="0" DisableMode="0">
+						<RetainData>24002400d6000600ca0002002c9d5b002c9d5b000000000000000000000000002260000000000000</RetainData>
+					</InitCmd>
 					<InitCmd DriveNo="0" IDN="33093" MotorDataLevel="0" DisableMode="0">
 						<RetainData>16001a004a756e2020322032303232202c2031363a32353a3539</RetainData>
 					</InitCmd>
@@ -946,12 +949,10 @@
 			<MBoxUserCmdData>020005001800000011000000000000000000000000000000000000000000000023400282000000000c000c0001000000f401e803bc02000056656c6f63697479206f6273657276657200</MBoxUserCmdData>
 			<MBoxUserCmdData>004005000a0000001e0000000000000000000000000000000000000000000000034030810000000001005265706f727420646961676e6f737469637320696e666f726d6174696f6e00</MBoxUserCmdData>
 			<MBoxUserCmdData>004005000a0000001e0000000000000000000000000000000000000000000000234030810000000001005265706f727420646961676e6f737469637320696e666f726d6174696f6e00</MBoxUserCmdData>
-			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000034021000000000001005365636f6e64617279206f7065726174696f6e206d6f6465203100</MBoxUserCmdData>
-			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000034022000000000002005365636f6e64617279206f7065726174696f6e206d6f6465203200</MBoxUserCmdData>
 			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000234021000000000001005365636f6e64617279206f7065726174696f6e206d6f6465203100</MBoxUserCmdData>
 			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000234022000000000002005365636f6e64617279206f7065726174696f6e206d6f6465203200</MBoxUserCmdData>
-			<MBoxUserCmdData>02000500140000001c0000000000000000000000000000000000000000000000234076820000000008000800040000000000803f436f6767696e6720636f6d70656e736174696f6e20636f6e74726f6c00</MBoxUserCmdData>
-			<MBoxUserCmdData>02000500140000001c0000000000000000000000000000000000000000000000034076820000000008000800040000000000803f436f6767696e6720636f6d70656e736174696f6e20636f6e74726f6c00</MBoxUserCmdData>
+			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000034021000000000001005365636f6e64617279206f7065726174696f6e206d6f6465203100</MBoxUserCmdData>
+			<MBoxUserCmdData>020005000a0000001a0000000000000000000000000000000000000000000000034022000000000002005365636f6e64617279206f7065726174696f6e206d6f6465203200</MBoxUserCmdData>
 			<Pdo Name="AT 1" Index="#x0010" Flags="#x0001" SyncMan="3">
 				<Entry Name="Drive status word" BitLen="16" Index="#x0087" Flags="#x00000800">
 					<Type>UINT</Type>
@@ -959,25 +960,25 @@
 				<Entry Name="Position feedback 1 value (motor feedback)" BitLen="32" Index="#x0033">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
-					<Type>INT</Type>
+				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
+					<Type>DINT</Type>
 				</Entry>
 				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
 					<Type>INT</Type>
 				</Entry>
-				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
-					<Type>DINT</Type>
+				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
+					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Class 1 diagnostic (C1D)" BitLen="16" Index="#x000b">
 					<Type>INT</Type>
 				</Entry>
-				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
-					<Type>DINT</Type>
-				</Entry>
 				<Entry Name="Effective velocity command value" BitLen="32" Index="#x81f8">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
+				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
 					<Type>INT</Type>
 				</Entry>
 			</Pdo>
@@ -988,25 +989,25 @@
 				<Entry Name="Position feedback 1 value (motor feedback)" BitLen="32" Index="#x0033">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
-					<Type>INT</Type>
-				</Entry>
-				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
+				<Entry Name="Class 1 diagnostic (C1D)" BitLen="16" Index="#x000b">
 					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Velocity feedback 1 value" BitLen="32" Index="#x0028">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Class 1 diagnostic (C1D)" BitLen="16" Index="#x000b">
+				<Entry Name="Torque/force feedback value" BitLen="16" Index="#x0054">
 					<Type>INT</Type>
 				</Entry>
-				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
-					<Type>DINT</Type>
+				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
+					<Type>INT</Type>
 				</Entry>
 				<Entry Name="Effective velocity command value" BitLen="32" Index="#x81f8">
 					<Type>DINT</Type>
 				</Entry>
-				<Entry Name="Effective torque/force command value" BitLen="16" Index="#x81c6">
+				<Entry Name="Effective position command value" BitLen="32" Index="#x822a">
+					<Type>DINT</Type>
+				</Entry>
+				<Entry Name="Digital inputs, state" BitLen="16" Index="#x8321">
 					<Type>INT</Type>
 				</Entry>
 			</Pdo>

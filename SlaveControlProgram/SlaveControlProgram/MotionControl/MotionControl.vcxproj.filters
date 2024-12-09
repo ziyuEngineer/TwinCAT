@@ -43,6 +43,9 @@
     <Filter Include="StateMachine\MainState">
       <UniqueIdentifier>{cac2939e-f47e-4481-b9f8-e84b56011f38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StateMachine\Safety">
+      <UniqueIdentifier>{e8e1f0c6-50c0-4171-875d-dc2e24180fc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -147,17 +150,11 @@
     <ClInclude Include="StateMachine\FsmCommon.h">
       <Filter>StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine\AxisGroupRecovery.h">
-      <Filter>StateMachine\AxisGroup</Filter>
-    </ClInclude>
     <ClInclude Include="CommandProcess\CommandManager.h">
       <Filter>CommandProcess</Filter>
     </ClInclude>
     <ClInclude Include="Common Files\Matrix.h">
       <Filter>Common Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine\AxisGroupLimitViolation.h">
-      <Filter>StateMachine\AxisGroup</Filter>
     </ClInclude>
     <ClInclude Include="ModuleSpindle.h">
       <Filter>Header Files</Filter>
@@ -177,7 +174,7 @@
     <ClInclude Include="StateMachine\SpindleLocate.h">
       <Filter>StateMachine\Spindle</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\CommandController.h">
+    <ClInclude Include="Controller\MainController.h">
       <Filter>Controller</Filter>
     </ClInclude>
     <ClInclude Include="StateMachine\MainStateMachine.h">
@@ -218,6 +215,27 @@
     </ClInclude>
     <ClInclude Include="StateMachine\MainStateDisabled.h">
       <Filter>StateMachine\MainState</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateMachine.h">
+      <Filter>StateMachine\Safety</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\SafetyController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateNormal.h">
+      <Filter>StateMachine\Safety</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateRecovery.h">
+      <Filter>StateMachine\Safety</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateFault.h">
+      <Filter>StateMachine\Safety</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateWarning.h">
+      <Filter>StateMachine\Safety</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\SafetyStateEmergency.h">
+      <Filter>StateMachine\Safety</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,11 +305,17 @@
     <ClCompile Include="ModuleAxisGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controller\CommandController.cpp">
+    <ClCompile Include="Controller\MainController.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
     <ClCompile Include="StateMachine\MainStateMachine.cpp">
       <Filter>StateMachine\MainState</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine\SafetyStateMachine.cpp">
+      <Filter>StateMachine\Safety</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\SafetyController.cpp">
+      <Filter>Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,8 +12,6 @@ public:
 
     void react(EventCycleUpdate const&) override
     {
-        SafetyCheck();
-
         s_pController->AxisGroupStandStill();
     }
 
@@ -34,5 +32,10 @@ public:
     {
         state<AxisGroupPreContinuousMoving>().SetMovingOpMode(event.requestMode);
         transit<AxisGroupPreContinuousMoving>();
+    }
+
+    void react(EventAxisGroupEnterFault const&) override
+    {
+        transit<AxisGroupFault>();
     }
 };

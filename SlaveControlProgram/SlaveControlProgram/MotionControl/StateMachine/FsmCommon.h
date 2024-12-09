@@ -37,6 +37,12 @@ struct EventSpindleSetLimit : tinyfsm::Event
 	SpindleVelLimit spindleVelLimit;
 };
 
+struct EventSpindleEnterFault : tinyfsm::Event
+{};
+
+struct EventSpindleResetError : tinyfsm::Event
+{};
+
 // AxisGroup
 //
 // Quit Disabled state and Enter PreStandby state
@@ -63,12 +69,7 @@ struct EventAxisGroupContinuouslyMove : tinyfsm::Event
 struct EventAxisGroupStop : tinyfsm::Event
 {};
 
-// Quit Recovery state and Enter Standby state 
-struct EventAxisGroupExitRecoveryState : tinyfsm::Event
-{};
-
-// Quit LimitViolation state and Enter Recovery state 
-struct EventAxisGroupEnterRecoveryState : tinyfsm::Event
+struct EventAxisGroupEnterFault : tinyfsm::Event
 {};
 
 struct EventAxisGroupResetError : tinyfsm::Event
@@ -89,4 +90,29 @@ struct EventContinuousExecution : tinyfsm::Event
 };
 
 struct EventStopContinuousMoving : tinyfsm::Event
+{};
+
+struct EventRequestEnterRecoveryState : tinyfsm::Event
+{};
+
+struct EventRequestExitRecoveryState : tinyfsm::Event
+{};
+
+struct EventRequestEnterFaultState : tinyfsm::Event
+{};
+
+struct EventRequestExitFaultState : tinyfsm::Event
+{};
+
+struct EventRequestEnterStandbyState : tinyfsm::Event
+{};
+
+struct EventRequestEnterDisabledState : tinyfsm::Event
+{};
+
+// Safety Module
+struct EventRequestSafetyEnterRecoveryState : tinyfsm::Event
+{};
+
+struct EventRequestSafetyExitRecoveryState : tinyfsm::Event
 {};

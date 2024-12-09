@@ -24,8 +24,19 @@ namespace Driver
 	{
 		if (m_DriverParam->AbsEncRes > kEpsilon) // Avoid dividing zero error
 		{
-			return static_cast<double>(m_FdbPosVal - m_DriverParam->AbsZeroPos) / static_cast<double>(m_DriverParam->AbsEncRes)
-				* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
+			switch (m_DriverParam->MoveType)
+			{
+			case 0: // linear
+				return static_cast<double>(m_FdbPosVal - m_DriverParam->AbsZeroPos) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
+				break;
+			case 1: // rotate
+				m_MultiTurnNum = int(m_FdbPosVal / m_DriverParam->AbsEncRes);
+
+				return static_cast<double>(m_FdbPosVal % m_DriverParam->AbsEncRes) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) * kFullCircle / m_DriverParam->TransmissionRatio;
+				break;
+			}
 		}
 		else
 		{
@@ -86,12 +97,13 @@ namespace Driver
 	 */
 	void CDriver::SetTargetTorque(double cmd_tor)
 	{
-		/*double tor_m = _jnt_tor / m_DriverParam->reduction_ratio;
-		double tor_i = tor_m / m_DriverParam->tor_cons;
-		short tor_pdo = static_cast<short>(tor_i * 1000 / m_DriverParam->rated_curr * m_DriverParam->tor_dir);*/
-		
 		short tor_pdo = static_cast<short>(cmd_tor) * m_DriverParam->TorDir + m_DriverParam->AdditiveTorque;
 		m_TargetTor = CLAMP(tor_pdo, -m_DriverParam->TorPdoMax, m_DriverParam->TorPdoMax);
+	}
+
+	void CDriver::SetAdditiveTorque(double additive_tor)
+	{
+		m_AdditiveTor = static_cast<short>(additive_tor) * m_DriverParam->TorDir;
 	}
 
 	/**
@@ -101,9 +113,20 @@ namespace Driver
 	 */
 	void CDriver::SetTargetPosition(double cmd_pos)
 	{
-		m_TargetPos = static_cast<long>(cmd_pos * static_cast<double>(m_DriverParam->AbsEncRes)
-			* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio)
-			+ m_DriverParam->AbsZeroPos;
+		switch (m_DriverParam->MoveType)
+		{
+		case 0: // linear
+			m_TargetPos = static_cast<long>(cmd_pos * static_cast<double>(m_DriverParam->AbsEncRes)
+				* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio)
+				+ m_DriverParam->AbsZeroPos;
+			break;
+
+		case 1: // rotate
+			double delta_circle = cmd_pos / kFullCircle;
+			
+			m_TargetPos = static_cast<long>((m_MultiTurnNum + delta_circle) * static_cast<double>(m_DriverParam->AbsEncRes));
+			break;
+		}
 	}
 
 	/**
@@ -259,6 +282,59 @@ namespace Driver
 
 	}
 
+	DriverStatus CDriver::GetActualDriverStatus()
+	{
+		if (!IsDriverShielded())
+		{
+			switch (m_DriverParam->DriverType)
+			{
+			case 0:
+				return GetDriverStatus_Beckhoff();
+				break;
+			case 1:
+				return GetDriverStatus_General();
+				break;
+			}
+		}
+		else
+		{
+			return DriverStatus::DriverWorking;
+		}
+	}
+
+	DriverStatus CDriver::GetDriverStatus_Beckhoff()
+	{
+		if (IsFaultState() || GetDriverState_Beckhoff() == DriverState::eShutDownError)
+		{
+			return DriverStatus::DriverFault;
+		}
+		else if (GetDriverState_Beckhoff() == DriverState::eReadyToOperate)
+		{
+			return DriverStatus::DriverWorking;
+		}
+		else
+		{
+			return DriverStatus::DriverDisabled;
+		}
+	}
+
+	DriverStatus CDriver::GetDriverStatus_General()
+	{
+		if (IsFaultState() || GetDriverState_General() == DriverStateGeneral::eDriverFault
+			|| GetDriverState_General() == DriverStateGeneral::eFaultReactionActive)
+		{
+			return DriverStatus::DriverFault;
+		}
+		else if (GetDriverState_General() == DriverStateGeneral::eOperationEnabled)
+		{
+			return DriverStatus::DriverWorking;
+		}
+		else
+		{
+			return DriverStatus::DriverDisabled;
+		}
+	}
+
 	void CDriver::ControlUnitSync()
 	{
 		switch (m_DriverParam->DriverType)
@@ -274,21 +350,21 @@ namespace Driver
 
 	void CDriver::ControlUnitSync_General()
 	{
-		if (GetDriverStateGeneral() == DriverStateGeneral::eNotReadyToSwitchOn)
+		if (GetDriverState_General() == DriverStateGeneral::eNotReadyToSwitchOn)
 		{
 			m_ControlWord = ControlWordGeneral::eDisableVoltage;
 		}
-		else if (GetDriverStateGeneral() == DriverStateGeneral::eSwitchOnDisabled
-			|| GetDriverStateGeneral() == DriverStateGeneral::eSwitchOnDisabled + DriverStateGeneral::eQuickStopBit)
+		else if (GetDriverState_General() == DriverStateGeneral::eSwitchOnDisabled
+			|| GetDriverState_General() == DriverStateGeneral::eSwitchOnDisabled + DriverStateGeneral::eQuickStopBit)
 		{
 			m_ControlWord = ControlWordGeneral::eShutdown;
 		}
-		else if (GetDriverStateGeneral() == DriverStateGeneral::eReadyToSwitchOn)
+		else if (GetDriverState_General() == DriverStateGeneral::eReadyToSwitchOn)
 		{
 			m_ControlWord = ControlWordGeneral::eSwitchOn;
 		}
-		else if (GetDriverStateGeneral() == DriverStateGeneral::eDriverFault
-			|| GetDriverStateGeneral() == DriverStateGeneral::eDriverFault + DriverStateGeneral::eQuickStopBit)
+		else if (GetDriverState_General() == DriverStateGeneral::eDriverFault
+			|| GetDriverState_General() == DriverStateGeneral::eDriverFault + DriverStateGeneral::eQuickStopBit)
 		{
 			m_ControlWord = ControlWordGeneral::eFaultReset;
 		}
@@ -325,7 +401,7 @@ namespace Driver
 	bool CDriver::Enable_Beckhoff()
 	{
 		bool on_flag = false;
-		if (GetDriverState() == DriverState::ePowerStageLocked)
+		if (GetDriverState_Beckhoff() == DriverState::ePowerStageLocked)
 		{
 			if (m_Flip)
 			{
@@ -338,7 +414,7 @@ namespace Driver
 				m_Flip = !m_Flip;
 			}
 		}
-		else if (GetDriverState() == DriverState::eReadyToOperate)
+		else if (GetDriverState_Beckhoff() == DriverState::eReadyToOperate)
 		{
 			on_flag = true;
 		}
@@ -350,11 +426,11 @@ namespace Driver
 	{
 		bool on_flag = false;
 
-		if (GetDriverStateGeneral() == DriverStateGeneral::eSwitchedOn)
+		if (GetDriverState_General() == DriverStateGeneral::eSwitchedOn)
 		{
 			m_ControlWord = ControlWordGeneral::eEnableOperation;
 		}
-		else if (GetDriverStateGeneral() == DriverStateGeneral::eOperationEnabled)
+		else if (GetDriverState_General() == DriverStateGeneral::eOperationEnabled)
 		{
 			on_flag = true;
 		}
@@ -372,7 +448,6 @@ namespace Driver
 	{
 		if (!IsDriverShielded())
 		{
-			// return Disable_Beckhoff();
 			switch (m_DriverParam->DriverType)
 			{
 			case 0:
@@ -395,7 +470,7 @@ namespace Driver
 		bool off_flag = false;
 		m_ControlWord = MasterControlWord::eDriveOff;
 
-		if (GetDriverState() == DriverState::ePowerStageLocked)
+		if (GetDriverState_Beckhoff() == DriverState::ePowerStageLocked)
 		{
 			off_flag = true;
 		}
@@ -409,12 +484,39 @@ namespace Driver
 
 		m_ControlWord = ControlWordGeneral::eDisableOperation;
 
-		if (GetDriverStateGeneral() == DriverStateGeneral::eSwitchedOn)
+		if (GetDriverState_General() == DriverStateGeneral::eSwitchedOn)
 		{
 			off_flag = true;
 		}
 
 		return off_flag;
+	}
+
+	void CDriver::ClearError()
+	{
+		switch (m_DriverParam->DriverType)
+		{
+		case 0:
+			ClearError_Beckhoff();
+			break;
+		case 1:
+			ClearError_General();
+			break;
+		}
+	}
+
+	void CDriver::ClearError_Beckhoff()
+	{
+		Enable_Beckhoff();
+	}
+
+	void CDriver::ClearError_General()
+	{
+		if (GetDriverState_General() == DriverStateGeneral::eDriverFault
+			|| GetDriverState_General() == DriverStateGeneral::eDriverFault + DriverStateGeneral::eQuickStopBit)
+		{
+			m_ControlWord = ControlWordGeneral::eFaultReset;
+		}
 	}
 
 	/**
@@ -430,56 +532,7 @@ namespace Driver
 
 	bool CDriver::IsEmergencyState()
 	{
-		return (GetDriverState() == DriverState::eLogicReadyForPowerOn);
-	}
-
-	/**
-	 * @brief Check if the position exceeds the soft limits.
-	 *
-	 * @return true
-	 * @return false
-	 */
-	bool CDriver::IsSoftLimitExceeded()
-	{
-		if (SIGN(m_DriverParam->AbsEncDir) == 1)
-		{
-			return (m_FdbPosVal < m_DriverParam->PosLowerLimit || m_FdbPosVal > m_DriverParam->PosUpperLimit);
-		}
-		else
-		{
-			return (m_FdbPosVal > m_DriverParam->PosLowerLimit || m_FdbPosVal < m_DriverParam->PosUpperLimit);
-		}
-	}
-
-	/**
-	 * @brief Check if the position exceeds the hard limits.
-	 * Normally, m_DigitalInput = 15(2#1111), 
-	 * if optoelectronic switch connected to Channel 0 is blocked, m_DigitalInput = 14(2#1110); 
-	 * if optoelectronic switch connected to Channel 1 is blocked, m_DigitalInput = 13(2#1101); 
-	 * and so on.
-	 * 
-	 * @return true
-	 * @return false
-	 */
-	bool CDriver::IsHardLimitExceeded()
-	{
-		return (m_DigitalInput == m_DigitalMask - (1 << m_DriverParam->NegativeHardBit)
-			|| m_DigitalInput == m_DigitalMask - (1 << m_DriverParam->PositiveHardBit));
-	}
-
-	/**
-	 * @brief Check if the position exceeds the hard or soft limits.
-	 *
-	 * @return true
-	 * @return false
-	 */
-	bool CDriver::IsLimitExceeded()
-	{
-		if (!IsDriverShielded())
-		{
-			return (IsHardLimitExceeded() || IsSoftLimitExceeded());
-		}
-		else { return false; }
+		return (GetDriverState_Beckhoff() == DriverState::eLogicReadyForPowerOn);
 	}
 
 	/**
@@ -502,6 +555,19 @@ namespace Driver
 		return m_WarningCode;
 	}
 
+	void CDriver::QuickStop()
+	{
+		switch (m_DriverParam->DriverType)
+		{
+		case 0:
+			//ClearError_Beckhoff();
+			break;
+		case 1:
+			m_ControlWord = ControlWordGeneral::eQuickStop;
+			break;
+		}
+	}
+
 	bool CDriver::IsDriverReady()
 	{
 		if (!IsDriverShielded())
@@ -509,10 +575,10 @@ namespace Driver
 			switch (m_DriverParam->DriverType)
 			{
 			case 0:
-				return (GetDriverState() != DriverState::eNotReadyForPowerUp);
+				return (GetDriverState_Beckhoff() != DriverState::eNotReadyForPowerUp);
 				break;
 			case 1:
-				return (GetDriverStateGeneral() != DriverStateGeneral::eNotReadyToSwitchOn);
+				return (GetDriverState_General() != DriverStateGeneral::eNotReadyToSwitchOn);
 				break;
 			}
 		}
@@ -537,10 +603,27 @@ namespace Driver
 			switch (m_DriverParam->DriverType)
 			{
 			case 0:
-				return (GetDriverState() == DriverState::eReadyToOperate);
+				return (GetDriverState_Beckhoff() == DriverState::eReadyToOperate);
 				break;
 			case 1:
-				return (GetDriverStateGeneral() == DriverStateGeneral::eOperationEnabled);
+				return (GetDriverState_General() == DriverStateGeneral::eOperationEnabled);
+				break;
+			}
+		}
+		else { return true; }
+	}
+
+	bool CDriver::IsDisableState()
+	{
+		if (!IsDriverShielded())
+		{
+			switch (m_DriverParam->DriverType)
+			{
+			case 0:
+				return (GetDriverState_Beckhoff() == DriverState::ePowerStageLocked);
+				break;
+			case 1:
+				return (GetDriverState_General() == DriverStateGeneral::eReadyToSwitchOn);
 				break;
 			}
 		}
@@ -561,17 +644,18 @@ namespace Driver
 	 * Search S-0-0135 Drive status word in https://infosys.beckhoff.com/index_en.htm for details of StatusWord
 	 * @return short 
 	 */
-	DriverState CDriver::GetDriverState()
+	DriverState CDriver::GetDriverState_Beckhoff()
 	{
-		return static_cast<DriverState>(m_StatusWord & DriverState::eReadyToOperate);
+		//return static_cast<DriverState>(m_StatusWord & DriverState::eReadyToOperate);
+		return static_cast<DriverState>(m_StatusWord & m_DriverStateBeckhoffMask);
 	}
 
-	DriverStateGeneral CDriver::GetDriverStateGeneral()
+	DriverStateGeneral CDriver::GetDriverState_General()
 	{
 		return static_cast<DriverStateGeneral>(m_StatusWord & m_DriverStateGeneralMask);
 	}
 
-	void CDriver::MapParameters(DriverInput* driver_input, DriverOutput* driver_output, MotionControlInfo* driver_param)
+	void CDriver::MapParameters(DriverInput* driver_input, DriverOutput* driver_output, const MotionControlInfo* driver_param)
 	{
 		m_DriverInput = driver_input;
 		m_DriverOutput = driver_output;
@@ -589,9 +673,8 @@ namespace Driver
 			m_FdbTorVal = m_DriverInput->ActualTor;
 
 			m_ErrorCode = m_DriverInput->ErrorCode;
-			m_WarningCode = m_DriverInput->WarningCode;
+			//m_WarningCode = m_DriverInput->WarningCode;
 
-			m_DigitalInput = m_DriverInput->DigitalInput_1;
 			m_ActualOpMode = m_DriverInput->ActualOpMode;
 		}
 	}
@@ -605,7 +688,7 @@ namespace Driver
 			m_DriverOutput->TargetVelocity = m_TargetVel;
 			m_DriverOutput->TargetTorque = m_TargetTor;
 			m_DriverOutput->OperationMode = m_OperationMode;
+			m_DriverOutput->AdditiveTorque = m_AdditiveTor;
 		}
-
 	}
 }

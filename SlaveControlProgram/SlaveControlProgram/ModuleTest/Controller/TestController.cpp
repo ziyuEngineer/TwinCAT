@@ -4,11 +4,13 @@
 
 ISpindleInterface* CTestController::m_pSpindleInterface = nullptr;
 IAxisGroupInterface* CTestController::m_pAxisGroupInterface = nullptr;
+ISafetyInterface* CTestController::m_pSafetyInterface = nullptr;
 
 CTestController::CTestController()
 {
 	m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
 	m_SpindleTestCase = SpindleCase::SpindleNull;
+	m_SafetyTestCase = SafetyModuleCase::SafetyNull;
 }
 
 CTestController::~CTestController()
@@ -26,6 +28,7 @@ void CTestController::Run()
 	ReactionToMockPanel();
 	AxisGroupTest();
 	SpindleTest();
+	SafetyTest();
 }
 
 void CTestController::ReactionToMockPanel()
@@ -33,6 +36,8 @@ void CTestController::ReactionToMockPanel()
 	ReactionToServoButton();
 	ReactionToSpindleButton();
 	ReactionToHandwheelButton();
+	ReactionToRecoveryButton();
+	ReactionToContinuousButton();
 }
 
 void CTestController::ReactionToServoButton()
@@ -142,6 +147,65 @@ void CTestController::ReactionToHandwheelButton()
 	}
 }
 
+void CTestController::ReactionToRecoveryButton()
+{
+	if (m_pInputs->RecoveryButton)
+	{
+		if (!m_IsRecoverSelected)
+		{
+			m_SafetyTestCase = SafetyModuleCase::SafetyEnterRecovery;
+			m_IsRecoverSelected = true;
+		}
+		else
+		{
+			m_SafetyTestCase = SafetyModuleCase::SafetyNull;
+		}
+	}
+	else
+	{
+		if (m_IsRecoverSelected)
+		{
+			m_SafetyTestCase = SafetyModuleCase::SafetyExitRecovery;
+			m_IsRecoverSelected = false;
+		}
+		else
+		{
+			m_SafetyTestCase = SafetyModuleCase::SafetyNull;
+		}
+	}
+}
+
+void CTestController::ReactionToContinuousButton()
+{
+	if (m_IsOperationAllowed)
+	{
+		if (m_pInputs->ContinuousButton)
+		{
+			if (!m_IsContinuousSelected)
+			{
+				m_AxisGroupTestCase = AxisGroupCase::AxisGroupContinuouslyMoving;
+				m_IsContinuousSelected = true;
+			}
+			else
+			{
+				m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+			}
+		}
+		else
+		{
+			if (m_IsContinuousSelected)
+			{
+				m_AxisGroupTestCase = AxisGroupCase::AxisGroupStopContinuouslyMoving;
+				m_IsContinuousSelected = false;
+			}
+			else
+			{
+				m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+			}
+		}
+	}
+}
+
 void CTestController::AxisGroupTest()
 {
 	switch (m_AxisGroupTestCase)
@@ -168,9 +232,11 @@ void CTestController::AxisGroupTest()
 		break;
 
 	case AxisGroupCase::AxisGroupContinuouslyMoving:
+		TestAxisGroupMove();
 		break;
 
 	case AxisGroupCase::AxisGroupStopContinuouslyMoving:
+		TestAxisGroupStop();
 		break;
 
 	default:
@@ -207,6 +273,26 @@ void CTestController::SpindleTest()
 
 	case SpindleCase::SpindleStopMoving:
 		TestSpindleStop();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CTestController::SafetyTest()
+{
+	switch (m_SafetyTestCase)
+	{
+	case SafetyModuleCase::SafetyNull:
+		break;
+
+	case SafetyModuleCase::SafetyEnterRecovery:
+		TestSafetyEnterRecovery();
+		break;
+
+	case SafetyModuleCase::SafetyExitRecovery:
+		TestSafetyExitRecovery();
 		break;
 
 	default:
@@ -314,4 +400,19 @@ void CTestController::UpdateManualMovingCommand()
 {
 	m_pOutputs->MockManualMovingCommand.SelectedAxis = m_pInputs->MockPanel.Handwheel_EnabledAxisNum;
 	memcpy(&m_pOutputs->MockManualMovingCommand.MockCommandPos, &m_pInputs->MockPanel.Handwheel_dPos, sizeof(double[5]));
+}
+
+void CTestController::UpdateContinuousMovingCommand()
+{
+
+}
+
+void CTestController::TestSafetyEnterRecovery()
+{
+	m_pSafetyInterface->EnterRecoveryState();
+}
+
+void CTestController::TestSafetyExitRecovery()
+{
+	m_pSafetyInterface->LeaveRecoveryState();
 }

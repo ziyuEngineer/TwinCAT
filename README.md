@@ -90,8 +90,8 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | MainStateManual | **EventCycleUpdate**: 若面板上加工轴未被选中，自动跳转至Standby状态；更新手摇运动指令；<br> **EventContinuousExeCution**: 设置Buffering状态的成员变量m_MinDataLengthToStart以及m_RequestAxisGroupOpMode，跳转至状态Buffering |
 | MainStateBuffering | **EventCycleUpdate**: 下位机ringbuffer存储上位机指令，若存储个数大于m_MinDataLengthToStart，面板加工按钮按下且加工轴切换至m_RequestAxisGroupOpMode，跳转至ContinuousExecution；<br> **EventStopContinuousMoving**: 清空ringbuffer，请求加工轴及主轴停止，跳转至Standby；|
 | MainStateContinuousExecution | **EventCycleUpdate**: 下位机ringbuffer存储上位机指令，更新给加工轴的指令，若接收到结束加工的指令，跳转至Standby；<br> **EventStopContinuousMoving**: 清空ringbuffer，请求加工轴及主轴停止，跳转至Standby；|
-| MainStateFault | TBD |
-| MainStateRecovery | TBD |
+| MainStateFault | **EventCycleUpdate**: 接收按钮信号，选择触发的事件，若子模块错误都被情况，跳转至Disabled；<br> **EventRequestEnterRecoveryState**: 状态跳转至Recovery；<br> **EventRequestClearSpindleFault**: 清除本状态下的Spindle错误；<br> **EventRequestClearAxisGroupFault**: 清除本状态下的AxisGroup错误；<br> **EventRequestEnterFaultState**: 更新本状态下的Spindle或者AxisGroup错误； |
+| MainStateRecovery | **EventCycleUpdate**: 更新手摇运动指令；<br> **EventRequestExitRecoveryState**: 退出Recovery，跳转至Standby；|
 
 ### Input
 
@@ -187,8 +187,10 @@ Choose Target System选项中选择激活程序的目标设备，可以是笔记
 | AxisGroupManualMoving | **EventCycleUpdate**: 执行手摇指令；<br> **EventAxisGroupDeselectAxis**: 跳转至Standby状态 |
 | AxisGroupPreContinuousMoving | **EventCycleUpdate**: 切换电机OP模式；<br> **EventAxisGroupContinuouslyMove**: OP模式切换成功后跳转至ContinuousMoving状态 |
 | AxisGroupContinuousExecution | **EventCycleUpdate**: 执行加工指令；<br> **EventAxisGroupStop**: 跳转至Standby状态 |
-| AxisGroupFault | TBD |
-| AxisGroupRecovery | TBD |
+| AxisGroupLimitViolation | **EventCycleUpdate**: 位置保持；<br> **EventAxisGroupEnterRecoveryState**: 跳转至Recovery状态 |
+| AxisGroupFault | **EventCycleUpdate**: TBD；<br> **EventAxisGroupResetError**: 清错，若清错成功，跳转至Disabled状态 |
+| AxisGroupEmergency | **EventCycleUpdate**: TBD；<br> **EventAxisGroupResetError**: 清错，若清错成功，跳转至Disabled状态 |
+| AxisGroupRecovery | **EventCycleUpdate**: 执行手摇指令；<br> **EventAxisGroupExitRecoveryState**: 跳转至Standby状态 |
 
 ### ModuleAxisGroup - Input
 

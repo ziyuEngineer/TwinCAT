@@ -14,13 +14,3 @@
 
 CSpindleController* SpindleStateMachine::s_pController = nullptr;
 FSM_INITIAL_STATE(SpindleStateMachine, SpindleIdle)
-
-void SpindleStateMachine::SafetyCheck()
-{
-    // TODO: need further consideration, Spindle should be affected when AxisGroup was in Fault state.
-    //if (s_pController->m_AxisGroupState == SystemState::eFault)
-    //{
-    //    transit<SpindleStandby>();
-    //    // Or transit<SpindleEmergency>();
-    //}
-}

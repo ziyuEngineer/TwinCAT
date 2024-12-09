@@ -30,6 +30,12 @@
     <Compile Include="VISUs\AxisGroupStateList.TcTLO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="VISUs\MainStateList.TcTLO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VISUs\SafetyStatusList.TcTLO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="VISUs\SpindleStateList.TcTLO">
       <SubType>Code</SubType>
     </Compile>

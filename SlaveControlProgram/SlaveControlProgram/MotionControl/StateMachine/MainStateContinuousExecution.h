@@ -31,6 +31,27 @@ public:
         transit<MainStateStandby>();
     }
 
+    void react(EventRequestEnterFaultState const&) override // Invoked by Safety module 
+    {
+        s_pController->EmptyRingBuffer();
+        transit<MainStateFault>();
+    }
+
+    void react(EventRequestEnterStandbyState const&) override // Invoked by Safety module
+    {
+        s_pController->EmptyRingBuffer();
+        transit<MainStateStandby>();
+    }
+
+    void react(EventRequestEnterDisabledState const&) override // Invoked by Safety module
+    {
+        s_pController->EmptyRingBuffer();
+        s_pController->DeselectServoButtonAutomatically();
+        s_pController->RequestAxisGroupServoOff();
+        s_pController->RequestSpindleDisable();
+        transit<MainStateDisabled>();
+    }
+
     void exit() override
     {
 

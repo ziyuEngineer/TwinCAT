@@ -39,6 +39,12 @@ public:
         transit<MainStateStandby>();
     }
 
+    void react(EventRequestEnterFaultState const&) override // Invoked by Safety module
+    {
+        s_pController->EmptyRingBuffer();
+        transit<MainStateFault>();
+    }
+
     void exit() override
     {
         m_IsAxisGroupOpModeSwitched = false;
@@ -58,4 +64,5 @@ public:
     {
         m_RequestAxisGroupOpMode = op_mode;
     }
+
 };

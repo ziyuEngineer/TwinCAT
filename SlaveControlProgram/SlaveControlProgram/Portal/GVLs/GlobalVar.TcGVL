@@ -2,10 +2,6 @@
 <TcPlcObject Version="1.1.0.1">
   <GVL Name="GlobalVar" Id="{70ea4246-66ef-4828-bba5-5d345edcf1b0}">
     <Declaration><![CDATA[VAR_GLOBAL CONSTANT
-	// Command related
-	MAX_BUFFER_LENGTH : UDINT:= 1024;   // max number of elements in buffer; prefer 2^n
-	BUFFER_MASK : UDINT := MAX_BUFFER_LENGTH - 1;
-	
 	// Scope server related
 	RECORD_CONFIG_PATH 		: STRING := 'C:/RecordData/ScopeServer/RecordData.tcscopex';
 	RECORD_CONFIG_XML_PATH 	: STRING := 'C:/RecordData/Settings/ScopeExporterSettings.xml';
@@ -13,16 +9,15 @@
 	SAVE_CSV_PREFIX			: STRING := 'C:/RecordData/CSV/'; 
 	
 	// Motion Control
-	MC_DRIVER_NUM        : INT := 6;
-	MC_AXIS_NUM 		 : INT := 5;
-	MC_DRIVER_MAX_NUM_PER_AXIS : INT := 2;
-	MC_DRIVER_NUM_PER_AXIS : ARRAY[0..MC_AXIS_NUM-1] OF INT := [2,1,1,1,1];
+	MC_AXIS_NUM    : INT := 5;
+	MAX_DRIVER_NUM : INT := 10;
+	ACTIVE_DRIVER_NUM : INT := 4;
 	
 	// Panel Information
 	PANEL_CHANNEL_NUM   :INT := 6;
 	CHANNEL_BUTTON_NUM  :INT := 8;
 	HANDWHEEL_FULL_SCALE :INT := 256;
-	RESET_DURATION :INT := 5;
+	RESET_DURATION :INT := 10;
 END_VAR
 
 // Define buttons of panel to improve code readability

@@ -13,6 +13,7 @@
 # *.tmc
 # *.tmcRefac
 Portal.tmc
+TestHMI.tmc
 *.library
 *.project.~u
 *.tsproj.bak

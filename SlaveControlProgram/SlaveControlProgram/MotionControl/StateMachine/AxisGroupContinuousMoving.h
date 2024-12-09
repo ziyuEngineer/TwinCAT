@@ -11,8 +11,6 @@ public:
 
     void react(EventCycleUpdate const&) override
     {
-        SafetyCheck();
-
         s_pController->AxisGroupMoving();
     }
 
@@ -24,5 +22,15 @@ public:
     void react(EventAxisGroupStop const&) override
     {
         transit<AxisGroupStandby>();
+    }
+
+    void react(EventAxisGroupEnterFault const&) override
+    {
+        transit<AxisGroupFault>();
+    }
+
+    void react(EventAxisGroupDisable const&) override
+    {
+        transit<AxisGroupDisabled>();
     }
 };
