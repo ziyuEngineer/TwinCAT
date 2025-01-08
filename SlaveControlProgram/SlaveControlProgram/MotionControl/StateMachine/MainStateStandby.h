@@ -69,6 +69,20 @@ public:
         transit<MainStateDisabled>();
     }
 
+    void react(EventRequestAxisGroupPositioning const& event) override
+    {
+        bool enabled_axis[5]{};
+
+        double pos[5]{};
+
+        for (int i = 0; i < kMaxAxisNum; i++)
+        {
+            enabled_axis[i] = event.enabled_axis[i];
+            pos[i] = event.target[i];
+        }
+        s_pController->RequestAxisGroupPositioning(enabled_axis, pos);
+    }
+
     void exit() override
     {
         if (s_pController->IsSpindleMovingPressed() != 0)

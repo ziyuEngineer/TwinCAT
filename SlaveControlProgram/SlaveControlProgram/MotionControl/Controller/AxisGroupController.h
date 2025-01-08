@@ -21,7 +21,7 @@ private:
 
 	int m_ActualAxisNum = 0;
 	int m_ActualDriverNum = 0;
-	SHORT m_DriverNumPerAxis[5] = { 0 }; // INT type in tmc
+	SHORT m_DriverNumPerAxis[kMaxAxisNum] = { 0 }; // INT type in tmc
 
 public:
 	// Cyclic Run
@@ -34,9 +34,9 @@ public:
 	bool AxisGroupInitialize();
 	void AxisGroupStandby();
 	void AxisGroupMoving();
-	//void AxisGroupGetCurrentPos();
 	void AxisGroupStandStill();
 	void AxisGroupHandwheel();
+	void AxisGroupPositioning(const bool axis_enabled[5], const double target[5]);
 	void AxisGroupLimitViolation();
 	void AxisGroupFault();
 	bool AxisGroupEnable();
@@ -50,9 +50,31 @@ public:
 	void NotifyPlcResetSoE(bool is_executed);
 	void AxisGroupClearError();
 
+	HRESULT SetSingleAxisVelLoopKp(SHORT axis, double value);
+	HRESULT SetSingleAxisVelLoopTn(SHORT axis, double value);
+	HRESULT SetSingleAxisPosLoopKv(SHORT axis, double value);
+	HRESULT GetSingleAxisVelLoopKp(SHORT axis, double& value);
+	HRESULT GetSingleAxisVelLoopTn(SHORT axis, double& value);
+	HRESULT GetSingleAxisPosLoopKv(SHORT axis, double& value);
+	void ResetTuningError();
+
+	double GetSingleAxisPosition(int axis_index);
+	void StopComputingTuningError();
+
 private:
-	// Test variables
-	double m_SimTime = 0.0;
-	double m_TestInitPos[kMaxAxisNum];
-	double m_SimTimeSpindle = 0.0;
+	// For auto tunning
+	bool m_IsTuningStart = false;
+	int m_TuneAxisNum = 0;
+	double m_VelError[kMaxAxisNum] = { 0 };
+	double m_PosError[kMaxAxisNum] = { 0 };
+	double m_LastEffectiveVelCmd;
+	double m_LastEffectivePosCmd;
+	bool AutoTuneInitialize();
+	void UpdateLastEffectiveCommand();
+	void ComputeTuningError();
+	void ComputeAccumulatedVelocityError();
+	void ComputeAccumulatedPositionError();
+
+	// For safety torque check
+	double m_LastEffectiveTorCmd[kMaxAxisNum * kMaxMotorNumPerAxis] = { 0 };
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "CommandManager.h"
+#include "Matrix.h"
 
 class CMainController
 {
@@ -79,8 +80,18 @@ public:
 	void RequestAxisGroupResetError();
 	bool IsAxisGroupOpModeChanged();
 	bool IsAxisGroupDisabled();
+	bool IsAxisGroupReadyForPositioning();
+	void RequestAxisGroupPositioning(bool moving_axis[5], double target[5]);
 
 	// Safety module
 	ULONG GetErrorCode();
 	bool IsSystemNormal();
+
+// Test
+private:
+	Matrix<50, 50> m_MatrixA;
+	Matrix<100, 100> m_MatrixB;
+	Vector<50> m_VectorB;
+	bool MatrixAssign();
+	void MatrixTest();
 };

@@ -81,25 +81,6 @@ enum SpindleState : SHORT {
 };
 #endif // !defined(_TC_TYPE_DF678954_0CC7_4B57_A830_AD3AD6D5FFCE_INCLUDED_)
 
-#if !defined(_TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_)
-#define _TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_
-enum AxisGroupState : SHORT {
-	eAxisGroupIdle = 0,
-	eAxisGroupInitialization = 1,
-	eAxisGroupDisabled = 2,
-	eAxisGroupPreStandby = 3,
-	eAxisGroupStandby = 4,
-	eAxisGroupManualMoving = 5,
-	eAxisGroupPreContinuousMoving = 6,
-	eAxisGroupContinuousMoving = 7,
-	eAxisGroupLimitViolation = 8,
-	eAxisGroupEmergency = 9,
-	eAxisGroupFault = 10,
-	eAxisGroupRecovery = 11,
-	eAxisGroupTest = 12
-};
-#endif // !defined(_TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_)
-
 #if !defined(_TC_TYPE_75816603_8B01_41ED_9F49_1001E13236B1_INCLUDED_)
 #define _TC_TYPE_75816603_8B01_41ED_9F49_1001E13236B1_INCLUDED_
 enum OpMode : SHORT {
@@ -120,19 +101,6 @@ typedef struct _MetaData
 } MetaData, *PMetaData;
 #endif // !defined(_TC_TYPE_6C52FF3C_3F1E_4DF4_B88E_56EAE4037B12_INCLUDED_)
 
-#if !defined(_TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_)
-#define _TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_
-typedef struct _NewMotionCommand
-{
-	double Pos[5];
-	double Vel[5];
-	double Acc[5];
-	double Kp[5][5];
-	double Kv[5][5];
-	double Ka[5][5];
-} NewMotionCommand, *PNewMotionCommand;
-#endif // !defined(_TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_)
-
 #if !defined(_TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_)
 #define _TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_
 typedef struct _OtherCommand
@@ -143,8 +111,79 @@ typedef struct _OtherCommand
 } OtherCommand, *POtherCommand;
 #endif // !defined(_TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_)
 
-#if !defined(_TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_)
-#define _TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_
+#if !defined(_TC_TYPE_5CBC67ED_7FEB_485B_91B9_3CE3460A4A42_INCLUDED_)
+#define _TC_TYPE_5CBC67ED_7FEB_485B_91B9_3CE3460A4A42_INCLUDED_
+typedef struct _AxisInformation
+{
+	double CurrentPos;
+	double CurrentVel;
+	SHORT CurrentTor;
+	unsigned char CurrentMode;
+	unsigned char reserved1[5];
+	double CommandPos;
+	double CommandVel;
+	SHORT CommandTor;
+	SHORT CurrentStatus;
+	unsigned char reserved2[4];
+} AxisInformation, *PAxisInformation;
+#endif // !defined(_TC_TYPE_5CBC67ED_7FEB_485B_91B9_3CE3460A4A42_INCLUDED_)
+
+#if !defined(_TC_TYPE_85615354_18AB_4F2D_A42C_B832F67F7D5F_INCLUDED_)
+#define _TC_TYPE_85615354_18AB_4F2D_A42C_B832F67F7D5F_INCLUDED_
+typedef struct _AxisGroupInformation
+{
+	AxisInformation SingleAxisInformation[6];
+	double GantryDeviation;
+} AxisGroupInformation, *PAxisGroupInformation;
+#endif // !defined(_TC_TYPE_85615354_18AB_4F2D_A42C_B832F67F7D5F_INCLUDED_)
+
+#if !defined(_TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_)
+#define _TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_
+enum AxisGroupState : SHORT {
+	eAxisGroupIdle = 0,
+	eAxisGroupInitialization = 1,
+	eAxisGroupDisabled = 2,
+	eAxisGroupPreStandby = 3,
+	eAxisGroupStandby = 4,
+	eAxisGroupManualMoving = 5,
+	eAxisGroupPreContinuousMoving = 6,
+	eAxisGroupContinuousMoving = 7,
+	eAxisGroupLimitViolation = 8,
+	eAxisGroupEmergency = 9,
+	eAxisGroupFault = 10,
+	eAxisGroupRecovery = 11,
+	eAxisGroupTest = 12,
+	eAxisGroupPositioning = 13
+};
+#endif // !defined(_TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_)
+
+#if !defined(_TC_TYPE_2AB905D5_7D46_411F_BE58_01268BBF5FBB_INCLUDED_)
+#define _TC_TYPE_2AB905D5_7D46_411F_BE58_01268BBF5FBB_INCLUDED_
+enum AxisOrder : SHORT {
+	Axis_X = 1,
+	Axis_Y = 2,
+	Axis_Z = 3,
+	Axis_A = 4,
+	Axis_C = 5,
+	Spindle = 6
+};
+#endif // !defined(_TC_TYPE_2AB905D5_7D46_411F_BE58_01268BBF5FBB_INCLUDED_)
+
+#if !defined(_TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_)
+#define _TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_
+typedef struct _NewMotionCommand
+{
+	double Pos[5];
+	double Vel[5];
+	double Acc[5];
+	double AdditivePos[5];
+	double AdditiveVel[5];
+	double AdditiveTor[5];
+} NewMotionCommand, *PNewMotionCommand;
+#endif // !defined(_TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_)
+
+#if !defined(_TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_)
+#define _TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_
 typedef struct _FullCommand
 {
 	MetaData metaData;
@@ -152,7 +191,7 @@ typedef struct _FullCommand
 	NewMotionCommand motionCommand;
 	OtherCommand otherCommand;
 } FullCommand, *PFullCommand;
-#endif // !defined(_TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_)
+#endif // !defined(_TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_)
 
 typedef struct _ModuleTestParameter
 {
@@ -167,6 +206,17 @@ typedef struct _ModuleTestInputs
 	bool RecoveryButton;
 	bool ContinuousButton;
 	unsigned char reserved1[6];
+	AxisGroupInformation TestAxisGroupInfo;
+	bool GetParamKpButton;
+	bool GetParamKvButton;
+	bool GetParamTnButton;
+	bool SetParamKpButton;
+	bool SetParamKvButton;
+	bool SetParamTnButton;
+	bool PositionY;
+	bool PositionX;
+	bool PositionZ;
+	unsigned char reserved2[7];
 } ModuleTestInputs, *PModuleTestInputs;
 
 typedef struct _ModuleTestOutputs
@@ -177,6 +227,8 @@ typedef struct _ModuleTestOutputs
 		double MockCommandPos[5];
 	} MockManualMovingCommand;
 	FullCommand MockContinuousMovingCommand;
+	double TestOutputs[10];
+	unsigned char reserved1[48];
 } ModuleTestOutputs, *PModuleTestOutputs;
 
 ///</AutoGeneratedContent>
@@ -194,15 +246,20 @@ typedef struct _ModuleTestOutputs
 TCOM_DECL_INTERFACE("a5b190d2-781f-49a4-9d2b-66ad8519040d", ISpindleInterface)
 #endif // !defined(_TC_IID_A5B190D2_781F_49A4_9D2B_66AD8519040D_INCLUDED_)
 
-#if !defined(_TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_)
-#define _TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_
-TCOM_DECL_INTERFACE("92b58e62-00d3-492f-a964-14316bc3b3cf", IAxisGroupInterface)
-#endif // !defined(_TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_)
+#if !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
+#define _TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_
+TCOM_DECL_INTERFACE("125c4828-6162-4c51-984a-e44efc60c49e", IAxisGroupInterface)
+#endif // !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
 
 #if !defined(_TC_IID_DFA7B551_502B_4085_88E7_A88921AF739F_INCLUDED_)
 #define _TC_IID_DFA7B551_502B_4085_88E7_A88921AF739F_INCLUDED_
 TCOM_DECL_INTERFACE("dfa7b551-502b-4085-88e7-a88921af739f", ISafetyInterface)
 #endif // !defined(_TC_IID_DFA7B551_502B_4085_88E7_A88921AF739F_INCLUDED_)
+
+#if !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
+#define _TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_
+TCOM_DECL_INTERFACE("125c4828-6162-4c51-984a-e44efc60c49e", IAxisGroupInterface)
+#endif // !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
 
 ///</AutoGeneratedContent>
 

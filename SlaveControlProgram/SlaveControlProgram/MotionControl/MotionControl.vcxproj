@@ -62,6 +62,7 @@
     <ClInclude Include="ModuleSpindle.h" />
     <ClInclude Include="MotionControl.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="StateMachine\AxisGroupPositioning.h" />
     <ClInclude Include="StateMachine\AxisGroupPreContinuousMoving.h" />
     <ClInclude Include="StateMachine\AxisGroupPreStandby.h" />
     <ClInclude Include="StateMachine\FsmCommon.h" />

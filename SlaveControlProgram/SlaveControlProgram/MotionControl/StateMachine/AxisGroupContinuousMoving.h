@@ -16,6 +16,7 @@ public:
 
     void exit() override 
     {
+        s_pController->StopComputingTuningError();
         s_pController->AxisGroupStandStill();
     };
 

@@ -7,6 +7,7 @@
 #include "AxisGroupPreStandby.h"
 #include "AxisGroupStandby.h"
 #include "AxisGroupManualMoving.h"
+#include "AxisGroupPositioning.h"
 #include "AxisGroupPreContinuousMoving.h"
 #include "AxisGroupContinuousMoving.h"
 #include "AxisGroupFault.h"

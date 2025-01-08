@@ -38,6 +38,9 @@ void CTestController::ReactionToMockPanel()
 	ReactionToHandwheelButton();
 	ReactionToRecoveryButton();
 	ReactionToContinuousButton();
+	ReactionToGetParamValueButton();
+	ReactionToSetParamValueButton();
+	ReactionToPositioning();
 }
 
 void CTestController::ReactionToServoButton()
@@ -141,7 +144,7 @@ void CTestController::ReactionToHandwheelButton()
 			}
 			else
 			{
-				m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+				//m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
 			}
 		}
 	}
@@ -181,7 +184,12 @@ void CTestController::ReactionToContinuousButton()
 	{
 		if (m_pInputs->ContinuousButton)
 		{
-			if (!m_IsContinuousSelected)
+			if (!m_IsPreContinuousPassed)
+			{
+				m_AxisGroupTestCase = AxisGroupCase::AxisGroupPreContinuouslyMoving;
+				m_IsPreContinuousPassed = IsAxisGroupOpModeChanged();
+			}
+			else if (m_IsPreContinuousPassed && !m_IsContinuousSelected)
 			{
 				m_AxisGroupTestCase = AxisGroupCase::AxisGroupContinuouslyMoving;
 				m_IsContinuousSelected = true;
@@ -189,6 +197,7 @@ void CTestController::ReactionToContinuousButton()
 			else
 			{
 				m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+				UpdateContinuousMovingCommand();
 			}
 		}
 		else
@@ -200,10 +209,96 @@ void CTestController::ReactionToContinuousButton()
 			}
 			else
 			{
-				m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+				//m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
 			}
 		}
 	}
+}
+
+void CTestController::ReactionToGetParamValueButton()
+{
+	if (m_pInputs->GetParamKpButton)
+	{
+		if (!m_IsGetKpButtonSelected)
+		{
+			if (TestGetSingleAxisKp()) { m_IsGetKpButtonSelected = true;}
+		}
+	}
+	else { m_IsGetKpButtonSelected = false;}
+
+	if (m_pInputs->GetParamKvButton)
+	{
+		if (!m_IsGetKvButtonSelected)
+		{
+			if (TestGetSingleAxisKv()) { m_IsGetKvButtonSelected = true; }
+		}
+	}
+	else { m_IsGetKvButtonSelected = false; }
+
+	if (m_pInputs->GetParamTnButton)
+	{
+		if (!m_IsGetTnButtonSelected)
+		{
+			if (TestGetSingleAxisTn()) { m_IsGetTnButtonSelected = true; }
+		}
+	}
+	else { m_IsGetTnButtonSelected = false; }
+}
+
+void CTestController::ReactionToSetParamValueButton()
+{
+	if (m_pInputs->SetParamKpButton)
+	{
+		if (!m_IsSetKpButtonSelected)
+		{
+			if (TestSetSingleAxisKp())
+			{
+				m_IsSetKpButtonSelected = true;
+			}
+		}
+	}
+	else { m_IsSetKpButtonSelected = false; }
+
+	if (m_pInputs->SetParamKvButton)
+	{
+		if (!m_IsSetKvButtonSelected)
+		{
+			if (TestSetSingleAxisKv())
+			{
+				m_IsSetKvButtonSelected = true;
+			}
+		}
+	}
+	else { m_IsSetKvButtonSelected = false; }
+
+	if (m_pInputs->SetParamTnButton)
+	{
+		if (!m_IsSetTnButtonSelected)
+		{
+			if (TestSetSingleAxisTn())
+			{
+				m_IsSetTnButtonSelected = true;
+			}
+		}
+	}
+	else { m_IsSetTnButtonSelected = false; }
+}
+
+void CTestController::ReactionToPositioning()
+{
+	if (m_pInputs->PositionY || m_pInputs->PositionX || m_pInputs->PositionZ)
+	{
+		if (!m_IsPositioning)
+		{
+			m_AxisGroupTestCase = AxisGroupCase::AxisGroupPositioning;
+			m_IsPositioning = true;
+		}
+		else
+		{
+			m_AxisGroupTestCase = AxisGroupCase::AxisGroupNull;
+		}
+	}
+	else { m_IsPositioning = false; }
 }
 
 void CTestController::AxisGroupTest()
@@ -231,6 +326,10 @@ void CTestController::AxisGroupTest()
 		TestAxisGroupQuitHandwheel();
 		break;
 
+	case AxisGroupCase::AxisGroupPreContinuouslyMoving:
+		TestAxisGroupChangeOpMode(OpMode::CSP); // temp use
+		break;
+
 	case AxisGroupCase::AxisGroupContinuouslyMoving:
 		TestAxisGroupMove();
 		break;
@@ -239,6 +338,10 @@ void CTestController::AxisGroupTest()
 		TestAxisGroupStop();
 		break;
 
+	case AxisGroupCase::AxisGroupPositioning:
+		TestAxisGroupPositioning();
+		break;
+	
 	default:
 		break;
 	}
@@ -386,6 +489,81 @@ bool CTestController::IsAxisGroupManualMoving()
 	return is_moving;
 }
 
+void CTestController::TestAxisGroupPositioning()
+{
+	bool enabled_axis[] = {true, true, true, true, true};
+	
+	double pos[] = {120.0, 300.0, -300.0, 220.0, 150.0};
+
+	m_pAxisGroupInterface->RequestMovingToTargetPos(enabled_axis, pos);
+}
+
+bool CTestController::TestGetSingleAxisKp()
+{
+	bool ret = false;
+	
+	double Kp = 0.123;
+	// get z-axis param
+	ret = m_pAxisGroupInterface->GetAxisVelLoopKp(2, Kp) == S_OK ? true : false;
+	
+	m_pOutputs->TestOutputs[0] = Kp;
+	
+	return ret;
+}
+
+bool CTestController::TestGetSingleAxisKv()
+{
+	bool ret = false;
+	double Kv = 0.123;
+	
+	// get z-axis param
+	ret = m_pAxisGroupInterface->GetAxisPosLoopKv(2, Kv) == S_OK ? true : false;
+
+	m_pOutputs->TestOutputs[2] = Kv;
+
+	return ret;
+}
+
+bool CTestController::TestGetSingleAxisTn()
+{
+	bool ret = false;
+	double Tn = 0.123;
+
+	// get z-axis param
+	ret = m_pAxisGroupInterface->GetAxisVelLoopTn(2, Tn) == S_OK ? true : false;
+
+	m_pOutputs->TestOutputs[1] = Tn;
+
+	return ret;
+}
+
+bool CTestController::TestSetSingleAxisKp()
+{
+	bool ret = false;
+	double Kp = 0.025;
+	// set z-axis param
+	ret = m_pAxisGroupInterface->SetAxisVelLoopKp(3, Kp) == S_OK ? true : false;
+	return ret;
+}
+
+bool CTestController::TestSetSingleAxisTn()
+{
+	bool ret = false;
+	double Tn = 12.5;
+	// set z-axis param
+	ret = m_pAxisGroupInterface->SetAxisVelLoopTn(3, Tn) == S_OK ? true : false;
+	return ret;
+}
+
+bool CTestController::TestSetSingleAxisKv()
+{
+	bool ret = false;
+	double Kv = 5.5;
+	// set z-axis param
+	ret = m_pAxisGroupInterface->SetAxisPosLoopKv(3, Kv) == S_OK ? true : false;
+	return ret;
+}
+
 bool CTestController::IsMovingOperationAllowed()
 {
 	bool is_axisgroup_standby = false;
@@ -404,7 +582,17 @@ void CTestController::UpdateManualMovingCommand()
 
 void CTestController::UpdateContinuousMovingCommand()
 {
+	// temp use
+	if (m_pOutputs->MockContinuousMovingCommand.metaData.Index < 1000)
+	{
+		m_pOutputs->MockContinuousMovingCommand.metaData.CommandType = CommandType::eSingleAxisZ;
+		m_pOutputs->MockContinuousMovingCommand.metaData.Index += 1;
+		m_pOutputs->MockContinuousMovingCommand.motionCommand.Pos[2] = m_pInputs->TestAxisGroupInfo.SingleAxisInformation[3].CurrentPos + 0.01;
+	}
+	else
+	{
 
+	}
 }
 
 void CTestController::TestSafetyEnterRecovery()

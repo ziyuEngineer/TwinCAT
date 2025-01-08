@@ -237,6 +237,9 @@
     <ClInclude Include="StateMachine\SafetyStateEmergency.h">
       <Filter>StateMachine\Safety</Filter>
     </ClInclude>
+    <ClInclude Include="StateMachine\AxisGroupPositioning.h">
+      <Filter>StateMachine\AxisGroup</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TcPch.cpp">

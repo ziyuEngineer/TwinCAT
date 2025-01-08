@@ -80,6 +80,12 @@ struct EventAxisGroupPreMovingChangeOpMode : tinyfsm::Event
 	OpMode requestMode;
 };
 
+struct EventAxisGroupPositioning : tinyfsm::Event
+{
+	bool enabled_axis[5];
+	double target[5];
+};
+
 // Main State
 //
 // Quit Standby/Manual state and Enter Buffering state
@@ -109,6 +115,12 @@ struct EventRequestEnterStandbyState : tinyfsm::Event
 
 struct EventRequestEnterDisabledState : tinyfsm::Event
 {};
+
+struct EventRequestAxisGroupPositioning : tinyfsm::Event
+{
+	bool enabled_axis[5];
+	double target[5];
+};
 
 // Safety Module
 struct EventRequestSafetyEnterRecoveryState : tinyfsm::Event

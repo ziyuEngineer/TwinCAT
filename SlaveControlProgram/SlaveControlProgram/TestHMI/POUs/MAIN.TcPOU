@@ -7,6 +7,13 @@ VAR
 	Recovery AT%Q*: BOOL;
 	ContinuousMoving AT%Q*: BOOL;
 	
+	GetParamKpValue AT%Q*: BOOL;
+	GetParamKvValue AT%Q*: BOOL;
+	GetParamTnValue AT%Q*: BOOL;
+	SetParamKpValue AT%Q*: BOOL;
+	SetParamKvValue AT%Q*: BOOL;
+	SetParamTnValue AT%Q*: BOOL;
+	
 	SpindleCW : BOOL;
 	SpindleCCW : BOOL;
 	
@@ -17,6 +24,10 @@ VAR
 	Ratio_01 : BOOL;
 	Ratio_001 : BOOL;
 	Ratio_0001 : BOOL;
+	
+	Position_X AT%Q*: BOOL;
+	Position_Y AT%Q*: BOOL;
+	Position_Z AT%Q*: BOOL;
 	
 	TestAxisGroupState AT%I*: AxisGroupState;
 	TestSpindleState AT%I*: SpindleState;

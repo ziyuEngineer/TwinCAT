@@ -30,6 +30,9 @@ namespace Driver
 		short m_ErrorCode = 0;
 		short m_WarningCode = 0;
 		char m_ActualOpMode;
+		long m_EffectivePosCmd = 0;		// Effective pos command
+		short m_EffectiveTorCmd = 0;		// Effective torque command
+		long m_EffectiveVelCmd = 0;		// Effective velocity command
 
 		// Output to driver
 		unsigned short m_ControlWord = 0;
@@ -38,6 +41,8 @@ namespace Driver
 		short m_AdditiveTor = 0;
 		long m_TargetPos = 0;
 		long m_TargetVel = 0;
+		long m_AdditivePos = 0;
+		long m_AdditiveVel = 0;
 
 	public:
 		void MapParameters(DriverInput* driver_input, DriverOutput* driver_output, const MotionControlInfo* driver_param);
@@ -50,12 +55,17 @@ namespace Driver
 		double  GetFeedbackTorque();
 		OpMode	GetActualOperationMode();
 		DriverStatus GetActualDriverStatus();
+		double  GetEffectivePositionCommand();
+		double  GetEffectiveVelocityCommand();
+		double  GetEffectiveTorqueCommand();
 
 		void    SetTargetTorque(double cmd_tor);
 		void    SetAdditiveTorque(double additive_tor);
 		void    SetTargetPosition(double cmd_pos);
+		void    SetAdditivePosition(double additive_pos);
 		void    ReturnToZeroPosition();
 		void	SetTargetVelocity(double cmd_vel);
+		void    SetAdditiveVelocity(double additive_vel);
 		bool    SetDriverParam();
 		void    SetOperationMode(OpMode mode);
 		bool    IsOpModeSwitched();

@@ -168,6 +168,7 @@ void CAxisGroup::StandStill()
 	{
 		for (int j = 0; j < m_DriverNumPerAxis[i]; j++)
 		{
+			m_Axes[i][j].ClearCompensateCommands();
 			m_Axes[i][j].StandStill();
 			// Reset m_InitPos_Handwheel, prepare for entering eHandwheel state next time.
 			m_InitPos_Handwheel[i] = m_Axes[i][j].m_FdbPos;
@@ -221,7 +222,7 @@ void CAxisGroup::SingleAxisMove(AxisOrder axis_index, double cmd, OpMode mode)
 	}
 }
 
-void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd, bool is_additive_torque_implemented)
+void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd)
 {
 	int index = static_cast<int>(axis_index) - 1;
 	for (int j = 0; j < m_DriverNumPerAxis[index]; j++)
@@ -229,25 +230,40 @@ void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd, bool is_a
 		switch (m_Axes[index][j].m_ActualOpMode)
 		{
 		case OpMode::CSP:
-			if (is_additive_torque_implemented)
-			{
-				m_Axes[index][j].Move(cmd.motionCommand.Pos[index], OpMode::CSP, kNotInterpolated, false);
-				m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.Acc[index]);
-			}
-			else
-			{
-				m_Axes[index][j].Move(cmd.motionCommand.Pos[index], OpMode::CSP, kNotInterpolated, false);
-			}
+			m_Axes[index][j].Move(cmd.motionCommand.Pos[index], OpMode::CSP, kNotInterpolated, false);
+			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.Acc[index]);
+			//m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
+			//m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			break;
+
 		case OpMode::CST:
 			m_Axes[index][j].Move(cmd.motionCommand.Acc[index], OpMode::CST, kNotInterpolated, false);
 			break;
+
 		case OpMode::CSV:
 			m_Axes[index][j].Move(cmd.motionCommand.Vel[index], OpMode::CSV, kNotInterpolated, false);
+			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.Acc[index]);
+			//m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
+			//m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			break;
+
 		default:
 			//m_Axes[i][j].HoldPosition();
 			break;
+		}
+	}
+}
+
+void CAxisGroup::Positioning(const bool axis_enabled[5], const double cmd[5])
+{
+	for (int i = 0; i < m_ActualAxisNum; i++)
+	{
+		if (axis_enabled[i])
+		{
+			for (int j = 0; j < m_DriverNumPerAxis[i]; j++)
+			{
+				m_Axes[i][j].Move(cmd[i], OpMode::CSP, kInterpolated, false);
+			}
 		}
 	}
 }

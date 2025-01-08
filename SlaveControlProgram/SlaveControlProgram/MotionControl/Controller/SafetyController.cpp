@@ -32,11 +32,15 @@ void CSafetyController::MapParameters(ModuleSafetyInputs* inputs, ModuleSafetyOu
 			driver_num++;
 		}
 	}
+
+	int rows = kMaxAxisNum * kMaxMotorNumPerAxis;
+	m_TorFollowingErrorWindow.resize(rows);
+	m_TorCmdDeviationWindow.resize(rows);
 }
 
 void CSafetyController::Input()
 {
-
+	SlidingWindowComputeTorqueDiagnosticInfo();
 }
 
 void CSafetyController::Output()
@@ -170,9 +174,41 @@ bool CSafetyController::IsGantryDeviationCheckPassed()
 	return true;
 }
 
+bool CSafetyController::IsTorqueCommandCheckPassed()
+{
+	for (int i = 0; i < m_ActualDriverNum; i++)
+	{
+		// test
+		m_pOutputs->TestTorqueCmd[i] = m_TorCmdDeviationSum[i] / kCheckWindowSize;
+		if (m_TorCmdDeviationSum[i] / kCheckWindowSize > kTorCmdDeviationTolerance)
+		{
+			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::TorCmdOscillation, m_DriverAxisMap.at(i));
+			
+			return false;
+		}
+	}
+	return true;
+}
+
+bool CSafetyController::IsTorqueFollowingErrorCheckPassed()
+{
+	for (int i = 0; i < m_ActualDriverNum; i++)
+	{
+		// test
+		m_pOutputs->TestTorqueError[i] = m_TorFollowingErrorSum[i] / kCheckWindowSize;
+		if (m_TorFollowingErrorSum[i] / kCheckWindowSize > kTorFollowingErrorTolerance)
+		{
+			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::TorFollowingOscillation, m_DriverAxisMap.at(i));
+
+			return false;
+		}
+	}
+	return true;
+}
+
 bool CSafetyController::IsEmergencyCheckPassed()
 {
-	return IsHardLimitCheckPassed() && IsGantryDeviationCheckPassed();
+	return IsHardLimitCheckPassed() && IsGantryDeviationCheckPassed();//&& IsTorqueFollowingErrorCheckPassed() && IsTorqueCommandCheckPassed();
 }
 
 bool CSafetyController::IsAxisGroupStatusCheckPassed()
@@ -337,4 +373,34 @@ unsigned long CSafetyController::GenerateTinyErrorCode(ModuleName module_name, M
 	nRet = strtol(errorCode, NULL, 16);
 
 	return nRet;
+}
+
+void CSafetyController::SlidingWindowComputeTorqueDiagnosticInfo()
+{
+	if (m_WindowCounter < kCheckWindowSize)
+	{
+		for (int i = 0; i < m_ActualDriverNum; i++)
+		{
+			m_TorCmdDeviationSum[i] += m_pInputs->TorqueDiagnosticInfo.CommandDeviation[i];
+			m_TorFollowingErrorSum[i] += m_pInputs->TorqueDiagnosticInfo.FollowingError[i];
+
+			m_TorCmdDeviationWindow[i].push_back(m_pInputs->TorqueDiagnosticInfo.CommandDeviation[i]);
+			m_TorFollowingErrorWindow[i].push_back(m_pInputs->TorqueDiagnosticInfo.FollowingError[i]);
+		}
+		m_WindowCounter++;
+	}
+	else
+	{
+		for (int i = 0; i < m_ActualDriverNum; i++)
+		{
+			m_TorCmdDeviationSum[i] += (m_pInputs->TorqueDiagnosticInfo.CommandDeviation[i] - m_TorCmdDeviationWindow[i][0]);
+			m_TorFollowingErrorSum[i] += (m_pInputs->TorqueDiagnosticInfo.FollowingError[i] - m_TorFollowingErrorWindow[i][0]);
+
+			m_TorCmdDeviationWindow[i].erase(m_TorCmdDeviationWindow[i].begin());
+			m_TorFollowingErrorWindow[i].erase(m_TorFollowingErrorWindow[i].begin());
+
+			m_TorCmdDeviationWindow[i].push_back(m_pInputs->TorqueDiagnosticInfo.CommandDeviation[i]);
+			m_TorFollowingErrorWindow[i].push_back(m_pInputs->TorqueDiagnosticInfo.FollowingError[i]);
+		}
+	}
 }

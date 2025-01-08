@@ -46,10 +46,4 @@ public:
 	// RPC
 	SpindleVelLimit m_SpindleVelLimit;
 	void SetSpindleVelLimit(SpindleVelLimit vel_limit);
-
-private:
-	// Test variables
-	double m_SimTime = 0.0;
-	double m_TestInitPos[kMaxAxisNum];
-	double m_SimTimeSpindle = 0.0;
 };

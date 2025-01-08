@@ -2,7 +2,7 @@
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CNestedPlcProjDef">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}" PersistentType="true">AxisGroupState</Name>
+			<Name GUID="{430EA973-3D6F-4213-B5D1-9B2D4732BB7B}" PersistentType="true">AxisGroupState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -57,12 +57,16 @@
 				<Text><![CDATA[eAxisGroupTest]]></Text>
 				<Enum>12</Enum>
 			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eAxisGroupPositioning]]></Text>
+				<Enum>13</Enum>
+			</EnumInfo>
 			<Hides>
 				<Hide GUID="{8989BAB0-9461-408E-922B-96B63909C27B}"/>
 				<Hide GUID="{EFA474EE-ADDE-4FA0-89FE-F6507C000B54}"/>
 				<Hide GUID="{16294158-E78B-47AB-8E1F-B62E7B0FD108}"/>
-				<Hide GUID="{98BEA1D2-1D7D-47D8-AE08-ED944CDA7104}"/>
 				<Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}"/>
+				<Hide GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -257,14 +261,14 @@
 		</DataType>
 	</DataTypes>
 	<Project GUID="{45018C8C-7E4F-4B7A-BF7E-E1AA09CAA9F9}" Name="TestHMI" PrjFilePath="..\..\TestHMI\TestHMI.plcproj" TmcFilePath="..\..\TestHMI\TestHMI.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{30B7674F-C298-F3C3-0260-E3A5CC8D22CE}">
+		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{F72F1DD9-B896-91E8-2052-9E1DAC62B66F}">
 			<Name>TestHMI Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
 				<Name>TestHMI Inputs</Name>
 				<Var>
 					<Name>MAIN.TestAxisGroupState</Name>
-					<Type GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}">AxisGroupState</Type>
+					<Type GUID="{430EA973-3D6F-4213-B5D1-9B2D4732BB7B}">AxisGroupState</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.TestSpindleState</Name>
@@ -290,10 +294,60 @@
 					<Type>BOOL</Type>
 				</Var>
 				<Var>
+					<Name>MAIN.GetParamKpValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.GetParamKvValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
 					<Name>MAIN.MockPanel</Name>
 					<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
 				</Var>
+				<Var>
+					<Name>MAIN.GetParamTnValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.SetParamKpValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.SetParamKvValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.SetParamTnValue</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.Position_X</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.Position_Y</Name>
+					<Type>BOOL</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.Position_Z</Name>
+					<Type>BOOL</Type>
+				</Var>
 			</Vars>
+			<UnrestoredVarLinks ImportTime="2024-12-17T16:13:44">
+				<OwnerA Name="OutputSrc" Prefix="TIPC^TestHMI^TestHMI Instance" Type="2">
+					<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+						<Link VarA="MAIN.GetParamValue" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Inputs^GetParamKpButton" RestoreInfo="ANotFound"/>
+					</OwnerB>
+				</OwnerA>
+			</UnrestoredVarLinks>
+			<UnrestoredVarLinks ImportTime="2024-12-17T16:22:04">
+				<OwnerA Name="OutputSrc" Prefix="TIPC^TestHMI^TestHMI Instance" Type="2">
+					<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+						<Link VarA="MAIN.SetParamValue" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Inputs^SetParamButton" RestoreInfo="ANotFound"/>
+					</OwnerB>
+				</OwnerA>
+			</UnrestoredVarLinks>
 			<Contexts>
 				<Context>
 					<Id>0</Id>
@@ -313,8 +367,18 @@
 	<Mappings>
 		<OwnerA Name="TestHMI Instance">
 			<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+				<Link VarA="TestHMI Outputs^MAIN.ContinuousMoving" VarB="Inputs^ContinuousButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.GetParamKpValue" VarB="Inputs^GetParamKpButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.GetParamKvValue" VarB="Inputs^GetParamKvButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.GetParamTnValue" VarB="Inputs^GetParamTnButton"/>
 				<Link VarA="TestHMI Outputs^MAIN.MockPanel" VarB="Inputs^MockPanel"/>
+				<Link VarA="TestHMI Outputs^MAIN.Position_X" VarB="Inputs^PositionX"/>
+				<Link VarA="TestHMI Outputs^MAIN.Position_Y" VarB="Inputs^PositionY"/>
+				<Link VarA="TestHMI Outputs^MAIN.Position_Z" VarB="Inputs^PositionZ"/>
 				<Link VarA="TestHMI Outputs^MAIN.Recovery" VarB="Inputs^RecoveryButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.SetParamKpValue" VarB="Inputs^SetParamKpButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.SetParamKvValue" VarB="Inputs^SetParamKvButton"/>
+				<Link VarA="TestHMI Outputs^MAIN.SetParamTnValue" VarB="Inputs^SetParamTnButton"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
 				<Link VarA="TestHMI Inputs^MAIN.TestMainState" VarB="Outputs^MainState"/>

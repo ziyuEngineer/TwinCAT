@@ -32,6 +32,11 @@ constexpr bool kNotInterpolated = false;
 // Command buffer define
 constexpr UINT16 kMaxBufferSize = 32768;
 
+// Torque check const
+constexpr int kCheckWindowSize = 100;
+constexpr double kTorCmdDeviationTolerance = 40.0;
+constexpr double kTorFollowingErrorTolerance = 40.0;
+
 /**
  * @brief Restrict a given value 'x' to be within the range specified by 'minimum' and 'maximum'.
  * 
@@ -91,7 +96,9 @@ enum class ModuleError
 	PosLowerOver = 3,
 	VelOver = 4,
 	TorOver = 5,
-	GantryDeviationOver = 6
+	GantryDeviationOver = 6,
+	TorFollowingOscillation = 7,
+	TorCmdOscillation = 8
 };
 
 enum class ErrorClass

@@ -42,6 +42,10 @@ void CAxis::Input()
 	m_FdbTor = m_Driver.GetFeedbackTorque();
 	m_ActualOpMode = m_Driver.GetActualOperationMode();
 	m_CurrentDriverStatus = m_Driver.GetActualDriverStatus();
+
+	m_EffectivePosCmd = m_Driver.GetEffectivePositionCommand();
+	m_EffectiveVelCmd = m_Driver.GetEffectiveVelocityCommand();
+	m_EffectiveTorCmd = m_Driver.GetEffectiveTorqueCommand();
 }
 
 void CAxis::Output()
@@ -301,4 +305,21 @@ void CAxis::UpdatePositionCommand()
 void CAxis::CompensateAdditiveTor(double add_tor)
 {
 	m_Driver.SetAdditiveTorque(add_tor);
+}
+
+void CAxis::CompensateAdditiveVel(double add_vel)
+{
+	m_Driver.SetAdditiveVelocity(add_vel);
+}
+
+void CAxis::CompensateAdditivePos(double add_pos)
+{
+	m_Driver.SetAdditivePosition(add_pos);
+}
+
+void CAxis::ClearCompensateCommands()
+{
+	m_Driver.SetAdditiveTorque(0);
+	m_Driver.SetAdditiveVelocity(0);
+	m_Driver.SetAdditivePosition(0);
 }

@@ -26,11 +26,15 @@ void CMainController::MapParameters(MotionControlInputs* inputs, MotionControlOu
 void CMainController::Input()
 {
 	PanelProcess();
+
+	// MatrixAssign();
 }
 
 void CMainController::Output()
 {
 	m_pOutputs->MainState = m_MainState;
+
+	// MatrixTest();
 }
 
 void CMainController::PanelProcess()
@@ -302,6 +306,20 @@ bool CMainController::IsAxisGroupDisabled()
 	return is_disabled;
 }
 
+bool CMainController::IsAxisGroupReadyForPositioning()
+{
+	bool is_axisgroup_standby;
+
+	m_pAxisGroupInterface->IsAxisGroupStandby(is_axisgroup_standby);
+	
+	return is_axisgroup_standby;
+}
+
+void CMainController::RequestAxisGroupPositioning(bool moving_axis[5], double target[5])
+{
+	m_pAxisGroupInterface->RequestMovingToTargetPos(moving_axis, target);
+}
+
 ULONG CMainController::GetErrorCode()
 {
 	return m_pInputs->ErrorCode;
@@ -310,4 +328,24 @@ ULONG CMainController::GetErrorCode()
 bool CMainController::IsSystemNormal()
 {
 	return m_pInputs->ErrorCode == 0;
+}
+
+bool CMainController::MatrixAssign()
+{
+	for (int i = 0; i < 50; i++)
+	{
+		for (int j = 0; j < 50; j++)
+		{
+			m_MatrixA(i, j) = 0.123;
+			//m_MatrixB(i, j) = 0.321;
+		}
+		m_VectorB[i] = 0.321;
+	}
+	return true;
+}
+
+void CMainController::MatrixTest()
+{
+	Vector<50> result;
+	result = m_MatrixA * m_VectorB;
 }

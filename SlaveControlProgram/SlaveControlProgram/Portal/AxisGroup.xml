@@ -7,14 +7,14 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>-25001649</AbsZeroPos>
+			<AbsZeroPos>524692244</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>150</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>0</MoveType> <!-- Distinguish move type, 0: linear, 1: rotate -->
-			<DriverType>0</DriverType> <!-- Distinguish motor types --> <!--0: Beckhoff, 1: DSP402-->
+			<DriverType>0</DriverType> <!-- Distinguish motor types --> <!--0: SERCOS, 1: DS402-->
 			<Exposed>1</Exposed>
-			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
 		</axis>
@@ -24,14 +24,14 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
-			<AbsZeroPos>524692244</AbsZeroPos>
+			<AbsZeroPos>-25001649</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>150</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
-			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
 		</axis>
@@ -43,14 +43,14 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>-1</TorDir>
-			<AbsZeroPos>6570000</AbsZeroPos>
+			<AbsZeroPos>320650</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>1000</TorPdoMax>
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
-			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
 		</axis>
@@ -62,14 +62,14 @@
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>-1</TorDir>
-			<AbsZeroPos>97400000</AbsZeroPos>
+			<AbsZeroPos>258000</AbsZeroPos>
 			<TransmissionRatio>10.0</TransmissionRatio>
 			<TorPdoMax>1000</TorPdoMax>
 			<AdditiveTor>-10</AdditiveTor>
 			<MoveType>0</MoveType>
 			<DriverType>0</DriverType>
 			<Exposed>1</Exposed>
-			<MaxVelocity>5000</MaxVelocity> <!--mm/s-->
+			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
 		</axis>
@@ -77,7 +77,7 @@
     <axes> <!-- A轴参数 -->
 		<axis>
 			<AbsEncoderDir>1</AbsEncoderDir>
-			<AbsEncoderRes>10000</AbsEncoderRes>
+			<AbsEncoderRes>1048576</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
@@ -87,7 +87,7 @@
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>1</MoveType>
 			<DriverType>0</DriverType>
-			<Exposed>0</Exposed>
+			<Exposed>1</Exposed>
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->
 			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
 			<MaxJerk>3000</MaxJerk> <!--r/s^3-->
@@ -96,7 +96,7 @@
 	<axes> <!-- C轴参数 -->
 		<axis> 
 			<AbsEncoderDir>1</AbsEncoderDir>
-			<AbsEncoderRes>10000</AbsEncoderRes>
+			<AbsEncoderRes>1048576</AbsEncoderRes>
 			<RatedCurr>0.85</RatedCurr>
 			<RatedTor>0.5</RatedTor>
 			<TorDir>1</TorDir>
@@ -106,7 +106,7 @@
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>1</MoveType>
 			<DriverType>0</DriverType>
-			<Exposed>0</Exposed>
+			<Exposed>1</Exposed>
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->
 			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
 			<MaxJerk>3000</MaxJerk> <!--r/s^3-->

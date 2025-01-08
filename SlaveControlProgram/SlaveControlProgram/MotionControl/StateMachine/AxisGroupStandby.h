@@ -1,6 +1,7 @@
 #pragma once
 #include "AxisGroupStateMachine.h"
 #include "AxisGroupPreContinuousMoving.h"
+#include "AxisGroupPositioning.h"
 
 class AxisGroupStandby : public AxisGroupStateMachine
 {
@@ -37,5 +38,11 @@ public:
     void react(EventAxisGroupEnterFault const&) override
     {
         transit<AxisGroupFault>();
+    }
+
+    void react(EventAxisGroupPositioning const& event) override
+    {
+        state<AxisGroupPositioning>().SetMovingTarget(event.enabled_axis, event.target);
+        transit<AxisGroupPositioning>();
     }
 };

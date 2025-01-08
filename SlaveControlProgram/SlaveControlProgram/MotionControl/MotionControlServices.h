@@ -51,8 +51,8 @@ typedef struct _MotionControlInfo
 } MotionControlInfo, *PMotionControlInfo;
 #endif // !defined(_TC_TYPE_EE32EC38_3CFD_4D8B_9EB4_C1E6E69C354B_INCLUDED_)
 
-#if !defined(_TC_TYPE_91114EB3_9644_4864_867E_7C4ACBF08BE8_INCLUDED_)
-#define _TC_TYPE_91114EB3_9644_4864_867E_7C4ACBF08BE8_INCLUDED_
+#if !defined(_TC_TYPE_05051960_DD0C_4E1E_BE19_8CF043C7E5C0_INCLUDED_)
+#define _TC_TYPE_05051960_DD0C_4E1E_BE19_8CF043C7E5C0_INCLUDED_
 typedef struct _DriverInput
 {
 	USHORT StatusWord;
@@ -62,16 +62,17 @@ typedef struct _DriverInput
 	unsigned char reserved2[2];
 	LONG ActualVel;
 	SHORT ErrorCode;
-	SHORT WarningCode;
-	SHORT DigitalInput_1;
 	char ActualOpMode;
 	unsigned char reserved3;
+	SHORT EffectiveTorqueCmd;
+	unsigned char reserved4[2];
+	LONG EffectivePositionCmd;
+	LONG EffectiveVelocityCmd;
 } DriverInput, *PDriverInput;
-#endif // !defined(_TC_TYPE_91114EB3_9644_4864_867E_7C4ACBF08BE8_INCLUDED_)
+#endif // !defined(_TC_TYPE_05051960_DD0C_4E1E_BE19_8CF043C7E5C0_INCLUDED_)
 
-#if !defined(_TC_TYPE_D92A0736_9D45_45DD_BCE4_6585EAB67921_INCLUDED_)
-#define _TC_TYPE_D92A0736_9D45_45DD_BCE4_6585EAB67921_INCLUDED_
-#pragma pack(push,1)
+#if !defined(_TC_TYPE_344A141A_6449_48B1_917F_47644EE068F6_INCLUDED_)
+#define _TC_TYPE_344A141A_6449_48B1_917F_47644EE068F6_INCLUDED_
 typedef struct _DriverOutput
 {
 	USHORT ControlWord;
@@ -81,10 +82,12 @@ typedef struct _DriverOutput
 	unsigned char reserved2[2];
 	LONG TargetVelocity;
 	char OperationMode;
+	unsigned char reserved3;
 	SHORT AdditiveTorque;
+	LONG AdditiveVelocity;
+	LONG AdditivePosition;
 } DriverOutput, *PDriverOutput;
-#pragma pack(pop)
-#endif // !defined(_TC_TYPE_D92A0736_9D45_45DD_BCE4_6585EAB67921_INCLUDED_)
+#endif // !defined(_TC_TYPE_344A141A_6449_48B1_917F_47644EE068F6_INCLUDED_)
 
 #if !defined(_TC_TYPE_9B565FBB_17C1_45CE_82EA_7792EFF0874B_INCLUDED_)
 #define _TC_TYPE_9B565FBB_17C1_45CE_82EA_7792EFF0874B_INCLUDED_
@@ -233,18 +236,18 @@ typedef struct _MetaData
 } MetaData, *PMetaData;
 #endif // !defined(_TC_TYPE_6C52FF3C_3F1E_4DF4_B88E_56EAE4037B12_INCLUDED_)
 
-#if !defined(_TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_)
-#define _TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_
+#if !defined(_TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_)
+#define _TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_
 typedef struct _NewMotionCommand
 {
 	double Pos[5];
 	double Vel[5];
 	double Acc[5];
-	double Kp[5][5];
-	double Kv[5][5];
-	double Ka[5][5];
+	double AdditivePos[5];
+	double AdditiveVel[5];
+	double AdditiveTor[5];
 } NewMotionCommand, *PNewMotionCommand;
-#endif // !defined(_TC_TYPE_2288AC91_0B91_49E2_8120_4064BEBCA6CE_INCLUDED_)
+#endif // !defined(_TC_TYPE_B12E5C91_9B4E_4C5F_8515_574B83ACC3F6_INCLUDED_)
 
 #if !defined(_TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_)
 #define _TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_
@@ -256,8 +259,8 @@ typedef struct _OtherCommand
 } OtherCommand, *POtherCommand;
 #endif // !defined(_TC_TYPE_0C8C736F_2009_4A9B_BA79_A373A15B7252_INCLUDED_)
 
-#if !defined(_TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_)
-#define _TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_
+#if !defined(_TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_)
+#define _TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_
 typedef struct _FullCommand
 {
 	MetaData metaData;
@@ -265,7 +268,7 @@ typedef struct _FullCommand
 	NewMotionCommand motionCommand;
 	OtherCommand otherCommand;
 } FullCommand, *PFullCommand;
-#endif // !defined(_TC_TYPE_1ED6E5CA_471D_4209_B5E6_F93D33BD9C80_INCLUDED_)
+#endif // !defined(_TC_TYPE_B1C3DEDA_F44B_40B0_BA64_EAB208DE948D_INCLUDED_)
 
 #if !defined(_TC_TYPE_1EE09E32_CE03_49CF_9231_332125EF3F61_INCLUDED_)
 #define _TC_TYPE_1EE09E32_CE03_49CF_9231_332125EF3F61_INCLUDED_
@@ -320,8 +323,8 @@ typedef struct _SpindleCommand
 } SpindleCommand, *PSpindleCommand;
 #endif // !defined(_TC_TYPE_77803924_0147_4DB7_B733_98772013DAE4_INCLUDED_)
 
-#if !defined(_TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_)
-#define _TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_
+#if !defined(_TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_)
+#define _TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_
 enum AxisGroupState : SHORT {
 	eAxisGroupIdle = 0,
 	eAxisGroupInitialization = 1,
@@ -335,9 +338,10 @@ enum AxisGroupState : SHORT {
 	eAxisGroupEmergency = 9,
 	eAxisGroupFault = 10,
 	eAxisGroupRecovery = 11,
-	eAxisGroupTest = 12
+	eAxisGroupTest = 12,
+	eAxisGroupPositioning = 13
 };
-#endif // !defined(_TC_TYPE_F83D71B3_EDF7_41E0_B7AD_30BCAEB092E9_INCLUDED_)
+#endif // !defined(_TC_TYPE_0BC67B36_C75E_4029_B338_FFB631C93168_INCLUDED_)
 
 #if !defined(_TC_TYPE_DF678954_0CC7_4B57_A830_AD3AD6D5FFCE_INCLUDED_)
 #define _TC_TYPE_DF678954_0CC7_4B57_A830_AD3AD6D5FFCE_INCLUDED_
@@ -424,6 +428,28 @@ typedef struct _AxisGroupInformation
 } AxisGroupInformation, *PAxisGroupInformation;
 #endif // !defined(_TC_TYPE_85615354_18AB_4F2D_A42C_B832F67F7D5F_INCLUDED_)
 
+#if !defined(_TC_TYPE_2B7725C9_5F91_4924_9AA8_A953A844435B_INCLUDED_)
+#define _TC_TYPE_2B7725C9_5F91_4924_9AA8_A953A844435B_INCLUDED_
+typedef struct _AutoTuneParameter
+{
+	float VelocityLoopKp;
+	USHORT VelocityLoopTn;
+	USHORT PositionLoopKv;
+	USHORT AccelerationFeedForwardGain;
+	USHORT AccelerationFeedForwardTime;
+} AutoTuneParameter, *PAutoTuneParameter;
+#endif // !defined(_TC_TYPE_2B7725C9_5F91_4924_9AA8_A953A844435B_INCLUDED_)
+
+#if !defined(_TC_TYPE_464CA556_6041_4811_B23A_0E20B8084750_INCLUDED_)
+#define _TC_TYPE_464CA556_6041_4811_B23A_0E20B8084750_INCLUDED_
+typedef bool PositioningAxis[5];
+#endif // !defined(_TC_TYPE_464CA556_6041_4811_B23A_0E20B8084750_INCLUDED_)
+
+#if !defined(_TC_TYPE_5BC53957_1CA7_4ACC_995C_73F4B9A23760_INCLUDED_)
+#define _TC_TYPE_5BC53957_1CA7_4ACC_995C_73F4B9A23760_INCLUDED_
+typedef double PositioningTarget[5];
+#endif // !defined(_TC_TYPE_5BC53957_1CA7_4ACC_995C_73F4B9A23760_INCLUDED_)
+
 typedef struct _MotionControlInputs
 {
 	PanelInfo PanelInformation;
@@ -459,16 +485,13 @@ typedef struct _ModuleSpindleInputs
 	double SpindleTestInputs[20];
 } ModuleSpindleInputs, *PModuleSpindleInputs;
 
-#pragma pack(push,1)
 typedef struct _ModuleSpindleOutputs
 {
 	DriverOutput SpindleOutput;
-	unsigned char reserved1;
 	SpindleState StateSpindle;
-	unsigned char reserved2[2];
+	unsigned char reserved1[2];
 	AxisInformation SpindleInfo;
 } ModuleSpindleOutputs, *PModuleSpindleOutputs;
-#pragma pack(pop)
 
 typedef struct _ModuleSafetyParameter
 {
@@ -489,6 +512,10 @@ typedef struct _ModuleSafetyInputs
 		SpindleState StateSpindle;
 		SHORT AxisGroupDigitalInput[6];
 	} DiagnosticInfo;
+	struct {
+		double CommandDeviation[6];
+		double FollowingError[6];
+	} TorqueDiagnosticInfo;
 } ModuleSafetyInputs, *PModuleSafetyInputs;
 
 typedef struct _ModuleSafetyOutputs
@@ -496,6 +523,8 @@ typedef struct _ModuleSafetyOutputs
 	ULONG ErrorCode;
 	SafetyState SafetyStatus;
 	unsigned char reserved1[2];
+	double TestTorqueError[6];
+	double TestTorqueCmd[6];
 } ModuleSafetyOutputs, *PModuleSafetyOutputs;
 
 typedef struct _ModuleAxisGroupParameter
@@ -522,14 +551,24 @@ typedef struct _ModuleAxisGroupInputs
 	} ManualMovingCommand;
 } ModuleAxisGroupInputs, *PModuleAxisGroupInputs;
 
-#pragma pack(push,1)
 typedef struct _ModuleAxisGroupOutputs
 {
 	DriverOutput AxisOutputs[10];
 	AxisGroupState StateAxisGroup;
+	unsigned char reserved1[6];
 	AxisGroupInformation AxisGroupInfo;
+	struct {
+		double TuningVelError[5];
+		double TuningPosError[5];
+	} AxisGroupTuningInfo;
+	struct {
+		double TorqueCommandDeviation[6];
+		double TorqueFollowingError[6];
+	} AxisGroupTorqueInfo;
+	bool TestEnabled[5];
+	unsigned char reserved2[3];
+	double TestTarget[5];
 } ModuleAxisGroupOutputs, *PModuleAxisGroupOutputs;
-#pragma pack(pop)
 
 ///</AutoGeneratedContent>
 
@@ -547,15 +586,15 @@ typedef struct _ModuleAxisGroupOutputs
 ///</AutoGeneratedContent>
 
 ///<AutoGeneratedContent id="InterfaceIDs">
-#if !defined(_TC_IID_4D6E4DE6_92E2_4E0E_9440_3F5F63A1A390_INCLUDED_)
-#define _TC_IID_4D6E4DE6_92E2_4E0E_9440_3F5F63A1A390_INCLUDED_
-TCOM_DECL_INTERFACE("4d6e4de6-92e2-4e0e-9440-3f5f63a1a390", IMotionControlInterface)
-#endif // !defined(_TC_IID_4D6E4DE6_92E2_4E0E_9440_3F5F63A1A390_INCLUDED_)
+#if !defined(_TC_IID_4BC0DCA3_18C2_48B3_8DD4_977B001BDDE2_INCLUDED_)
+#define _TC_IID_4BC0DCA3_18C2_48B3_8DD4_977B001BDDE2_INCLUDED_
+TCOM_DECL_INTERFACE("4bc0dca3-18c2-48b3-8dd4-977b001bdde2", IMotionControlInterface)
+#endif // !defined(_TC_IID_4BC0DCA3_18C2_48B3_8DD4_977B001BDDE2_INCLUDED_)
 
-#if !defined(_TC_IID_83716734_5838_48EA_8367_90CBAD873477_INCLUDED_)
-#define _TC_IID_83716734_5838_48EA_8367_90CBAD873477_INCLUDED_
-TCOM_DECL_INTERFACE("83716734-5838-48ea-8367-90cbad873477", ISoEProcess)
-#endif // !defined(_TC_IID_83716734_5838_48EA_8367_90CBAD873477_INCLUDED_)
+#if !defined(_TC_IID_DDC37991_4B80_49F3_A44A_196D30549B96_INCLUDED_)
+#define _TC_IID_DDC37991_4B80_49F3_A44A_196D30549B96_INCLUDED_
+TCOM_DECL_INTERFACE("ddc37991-4b80-49f3-a44a-196d30549b96", ISoEProcess)
+#endif // !defined(_TC_IID_DDC37991_4B80_49F3_A44A_196D30549B96_INCLUDED_)
 
 #if !defined(_TC_IID_8912121D_6A99_4443_9716_8F2A85D3B99E_INCLUDED_)
 #define _TC_IID_8912121D_6A99_4443_9716_8F2A85D3B99E_INCLUDED_
@@ -567,10 +606,10 @@ TCOM_DECL_INTERFACE("8912121d-6a99-4443-9716-8f2a85d3b99e", IPanelProcess)
 TCOM_DECL_INTERFACE("a5b190d2-781f-49a4-9d2b-66ad8519040d", ISpindleInterface)
 #endif // !defined(_TC_IID_A5B190D2_781F_49A4_9D2B_66AD8519040D_INCLUDED_)
 
-#if !defined(_TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_)
-#define _TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_
-TCOM_DECL_INTERFACE("92b58e62-00d3-492f-a964-14316bc3b3cf", IAxisGroupInterface)
-#endif // !defined(_TC_IID_92B58E62_00D3_492F_A964_14316BC3B3CF_INCLUDED_)
+#if !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
+#define _TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_
+TCOM_DECL_INTERFACE("125c4828-6162-4c51-984a-e44efc60c49e", IAxisGroupInterface)
+#endif // !defined(_TC_IID_125C4828_6162_4C51_984A_E44EFC60C49E_INCLUDED_)
 
 #if !defined(_TC_IID_DFA7B551_502B_4085_88E7_A88921AF739F_INCLUDED_)
 #define _TC_IID_DFA7B551_502B_4085_88E7_A88921AF739F_INCLUDED_

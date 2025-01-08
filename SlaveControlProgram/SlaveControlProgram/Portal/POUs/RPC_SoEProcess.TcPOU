@@ -96,39 +96,145 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="mSoEReadPositionLoopKv" Id="{a85dfe38-5a0d-483a-b685-edfd166c117a}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mSoEReadPositionLoopKv : HRESULT
+VAR_INPUT
+	axis	: INT;
+	value	: REFERENCE TO UINT;
+END_VAR
+
+VAR
+	ReadValue : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mSoEReadPositionLoopKv := S_FALSE;
+fbSoERead[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 104,
+				nElement := 16#40, // Value element
+				pDstBuf := ADR(ReadValue),
+				cbBufLen := SIZEOF(ReadValue),
+				bExecute := TRUE,
+				tTimeOut := DEFAULT_ADS_TIMEOUT);
+				
+IF NOT fbSoERead[axis].bBusy THEN
+	IF NOT fbSoERead[axis].bError THEN 
+        (* write successful *)
+       fbSoERead[axis](bExecute := FALSE);
+	   value := ReadValue;
+	   mSoEReadPositionLoopKv := S_OK;
+    END_IF 
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSoEReadVelocityLoopKp" Id="{ce0fc7a9-0a9b-4177-a141-d244004c8cf2}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mSoEReadVelocityLoopKp : HRESULT
+VAR_INPUT
+	axis	: INT;
+	value	: REFERENCE TO UDINT;
+END_VAR
+
+VAR
+	ReadValue : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mSoEReadVelocityLoopKp := S_FALSE;
+fbSoERead[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 100,
+				nElement := 16#40, // Value element
+				pDstBuf := ADR(ReadValue),
+				cbBufLen := SIZEOF(ReadValue),
+				bExecute := TRUE,
+				tTimeOut := DEFAULT_ADS_TIMEOUT);
+			
+IF NOT fbSoERead[axis].bBusy THEN
+	IF NOT fbSoERead[axis].bError THEN 
+        (* write successful *)
+       fbSoERead[axis](bExecute := FALSE);
+	   value := ReadValue;
+	   mSoEReadVelocityLoopKp := S_OK;
+    END_IF 
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSoEReadVelocityLoopTn" Id="{d54ca436-fb7d-46e4-a02d-b2469b32859a}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mSoEReadVelocityLoopTn : HRESULT
+VAR_INPUT
+	axis	: INT;
+	value	: REFERENCE TO UINT;
+END_VAR
+
+VAR
+	ReadValue : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mSoEReadVelocityLoopTn := S_FALSE;
+fbSoERead[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 101,
+				nElement := 16#40, // Value element
+				pDstBuf := ADR(ReadValue),
+				cbBufLen := SIZEOF(ReadValue),
+				bExecute := TRUE,
+				tTimeOut := DEFAULT_ADS_TIMEOUT);
+				
+IF NOT fbSoERead[axis].bBusy THEN
+	IF NOT fbSoERead[axis].bError THEN 
+        (* write successful *)
+       fbSoERead[axis](bExecute := FALSE);
+	   value := ReadValue;
+	   mSoEReadVelocityLoopTn := S_OK;
+    END_IF 
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="mSoEWritePositionLoopKv" Id="{640dc871-2d90-4df5-bbb3-75c8d8e2a88e}">
       <Declaration><![CDATA[{attribute 'TcTypeSystem'}
 {attribute 'no-analysis'}
 {attribute 'c++_compatible'}
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
 
 METHOD mSoEWritePositionLoopKv : HRESULT
 VAR_INPUT
 	axis	: INT;
-	value	: REAL;
+	value	: UINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="mSoEWriteVelocityLoopKp" Id="{5cb250b0-ceb6-468f-ab7e-abaf795f228f}">
-      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
-{attribute 'no-analysis'}
-{attribute 'c++_compatible'}
-{attribute 'minimal_input_size' := '4'}
-{attribute 'pack_mode' := '4'}
-
-METHOD mSoEWriteVelocityLoopKp : HRESULT
-VAR_INPUT
-	axis	: INT;
-	value	: REAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbSoEWrite[axis](stDriveRef := stDriveRef[axis],
-				nIdn := S_0_IDN + 100, // S-0-0100 Velocity loop proportional gain
+        <ST><![CDATA[mSoEWritePositionLoopKv := S_FALSE;
+fbSoEWrite[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 104, // S-0-0104 Position loop Kv-factor, decimal point 2
 				nElement := 16#40, // Value element
 				pSrcBuf := ADR(value),
 				cbBufLen := SIZEOF(value),
@@ -139,6 +245,77 @@ IF NOT fbSoEWrite[axis].bBusy THEN
 	IF NOT fbSoEWrite[axis].bError THEN 
         (* write successful *)
        fbSoEWrite[axis](bExecute := FALSE);
+	   mSoEWritePositionLoopKv := S_OK;
+    END_IF 
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSoEWriteVelocityLoopKp" Id="{5cb250b0-ceb6-468f-ab7e-abaf795f228f}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mSoEWriteVelocityLoopKp : HRESULT
+VAR_INPUT
+	axis	: INT;
+	value	: UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mSoEWriteVelocityLoopKp := S_FALSE;
+fbSoEWrite[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 100, // S-0-0100 Velocity loop proportional gain, decimal point 3
+				nElement := 16#40, // Value element
+				pSrcBuf := ADR(value),
+				cbBufLen := SIZEOF(value),
+				bExecute := TRUE,
+				tTimeOut := DEFAULT_ADS_TIMEOUT);
+				
+IF NOT fbSoEWrite[axis].bBusy THEN
+	IF NOT fbSoEWrite[axis].bError THEN 
+        (* write successful *)
+       fbSoEWrite[axis](bExecute := FALSE);
+	   mSoEWriteVelocityLoopKp := S_OK;
+    END_IF 
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mSoEWriteVelocityLoopTn" Id="{829549b9-96d7-4e80-87f6-cf638c2da967}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'no-analysis'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'checksuperglobal'}
+
+METHOD mSoEWriteVelocityLoopTn : HRESULT
+VAR_INPUT
+	axis	: INT;
+	value	: UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mSoEWriteVelocityLoopTn := S_FALSE;
+fbSoEWrite[axis](stDriveRef := stDriveRef[axis],
+				nIdn := S_0_IDN + 101, // S-0-0101 Velocity loop integral action time, decimal point 1
+				nElement := 16#40, // Value element
+				pSrcBuf := ADR(value),
+				cbBufLen := SIZEOF(value),
+				bExecute := TRUE,
+				tTimeOut := DEFAULT_ADS_TIMEOUT);
+				
+IF NOT fbSoEWrite[axis].bBusy THEN
+	IF NOT fbSoEWrite[axis].bError THEN 
+        (* write successful *)
+       fbSoEWrite[axis](bExecute := FALSE);
+	   mSoEWriteVelocityLoopTn := S_OK;
     END_IF 
 END_IF
 ]]></ST>

@@ -63,6 +63,91 @@
 			</Hides>
 		</DataType>
 		<DataType>
+			<Name GUID="{5CBC67ED-7FEB-485B-91B9-3CE3460A4A42}">AxisInformation</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>CurrentPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentTor</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentMode</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000002}">USINT</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>144</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandPos</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandVel</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CommandTor</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CurrentStatus</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>336</BitOffs>
+			</SubItem>
+			<Hides>
+				<Hide GUID="{E6FC791C-BC72-4A0E-A780-8035A43E030E}"/>
+				<Hide GUID="{89C501C9-E712-4F41-A99C-ADBA4943DB6D}"/>
+				<Hide GUID="{467AD5B8-7168-4B73-971D-AB0FE4CC3F9D}"/>
+				<Hide GUID="{2BCEDEC1-7056-4DC5-8A0C-80C1031418DB}"/>
+				<Hide GUID="{5DD60AB0-71F1-498E-8938-F34CED0A4C68}"/>
+				<Hide GUID="{15726BA4-C8DB-417E-9CF6-716ECACDD86D}"/>
+				<Hide GUID="{4CED151F-2FC1-4843-A565-44A37271C8BB}"/>
+				<Hide GUID="{ED3398C0-BD35-4950-9314-40380A9C4C56}"/>
+				<Hide GUID="{6D8582AA-8BE8-4FC7-93F6-5F78057CD77A}"/>
+				<Hide GUID="{505053EB-D4B7-4C19-91A6-3B370151116D}"/>
+				<Hide GUID="{30A75C5D-E2C3-49AB-A295-5F256B553724}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{85615354-18AB-4F2D-A42C-B832F67F7D5F}">AxisGroupInformation</Name>
+			<BitSize>2368</BitSize>
+			<SubItem>
+				<Name>SingleAxisInformation</Name>
+				<Type GUID="{5CBC67ED-7FEB-485B-91B9-3CE3460A4A42}">AxisInformation</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>6</Elements>
+				</ArrayInfo>
+				<BitSize>2304</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>GantryDeviation</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>2304</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
 			<Name GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Name>
 			<BitSize>96</BitSize>
 			<SubItem>
@@ -91,8 +176,8 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{2288AC91-0B91-49E2-8120-4064BEBCA6CE}" PersistentType="true" AutoDeleteType="true">NewMotionCommand</Name>
-			<BitSize>5760</BitSize>
+			<Name GUID="{B12E5C91-9B4E-4C5F-8515-574B83ACC3F6}" PersistentType="true" AutoDeleteType="true">NewMotionCommand</Name>
+			<BitSize>1920</BitSize>
 			<SubItem>
 				<Name>Pos</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
@@ -124,46 +209,34 @@
 				<BitOffs>640</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Kp</Name>
+				<Name>AdditivePos</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
 				<ArrayInfo>
 					<LBound>0</LBound>
 					<Elements>5</Elements>
 				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
+				<BitSize>320</BitSize>
 				<BitOffs>960</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Kv</Name>
+				<Name>AdditiveVel</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
 				<ArrayInfo>
 					<LBound>0</LBound>
 					<Elements>5</Elements>
 				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
-				<BitOffs>2560</BitOffs>
+				<BitSize>320</BitSize>
+				<BitOffs>1280</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Ka</Name>
+				<Name>AdditiveTor</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
 				<ArrayInfo>
 					<LBound>0</LBound>
 					<Elements>5</Elements>
 				</ArrayInfo>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>1600</BitSize>
-				<BitOffs>4160</BitOffs>
+				<BitSize>320</BitSize>
+				<BitOffs>1600</BitOffs>
 			</SubItem>
 		</DataType>
 		<DataType>
@@ -187,8 +260,8 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{1ED6E5CA-471D-4209-B5E6-F93D33BD9C80}">FullCommand</Name>
-			<BitSize>6016</BitSize>
+			<Name GUID="{B1C3DEDA-F44B-40B0-BA64-EAB208DE948D}" PersistentType="true" AutoDeleteType="true">FullCommand</Name>
+			<BitSize>2176</BitSize>
 			<SubItem>
 				<Name>metaData</Name>
 				<Type GUID="{6C52FF3C-3F1E-4DF4-B88E-56EAE4037B12}">MetaData</Type>
@@ -197,20 +270,16 @@
 			</SubItem>
 			<SubItem>
 				<Name>motionCommand</Name>
-				<Type GUID="{2288AC91-0B91-49E2-8120-4064BEBCA6CE}">NewMotionCommand</Type>
-				<BitSize>5760</BitSize>
+				<Type GUID="{B12E5C91-9B4E-4C5F-8515-574B83ACC3F6}">NewMotionCommand</Type>
+				<BitSize>1920</BitSize>
 				<BitOffs>128</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>otherCommand</Name>
 				<Type GUID="{0C8C736F-2009-4A9B-BA79-A373A15B7252}">OtherCommand</Type>
 				<BitSize>128</BitSize>
-				<BitOffs>5888</BitOffs>
+				<BitOffs>2048</BitOffs>
 			</SubItem>
-			<Hides>
-				<Hide GUID="{79F659FD-F4F4-40AF-BB74-02CF7C4EBAEF}"/>
-				<Hide GUID="{E3EF5EA9-14FE-486F-B00C-C6654E2B23D8}"/>
-			</Hides>
 		</DataType>
 	</DataTypes>
 	<Project GUID="{B8C3DEC1-955C-4AC6-90D2-2201E11F31E1}" Name="ModuleTest" PrjFilePath="..\..\ModuleTest\ModuleTest.vcxproj" TmcFilePath="..\..\ModuleTest\ModuleTest.tmc">
@@ -231,8 +300,8 @@
 						<ManualConfig>
 							<OTCID>#x02010070</OTCID>
 						</ManualConfig>
-						<Priority>12</Priority>
-						<CycleTime>250000</CycleTime>
+						<Priority>14</Priority>
+						<CycleTime>1000000</CycleTime>
 					</Context>
 				</Contexts>
 				<Interfaces>
@@ -288,7 +357,7 @@
 						<AreaNo AreaType="InputDst">0</AreaNo>
 						<Name>Inputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>72</ByteSize>
+						<ByteSize>384</ByteSize>
 						<Symbol>
 							<Name>MockPanel</Name>
 							<BitSize>512</BitSize>
@@ -307,12 +376,72 @@
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
 							<BitOffs>520</BitOffs>
 						</Symbol>
+						<Symbol>
+							<Name>TestAxisGroupInfo</Name>
+							<BitSize>2368</BitSize>
+							<BaseType GUID="{85615354-18AB-4F2D-A42C-B832F67F7D5F}">AxisGroupInformation</BaseType>
+							<BitOffs>576</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>GetParamKpButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2944</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>GetParamKvButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2952</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>GetParamTnButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2960</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>SetParamKpButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2968</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>SetParamKvButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2976</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>SetParamTnButton</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2984</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>PositionY</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>2992</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>PositionX</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>3000</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>PositionZ</Name>
+							<BitSize>8</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+							<BitOffs>3008</BitOffs>
+						</Symbol>
 					</DataArea>
 					<DataArea>
 						<AreaNo AreaType="OutputSrc">1</AreaNo>
 						<Name>Outputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>800</ByteSize>
+						<ByteSize>448</ByteSize>
 						<Symbol>
 							<Name>MockManualMovingCommand</Name>
 							<BitSize>384</BitSize>
@@ -336,9 +465,19 @@
 						</Symbol>
 						<Symbol>
 							<Name>MockContinuousMovingCommand</Name>
-							<BitSize>6016</BitSize>
-							<BaseType GUID="{1ED6E5CA-471D-4209-B5E6-F93D33BD9C80}">FullCommand</BaseType>
+							<BitSize>2176</BitSize>
+							<BaseType GUID="{B1C3DEDA-F44B-40B0-BA64-EAB208DE948D}">FullCommand</BaseType>
 							<BitOffs>384</BitOffs>
+						</Symbol>
+						<Symbol>
+							<Name>TestOutputs</Name>
+							<BitSize>640</BitSize>
+							<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+							<ArrayInfo>
+								<LBound>0</LBound>
+								<Elements>10</Elements>
+							</ArrayInfo>
+							<BitOffs>2560</BitOffs>
 						</Symbol>
 					</DataArea>
 				</DataAreas>
@@ -351,7 +490,7 @@
 					<InterfacePointer>
 						<PTCID>#x00000002</PTCID>
 						<Name>TestAxisGroup_Interface</Name>
-						<Type GUID="{92B58E62-00D3-492F-A964-14316BC3B3CF}">IAxisGroupInterface</Type>
+						<Type GUID="{125C4828-6162-4C51-984A-E44EFC60C49E}">IAxisGroupInterface</Type>
 						<ContextId>1</ContextId>
 					</InterfacePointer>
 					<InterfacePointer>
@@ -424,4 +563,11 @@
 			</TmcDesc>
 		</Instance>
 	</Project>
+	<Mappings>
+		<OwnerA Name="ModuleTest_Obj1 (ModuleTest)">
+			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+				<Link VarA="Inputs^TestAxisGroupInfo" VarB="Outputs^AxisGroupInfo"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
 </TcSmItem>

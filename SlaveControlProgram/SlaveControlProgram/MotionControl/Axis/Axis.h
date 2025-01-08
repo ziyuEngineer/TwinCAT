@@ -43,6 +43,9 @@ public:
 	double m_FdbTor;
 	OpMode m_ActualOpMode;
 	DriverStatus m_CurrentDriverStatus;
+	double m_EffectivePosCmd;
+	double m_EffectiveVelCmd;
+	double m_EffectiveTorCmd;
 
 	double m_StandbyPos;
 	
@@ -74,4 +77,8 @@ public:
 	void InterpolationReset(OpMode _mode);
 	void UpdatePositionCommand();
 	void CompensateAdditiveTor(double add_tor);
+	void CompensateAdditiveVel(double add_vel);
+	void CompensateAdditivePos(double add_pos);
+
+	void ClearCompensateCommands();
 };

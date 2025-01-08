@@ -25,7 +25,7 @@ private:
 
 	int m_ActualAxisNum = 0;
 	int m_ActualDriverNum = 0;
-	SHORT m_DriverNumPerAxis[5] = { 0 }; // INT type in tmc
+	SHORT m_DriverNumPerAxis[kMaxAxisNum] = { 0 }; // INT type in tmc
 	std::unordered_map<int, AxisOrder> m_DriverAxisMap;
 
 	// Check functions
@@ -51,7 +51,6 @@ private:
 	// Recovery check list
 	bool IsMovingOppositely();
 	bool IsDeviationDecreasing();
-
 	bool IsAxisGroupExitFault();
 	bool IsSpindleExitFault();
 
@@ -59,6 +58,16 @@ private:
 
 	unsigned long GenerateErrorCode(ProjectSeries project, ModuleName module_name, ModuleError module_err, AxisOrder axis_num, ErrorClass errorClass);
 	unsigned long GenerateTinyErrorCode(ModuleName module_name, ModuleError module_err, AxisOrder axis_num);
+
+	// Torque check list
+	double m_TorCmdDeviationSum[kMaxAxisNum * kMaxMotorNumPerAxis] = { 0 };
+	double m_TorFollowingErrorSum[kMaxAxisNum * kMaxMotorNumPerAxis] = { 0 };
+	std::vector<std::vector<double>> m_TorFollowingErrorWindow;
+	std::vector<std::vector<double>> m_TorCmdDeviationWindow;
+	int m_WindowCounter = 0;
+	void SlidingWindowComputeTorqueDiagnosticInfo();
+	bool IsTorqueFollowingErrorCheckPassed();
+	bool IsTorqueCommandCheckPassed();
 
 public:
 	bool IsSubSystemStateCorrect();

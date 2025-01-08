@@ -8,6 +8,7 @@ class AxisGroupDisabled;
 class AxisGroupPreStandby;
 class AxisGroupStandby;
 class AxisGroupManualMoving;
+class AxisGroupPositioning;
 class AxisGroupPreContinuousMoving;
 class AxisGroupContinuousMoving;
 class AxisGroupFault;
@@ -41,6 +42,8 @@ public:
     virtual void react(EventAxisGroupResetError const&) {};
 
     virtual void react(EventAxisGroupPreMovingChangeOpMode const&) {};
+
+    virtual void react(EventAxisGroupPositioning const&) {};
     
     static CAxisGroupController* s_pController;
 

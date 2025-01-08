@@ -2,22 +2,22 @@
 <AxisGroup>
     <axes> <!-- Gantry -->
 		<axis>
-			<UpperPosLimit>220</UpperPosLimit> <!--mm-->
-			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
-			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
-			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
-			<FollowingError>5</FollowingError> <!--mm-->
-			<PositiveBit>1</PositiveBit>
-			<NegativeBit>0</NegativeBit>
-		</axis>
-		<axis>
-			<UpperPosLimit>220</UpperPosLimit> <!--mm-->
+			<UpperPosLimit>500</UpperPosLimit> <!--mm-->
 			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
 			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<FollowingError>5</FollowingError> <!--mm-->
 			<PositiveBit>3</PositiveBit>
 			<NegativeBit>2</NegativeBit>
+		</axis>
+		<axis>
+			<UpperPosLimit>500</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
+			<MaxVelocity>3000</MaxVelocity> <!--mm/s-->
+			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
+			<FollowingError>5</FollowingError> <!--mm-->
+			<PositiveBit>1</PositiveBit>
+			<NegativeBit>0</NegativeBit>
 		</axis>
 		<gantry>
 			<IsGantry>1</IsGantry> <!--0:No, 1:Yes-->

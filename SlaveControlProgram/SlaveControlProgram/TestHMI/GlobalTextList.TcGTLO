@@ -41,6 +41,31 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"894"</v>
+              <v n="TextDefault">"Execute"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"751"</v>
+              <v n="TextDefault">"Get Kp"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"109"</v>
+              <v n="TextDefault">"Get Kv"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"791"</v>
+              <v n="TextDefault">"Get PID Param"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"952"</v>
+              <v n="TextDefault">"Get Tn"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"108"</v>
               <v n="TextDefault">"Recovery"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -53,6 +78,26 @@
             <o>
               <v n="TextID">"381"</v>
               <v n="TextDefault">"Servo"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"144"</v>
+              <v n="TextDefault">"Set Kp"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"930"</v>
+              <v n="TextDefault">"Set Kv"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"32"</v>
+              <v n="TextDefault">"Set PID Param"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"722"</v>
+              <v n="TextDefault">"Set Tn"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -76,13 +121,33 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"654"</v>
+              <v n="TextDefault">"X-Positioning"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"644"</v>
               <v n="TextDefault">"Y"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"772"</v>
+              <v n="TextDefault">"Y-Positioing"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"715"</v>
+              <v n="TextDefault">"Y-Positioning"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"698"</v>
               <v n="TextDefault">"Z"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"120"</v>
+              <v n="TextDefault">"Z-Positioning"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
           </l>

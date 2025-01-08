@@ -38,6 +38,8 @@ public:
 
     virtual void react(EventRequestEnterDisabledState const&) {};
 
+    virtual void react(EventRequestAxisGroupPositioning const&) {};
+
     virtual bool IsSafeToTransitState();
 
     static CMainController* s_pController;

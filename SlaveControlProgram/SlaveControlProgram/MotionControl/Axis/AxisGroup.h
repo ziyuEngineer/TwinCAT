@@ -29,7 +29,8 @@ public:
 	void Move(FullCommand cmd);
 	void Handwheel(int axis_selected, double cmd[5]);
 	void SingleAxisMove(AxisOrder axis_index, double cmd, OpMode mode);
-	void SingleAxisMove(AxisOrder axis_index, FullCommand cmd, bool is_additive_torque_implemented);
+	void SingleAxisMove(AxisOrder axis_index, FullCommand cmd);
+	void Positioning(const bool axis_enabled[5], const double cmd[5]);
 	void ReturnToZeroPoint(AxisOrder axis_index);
 	void ResetInterpolator(OpMode mode);
 	void SwitchOpMode(OpMode mode);

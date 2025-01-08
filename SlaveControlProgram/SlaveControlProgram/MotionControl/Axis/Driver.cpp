@@ -45,6 +45,33 @@ namespace Driver
 	}
 
 	/**
+	 * @brief Get effective position command
+	 *
+	 * @return double
+	 */
+	double CDriver::GetEffectivePositionCommand()
+	{
+		if (m_DriverParam->AbsEncRes > kEpsilon) // Avoid dividing zero error
+		{
+			switch (m_DriverParam->MoveType)
+			{
+			case 0: // linear
+				return static_cast<double>(m_EffectivePosCmd - m_DriverParam->AbsZeroPos) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
+				break;
+			case 1: // rotate
+				return static_cast<double>(m_EffectivePosCmd % m_DriverParam->AbsEncRes) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) * kFullCircle / m_DriverParam->TransmissionRatio;
+				break;
+			}
+		}
+		else
+		{
+			return 0.0;
+		}
+	}
+
+	/**
 	 * @brief Get velocity of encoder
 	 * 
 	 * @return double 
@@ -54,6 +81,24 @@ namespace Driver
 		if (m_DriverParam->AbsEncRes > kEpsilon) // Avoid dividing zero error
 		{
 			return static_cast<double>(m_FdbVelVal) / static_cast<double>(m_DriverParam->AbsEncRes)
+				* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
+		}
+		else
+		{
+			return 0.0;
+		}
+	}
+
+	/**
+	 * @brief Get effective velocity command
+	 *
+	 * @return double
+	 */
+	double CDriver::GetEffectiveVelocityCommand()
+	{
+		if (m_DriverParam->AbsEncRes > kEpsilon) // Avoid dividing zero error
+		{
+			return static_cast<double>(m_EffectiveVelCmd) / static_cast<double>(m_DriverParam->AbsEncRes)
 				* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
 		}
 		else
@@ -82,6 +127,16 @@ namespace Driver
 	double CDriver::GetFeedbackTorque()
 	{
 		return static_cast<double>(m_FdbTorVal) * m_DriverParam->TorDir;
+	}
+
+	/**
+	 * @brief Get effective torque command
+	 *
+	 * @return double
+	 */
+	double CDriver::GetEffectiveTorqueCommand()
+	{
+		return static_cast<double>(m_EffectiveTorCmd) * m_DriverParam->TorDir;
 	}
 
 	/**
@@ -124,9 +179,15 @@ namespace Driver
 		case 1: // rotate
 			double delta_circle = cmd_pos / kFullCircle;
 			
-			m_TargetPos = static_cast<long>((m_MultiTurnNum + delta_circle) * static_cast<double>(m_DriverParam->AbsEncRes));
+			m_TargetPos = static_cast<long>((m_MultiTurnNum + delta_circle) * static_cast<double>(m_DriverParam->AbsEncRes)
+				* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio);
 			break;
 		}
+	}
+
+	void CDriver::SetAdditivePosition(double additive_pos)
+	{
+
 	}
 
 	/**
@@ -148,6 +209,12 @@ namespace Driver
 	void CDriver::SetTargetVelocity(double cmd_vel)
 	{
 		m_TargetVel = static_cast<long>(cmd_vel * static_cast<double>(m_DriverParam->AbsEncRes)
+			* m_DriverParam->TransmissionRatio * m_DriverParam->AbsEncDir);
+	}
+
+	void CDriver::SetAdditiveVelocity(double additive_vel)
+	{
+		m_AdditiveVel = static_cast<long>(additive_vel * static_cast<double>(m_DriverParam->AbsEncRes)
 			* m_DriverParam->TransmissionRatio * m_DriverParam->AbsEncDir);
 	}
 
@@ -480,7 +547,7 @@ namespace Driver
 
 	bool CDriver::Disable_General()
 	{
-		bool off_flag = true;
+		bool off_flag = false;
 
 		m_ControlWord = ControlWordGeneral::eDisableOperation;
 
@@ -676,6 +743,10 @@ namespace Driver
 			//m_WarningCode = m_DriverInput->WarningCode;
 
 			m_ActualOpMode = m_DriverInput->ActualOpMode;
+
+			m_EffectivePosCmd = m_DriverInput->EffectivePositionCmd;
+			m_EffectiveVelCmd = m_DriverInput->EffectiveVelocityCmd;
+			m_EffectiveTorCmd = m_DriverInput->EffectiveTorqueCmd;
 		}
 	}
 
@@ -689,6 +760,8 @@ namespace Driver
 			m_DriverOutput->TargetTorque = m_TargetTor;
 			m_DriverOutput->OperationMode = m_OperationMode;
 			m_DriverOutput->AdditiveTorque = m_AdditiveTor;
+			m_DriverOutput->AdditivePosition = m_AdditivePos;
+			m_DriverOutput->AdditiveVelocity = m_AdditiveVel;
 		}
 	}
 }

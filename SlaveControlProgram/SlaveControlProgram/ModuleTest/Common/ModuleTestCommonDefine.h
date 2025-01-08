@@ -10,8 +10,10 @@ enum class AxisGroupCase
 	AxisGroupServoOff = 2,
 	AxisGroupEnterHandwheel = 3,
 	AxisGroupQuitHandwheel = 4,
-	AxisGroupContinuouslyMoving = 5,
-	AxisGroupStopContinuouslyMoving = 6
+	AxisGroupPreContinuouslyMoving = 5,
+	AxisGroupContinuouslyMoving = 6,
+	AxisGroupStopContinuouslyMoving = 7,
+	AxisGroupPositioning = 8
 };
 
 enum class SpindleCase

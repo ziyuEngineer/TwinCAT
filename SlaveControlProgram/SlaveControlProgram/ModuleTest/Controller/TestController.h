@@ -29,6 +29,9 @@ private:
 	void ReactionToHandwheelButton();
 	void ReactionToRecoveryButton();
 	void ReactionToContinuousButton();
+	void ReactionToGetParamValueButton();
+	void ReactionToSetParamValueButton();
+	void ReactionToPositioning();
 
 	AxisGroupCase m_AxisGroupTestCase;
 	SpindleCase m_SpindleTestCase;
@@ -38,6 +41,14 @@ private:
 	bool m_IsAxisGroupManualMoving = false;
 	bool m_IsSpindleMoving = false;
 	bool m_IsContinuousSelected = false;
+	bool m_IsPreContinuousPassed = false;
+	bool m_IsGetKpButtonSelected = false;
+	bool m_IsGetKvButtonSelected = false;
+	bool m_IsGetTnButtonSelected = false;
+	bool m_IsSetKpButtonSelected = false;
+	bool m_IsSetKvButtonSelected = false;
+	bool m_IsSetTnButtonSelected = false;
+	bool m_IsPositioning = false;
 
 	// Invoke interfaces provided by Spindle module
 	void TestSpindleRotate(double vel);
@@ -57,6 +68,15 @@ private:
 	bool IsAxisGroupOpModeChanged();
 	bool IsAxisGroupDisabled();
 	bool IsAxisGroupManualMoving();
+	void TestAxisGroupPositioning();
+
+	bool TestGetSingleAxisKp();
+	bool TestGetSingleAxisKv();
+	bool TestGetSingleAxisTn();
+
+	bool TestSetSingleAxisKp();
+	bool TestSetSingleAxisTn();
+	bool TestSetSingleAxisKv();
 
 	bool IsMovingOperationAllowed();
 	void UpdateManualMovingCommand();
