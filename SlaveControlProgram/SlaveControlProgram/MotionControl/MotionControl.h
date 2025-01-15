@@ -33,7 +33,7 @@ public:
 	virtual HRESULT TCOMAPI CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG_PTR context);
 
 	// IMotionControlInterface
-	virtual HRESULT TCOMAPI ExecuteCommandsContinuously(SHORT n_min_data_start, SHORT& buffer_size, OpMode op_mode);
+	virtual HRESULT TCOMAPI ExecuteCommandsContinuously(ULONG n_min_data_start, ULONG& buffer_size, OpMode op_mode);
 	virtual HRESULT TCOMAPI EnterRecoveryState(bool is_entered);
 	virtual HRESULT TCOMAPI RequestStop();
 	virtual HRESULT TCOMAPI EnterFaultState();

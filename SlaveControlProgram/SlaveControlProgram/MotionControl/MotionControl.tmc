@@ -729,18 +729,18 @@
       </Hides>
     </DataType>
     <DataType>
-      <Name GUID="{4bc0dca3-18c2-48b3-8dd4-977b001bdde2}">IMotionControlInterface</Name><BitSize X64="64">32</BitSize>
+      <Name GUID="{c80bd8f2-fca8-4616-b3d3-6e4462c7dc5b}">IMotionControlInterface</Name><BitSize X64="64">32</BitSize>
       <BaseType GUID="{00000001-0000-0000-e000-000000000064}">ITcUnknown</BaseType>
       <Method>
         <Name RpcEnable="cpp">ExecuteCommandsContinuously</Name>
         <ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
         <Parameter>
           <Name>n_min_data_start</Name>
-          <Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" RpcDirection="in">UDINT</Type>
         </Parameter>
         <Parameter>
           <Name>buffer_size</Name>
-          <Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="out" ReferenceTo="true">INT</Type>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" RpcDirection="out" ReferenceTo="true">UDINT</Type>
         </Parameter><Parameter><Name>op_mode</Name><Type GUID="{75816603-8b01-41ed-9f49-1001e13236b1}" RpcDirection="in">OpMode</Type></Parameter>
       </Method>
       <Method>
@@ -757,7 +757,7 @@
         <Hide GUID="{e77d7290-e22c-441b-a38b-2d6c2eb34b56}" />
         <Hide GUID="{bdb70224-8adb-4a67-ba02-29339488814c}" />
         <Hide GUID="{f7764ee2-1985-4955-ab83-94f720e843b1}" />
-        <Hide GUID="{b3dcb58a-8089-4641-9a0c-e878c1926708}" /><Hide GUID="{75f6f238-a022-446e-8f56-58206fca8931}" /><Hide GUID="{7b5f3667-9010-4928-8e7b-beaa3e7d8a6e}" /><Hide GUID="{30a861f3-f64b-453a-ae46-1a36980c4a13}" /><Hide GUID="{73968de1-2650-44d1-ae7d-ebed40f2b70e}" /><Hide GUID="{969c38e8-83da-4c1c-89be-87ebf872b043}" /><Hide GUID="{d57097f6-3bba-4685-a6ef-110fe1798263}" /><Hide GUID="{0a661e3e-e020-43b6-b916-4725f5a024f4}" /><Hide GUID="{37a9e05f-ded9-49c8-90f2-c91c318d920d}" /><Hide GUID="{d804f115-ab53-457a-aaaa-4c2d04102be8}" /><Hide GUID="{71e721f1-76b0-4c30-af64-d8d4b589cf78}" /><Hide GUID="{93e107b6-bc14-414d-b436-0f68179d05c3}" /><Hide GUID="{742b0e48-03f7-4d6f-b4c2-e73327984207}" /><Hide GUID="{71f54756-a4ca-4520-b36a-5406144c2281}" /><Hide GUID="{fb25f28a-ddda-4456-aaec-cf04996ad5e7}" /><Hide GUID="{636d452d-243e-46f3-b931-8438f76663d2}" /><Hide GUID="{8a2d1c66-5b39-4213-9d0f-735de43a31dc}" /><Hide GUID="{4d6e4de6-92e2-4e0e-9440-3f5f63a1a390}" /><Hide GUID="{7c158a93-6fa4-4df8-8d99-c2fbb42afac1}" /><Hide GUID="{cc49b971-7b94-4dfc-9d97-41f9534833e7}" /><Hide GUID="{f4fc1fb6-f29f-440f-9f14-578c8d487c63}" /><Hide GUID="{eb040efe-8b3a-4bc3-bb09-58916da84c3e}" />
+        <Hide GUID="{b3dcb58a-8089-4641-9a0c-e878c1926708}" /><Hide GUID="{75f6f238-a022-446e-8f56-58206fca8931}" /><Hide GUID="{7b5f3667-9010-4928-8e7b-beaa3e7d8a6e}" /><Hide GUID="{30a861f3-f64b-453a-ae46-1a36980c4a13}" /><Hide GUID="{73968de1-2650-44d1-ae7d-ebed40f2b70e}" /><Hide GUID="{969c38e8-83da-4c1c-89be-87ebf872b043}" /><Hide GUID="{d57097f6-3bba-4685-a6ef-110fe1798263}" /><Hide GUID="{0a661e3e-e020-43b6-b916-4725f5a024f4}" /><Hide GUID="{37a9e05f-ded9-49c8-90f2-c91c318d920d}" /><Hide GUID="{d804f115-ab53-457a-aaaa-4c2d04102be8}" /><Hide GUID="{71e721f1-76b0-4c30-af64-d8d4b589cf78}" /><Hide GUID="{93e107b6-bc14-414d-b436-0f68179d05c3}" /><Hide GUID="{742b0e48-03f7-4d6f-b4c2-e73327984207}" /><Hide GUID="{71f54756-a4ca-4520-b36a-5406144c2281}" /><Hide GUID="{fb25f28a-ddda-4456-aaec-cf04996ad5e7}" /><Hide GUID="{636d452d-243e-46f3-b931-8438f76663d2}" /><Hide GUID="{8a2d1c66-5b39-4213-9d0f-735de43a31dc}" /><Hide GUID="{4d6e4de6-92e2-4e0e-9440-3f5f63a1a390}" /><Hide GUID="{7c158a93-6fa4-4df8-8d99-c2fbb42afac1}" /><Hide GUID="{cc49b971-7b94-4dfc-9d97-41f9534833e7}" /><Hide GUID="{f4fc1fb6-f29f-440f-9f14-578c8d487c63}" /><Hide GUID="{eb040efe-8b3a-4bc3-bb09-58916da84c3e}" /><Hide GUID="{4bc0dca3-18c2-48b3-8dd4-977b001bdde2}" />
       </Hides>
     </DataType>
     <DataType>
@@ -992,7 +992,7 @@
           <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
         </Interface>
         <Interface>
-          <Type GUID="{4bc0dca3-18c2-48b3-8dd4-977b001bdde2}">IMotionControlInterface</Type>
+          <Type GUID="{c80bd8f2-fca8-4616-b3d3-6e4462c7dc5b}">IMotionControlInterface</Type>
           <ContextId>1</ContextId>
         </Interface>
       </Interfaces>
@@ -1272,7 +1272,7 @@
           <PTCID>#x03002060</PTCID>
           <Name>CyclicCaller</Name>
           <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
-        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>MainModule_Interface</Name><Type GUID="{4bc0dca3-18c2-48b3-8dd4-977b001bdde2}">IMotionControlInterface</Type><ContextId>1</ContextId></InterfacePointer>
+        </InterfacePointer><InterfacePointer><PTCID>#x00000002</PTCID><Name>MainModule_Interface</Name><Type GUID="{c80bd8f2-fca8-4616-b3d3-6e4462c7dc5b}">IMotionControlInterface</Type><ContextId>1</ContextId></InterfacePointer>
       </InterfacePointers>
       <DataPointers />
       <Deployment>

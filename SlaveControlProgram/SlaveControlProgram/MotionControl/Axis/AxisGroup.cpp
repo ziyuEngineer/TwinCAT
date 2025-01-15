@@ -186,12 +186,16 @@ void CAxisGroup::Move(FullCommand cmd)
 			{
 			case OpMode::CSP:
 				m_Axes[i][j].Move(cmd.motionCommand.Pos[i], OpMode::CSP, kNotInterpolated, false);
+				m_Axes[i][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[i]);
+				//m_Axes[i][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 				break;
 			case OpMode::CST:
 				m_Axes[i][j].Move(cmd.motionCommand.Acc[i], OpMode::CST, kNotInterpolated, false);
 				break;
 			case OpMode::CSV:
 				m_Axes[i][j].Move(cmd.motionCommand.Vel[i], OpMode::CSV, kNotInterpolated, false);
+				m_Axes[i][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[i]);
+				//m_Axes[i][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 				break;
 			default:
 				//m_Axes[i][j].HoldPosition();
@@ -231,8 +235,7 @@ void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd)
 		{
 		case OpMode::CSP:
 			m_Axes[index][j].Move(cmd.motionCommand.Pos[index], OpMode::CSP, kNotInterpolated, false);
-			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.Acc[index]);
-			//m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
+			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
 			//m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			break;
 
@@ -242,8 +245,7 @@ void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd)
 
 		case OpMode::CSV:
 			m_Axes[index][j].Move(cmd.motionCommand.Vel[index], OpMode::CSV, kNotInterpolated, false);
-			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.Acc[index]);
-			//m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
+			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
 			//m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			break;
 

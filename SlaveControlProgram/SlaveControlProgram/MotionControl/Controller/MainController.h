@@ -16,6 +16,7 @@ public:
 	static IAxisGroupInterface* m_pAxisGroupInterface;
 
 	SystemState m_MainState;
+	static CTcTrace* m_Trace;
 
 private:
 	MotionControlInputs* m_pInputs = nullptr;
@@ -35,7 +36,8 @@ public:
 	// Command process
 	bool RingBufferDispatchCommand();
 	void EmptyRingBuffer();
-	void QuitMachining();
+	void QuitMachiningNormally();
+	void QuitMachiningWithWarning();
 	void ClearLocalCommand();
 
 	// Panel Information
@@ -52,11 +54,12 @@ public:
 
 	void RingBufferInput();
 	void RingBufferOutput();
-	int GetCurrentRingBufferSize();
+	ULONG GetCurrentRingBufferSize();
+	bool IsLatestCommandStop();
 
 	// RPC invoked by host
 	// Ring Buffer
-	int GetMaxBufferSize();
+	ULONG GetMaxBufferSize();
 	bool IsReadyToMove();
 	bool IsReadyToReceiveCmd();
 
@@ -94,4 +97,6 @@ private:
 	Vector<50> m_VectorB;
 	bool MatrixAssign();
 	void MatrixTest();
+
+	//CTcTrace m_Trace;
 };

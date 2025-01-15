@@ -175,7 +175,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{4BC0DCA3-18C2-48B3-8DD4-977B001BDDE2}">IMotionControlInterface</Name>
+			<Name GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Name>
 			<BitSize X64="64">32</BitSize>
 			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
 			<Method>
@@ -184,12 +184,12 @@
 				<ReturnBitSize>32</ReturnBitSize>
 				<Parameter>
 					<Name>n_min_data_start</Name>
-					<Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type>
-					<BitSize>16</BitSize>
+					<Type GUID="{18071995-0000-0000-0000-000000000008}" RpcDirection="in">UDINT</Type>
+					<BitSize>32</BitSize>
 				</Parameter>
 				<Parameter>
 					<Name>buffer_size</Name>
-					<Type GUID="{18071995-0000-0000-0000-000000000006}" ReferenceTo="true" RpcDirection="out">INT</Type>
+					<Type GUID="{18071995-0000-0000-0000-000000000008}" ReferenceTo="true" RpcDirection="out">UDINT</Type>
 					<BitSize X64="64">32</BitSize>
 				</Parameter>
 				<Parameter>
@@ -296,6 +296,7 @@
 				<Hide GUID="{CC49B971-7B94-4DFC-9D97-41F9534833E7}"/>
 				<Hide GUID="{F4FC1FB6-F29F-440F-9F14-578C8D487C63}"/>
 				<Hide GUID="{EB040EFE-8B3A-4BC3-BB09-58916DA84C3E}"/>
+				<Hide GUID="{4BC0DCA3-18C2-48B3-8DD4-977B001BDDE2}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -1926,7 +1927,7 @@
 								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
 							</Interface>
 							<Interface>
-								<Type GUID="{4BC0DCA3-18C2-48B3-8DD4-977B001BDDE2}">IMotionControlInterface</Type>
+								<Type GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Type>
 								<ContextId>1</ContextId>
 							</Interface>
 						</Interfaces>
@@ -2092,7 +2093,7 @@
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
-								<EnumText>tlAlways</EnumText>
+								<EnumText>tlError</EnumText>
 							</Value>
 							<Value>
 								<Name>Parameter</Name>
@@ -3606,7 +3607,7 @@
 							<InterfacePointer>
 								<PTCID>#x00000002</PTCID>
 								<Name>MainModule_Interface</Name>
-								<Type GUID="{4BC0DCA3-18C2-48B3-8DD4-977B001BDDE2}">IMotionControlInterface</Type>
+								<Type GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Type>
 								<ContextId>1</ContextId>
 							</InterfacePointer>
 						</InterfacePointers>

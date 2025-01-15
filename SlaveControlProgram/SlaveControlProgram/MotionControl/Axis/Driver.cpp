@@ -32,9 +32,18 @@ namespace Driver
 				break;
 			case 1: // rotate
 				m_MultiTurnNum = int(m_FdbPosVal / m_DriverParam->AbsEncRes);
+				long mod_value = m_FdbPosVal % m_DriverParam->AbsEncRes;
 
-				return static_cast<double>(m_FdbPosVal % m_DriverParam->AbsEncRes) / static_cast<double>(m_DriverParam->AbsEncRes)
+				if (mod_value != 0 && m_FdbPosVal < 0) {
+					m_MultiTurnNum -= 1;
+				}
+
+				if (mod_value < 0) {
+					mod_value += m_DriverParam->AbsEncRes;
+				}
+				return static_cast<double>(mod_value) / static_cast<double>(m_DriverParam->AbsEncRes)
 					* static_cast<double>(m_DriverParam->AbsEncDir) * kFullCircle / m_DriverParam->TransmissionRatio;
+				
 				break;
 			}
 		}

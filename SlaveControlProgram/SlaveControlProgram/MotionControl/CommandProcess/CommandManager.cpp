@@ -3,7 +3,7 @@
 #include "CommandManager.h"
 
 CCommandManager::CCommandManager() {
-    m_CommandBuffer = new Ringbuffer<FullCommand, 32768>();
+    m_CommandBuffer = new Ringbuffer<FullCommand, kMaxBufferSize>();
     m_LocalReadIndex = 0;
 }
 
@@ -55,13 +55,35 @@ void CCommandManager::Reset()
     memset(&m_Command, 0, sizeof(FullCommand));
 }
 
-int CCommandManager::GetMaxBufferSize() 
+ULONG CCommandManager::GetMaxBufferSize()
 { 
-    return m_CommandBuffer->getBufferSize(); 
+    return kMaxBufferSize;
 }
 
-int CCommandManager::GetCurrentBufferSize()
+ULONG CCommandManager::GetCurrentBufferSize()
 {
-    int current_ringbuffer_size = m_CommandBuffer->getHead() - m_CommandBuffer->getTail();
+    ULONG current_ringbuffer_size = m_CommandBuffer->readAvailable();
     return current_ringbuffer_size;
+}
+
+void CCommandManager::GetLatestCommand(FullCommand& cmd)
+{
+    if (m_CommandBuffer->isEmpty()) 
+    {
+        memset(&cmd, 0, sizeof(FullCommand));
+    }
+    else
+    {
+        size_t last_index = m_CommandBuffer->readAvailable() - 1;
+
+        FullCommand* latestCommand = m_CommandBuffer->at(last_index);
+        if (latestCommand != nullptr)
+        {
+            cmd = *latestCommand;
+        }
+        else
+        {
+            memset(&cmd, 0, sizeof(FullCommand));
+        }
+    }
 }

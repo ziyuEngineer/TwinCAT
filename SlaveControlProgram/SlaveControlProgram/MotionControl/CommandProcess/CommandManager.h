@@ -21,10 +21,12 @@ public:
 
     bool GetCommandFromBuffer();
     const FullCommand& GetCurrentCommand() const { return m_Command; };
+   
     void Reset();
 
-    int GetMaxBufferSize();
-    int GetCurrentBufferSize();
+    ULONG GetMaxBufferSize();
+    ULONG GetCurrentBufferSize();
+    void GetLatestCommand(FullCommand& cmd);
 
     FullCommand m_Command;
 

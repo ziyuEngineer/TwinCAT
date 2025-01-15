@@ -4,7 +4,7 @@
 class MainStateBuffering : public MainStateMachine
 {
 protected:
-    int m_MinDataLengthToStart;
+    ULONG m_MinDataLengthToStart;
     OpMode m_RequestAxisGroupOpMode;
     bool m_IsAxisGroupOpModeSwitched = false;
 
@@ -35,7 +35,7 @@ public:
 
     void react(EventStopContinuousMoving const&) override // Invoked by Host
     {
-        s_pController->QuitMachining();
+        s_pController->QuitMachiningNormally();
         transit<MainStateStandby>();
     }
 
@@ -50,14 +50,14 @@ public:
         m_IsAxisGroupOpModeSwitched = false;
     }
 
-    void SetMinDataLengthToStart(int min_length)
+    void SetMinDataLengthToStart(ULONG min_length)
     {
         m_MinDataLengthToStart = min_length;
     }
 
     bool IsCommandEnoughToStartMoving()
     {
-        return (s_pController->GetCurrentRingBufferSize() >= m_MinDataLengthToStart);
+        return ((s_pController->GetCurrentRingBufferSize() >= m_MinDataLengthToStart) || s_pController->IsLatestCommandStop());
     }
 
     void SetAxisGroupOpMode(OpMode op_mode)

@@ -16,18 +16,23 @@ public:
         s_pController->RingBufferOutput();
 
         bool is_command_valid = s_pController->RingBufferDispatchCommand(); 
-        // TODO : transit to Fault state if (!is_command_valid)
+        
+        if (!is_command_valid)
+        {
+            s_pController->QuitMachiningWithWarning();
+            transit<MainStateStandby>();
+        }
         
         if (s_pController->IsMovingFinished())
         {
-            s_pController->QuitMachining();
+            s_pController->QuitMachiningNormally();
             transit<MainStateStandby>();
         }
     }
 
     void react(EventStopContinuousMoving const&) override // Invoked by Host
     {
-        s_pController->QuitMachining();
+        s_pController->QuitMachiningNormally();
         transit<MainStateStandby>();
     }
 
@@ -54,6 +59,5 @@ public:
 
     void exit() override
     {
-
     }
 };

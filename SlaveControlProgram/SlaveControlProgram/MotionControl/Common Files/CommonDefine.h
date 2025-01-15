@@ -30,7 +30,7 @@ constexpr bool kInterpolated = true;
 constexpr bool kNotInterpolated = false;
 
 // Command buffer define
-constexpr UINT16 kMaxBufferSize = 32768;
+constexpr ULONG kMaxBufferSize = 32768;
 
 // Torque check const
 constexpr int kCheckWindowSize = 100;

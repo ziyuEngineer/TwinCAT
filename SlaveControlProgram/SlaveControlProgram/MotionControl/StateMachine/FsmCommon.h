@@ -91,7 +91,7 @@ struct EventAxisGroupPositioning : tinyfsm::Event
 // Quit Standby/Manual state and Enter Buffering state
 struct EventContinuousExecution : tinyfsm::Event
 {
-	int minDataToStart;
+	ULONG minDataToStart;
 	OpMode axisgroupOpMode;
 };
 

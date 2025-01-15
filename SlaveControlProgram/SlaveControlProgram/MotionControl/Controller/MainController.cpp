@@ -5,6 +5,7 @@
 IPanelProcess* CMainController::m_pPanelProcess = nullptr;
 ISpindleInterface* CMainController::m_pSpindleInterface = nullptr;
 IAxisGroupInterface* CMainController::m_pAxisGroupInterface = nullptr;
+CTcTrace* CMainController::m_Trace = nullptr;
 
 CMainController::CMainController()
 {
@@ -57,7 +58,7 @@ bool CMainController::IsMovingFinished()
 {
 	// Currently, only a stop motion instruction is placed at the end of the ringbuffer, 
 	// which applies to AxisGroup and Spindle.
-	return (m_CommandManager.GetCurrentCommand().metaData.CommandType == CommandType::eSignalFinalized);
+	return (m_CommandManager.GetCurrentCommand().otherCommand.CommandFunction == CommandFunction::eM30);
 }
 
 bool CMainController::RingBufferDispatchCommand()
@@ -65,6 +66,7 @@ bool CMainController::RingBufferDispatchCommand()
 	if (m_CommandManager.GetCommandFromBuffer())
 	{
 		FullCommand temp_command = m_CommandManager.GetCurrentCommand();
+		
 		switch(temp_command.metaData.CommandType)
 		{
 		case CommandType::eMotion:
@@ -80,12 +82,13 @@ bool CMainController::RingBufferDispatchCommand()
 			// TODO : rewrite as switch-case in future if more functions are introduced
 			if (temp_command.otherCommand.CommandFunction == CommandFunction::eSpindle)
 			{
-				SpindleRot spindle_rot;
+				SpindleRot spindle_rot{};
 				spindle_rot.TargetVel = m_CommandManager.m_Command.otherCommand.Data;
 				m_pSpindleInterface->RequestRotating(spindle_rot);
 			}
 			break;
 		}
+		
 		return true;
 	}
 	return false;
@@ -101,12 +104,22 @@ void CMainController::ClearLocalCommand()
 	memset(&m_pOutputs->ContinuousMovingCommand, 0, sizeof(FullCommand));
 }
 
-void CMainController::QuitMachining()
+void CMainController::QuitMachiningNormally()
 {
 	ClearLocalCommand();
 	EmptyRingBuffer();
 	RequestSpindleStop();
 	RequestAxisGroupStop();
+}
+
+void CMainController::QuitMachiningWithWarning()
+{
+	m_Trace->Log(tlError, FENTERA);
+	ClearLocalCommand();
+	EmptyRingBuffer();
+	RequestSpindleStop();
+	RequestAxisGroupStop();
+	m_Trace->Log(tlError, FNAMEA "Level tlError : Quit machining unexpectedly");
 }
 
 bool CMainController::IsServoOnPressed()
@@ -186,12 +199,19 @@ void CMainController::RingBufferOutput()
 	m_CommandManager.Output();
 }
 
-int CMainController::GetCurrentRingBufferSize()
+ULONG CMainController::GetCurrentRingBufferSize()
 {
 	return m_CommandManager.GetCurrentBufferSize();
 }
 
-int CMainController::GetMaxBufferSize()
+bool CMainController::IsLatestCommandStop()
+{
+	FullCommand last_cmd;
+	m_CommandManager.GetLatestCommand(last_cmd);
+	return (last_cmd.metaData.CommandType == CommandType::eOther) && (last_cmd.otherCommand.CommandFunction == CommandFunction::eM30);
+}
+
+ULONG CMainController::GetMaxBufferSize()
 {
 	return m_CommandManager.GetMaxBufferSize();
 }
@@ -215,7 +235,7 @@ bool CMainController::IsReadyToReceiveCmd()
 
 void CMainController::RequestSpindleRotate(double vel)
 {
-	SpindleRot spindle_rot;
+	SpindleRot spindle_rot{};
 	spindle_rot.TargetVel = vel;
 	m_pSpindleInterface->RequestRotating(spindle_rot);
 }
