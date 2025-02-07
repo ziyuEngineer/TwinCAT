@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes ><DataType><Name GUID="{05051960-DD0C-4E1E-BE19-8CF043C7E5C0}">DriverInput</Name><BitSize>256</BitSize><SubItem><Name>StatusWord</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>ActualAbsPos</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>ActualTor</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>ActualVel</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>96</BitOffs></SubItem><SubItem><Name>ErrorCode</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>ActualOpMode</Name><Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type><BitSize>8</BitSize><BitOffs>144</BitOffs></SubItem><SubItem><Name>EffectiveTorqueCmd</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>160</BitOffs></SubItem><SubItem><Name>EffectivePositionCmd</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>192</BitOffs></SubItem><SubItem><Name>EffectiveVelocityCmd</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>224</BitOffs></SubItem><Hides><Hide GUID="{BBFCA707-D69C-480D-A79E-A9CA0E101CE3}" /><Hide GUID="{54CBDCB3-6261-493E-A98E-F0E5454AD0E6}" /><Hide GUID="{BC7271FA-55C3-4AA8-BB20-A421FAF1BB9F}" /><Hide GUID="{91114EB3-9644-4864-867E-7C4ACBF08BE8}" /><Hide GUID="{6598AFDF-101B-49D0-969E-97C981C74395}" /><Hide GUID="{86D7EB76-F5C6-4ED0-8A98-193583670B11}" /><Hide GUID="{AF8E8CBE-846F-4817-820B-E1FB21CEB728}" /></Hides></DataType><DataType><Name GUID="{344A141A-6449-48B1-917F-47644EE068F6}">DriverOutput</Name><BitSize>224</BitSize><SubItem><Name>ControlWord</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>TargetPosition</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>TargetTorque</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>TargetVelocity</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>96</BitOffs></SubItem><SubItem><Name>OperationMode</Name><Type GUID="{18071995-0000-0000-0000-000000000003}">SINT</Type><BitSize>8</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>AdditiveTorque</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>144</BitOffs></SubItem><SubItem><Name>AdditiveVelocity</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>160</BitOffs></SubItem><SubItem><Name>AdditivePosition</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><BitSize>32</BitSize><BitOffs>192</BitOffs></SubItem><Hides><Hide GUID="{701C4C47-148F-4C36-A38D-AAF6DFACF7E3}" /><Hide GUID="{EC6E6204-239F-476C-8280-1984DD110714}" /><Hide GUID="{B4A9A927-0308-4BB0-8808-D7AD02AF7FD9}" /><Hide GUID="{D92A0736-9D45-45DD-BCE4-6585EAB67921}" /><Hide GUID="{2E26FE9F-B49E-48D7-AAB7-8DB7F300EBFA}" /></Hides></DataType><DataType><Name GUID="{EE32EC38-3CFD-4D8B-9EB4-C1E6E69C354B}">MotionControlInfo</Name><BitSize>448</BitSize><SubItem><Name>AbsEncDir</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><Comment TxtId=""><![CDATA[Absolute Encoder (positive) Direction]]></Comment><BitSize>16</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>AbsEncRes</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Absolute Encoder Resolution]]></Comment><BitSize>32</BitSize><BitOffs>32</BitOffs></SubItem><SubItem><Name>RatedCurrent</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><Comment TxtId=""><![CDATA[Rated Current]]></Comment><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>RatedTorque</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><Comment TxtId=""><![CDATA[Rated Torque]]></Comment><BitSize>64</BitSize><BitOffs>128</BitOffs></SubItem><SubItem><Name>TorDir</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><Comment TxtId=""><![CDATA[Torque (positive)Direction]]></Comment><BitSize>16</BitSize><BitOffs>192</BitOffs></SubItem><SubItem><Name>AbsZeroPos</Name><Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type><Comment TxtId=""><![CDATA[Zero Position of Absolute Encoder]]></Comment><BitSize>32</BitSize><BitOffs>224</BitOffs></SubItem><SubItem><Name>TransmissionRatio</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>256</BitOffs></SubItem><SubItem><Name>TorPdoMax</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>320</BitOffs></SubItem><SubItem><Name>AdditiveTorque</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>336</BitOffs></SubItem><SubItem><Name>MoveType</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>352</BitOffs></SubItem><SubItem><Name>DriverType</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>368</BitOffs></SubItem><SubItem><Name>Exposed</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>384</BitOffs></SubItem><Hides><Hide GUID="{7277DCA6-B413-41D3-A0A3-18C7FB71DA27}" /><Hide GUID="{A7D30AA7-DE0F-4D81-B94C-5AE394390349}" /><Hide GUID="{58BAEE27-66BA-4E11-946F-1D1E0DB3E6D2}" /><Hide GUID="{91560D14-88E7-4870-93FC-C62289F249C4}" /><Hide GUID="{3CE33675-EFAB-4FB1-A5C7-63D03F7B7FF3}" /><Hide GUID="{1EADE0BF-0E40-47AC-BFA2-37826BC9272D}" /><Hide GUID="{974CB096-A280-4F2A-BEB6-817045DBCE3F}" /><Hide GUID="{2BD6A7AA-88A2-4EF3-8D0E-67903D4DC5DD}" /><Hide GUID="{906FFACA-4191-4CCD-BAC1-EACCD15DD2B8}" /><Hide GUID="{4584F69F-7729-4006-AD12-2D16674A2DB4}" /><Hide GUID="{C2E784BB-1A77-4CBA-8FEC-0D0FDB94F2D8}" /><Hide GUID="{FF5DF032-DD94-452B-A05B-6AF7B3E87B09}" /><Hide GUID="{D2A646CE-CB53-4790-AB47-3CB0C83F74C9}" /><Hide GUID="{53C390C3-5E50-4BE8-B750-55DB3104EA46}" /><Hide GUID="{2FB4C30B-56B1-4C1B-BEBC-F12DB744C10D}" /><Hide GUID="{735C7F0E-E310-4F28-89B6-A4AF9A5158AE}" /><Hide GUID="{B437FD1A-14B6-47F9-B277-72F55DF6234F}" /><Hide GUID="{A3E4C313-6B77-4C9C-8695-27705B851033}" /><Hide GUID="{F512F522-E8D1-4D42-8E2E-F11B4CC4AE58}" /><Hide GUID="{01ACD3C1-C2B4-4EA5-8DAC-BD56221F236A}" /><Hide GUID="{71781904-9713-4DC1-B011-7B2A7BC7CFD6}" /></Hides></DataType><DataType><Name GUID="{AF33319A-EDFA-B2D2-9FB8-D62638409ADE}" Namespace="Tc2_EtherCAT" AutoDeleteType="true">ST_PlcDriveRef</Name><BitSize>80</BitSize><SubItem><Name>aNetId</Name><Type GUID="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" Namespace="Tc2_System">T_AmsNetIdArr</Type><Comment><![CDATA[ AmsNetId of the EtherCAT master device.]]></Comment><BitSize>48</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>nSlaveAddr</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><Comment><![CDATA[ Address of the slave device.]]></Comment><BitSize>16</BitSize><BitOffs>48</BitOffs></SubItem><SubItem><Name>nDriveNo</Name><Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type><Comment><![CDATA[ Drive number]]></Comment><BitSize>8</BitSize><BitOffs>64</BitOffs></SubItem><SubItem><Name>nDriveType</Name><Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type><Comment><![CDATA[ Drive type]]></Comment><BitSize>8</BitSize><BitOffs>72</BitOffs></SubItem></DataType><DataType><Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name><BitSize>48</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType><ArrayInfo><LBound>0</LBound><Elements>6</Elements></ArrayInfo><Format><Printf>%d.%d.%d.%d.%d.%d</Printf><Parameter>[0]</Parameter><Parameter>[1]</Parameter><Parameter>[2]</Parameter><Parameter>[3]</Parameter><Parameter>[4]</Parameter><Parameter>[5]</Parameter></Format></DataType><DataType><Name GUID="{3BD42FCA-85FC-C899-2F71-A9346CD54EAB}" Namespace="Tc2_System" AutoDeleteType="true">T_AmsNetIdArr</Name><Comment><![CDATA[ TwinCAT AMS netID address bytes. ]]></Comment><BitSize>48</BitSize><BaseType GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</BaseType></DataType></DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{fd1639f7-a08c-4b74-a3da-886f84400b1e}" Group="C++">
+      <Name>ModuleSimulation</Name>
+      <CLSID ClassFactory="ModuleSimulation">{fd1639f7-a08c-4b74-a3da-886f84400b1e}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>Parameter</Name><SubItem><Name>AxisGroupParam</Name><Type GUID="{ee32ec38-3cfd-4d8b-9eb4-c1e6e69c354b}">MotionControlInfo</Type><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitSize>4480</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>SpindleParam</Name><Type GUID="{ee32ec38-3cfd-4d8b-9eb4-c1e6e69c354b}">MotionControlInfo</Type><BitSize>448</BitSize><BitOffs>4480</BitOffs></SubItem><SubItem><Name>ActualAxisGroupDriverNum</Name><Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type><BitSize>16</BitSize><BitOffs>4928</BitOffs></SubItem><SubItem><Name>CycleTime</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type></SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter><Parameter><Name>TaskCycleTime</Name><Comment TxtId=""><![CDATA[Cycle time of task]]></Comment><BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType><PTCID>#x03002080</PTCID><ContextId>1</ContextId></Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId><ByteSize>308</ByteSize><Symbol><Name>SimAxisGroupReceive</Name><BitSize>2240</BitSize><BaseType GUID="{344a141a-6449-48b1-917f-47644ee068f6}">DriverOutput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>0</BitOffs></Symbol><Symbol><Name>SimSpindleReceive</Name><BitSize>224</BitSize><BaseType GUID="{344a141a-6449-48b1-917f-47644ee068f6}">DriverOutput</BaseType><BitOffs>2240</BitOffs></Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId><ByteSize>452</ByteSize><Symbol><Name>SimAxisGroupTransmit</Name><BitSize>2560</BitSize><BaseType GUID="{05051960-dd0c-4e1e-be19-8cf043c7e5c0}">DriverInput</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>0</BitOffs></Symbol><Symbol><Name>SimSpindleTransmit</Name><BitSize>256</BitSize><BaseType GUID="{05051960-dd0c-4e1e-be19-8cf043c7e5c0}">DriverInput</BaseType><BitOffs>2560</BitOffs></Symbol><Symbol><Name>SimAxisGroupDriverInfo</Name><BitSize>800</BitSize><BaseType GUID="{af33319a-edfa-b2d2-9fb8-d62638409ade}" Namespace="Tc2_EtherCAT">ST_PlcDriveRef</BaseType><ArrayInfo><LBound>0</LBound><Elements>10</Elements></ArrayInfo><BitOffs>2816</BitOffs></Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x86)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+        </FileEntry>
+        <FileEntry TargetPlatform="TwinCAT RT (x64)">
+          <SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+          <DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+        </FileEntry>
+      </Deployment>
+    </Module>
+  </Modules>
+</TcModuleClass>

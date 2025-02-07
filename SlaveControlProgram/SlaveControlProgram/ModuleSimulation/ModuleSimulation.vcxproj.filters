@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3eebcae3-74d0-4d2e-bcbb-18f8dc6fa8a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{85ffdfb9-e0a3-4565-b6b4-150f0d767524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT UM Files">
+      <UniqueIdentifier>{54a77895-f45f-463b-b412-2ef1f37866f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT RT Files">
+      <UniqueIdentifier>{e15eb483-177a-4628-b790-fdd11eca243c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT OS Files">
+      <UniqueIdentifier>{c702a49c-4b10-4670-9cc7-efdf20f5424d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TMC Files">
+      <UniqueIdentifier>{117de984-a2c6-4cdb-a84a-4fb2feb6f7d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimAxis">
+      <UniqueIdentifier>{e5baca28-695a-414b-83d1-e93c552d7695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{e1ca2122-23e9-4cbf-8e67-a2be36e8f291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{8a9a991c-3ce1-4de8-bf34-379894144ad4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TcPch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulationClassFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulationInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulationServices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulationCtrl.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulationDriver.h">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSimulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ModuleSimulationCommonDefine.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\SimulationController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="SimAxis\SimCANopen.h">
+      <Filter>SimAxis</Filter>
+    </ClInclude>
+    <ClInclude Include="SimAxis\SimSERCOS.h">
+      <Filter>SimAxis</Filter>
+    </ClInclude>
+    <ClInclude Include="SimAxis\SimAxisGroup.h">
+      <Filter>SimAxis</Filter>
+    </ClInclude>
+    <ClInclude Include="SimAxis\SimSpindle.h">
+      <Filter>SimAxis</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TcPch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulationClassFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulationCtrl.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulationW32.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulationDriver.cpp">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulationMain.cpp">
+      <Filter>TwinCAT OS Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\SimulationController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="SimAxis\SimCANopen.cpp">
+      <Filter>SimAxis</Filter>
+    </ClCompile>
+    <ClCompile Include="SimAxis\SimSERCOS.cpp">
+      <Filter>SimAxis</Filter>
+    </ClCompile>
+    <ClCompile Include="SimAxis\SimAxisGroup.cpp">
+      <Filter>SimAxis</Filter>
+    </ClCompile>
+    <ClCompile Include="SimAxis\SimSpindle.cpp">
+      <Filter>SimAxis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ModuleSimulation.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ModuleSimulationW32.rc">
+      <Filter>TwinCAT UM Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModuleSimulationW32.def">
+      <Filter>TwinCAT UM Files</Filter>
+    </None>
+    <None Include="ModuleSimulation.tmc">
+      <Filter>TMC Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ModuleSimulationW32.idl">
+      <Filter>TwinCAT UM Files</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

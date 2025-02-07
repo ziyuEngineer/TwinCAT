@@ -114,12 +114,11 @@ void CMainController::QuitMachiningNormally()
 
 void CMainController::QuitMachiningWithWarning()
 {
-	m_Trace->Log(tlError, FENTERA);
 	ClearLocalCommand();
 	EmptyRingBuffer();
 	RequestSpindleStop();
 	RequestAxisGroupStop();
-	m_Trace->Log(tlError, FNAMEA "Level tlError : Quit machining unexpectedly");
+	m_Trace->Log(tlError, FNAMEA "Level tlError : Machining has stopped because there are no more commands.");
 }
 
 bool CMainController::IsServoOnPressed()

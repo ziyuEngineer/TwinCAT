@@ -355,12 +355,12 @@
 					<ManualConfig>
 						<OTCID>#x02010080</OTCID>
 					</ManualConfig>
-					<Priority>18</Priority>
+					<Priority>20</Priority>
 					<CycleTime>10000000</CycleTime>
 				</Context>
 			</Contexts>
 			<TaskPouOids>
-				<TaskPouOid Prio="18" OTCID="#x08502041"/>
+				<TaskPouOid Prio="20" OTCID="#x08502041"/>
 			</TaskPouOids>
 		</Instance>
 	</Project>

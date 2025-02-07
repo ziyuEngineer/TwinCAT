@@ -215,6 +215,7 @@ HRESULT CModuleAxisGroup::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 	if (!m_IsRpcReady)
 	{
 		m_IsRpcReady = InitializePlcRpc();
+		m_Trace.Log(tlError, FLEAVEA "Level tlError : Axisgroup module failed to initialize plc rpc.");
 	}
 	else
 	{

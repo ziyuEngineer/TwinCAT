@@ -15,7 +15,6 @@ constexpr double kRadius2Degree = 57.2957795;	// This constant is used to conver
 constexpr double kDegree2Radius = 0.01745329;	// This constant is used to convert an angle measured in degrees into radians.
 constexpr double kEpsilon = 1e-6;				// Define a very small value for floating-point operations.
 constexpr double kInf = 4.2950e+09;				// Define a very large value that can be used as an approximation for infinity.
-constexpr double kFullCircle = 360.0;
 
 // MotionControl define
 constexpr int kMaxMotorNumPerAxis = 2;

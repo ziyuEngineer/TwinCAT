@@ -26,24 +26,14 @@ namespace Driver
 		{
 			switch (m_DriverParam->MoveType)
 			{
-			case 0: // linear
+			case 0: // linear, unit: mm
 				return static_cast<double>(m_FdbPosVal - m_DriverParam->AbsZeroPos) / static_cast<double>(m_DriverParam->AbsEncRes)
 					* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
 				break;
-			case 1: // rotate
-				m_MultiTurnNum = int(m_FdbPosVal / m_DriverParam->AbsEncRes);
-				long mod_value = m_FdbPosVal % m_DriverParam->AbsEncRes;
 
-				if (mod_value != 0 && m_FdbPosVal < 0) {
-					m_MultiTurnNum -= 1;
-				}
-
-				if (mod_value < 0) {
-					mod_value += m_DriverParam->AbsEncRes;
-				}
-				return static_cast<double>(mod_value) / static_cast<double>(m_DriverParam->AbsEncRes)
-					* static_cast<double>(m_DriverParam->AbsEncDir) * kFullCircle / m_DriverParam->TransmissionRatio;
-				
+			case 1: // rotate, unit: rad
+				return static_cast<double>(m_FdbPosVal - m_DriverParam->AbsZeroPos) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) * (2.0 * PI) / m_DriverParam->TransmissionRatio;
 				break;
 			}
 		}
@@ -69,8 +59,8 @@ namespace Driver
 					* static_cast<double>(m_DriverParam->AbsEncDir) / m_DriverParam->TransmissionRatio;
 				break;
 			case 1: // rotate
-				return static_cast<double>(m_EffectivePosCmd % m_DriverParam->AbsEncRes) / static_cast<double>(m_DriverParam->AbsEncRes)
-					* static_cast<double>(m_DriverParam->AbsEncDir) * kFullCircle / m_DriverParam->TransmissionRatio;
+				return static_cast<double>(m_EffectivePosCmd - m_DriverParam->AbsEncRes) / static_cast<double>(m_DriverParam->AbsEncRes)
+					* static_cast<double>(m_DriverParam->AbsEncDir) * (2.0 * PI) / m_DriverParam->TransmissionRatio;
 				break;
 			}
 		}
@@ -186,9 +176,7 @@ namespace Driver
 			break;
 
 		case 1: // rotate
-			double delta_circle = cmd_pos / kFullCircle;
-			
-			m_TargetPos = static_cast<long>((m_MultiTurnNum + delta_circle) * static_cast<double>(m_DriverParam->AbsEncRes)
+			m_TargetPos = static_cast<long>(cmd_pos / (2.0 * PI) * static_cast<double>(m_DriverParam->AbsEncRes)
 				* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio);
 			break;
 		}
@@ -196,16 +184,18 @@ namespace Driver
 
 	void CDriver::SetAdditivePosition(double additive_pos)
 	{
+		switch (m_DriverParam->MoveType)
+		{
+		case 0: // linear
+			m_AdditivePos = static_cast<long>(additive_pos * static_cast<double>(m_DriverParam->AbsEncRes)
+				* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio);
+			break;
 
-	}
-
-	/**
-	 * @brief Return to zero position
-	 *
-	 */
-	void CDriver::ReturnToZeroPosition()
-	{
-		m_TargetPos =  m_DriverParam->AbsZeroPos;
+		case 1: // rotate
+			m_AdditivePos = static_cast<long>(additive_pos / (2.0 * PI) * static_cast<double>(m_DriverParam->AbsEncRes)
+				* static_cast<double>(m_DriverParam->AbsEncDir) * m_DriverParam->TransmissionRatio);
+			break;
+		}
 	}
 
 	/**

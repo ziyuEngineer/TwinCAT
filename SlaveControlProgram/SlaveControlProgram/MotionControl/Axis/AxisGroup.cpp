@@ -235,8 +235,9 @@ void CAxisGroup::SingleAxisMove(AxisOrder axis_index, FullCommand cmd)
 		{
 		case OpMode::CSP:
 			m_Axes[index][j].Move(cmd.motionCommand.Pos[index], OpMode::CSP, kNotInterpolated, false);
+			m_Axes[index][j].CompensateAdditivePos(cmd.motionCommand.AdditivePos[index]);
+			m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			m_Axes[index][j].CompensateAdditiveTor(cmd.motionCommand.AdditiveTor[index]);
-			//m_Axes[index][j].CompensateAdditiveVel(cmd.motionCommand.AdditiveVel[index]);
 			break;
 
 		case OpMode::CST:

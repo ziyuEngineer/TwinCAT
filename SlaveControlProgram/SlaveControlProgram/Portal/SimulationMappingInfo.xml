@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<VarLinks>
+	<OwnerA Name="TIPC^Portal^Portal Instance">
+		<OwnerB Name="TIID^BeckhoffBench^Panel">
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[3]" VarB="PANEL_Outputs^PIO_OUT4"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[4]" VarB="PANEL_Outputs^PIO_OUT5"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[5]" VarB="PANEL_Outputs^PIO_OUT7"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^ModuleSimulation^ModuleSimulation_Obj1 (ModuleSimulation)">
+			<Link VarA="PlcTask Inputs^MAIN.rpc_SoEProcess.stPlcDriveRef" VarB="Outputs^SimAxisGroupDriverInfo"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.objID" VarB="Inputs^OidPanelProcess"/>
+			<Link VarA="PlcTask Outputs^MAIN.rpc_ScopeProcess.objID" VarB="Inputs^OidScopeProcess"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+			<Link VarA="PlcTask Outputs^MAIN.rpc_SoEProcess.objID" VarB="Inputs^OidSoEProcess"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIPC^TestHMI^TestHMI Instance">
+		<OwnerB Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+			<Link VarA="TestHMI Outputs^MAIN.ContinuousMoving" VarB="Inputs^ContinuousButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.GetParamKpValue" VarB="Inputs^GetParamKpButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.GetParamKvValue" VarB="Inputs^GetParamKvButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.GetParamTnValue" VarB="Inputs^GetParamTnButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.Position_X" VarB="Inputs^PositionX"/>
+			<Link VarA="TestHMI Outputs^MAIN.Position_Y" VarB="Inputs^PositionY"/>
+			<Link VarA="TestHMI Outputs^MAIN.Position_Z" VarB="Inputs^PositionZ"/>
+			<Link VarA="TestHMI Outputs^MAIN.Recovery" VarB="Inputs^RecoveryButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.SetParamKpValue" VarB="Inputs^SetParamKpButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.SetParamKvValue" VarB="Inputs^SetParamKvButton"/>
+			<Link VarA="TestHMI Outputs^MAIN.SetParamTnValue" VarB="Inputs^SetParamTnButton"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+			<Link VarA="TestHMI Inputs^MAIN.TestMainState" VarB="Outputs^MainState"/>
+			<Link VarA="TestHMI Outputs^MAIN.MockPanel" VarB="Inputs^PanelInformation"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
+			<Link VarA="TestHMI Inputs^MAIN.TestSpindleState" VarB="Outputs^StateSpindle"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+			<Link VarA="TestHMI Inputs^MAIN.TestAxisGroupState" VarB="Outputs^StateAxisGroup"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+			<Link VarA="TestHMI Inputs^MAIN.TestSafetyStatus" VarB="Outputs^SafetyStatus"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIXC^ModuleSimulation^ModuleSimulation_Obj1 (ModuleSimulation)">
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
+			<Link VarA="Inputs^SimSpindleReceive" VarB="Outputs^SpindleOutput"/>
+			<Link VarA="Outputs^SimSpindleTransmit" VarB="Inputs^SpindleInput"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+			<Link VarA="Inputs^SimAxisGroupReceive" VarB="Outputs^AxisOutputs"/>
+			<Link VarA="Outputs^SimAxisGroupTransmit" VarB="Inputs^AxisInputs"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIXC^ModuleTest^ModuleTest_Obj1 (ModuleTest)">
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+			<Link VarA="Inputs^TestAxisGroupInfo" VarB="Outputs^AxisGroupInfo"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+			<Link VarA="Outputs^ContinuousMovingCommand" VarB="Inputs^ContinuousMovingCommand"/>
+			<Link VarA="Outputs^ManualMovingCommand" VarB="Inputs^ManualMovingCommand"/>
+		</OwnerB>
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+			<Link VarA="Inputs^ErrorCode" VarB="Outputs^ErrorCode"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIXC^MotionControl^MotionControl_Obj2 (ModuleSpindle)">
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+			<Link VarA="Outputs^SpindleInfo" VarB="Inputs^DiagnosticInfo^SpindleInfo"/>
+			<Link VarA="Outputs^StateSpindle" VarB="Inputs^DiagnosticInfo^StateSpindle"/>
+		</OwnerB>
+	</OwnerA>
+	<OwnerA Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
+			<Link VarA="Outputs^AxisGroupInfo" VarB="Inputs^DiagnosticInfo^AxisGroupInfo"/>
+			<Link VarA="Outputs^AxisGroupTorqueInfo" VarB="Inputs^TorqueDiagnosticInfo"/>
+			<Link VarA="Outputs^StateAxisGroup" VarB="Inputs^DiagnosticInfo^StateAxisGroup"/>
+		</OwnerB>
+	</OwnerA>
+</VarLinks>

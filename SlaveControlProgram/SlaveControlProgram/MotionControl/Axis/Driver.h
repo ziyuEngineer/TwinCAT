@@ -14,7 +14,6 @@ namespace Driver
 		int m_OpModeMask = 7; // 2#00000111
 		int m_DriverStateGeneralMask = 0x6F; // 2#01101111
 		int m_DriverStateBeckhoffMask = 0xF000; // 2#1111 0000 0000 0000
-		int m_MultiTurnNum = 0; // For revolute axis
 
 		const MotionControlInfo* m_DriverParam = nullptr;
 		DriverInput* m_DriverInput = nullptr;
@@ -63,7 +62,6 @@ namespace Driver
 		void    SetAdditiveTorque(double additive_tor);
 		void    SetTargetPosition(double cmd_pos);
 		void    SetAdditivePosition(double additive_pos);
-		void    ReturnToZeroPosition();
 		void	SetTargetVelocity(double cmd_vel);
 		void    SetAdditiveVelocity(double additive_vel);
 		bool    SetDriverParam();

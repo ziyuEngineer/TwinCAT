@@ -187,6 +187,7 @@ HRESULT CMotionControl::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG
 	if (!m_IsRpcReady)
 	{
 		m_IsRpcReady = InitializePlcRpc() && InitializeOtherModuleRpc();
+		m_Trace.Log(tlError, FLEAVEA "Level tlError : Main module failed to initialize rpc.");
 	}
 	else
 	{

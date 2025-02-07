@@ -1773,7 +1773,7 @@
 				<Cpu CpuId="1" BaseTime="500"/>
 				<Cpu CpuId="2" BaseTime="500"/>
 				<Debugger Priority="61"/>
-				<IoIdleTask Priority="16" CycleTime="2500" Affinity="#x00000001"/>
+				<IoIdleTask Priority="18" CycleTime="2500" Affinity="#x00000001"/>
 			</Settings>
 			<Licenses>
 				<Target>
@@ -1794,20 +1794,23 @@
 				<Task Id="6" Priority="6" CycleTime="2500" AmsPort="353" Affinity="#x00000002" DisableFpExceptions="true" AdtTasks="true">
 					<Name>ModuleAxisGroup</Name>
 				</Task>
-				<Task Id="7" Priority="14" CycleTime="10000" AmsPort="354" Affinity="#x00000004" AdtTasks="true">
+				<Task Id="7" Priority="16" CycleTime="10000" AmsPort="354" Affinity="#x00000004" AdtTasks="true">
 					<Name>ModuleTest</Name>
 				</Task>
-				<Task Id="8" Priority="18" CycleTime="100000" AmsPort="355" Affinity="#x00000001" AdtTasks="true">
+				<Task Id="8" Priority="20" CycleTime="100000" AmsPort="355" Affinity="#x00000001" AdtTasks="true">
 					<Name>TestHMI</Name>
 				</Task>
-				<Task Id="9" Priority="12" CycleTime="2500" AmsPort="356" Affinity="#x00000004" AdtTasks="true">
+				<Task Id="9" Priority="14" CycleTime="2500" AmsPort="356" Affinity="#x00000004" AdtTasks="true">
 					<Name>ModuleSafety</Name>
+				</Task>
+				<Task Id="10" Priority="12" CycleTime="2500" AmsPort="357" Affinity="#x00000004" DisableFpExceptions="true" AdtTasks="true">
+					<Name>ModuleSimulation</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{00617E27-D475-3C91-6E2F-375479DAC239}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{30C8D219-9AF5-7570-FF8E-91BFE64E0CD2}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1932,7 +1935,7 @@
 							</Interface>
 						</Interfaces>
 						<Parameters>
-							<Parameter HideParameter="true">
+							<Parameter HideParameter="true" CreateSymbol="true">
 								<Name>TraceLevelMax</Name>
 								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
 								<BitSize>32</BitSize>
@@ -1950,7 +1953,7 @@
 						</Parameters>
 						<DataAreas>
 							<DataArea>
-								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
+								<AreaNo AreaType="InputDst" CreateSymbols="true" ShowSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
 								<ByteSize>278608</ByteSize>
@@ -1996,7 +1999,7 @@
 								</Symbol>
 							</DataArea>
 							<DataArea>
-								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true" ShowSymbols="true">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
 								<ByteSize>328</ByteSize>
@@ -3412,7 +3415,7 @@
 								<ManualConfig>
 									<OTCID>#x02010090</OTCID>
 								</ManualConfig>
-								<Priority>12</Priority>
+								<Priority>14</Priority>
 								<CycleTime>250000</CycleTime>
 							</Context>
 						</Contexts>
@@ -3435,7 +3438,7 @@
 							</Interface>
 						</Interfaces>
 						<Parameters>
-							<Parameter HideParameter="true">
+							<Parameter HideParameter="true" CreateSymbol="true">
 								<Name>TraceLevelMax</Name>
 								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
 								<BitSize>32</BitSize>
@@ -3632,7 +3635,7 @@
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
-								<EnumText>tlAlways</EnumText>
+								<EnumText>tlError</EnumText>
 							</Value>
 							<Value>
 								<Name>Parameter.SafetyParameterAxisGroup[0].PosUpperLimit</Name>
@@ -3975,6 +3978,7 @@
 			<Project File="tinyxml2.xti"/>
 			<Project File="ruckig.xti"/>
 			<Project File="ModuleTest.xti"/>
+			<Project File="ModuleSimulation.xti"/>
 		</Cpp>
 		<Io>
 			<Device File="BeckhoffBench.xti" Id="3"/>

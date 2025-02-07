@@ -18,6 +18,8 @@ public:
 	void Output();
 	ULONG m_ErrorCode = 0;
 
+	static CTcTrace* m_Trace;
+
 private:
 	ModuleSafetyInputs* m_pInputs = nullptr;
 	ModuleSafetyOutputs* m_pOutputs = nullptr;

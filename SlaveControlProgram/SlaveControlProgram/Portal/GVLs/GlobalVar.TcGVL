@@ -11,7 +11,7 @@
 	// Motion Control
 	MC_AXIS_NUM    : INT := 5;
 	MAX_DRIVER_NUM : INT := 10;
-	ACTIVE_DRIVER_NUM : INT := 4;
+	ACTIVE_DRIVER_NUM : INT := 6;
 	
 	// Panel Information
 	PANEL_CHANNEL_NUM   :INT := 6;
