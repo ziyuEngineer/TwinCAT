@@ -6,6 +6,8 @@ IPanelProcess* CMainController::m_pPanelProcess = nullptr;
 ISpindleInterface* CMainController::m_pSpindleInterface = nullptr;
 IAxisGroupInterface* CMainController::m_pAxisGroupInterface = nullptr;
 CTcTrace* CMainController::m_Trace = nullptr;
+ITcEventLogger* CMainController::m_pEventLogger = nullptr;
+ITcMessage* CMainController::m_pMessage = nullptr;
 
 CMainController::CMainController()
 {
@@ -141,10 +143,17 @@ int CMainController::IsSpindleMovingPressed()
 	return m_pInputs->PanelInformation.Spindle_Cmd;
 }
 
-void CMainController::UpdateManualMovingCommand()
+void CMainController::UpdateHandwheelInfo()
 {
-	m_pOutputs->ManualMovingCommand.SelectedAxis = m_pInputs->PanelInformation.Handwheel_EnabledAxisNum;
-	memcpy(&m_pOutputs->ManualMovingCommand.MovingCommand, &m_pInputs->PanelInformation.Handwheel_dPos, sizeof(double[5]));
+	m_pOutputs->HandwheelMovingInfo.SelectedAxis = m_pInputs->PanelInformation.Handwheel_EnabledAxisNum;
+	m_pOutputs->HandwheelMovingInfo.HandwheelPos = m_pInputs->PanelInformation.Handwheel_Pos;
+	m_pOutputs->HandwheelMovingInfo.Ratio = m_pInputs->PanelInformation.Handwheel_Ratio;
+}
+
+void CMainController::ClearHandwheelInfo()
+{
+	m_pOutputs->HandwheelMovingInfo.SelectedAxis = 0;
+	m_pOutputs->HandwheelMovingInfo.Ratio = 0.0;
 }
 
 void CMainController::UpdateManualCommandInRecoveryState(ModuleError dir, AxisOrder axis)
@@ -152,15 +161,18 @@ void CMainController::UpdateManualCommandInRecoveryState(ModuleError dir, AxisOr
 	int index = static_cast<int>(axis);
 	if (m_pInputs->PanelInformation.Handwheel_EnabledAxisNum == index)
 	{
-		m_pOutputs->ManualMovingCommand.SelectedAxis = m_pInputs->PanelInformation.Handwheel_EnabledAxisNum;
+		m_pOutputs->HandwheelMovingInfo.SelectedAxis = m_pInputs->PanelInformation.Handwheel_EnabledAxisNum;
+		m_pOutputs->HandwheelMovingInfo.HandwheelPos = m_pInputs->PanelInformation.Handwheel_Pos;
+		m_pOutputs->HandwheelMovingInfo.Ratio = m_pInputs->PanelInformation.Handwheel_Ratio;
 
-		if (dir == ModuleError::PosUpperOver)
+		m_IsRecoveryEventSent = false;
+	}
+	else
+	{
+		if (!m_IsRecoveryEventSent)
 		{
-			m_pOutputs->ManualMovingCommand.MovingCommand[index - 1] = m_pInputs->PanelInformation.Handwheel_dPos[index - 1] <= 0.0 ? m_pInputs->PanelInformation.Handwheel_dPos[index - 1] : 0.0;
-		}
-		else if (dir == ModuleError::PosLowerOver)
-		{
-			m_pOutputs->ManualMovingCommand.MovingCommand[index - 1] = m_pInputs->PanelInformation.Handwheel_dPos[index - 1] >= 0.0 ? m_pInputs->PanelInformation.Handwheel_dPos[index - 1] : 0.0;
+			DispatchEventMessage(TcEvents::MainEvent::MainModuleRecoverySpecific.nEventId);
+			m_IsRecoveryEventSent = true;
 		}
 	}
 }
@@ -186,6 +198,16 @@ bool CMainController::DeselectServoButtonAutomatically()
 {
 	m_pPanelProcess->mPopServoButton();
 	return true;
+}
+
+double CMainController::GetSpindleRatio()
+{
+	return m_pInputs->PanelInformation.Spindle_Ratio;
+}
+
+double CMainController::GetMachiningAxisRatio()
+{
+	return m_pInputs->PanelInformation.MachiningAxis_Ratio;
 }
 
 void CMainController::RingBufferInput()
@@ -232,11 +254,28 @@ bool CMainController::IsReadyToReceiveCmd()
 	return (m_pInputs->CommandWriteIndex == 0);
 }
 
+bool CMainController::IsReadyToSwitchTool()
+{
+	bool is_axisgroup_standby;
+	bool is_spindle_enable;
+	m_pAxisGroupInterface->IsAxisGroupStandby(is_axisgroup_standby);
+	m_pSpindleInterface->IsSpindleEnable(is_spindle_enable);
+
+	return is_axisgroup_standby && is_spindle_enable;
+}
+
 void CMainController::RequestSpindleRotate(double vel)
 {
 	SpindleRot spindle_rot{};
 	spindle_rot.TargetVel = vel;
 	m_pSpindleInterface->RequestRotating(spindle_rot);
+}
+
+void CMainController::RequestSpindlePositioning(double pos)
+{
+	SpindlePosition spindle_pos{};
+	spindle_pos.TargetPos = pos;
+	m_pSpindleInterface->RequestPositioning(spindle_pos);
 }
 
 void CMainController::RequestSpindleStop()
@@ -297,7 +336,7 @@ void CMainController::RequestAxisGroupEnterHandwheel()
 void CMainController::RequestAxisGroupQuitHandwheel()
 {
 	m_pPanelProcess->mHandwheelReset();
-	memset(&m_pOutputs->ManualMovingCommand, 0, sizeof(m_pOutputs->ManualMovingCommand));
+	ClearHandwheelInfo();
 	m_pAxisGroupInterface->RequestQuitHandwheel();
 }
 
@@ -339,6 +378,11 @@ void CMainController::RequestAxisGroupPositioning(bool moving_axis[5], double ta
 	m_pAxisGroupInterface->RequestMovingToTargetPos(moving_axis, target);
 }
 
+void CMainController::RequestToolSwitch(int num)
+{
+
+}
+
 ULONG CMainController::GetErrorCode()
 {
 	return m_pInputs->ErrorCode;
@@ -347,6 +391,12 @@ ULONG CMainController::GetErrorCode()
 bool CMainController::IsSystemNormal()
 {
 	return m_pInputs->ErrorCode == 0;
+}
+
+void CMainController::DispatchEventMessage(ULONG event_id)
+{
+	m_pEventLogger->CreateMessage(TcEvents::MainEvent::EventClass, event_id, TcEventSeverity::Info, &TcSourceInfo("Main Module"), &m_pMessage);
+	m_pMessage->Send(0);
 }
 
 bool CMainController::MatrixAssign()

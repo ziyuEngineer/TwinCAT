@@ -4,11 +4,8 @@
 
 #include "../MotionControlInterfaces.h"
 #include "../MotionControlServices.h"
-
-//----- Project Variants
-//#define FIVE_AXIS
-//#define FOUR_AXIS
-//#define THREE_AXIS
+#include "TcRouterInterfaces.h"
+#include "TcEventLoggerInterfaces.h"
 
 // Common define
 constexpr double kRadius2Degree = 57.2957795;	// This constant is used to convert an angle measured in radians into degrees.

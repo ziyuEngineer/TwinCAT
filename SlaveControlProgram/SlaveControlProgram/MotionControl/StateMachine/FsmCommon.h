@@ -122,6 +122,11 @@ struct EventRequestAxisGroupPositioning : tinyfsm::Event
 	double target[5];
 };
 
+struct EventRequestToolSwitch : tinyfsm::Event
+{
+	int tool_number;
+};
+
 // Safety Module
 struct EventRequestSafetyEnterRecoveryState : tinyfsm::Event
 {};

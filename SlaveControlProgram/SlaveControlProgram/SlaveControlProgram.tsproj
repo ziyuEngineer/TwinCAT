@@ -76,8 +76,8 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
-			<BitSize>512</BitSize>
+			<Name GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</Name>
+			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>ServoOn</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
@@ -97,32 +97,40 @@
 				<BitOffs>64</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Handwheel_dPos</Name>
+				<Name>Handwheel_Pos</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
+				<BitSize>64</BitSize>
 				<BitOffs>128</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Spindle_Cmd</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>448</BitOffs>
+				<BitOffs>192</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Reset</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>464</BitOffs>
+				<BitOffs>208</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Execute</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>472</BitOffs>
+				<BitOffs>216</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MachiningAxis_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
 			</SubItem>
 			<Hides>
 				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
@@ -134,6 +142,8 @@
 				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
 				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
 				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
+				<Hide GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}"/>
+				<Hide GUID="{53D9A9CB-B09F-4800-9015-467DEE65D178}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -175,7 +185,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Name>
+			<Name GUID="{6B2564DD-368D-427F-B764-2303628B4EFB}">IMotionControlInterface</Name>
 			<BitSize X64="64">32</BitSize>
 			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
 			<Method>
@@ -268,6 +278,16 @@
 					<BitSize X64="64">32</BitSize>
 				</Parameter>
 			</Method>
+			<Method>
+				<Name RpcEnable="cpp">ExecuteToolSwitching</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000019}" RpcDirection="out">HRESULT</ReturnType>
+				<ReturnBitSize>32</ReturnBitSize>
+				<Parameter>
+					<Name>tool_num</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000006}" RpcDirection="in">INT</Type>
+					<BitSize>16</BitSize>
+				</Parameter>
+			</Method>
 			<Hides>
 				<Hide GUID="{C70AD3AE-80F7-4AFB-A130-4FB32DE8E2EA}"/>
 				<Hide GUID="{4C946553-707F-4CD1-9F6E-8EA033F4F64F}"/>
@@ -297,6 +317,8 @@
 				<Hide GUID="{F4FC1FB6-F29F-440F-9F14-578C8D487C63}"/>
 				<Hide GUID="{EB040EFE-8B3A-4BC3-BB09-58916DA84C3E}"/>
 				<Hide GUID="{4BC0DCA3-18C2-48B3-8DD4-977B001BDDE2}"/>
+				<Hide GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}"/>
+				<Hide GUID="{3A2CE18B-3A76-482A-8662-3AEEE5A5E62F}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -434,7 +456,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}" PersistentType="true">SystemState</Name>
+			<Name GUID="{E9135278-D628-443A-98B1-A863F07197E5}">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -477,15 +499,79 @@
 				<Text><![CDATA[eRecovery]]></Text>
 				<Enum>9</Enum>
 			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolSwitching]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
 			<Hides>
-				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
-				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
-				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
-				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
-				<Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}"/>
-				<Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}"/>
-				<Hide GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}"/>
-				<Hide GUID="{833B279D-60BB-4E3E-9B42-E6EDF428F330}"/>
+				<Hide GUID="{DF792B1D-86F6-4790-9824-10A1EC590BDA}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{9DE5BE5A-9686-4F52-BC5B-71B324AA0F52}">MainEvent</Name>
+			<DisplayName TxtId=""><![CDATA[Main Module Event]]></DisplayName>
+			<EventId>
+				<Name Id="1">MainModuleStart</Name>
+				<DisplayName TxtId=""><![CDATA[System is running]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">MainModuleRpcInit</Name>
+				<DisplayName TxtId=""><![CDATA[Rpc is initializing]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">MainModuleManual</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to Manual state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">MainModuleBuffering</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to Buffering state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">MainModuleFault</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to Fault state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">MainModuleMoving</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to ContinuousMoving state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">MainModuleRecovery</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to Recovery state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">MainModuleTool</Name>
+				<DisplayName TxtId=""><![CDATA[Main module transitis to ToolSwitch state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">MainModuleQuitMachingAbnormally</Name>
+				<DisplayName TxtId=""><![CDATA[Machining has stopped because there are no more commands]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">MainModuleRecoverySpecific</Name>
+				<DisplayName TxtId=""><![CDATA[Please only operate the specified Axis in Recovery mode]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">MainEventEvent13</Name>
+				<DisplayName TxtId=""><![CDATA[MainEventEvent13_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{395957B2-D136-4F76-A5D4-4E356CE2B2F1}"/>
+				<Hide GUID="{7E4CA285-4400-4495-BEEE-AE118568CABC}"/>
+				<Hide GUID="{901AE3DC-FC3C-48BB-8234-8FFC81A56108}"/>
+				<Hide GUID="{78C36676-3999-4F6C-B2EC-C35712D03DEC}"/>
+				<Hide GUID="{EC2F76CF-4DD5-4BC3-B191-C36EB5C7F3C0}"/>
+				<Hide GUID="{2B2B3833-B5A6-4D3B-8BA5-EF25A981ADE9}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -1365,6 +1451,27 @@
 			</SubItem>
 		</DataType>
 		<DataType>
+			<Name GUID="{375A57AE-5F2C-4020-A6EA-54F5251BA406}">AxisGroupEvent</Name>
+			<DisplayName TxtId=""><![CDATA[AxisGroup Module Event]]></DisplayName>
+			<EventId>
+				<Name Id="1">AxisGroupPosUpperOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Axisgroup exceed position upper limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">AxisGroupPosLowerOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Axisgroup exceed position lower limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{E7837F93-D7F4-4710-B716-64BCFE7B7405}"/>
+				<Hide GUID="{689F8CCC-F2B8-49BB-839F-736597C0E9EC}"/>
+				<Hide GUID="{9CF85C47-35A5-45E8-8138-600380F7CAEC}"/>
+				<Hide GUID="{E882C833-200A-4633-8185-AAFF7E5405AF}"/>
+				<Hide GUID="{547FEBA4-5435-4D66-B871-40F9813E5A64}"/>
+			</Hides>
+		</DataType>
+		<DataType>
 			<Name GUID="{DFA7B551-502B-4085-88E7-A88921AF739F}">ISafetyInterface</Name>
 			<BitSize X64="64">32</BitSize>
 			<BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
@@ -1484,6 +1591,115 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
+			<Name GUID="{53F691A1-957C-475E-8011-E5BA89AE159D}">SafetyEvent</Name>
+			<DisplayName TxtId=""><![CDATA[Safety Module Event]]></DisplayName>
+			<EventId>
+				<Name Id="1">SafetyNormal</Name>
+				<DisplayName TxtId=""><![CDATA[System is operating normally]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">SafetyAxisGroupPosUpperOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Axisgroup exceed position upper limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">SafetyAxisGroupPosLowerOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Axisgroup exceed position lower limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">SafetyAxisGroupVelOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Axisgroup exceed velocity limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">SafetySpindleVelOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Warning] Spindle exceeds velocity limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">SafetyGantryDeviationOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Emergency] Axisgroup gantry deviation exceeds limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">SafetyTorqueCmdDeviationOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Emergency] Axisgroup torque command deviation exceeds limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">SafetyTorFollowingError</Name>
+				<DisplayName TxtId=""><![CDATA[[Emergency] Axisgroup torque following error exceeds limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">SafetyAxisGroupHardUpperOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Emergency] Axisgroup trigger position hard upper limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">SafetyAxisGroupHardLowerOver</Name>
+				<DisplayName TxtId=""><![CDATA[[Emergency] Axisgroup trigger position hard lower limit]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">SafetyAxisGroupStatusAbnormal</Name>
+				<DisplayName TxtId=""><![CDATA[[Fault] Axisgroup driver status abnormal]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="12">SafetySpindleStatusAbnormal</Name>
+				<DisplayName TxtId=""><![CDATA[[Fault] Spindle driver status abnormal]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="13">SafetyEventEvent13</Name>
+				<DisplayName TxtId=""><![CDATA[SafetyEventEvent13_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="14">SafetyEventEvent14</Name>
+				<DisplayName TxtId=""><![CDATA[SafetyEventEvent14_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{C4F21219-4BE2-42C5-9BCF-04C85FD3CA06}"/>
+				<Hide GUID="{4C65E80E-6BE2-43A0-9089-2E5F365659F4}"/>
+				<Hide GUID="{EA379D39-267B-4D7B-AA72-B86EDA70107E}"/>
+				<Hide GUID="{DFC3B021-C8A0-4872-AE4B-CCCB75ECDDA1}"/>
+				<Hide GUID="{1724C371-409A-4959-B6F1-B944CAAC20A7}"/>
+				<Hide GUID="{B377F9AF-8670-4EFC-B05A-BED423FC6AF3}"/>
+				<Hide GUID="{1AF4A88B-61B2-4A88-83BF-92AE7382A31F}"/>
+				<Hide GUID="{2B253E36-AB29-4E1A-82B9-B3C96490331B}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{707B24A4-3C4E-4A5A-92B5-E8A4FEDFBAF0}">ToolState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eToolStateInitialize]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolStateStandby]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolStateSwitching]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolStateUsing]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolStateFault]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+		</DataType>
+		<DataType>
 			<Name GUID="{430EA973-3D6F-4213-B5D1-9B2D4732BB7B}" PersistentType="true">AxisGroupState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
@@ -1550,6 +1766,55 @@
 				<Hide GUID="{A38DC09A-ADB5-468E-8E1C-56E9CEA6E747}"/>
 				<Hide GUID="{F83D71B3-EDF7-41E0-B7AD-30BCAEB092E9}"/>
 			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{DF792B1D-86F6-4790-9824-10A1EC590BDA}" PersistentType="true">SystemState</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[eIdle]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eDisabled]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[ePreStandby]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eStandby]]></Text>
+				<Enum>3</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eManual]]></Text>
+				<Enum>4</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eBuffering]]></Text>
+				<Enum>5</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eContinuousExecution]]></Text>
+				<Enum>6</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eFault]]></Text>
+				<Enum>7</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eTest]]></Text>
+				<Enum>8</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eRecovery]]></Text>
+				<Enum>9</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolSwitching]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
 		</DataType>
 		<DataType>
 			<Name GUID="{2288AC91-0B91-49E2-8120-4064BEBCA6CE}" PersistentType="true">NewMotionCommand</Name>
@@ -1629,55 +1894,6 @@
 			<Hides>
 				<Hide GUID="{B12E5C91-9B4E-4C5F-8515-574B83ACC3F6}"/>
 			</Hides>
-		</DataType>
-		<DataType>
-			<Name GUID="{131977EF-E050-44EA-B063-7A4112666AE9}" PersistentType="true">SystemState</Name>
-			<BitSize>16</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
-			<EnumInfo>
-				<Text><![CDATA[eIdle]]></Text>
-				<Enum>0</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eInitialization]]></Text>
-				<Enum>1</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eDisabled]]></Text>
-				<Enum>2</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eStandby]]></Text>
-				<Enum>3</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eMoving]]></Text>
-				<Enum>4</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eHandwheel]]></Text>
-				<Enum>5</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eLimitViolation]]></Text>
-				<Enum>6</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eFault]]></Text>
-				<Enum>7</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eEmergency]]></Text>
-				<Enum>8</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eTest]]></Text>
-				<Enum>9</Enum>
-			</EnumInfo>
-			<EnumInfo>
-				<Text><![CDATA[eRecovery]]></Text>
-				<Enum>10</Enum>
-			</EnumInfo>
 		</DataType>
 		<DataType>
 			<Name GUID="{7170CE2E-D23E-4E18-B6B0-72D322427021}" PersistentType="true">NewInterface</Name>
@@ -1768,7 +1984,7 @@
 	</DataTypes>
 	<Project ProjectGUID="{D53590EF-AC02-433C-A80D-EA00DDDD4F2A}" TargetNetId="169.254.41.58.1.1" Target64Bit="true" AutoPrioManagement="true" ShowHideConfigurations="#x6">
 		<System>
-			<Settings MaxCpus="8" NonWinCpus="7" MaxStackSize="2048">
+			<Settings MaxCpus="8" NonWinCpus="7" RouterMemory="67108864" MaxStackSize="2048">
 				<Cpu RtLimit="90" BaseTime="500"/>
 				<Cpu CpuId="1" BaseTime="500"/>
 				<Cpu CpuId="2" BaseTime="500"/>
@@ -1797,7 +2013,7 @@
 				<Task Id="7" Priority="16" CycleTime="10000" AmsPort="354" Affinity="#x00000004" AdtTasks="true">
 					<Name>ModuleTest</Name>
 				</Task>
-				<Task Id="8" Priority="20" CycleTime="100000" AmsPort="355" Affinity="#x00000001" AdtTasks="true">
+				<Task Id="8" Priority="22" CycleTime="100000" AmsPort="355" Affinity="#x00000001" AdtTasks="true">
 					<Name>TestHMI</Name>
 				</Task>
 				<Task Id="9" Priority="14" CycleTime="2500" AmsPort="356" Affinity="#x00000004" AdtTasks="true">
@@ -1806,11 +2022,14 @@
 				<Task Id="10" Priority="12" CycleTime="2500" AmsPort="357" Affinity="#x00000004" DisableFpExceptions="true" AdtTasks="true">
 					<Name>ModuleSimulation</Name>
 				</Task>
+				<Task Id="11" Priority="20" CycleTime="100000" AmsPort="358" Affinity="#x00000004" AdtTasks="true">
+					<Name>ModuleTool</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{981FF1A4-9E02-461A-86DF-A9156CD4422F}" Name="Portal" PrjFilePath="Portal\Portal.plcproj" TmcFilePath="Portal\Portal.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{30C8D219-9AF5-7570-FF8E-91BFE64E0CD2}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Portal\Portal.tmc" TmcHash="{36CFFFD6-9E7E-6F3E-4B63-F8ABCFDE8DB6}">
 					<Name>Portal Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -1825,7 +2044,20 @@
 							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.rpc_PanelProcess.pInternalInput</Name>
+							<Comment><![CDATA[ Channel 7 needs some special handle ]]></Comment>
+							<Type GUID="{189ECD13-08C9-33F7-3CE7-1B1294068BF9}">ARRAY [0..5] OF USINT</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.rpc_PanelProcess.handwheelCurrPos</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.rpc_PanelProcess.spindleRatio</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.rpc_PanelProcess.machingAxisRatio</Name>
 							<Type>USINT</Type>
 						</Var>
 					</Vars>
@@ -1847,7 +2079,7 @@
 						<Var>
 							<Name>MAIN.rpc_PanelProcess.panelInfoOutput</Name>
 							<Comment><![CDATA[ Necessary information sent to Cpp module]]></Comment>
-							<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
+							<Type GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.rpc_ScopeProcess.objID</Name>
@@ -1930,7 +2162,7 @@
 								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
 							</Interface>
 							<Interface>
-								<Type GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Type>
+								<Type GUID="{6B2564DD-368D-427F-B764-2303628B4EFB}">IMotionControlInterface</Type>
 								<ContextId>1</ContextId>
 							</Interface>
 						</Interfaces>
@@ -1953,14 +2185,14 @@
 						</Parameters>
 						<DataAreas>
 							<DataArea>
-								<AreaNo AreaType="InputDst" CreateSymbols="true" ShowSymbols="true">0</AreaNo>
+								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>278608</ByteSize>
+								<ByteSize>278592</ByteSize>
 								<Symbol>
 									<Name>PanelInformation</Name>
-									<BitSize>512</BitSize>
-									<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
+									<BitSize>384</BitSize>
+									<BaseType GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
@@ -1971,38 +2203,38 @@
 										<LBound>0</LBound>
 										<Elements>1024</Elements>
 									</ArrayInfo>
-									<BitOffs>512</BitOffs>
+									<BitOffs>384</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>CommandWriteIndex</Name>
 									<BitSize>32</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
-									<BitOffs>2228736</BitOffs>
+									<BitOffs>2228608</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>OidPanelProcess</Name>
 									<BitSize>32</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
-									<BitOffs>2228768</BitOffs>
+									<BitOffs>2228640</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>ErrorCode</Name>
 									<BitSize>32</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
-									<BitOffs>2228800</BitOffs>
+									<BitOffs>2228672</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>OidScopeProcess</Name>
 									<BitSize>32</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
-									<BitOffs>2228832</BitOffs>
+									<BitOffs>2228704</BitOffs>
 								</Symbol>
 							</DataArea>
 							<DataArea>
-								<AreaNo AreaType="OutputSrc" CreateSymbols="true" ShowSymbols="true">1</AreaNo>
+								<AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>328</ByteSize>
+								<ByteSize>304</ByteSize>
 								<Symbol>
 									<Name>CommandReadIndex</Name>
 									<BitSize>32</BitSize>
@@ -2012,12 +2244,12 @@
 								<Symbol>
 									<Name>MainState</Name>
 									<BitSize>16</BitSize>
-									<BaseType GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}">SystemState</BaseType>
+									<BaseType GUID="{E9135278-D628-443A-98B1-A863F07197E5}">SystemState</BaseType>
 									<BitOffs>32</BitOffs>
 								</Symbol>
 								<Symbol>
-									<Name>ManualMovingCommand</Name>
-									<BitSize>384</BitSize>
+									<Name>HandwheelMovingInfo</Name>
+									<BitSize>192</BitSize>
 									<SubItem>
 										<Name>SelectedAxis</Name>
 										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
@@ -2025,14 +2257,16 @@
 										<BitOffs>0</BitOffs>
 									</SubItem>
 									<SubItem>
-										<Name>MovingCommand</Name>
+										<Name>HandwheelPos</Name>
 										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-										<ArrayInfo>
-											<LBound>0</LBound>
-											<Elements>5</Elements>
-										</ArrayInfo>
-										<BitSize>320</BitSize>
+										<BitSize>64</BitSize>
 										<BitOffs>64</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>Ratio</Name>
+										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+										<BitSize>64</BitSize>
+										<BitOffs>128</BitOffs>
 									</SubItem>
 									<BitOffs>64</BitOffs>
 								</Symbol>
@@ -2040,7 +2274,7 @@
 									<Name>ContinuousMovingCommand</Name>
 									<BitSize>2176</BitSize>
 									<BaseType GUID="{B1C3DEDA-F44B-40B0-BA64-EAB208DE948D}">FullCommand</BaseType>
-									<BitOffs>448</BitOffs>
+									<BitOffs>256</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -2093,6 +2327,11 @@
 								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
 							</FileEntry>
 						</Deployment>
+						<EventClasses>
+							<EventClass>
+								<Type GUID="{9DE5BE5A-9686-4F52-BC5B-71B324AA0F52}">MainEvent</Type>
+							</EventClass>
+						</EventClasses>
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
@@ -2126,6 +2365,34 @@
 							</Value>
 						</InterfacePointerValues>
 					</TmcDesc>
+					<UnrestoredVarLinks ImportTime="2025-02-20T14:17:11">
+						<OwnerA Name="Outputs" Prefix="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)" Type="2">
+							<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
+								<Link VarA="ManualMovingCommand" GrpA="Outputs" TypeA="ManualMovingCommand_F5417677" InOutA="1" VarB="Inputs^ManualMovingCommand">
+									<PrivateType>
+										<Name>ManualMovingCommand_F5417677</Name>
+										<BitSize>384</BitSize>
+										<SubItem>
+											<Name>SelectedAxis</Name>
+											<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
+											<BitSize>16</BitSize>
+											<BitOffs>0</BitOffs>
+										</SubItem>
+										<SubItem>
+											<Name>HandwheelPos</Name>
+											<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+											<ArrayInfo>
+												<LBound>0</LBound>
+												<Elements>5</Elements>
+											</ArrayInfo>
+											<BitSize>320</BitSize>
+											<BitOffs>64</BitOffs>
+										</SubItem>
+									</PrivateType>
+								</Link>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
 				</Instance>
 				<Instance Id="#x01010010" KeepUnrestoredLinks="2">
 					<Name>MotionControl_Obj2 (ModuleSpindle)</Name>
@@ -2411,7 +2678,7 @@
 							</Parameter>
 							<Parameter ShowSubItems="true" CreateSymbol="true">
 								<Name>Parameter</Name>
-								<BitSize>7808</BitSize>
+								<BitSize>9088</BitSize>
 								<SubItem>
 									<Name>DriverParameter</Name>
 									<Type GUID="{EE32EC38-3CFD-4D8B-9EB4-C1E6E69C354B}">MotionControlInfo</Type>
@@ -2454,6 +2721,26 @@
 									<BitSize>80</BitSize>
 									<BitOffs>7712</BitOffs>
 								</SubItem>
+								<SubItem>
+									<Name>AxisPosUpperLimit</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>640</BitSize>
+									<BitOffs>7808</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>AxisPosLowerLimit</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+									<ArrayInfo>
+										<LBound>0</LBound>
+										<Elements>10</Elements>
+									</ArrayInfo>
+									<BitSize>640</BitSize>
+									<BitOffs>8448</BitOffs>
+								</SubItem>
 								<PTCID>#x00000001</PTCID>
 								<ContextId>1</ContextId>
 							</Parameter>
@@ -2471,7 +2758,7 @@
 								<AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>808</ByteSize>
+								<ByteSize>784</ByteSize>
 								<Symbol>
 									<Name>OidSoEProcess</Name>
 									<BitSize>32</BitSize>
@@ -2506,7 +2793,7 @@
 								</Symbol>
 								<Symbol>
 									<Name>ManualMovingCommand</Name>
-									<BitSize>384</BitSize>
+									<BitSize>192</BitSize>
 									<SubItem>
 										<Name>SelectedAxis</Name>
 										<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
@@ -2514,14 +2801,16 @@
 										<BitOffs>0</BitOffs>
 									</SubItem>
 									<SubItem>
-										<Name>MovingCommand</Name>
+										<Name>HandwheelPos</Name>
 										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-										<ArrayInfo>
-											<LBound>0</LBound>
-											<Elements>5</Elements>
-										</ArrayInfo>
-										<BitSize>320</BitSize>
+										<BitSize>64</BitSize>
 										<BitOffs>64</BitOffs>
+									</SubItem>
+									<SubItem>
+										<Name>Ratio</Name>
+										<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+										<BitSize>64</BitSize>
+										<BitOffs>128</BitOffs>
 									</SubItem>
 									<BitOffs>6080</BitOffs>
 								</Symbol>
@@ -2656,6 +2945,11 @@
 								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
 							</FileEntry>
 						</Deployment>
+						<EventClasses>
+							<EventClass>
+								<Type GUID="{375A57AE-5F2C-4020-A6EA-54F5251BA406}">AxisGroupEvent</Type>
+							</EventClass>
+						</EventClasses>
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
@@ -3370,6 +3664,86 @@
 								<Value>0</Value>
 							</Value>
 							<Value>
+								<Name>Parameter.AxisPosUpperLimit[0]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[1]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[2]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[3]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[4]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[5]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[6]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[7]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[8]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosUpperLimit[9]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[0]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[1]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[2]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[3]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[4]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[5]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[6]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[7]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[8]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.AxisPosLowerLimit[9]</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
 								<Name>CycleTime</Name>
 								<Value>250000</Value>
 							</Value>
@@ -3610,7 +3984,7 @@
 							<InterfacePointer>
 								<PTCID>#x00000002</PTCID>
 								<Name>MainModule_Interface</Name>
-								<Type GUID="{C80BD8F2-FCA8-4616-B3D3-6E4462C7DC5B}">IMotionControlInterface</Type>
+								<Type GUID="{6B2564DD-368D-427F-B764-2303628B4EFB}">IMotionControlInterface</Type>
 								<ContextId>1</ContextId>
 							</InterfacePointer>
 						</InterfacePointers>
@@ -3632,6 +4006,11 @@
 								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
 							</FileEntry>
 						</Deployment>
+						<EventClasses>
+							<EventClass>
+								<Type GUID="{53F691A1-957C-475E-8011-E5BA89AE159D}">SafetyEvent</Type>
+							</EventClass>
+						</EventClasses>
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
@@ -3974,6 +4353,164 @@
 						</OwnerA>
 					</UnrestoredVarLinks>
 				</Instance>
+				<Instance Id="#x01010070" KeepUnrestoredLinks="2">
+					<Name>MotionControl_Obj5 (ModuleTool)</Name>
+					<TmcDesc GUID="{8B453711-BFBC-4EFE-B0EF-54A76DA04B5A}">
+						<Name>ModuleTool</Name>
+						<CLSID ClassFactory="MotionControl">{8B453711-BFBC-4EFE-B0EF-54A76DA04B5A}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+								<ManualConfig>
+									<OTCID>#x020100b0</OTCID>
+								</ManualConfig>
+								<Priority>20</Priority>
+								<CycleTime>10000000</CycleTime>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter HideParameter="true">
+								<Name>TraceLevelMax</Name>
+								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+								<PTCID>#x03002103</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>Parameter</Name>
+								<BitSize>128</BitSize>
+								<SubItem>
+									<Name>data1</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>0</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>data2</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>32</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>data3</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+									<BitSize>64</BitSize>
+									<BitOffs>64</BitOffs>
+								</SubItem>
+								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+						</Parameters>
+						<DataAreas>
+							<DataArea>
+								<AreaNo AreaType="InputDst">0</AreaNo>
+								<Name>Inputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>12</ByteSize>
+								<Symbol>
+									<Name>Value</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>Status</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>32</BitOffs>
+								</Symbol>
+								<Symbol>
+									<Name>Data</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>64</BitOffs>
+								</Symbol>
+							</DataArea>
+							<DataArea>
+								<AreaNo AreaType="OutputSrc">1</AreaNo>
+								<Name>Outputs</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>2</ByteSize>
+								<Symbol>
+									<Name>StateTool</Name>
+									<BitSize>16</BitSize>
+									<BaseType GUID="{707B24A4-3C4E-4A5A-92B5-E8A4FEDFBAF0}">ToolState</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+							</DataArea>
+						</DataAreas>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002060</PTCID>
+								<Name>CyclicCaller</Name>
+								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+						</InterfacePointers>
+						<Deployment>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x86)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x86)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.sys</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.sys</DestinationFile>
+							</FileEntry>
+							<FileEntry TargetPlatform="TwinCAT RT (x64)">
+								<SourceFile>%SOLUTIONDEPLOYMENTPATH%TwinCAT RT (x64)\%CLASSFACTORYNAME%.pdb</SourceFile>
+								<DestinationFile>%TC_DRIVERAUTOINSTALLPATH%%CLASSFACTORYNAME%.pdb</DestinationFile>
+							</FileEntry>
+						</Deployment>
+						<ParameterValues>
+							<Value>
+								<Name>TraceLevelMax</Name>
+								<EnumText>tlAlways</EnumText>
+							</Value>
+							<Value>
+								<Name>Parameter.data1</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.data2</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>Parameter.data3</Name>
+								<Value>0</Value>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>CyclicCaller</Name>
+								<OTCID>#x020100b0</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+				</Instance>
 			</Project>
 			<Project File="tinyxml2.xti"/>
 			<Project File="ruckig.xti"/>
@@ -3985,9 +4522,8 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2003-0850-0020-500833000403}" Id="#x02030050"/>
-		<MappingInfo Identifier="{00000000-2003-0850-0020-500842000403}" Id="#x02030030"/>
-		<MappingInfo Identifier="{00000000-0010-0304-1000-010111000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500811000403}" Id="#x02030020"/>
+		<MappingInfo Identifier="{00000000-2003-0850-0020-500832000403}" Id="#x02030030"/>
 		<MappingInfo Identifier="{00000000-0020-0304-3000-010120000403}" Id="#x02030010"/>
 		<MappingInfo Identifier="{02010040-2041-0850-1000-010140205008}" Id="#x020300a0" Watchdog="a0000000040000000400000004000000"/>
 		<MappingInfo Identifier="{02010040-0090-0201-1000-010140000101}" Id="#x02030090" Watchdog="04000000040000000400000004000000"/>
@@ -4021,12 +4557,14 @@
 			</OwnerB>
 			<OwnerB Name="TIID^BeckhoffBench^Panel">
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.machingAxisRatio" VarB="PANEL_Inputs^PIO_IN7"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
 				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
+				<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.spindleRatio" VarB="PANEL_Inputs^PIO_IN6"/>
 				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
 				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
 				<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
@@ -4054,7 +4592,7 @@
 		<OwnerA Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
 				<Link VarA="Outputs^ContinuousMovingCommand" VarB="Inputs^ContinuousMovingCommand"/>
-				<Link VarA="Outputs^ManualMovingCommand" VarB="Inputs^ManualMovingCommand"/>
+				<Link VarA="Outputs^HandwheelMovingInfo" VarB="Inputs^ManualMovingCommand"/>
 			</OwnerB>
 			<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
 				<Link VarA="Inputs^ErrorCode" VarB="Outputs^ErrorCode"/>

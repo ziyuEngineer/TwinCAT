@@ -10,6 +10,7 @@
 #include "MainStateContinuousExecution.h"
 #include "MainStateFault.h"
 #include "MainStateRecovery.h"
+#include "MainStateToolSwitching.h"
 
 CMainController* MainStateMachine::s_pController = nullptr;
 FSM_INITIAL_STATE(MainStateMachine, MainStateDisabled)

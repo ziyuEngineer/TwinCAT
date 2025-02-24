@@ -39,6 +39,7 @@ VAR_GLOBAL
 	Reset_Button        : PanelButton;
 	Execute_Button      : PanelButton;
 	Cyclical_Run        : PanelButton;
+	Hold_Button        	: PanelButton;
 END_VAR
 ]]></Declaration>
   </GVL>

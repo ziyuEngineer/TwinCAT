@@ -10,6 +10,7 @@ public:
     void entry() override
     {
         report_current_state(SystemState::eFault);
+        s_pController->DispatchEventMessage(TcEvents::MainEvent::MainModuleFault.nEventId);
         ResetPanel();
         s_pController->RequestAxisGroupFault();
         s_pController->RequestSpindleFault();

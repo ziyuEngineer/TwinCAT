@@ -35,6 +35,7 @@ public:
 
     void react(EventAxisGroupDeselectAxis const&) override
     {
+        s_pController->ClearHandwheelInfo();
         transit<AxisGroupStandby>();
     }
 

@@ -4,6 +4,8 @@
 
 IMotionControlInterface* CSafetyController::m_pMainModuleInterface = nullptr;
 CTcTrace* CSafetyController::m_Trace = nullptr;
+ITcEventLogger* CSafetyController::m_pEventLogger = nullptr;
+ITcMessage* CSafetyController::m_pMessage = nullptr;
 
 CSafetyController::CSafetyController()
 {
@@ -50,30 +52,6 @@ void CSafetyController::Output()
 	m_pOutputs->ErrorCode = m_ErrorCode;
 }
 
-bool CSafetyController::IsAxisGroupPosLimitCheckPassed() 
-{
-	for (int i = 0; i < m_ActualDriverNum; i++)
-	{
-		if(m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos < m_pParameters->SafetyParameterAxisGroup[i].PosLowerLimit)
-		{
-			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::PosLowerOver, m_DriverAxisMap.at(i));
-			m_ErrorPos[i] = m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos;
-			m_ErrorDriver = i;
-			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup exceed position lower limit.");
-			return false;
-		}
-		else if (m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos > m_pParameters->SafetyParameterAxisGroup[i].PosUpperLimit)
-		{
-			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::PosUpperOver, m_DriverAxisMap.at(i));
-			m_ErrorPos[i] = m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos;
-			m_ErrorDriver = i;
-			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup exceed position upper limit.");
-			return false;
-		}
-	}
-	return true;
-}
-
 bool CSafetyController::IsAxisGroupVelLimitCheckPassed()
 {
 	for (int i = 0; i < m_ActualDriverNum; i++)
@@ -82,6 +60,7 @@ bool CSafetyController::IsAxisGroupVelLimitCheckPassed()
 		{
 			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::VelOver, m_DriverAxisMap.at(i));
 			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup exceed velocity limit.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyAxisGroupVelOver.nEventId);
 			return false;
 		}
 	}
@@ -111,6 +90,7 @@ bool CSafetyController::IsSpindleVelLimitCheckPassed()
 	{
 		m_ErrorCode = GenerateTinyErrorCode(ModuleName::Spindle, ModuleError::VelOver, AxisOrder::Spindle);
 		m_Trace->Log(tlError, FLEAVEA "Level tlError : Spindle exceeds velocity limit.");
+		DispatchEventMessage(TcEvents::SafetyEvent::SafetySpindleVelOver.nEventId);
 		return false;
 	}
 	return true;
@@ -124,7 +104,7 @@ bool CSafetyController::IsSpindleVelLimitCheckPassed()
  */
 bool CSafetyController::IsSubSystemLimitsCheckPassed()
 {
-	return IsAxisGroupPosLimitCheckPassed() && IsAxisGroupVelLimitCheckPassed() && IsSpindlePosLimitCheckPassed() && IsSpindleVelLimitCheckPassed();
+	return IsAxisGroupVelLimitCheckPassed() && IsSpindlePosLimitCheckPassed() && IsSpindleVelLimitCheckPassed();
 }
 
 bool CSafetyController::IsWarningCheckPassed()
@@ -152,6 +132,7 @@ bool CSafetyController::IsHardLimitCheckPassed()
 			m_ErrorPos[i] = m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos;
 			m_ErrorDriver = i;
 			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup trigger position hard upper limit.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyAxisGroupHardUpperOver.nEventId);
 			return false;
 		}
 		else if (m_pInputs->DiagnosticInfo.AxisGroupDigitalInput[i] == m_HardLimitDigitalMask - (1 << m_pParameters->SafetyParameterAxisGroup[i].NegativeHardBit))
@@ -160,6 +141,7 @@ bool CSafetyController::IsHardLimitCheckPassed()
 			m_ErrorPos[i] = m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentPos;
 			m_ErrorDriver = i;
 			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup trigger position hard lower limit.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyAxisGroupHardLowerOver.nEventId);
 			return false;
 		}
 	}
@@ -177,6 +159,7 @@ bool CSafetyController::IsGantryDeviationCheckPassed()
 				m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::GantryDeviationOver, m_DriverAxisMap.at(i));
 				m_ErrorDeviation = m_pInputs->DiagnosticInfo.AxisGroupInfo.GantryDeviation;
 				m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup gantry deviation exceeds limit.");
+				DispatchEventMessage(TcEvents::SafetyEvent::SafetyGantryDeviationOver.nEventId);
 				return false;
 			}
 		}
@@ -194,6 +177,7 @@ bool CSafetyController::IsTorqueCommandCheckPassed()
 		{
 			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::TorCmdOscillation, m_DriverAxisMap.at(i));
 			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup torque command deviation exceeds limit.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyTorqueCmdDeviationOver.nEventId);
 			return false;
 		}
 	}
@@ -210,6 +194,7 @@ bool CSafetyController::IsTorqueFollowingErrorCheckPassed()
 		{
 			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::TorFollowingOscillation, m_DriverAxisMap.at(i));
 			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup torque following error exceeds limit.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyTorFollowingError.nEventId);
 			return false;
 		}
 	}
@@ -228,7 +213,8 @@ bool CSafetyController::IsAxisGroupStatusCheckPassed()
 		if (m_pInputs->DiagnosticInfo.AxisGroupInfo.SingleAxisInformation[i].CurrentStatus == static_cast<int>(DriverStatus::DriverFault))
 		{
 			m_ErrorCode = GenerateTinyErrorCode(ModuleName::AxisGroup, ModuleError::StatusErr, m_DriverAxisMap.at(i));
-			m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup driver status abnormal.");
+			//m_Trace->Log(tlError, FLEAVEA "Level tlError : Axisgroup driver status abnormal.");
+			DispatchEventMessage(TcEvents::SafetyEvent::SafetyAxisGroupStatusAbnormal.nEventId);
 			return false;
 		}
 	}
@@ -240,7 +226,8 @@ bool CSafetyController::IsSpindleStatusCheckPassed()
 	if (m_pInputs->DiagnosticInfo.SpindleInfo.CurrentStatus == static_cast<int>(DriverStatus::DriverFault))
 	{
 		m_ErrorCode = GenerateTinyErrorCode(ModuleName::Spindle, ModuleError::StatusErr, AxisOrder::Spindle);
-		m_Trace->Log(tlError, FLEAVEA "Level tlError : Spindle driver status abnormal.");
+		//m_Trace->Log(tlError, FLEAVEA "Level tlError : Spindle driver status abnormal.");
+		DispatchEventMessage(TcEvents::SafetyEvent::SafetySpindleStatusAbnormal.nEventId);
 		return false;
 	}
 	return true;
@@ -307,6 +294,12 @@ bool CSafetyController::IsRecoveryCheckPassed()
 void CSafetyController::ClearErrorCode()
 {
 	m_ErrorCode = 0;
+}
+
+void CSafetyController::DispatchEventMessage(ULONG event_id)
+{
+	m_pEventLogger->CreateMessage(TcEvents::SafetyEvent::EventClass, event_id, TcEventSeverity::Info, &TcSourceInfo("Safety Module"), &m_pMessage);
+	m_pMessage->Send(0);
 }
 
 void CSafetyController::ReportFault()

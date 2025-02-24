@@ -11,6 +11,7 @@ public:
     void entry() override
     {
         report_current_state(SystemState::eRecovery);
+        s_pController->DispatchEventMessage(TcEvents::MainEvent::MainModuleRecovery.nEventId);
         s_pController->RequestAxisGroupEnterHandwheel();
         ParseErrorCode(s_pController->GetErrorCode(), m_ErrorType, m_ErrorAxis);
     }

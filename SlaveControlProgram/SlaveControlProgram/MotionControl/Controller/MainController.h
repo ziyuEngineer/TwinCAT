@@ -18,6 +18,10 @@ public:
 	SystemState m_MainState;
 	static CTcTrace* m_Trace;
 
+	// Ecent logger
+	static ITcEventLogger* m_pEventLogger;
+	static ITcMessage* m_pMessage;
+
 private:
 	MotionControlInputs* m_pInputs = nullptr;
 	MotionControlOutputs* m_pOutputs = nullptr;
@@ -45,12 +49,15 @@ public:
 	bool IsManualModeSelected();
 	bool IsExecutionPressed();
 	int IsSpindleMovingPressed();
-	void UpdateManualMovingCommand();
+	void UpdateHandwheelInfo();
+	void ClearHandwheelInfo();
 	void UpdateManualCommandInRecoveryState(ModuleError dir, AxisOrder axis);
 	bool IsResetPressed();
 	bool PanelReset();
 	bool DeselectAxisAutomatically();
 	bool DeselectServoButtonAutomatically();
+	double GetSpindleRatio();
+	double GetMachiningAxisRatio();
 
 	void RingBufferInput();
 	void RingBufferOutput();
@@ -62,9 +69,11 @@ public:
 	ULONG GetMaxBufferSize();
 	bool IsReadyToMove();
 	bool IsReadyToReceiveCmd();
+	bool IsReadyToSwitchTool();
 
 	// Invoke interfaces provided by Spindle module
 	void RequestSpindleRotate(double vel);
+	void RequestSpindlePositioning(double pos);
 	void RequestSpindleStop();
 	void RequestSpindleEnable();
 	void RequestSpindleDisable();
@@ -86,9 +95,15 @@ public:
 	bool IsAxisGroupReadyForPositioning();
 	void RequestAxisGroupPositioning(bool moving_axis[5], double target[5]);
 
+	// Invoke interfaces provided by AxisGroup module
+	void RequestToolSwitch(int num);
+
 	// Safety module
 	ULONG GetErrorCode();
 	bool IsSystemNormal();
+
+	// Event Logger
+	void DispatchEventMessage(ULONG event_id);
 
 // Test
 private:
@@ -98,5 +113,6 @@ private:
 	bool MatrixAssign();
 	void MatrixTest();
 
-	//CTcTrace m_Trace;
+	// The following flags are used to prevent send too many duplicate event logs
+	bool m_IsRecoveryEventSent = false;
 };

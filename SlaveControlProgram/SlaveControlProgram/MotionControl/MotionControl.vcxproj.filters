@@ -46,6 +46,9 @@
     <Filter Include="StateMachine\Safety">
       <UniqueIdentifier>{e8e1f0c6-50c0-4171-875d-dc2e24180fc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StateMachine\Tool">
+      <UniqueIdentifier>{47400169-6628-48a5-915a-e6c6d77b27c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -240,6 +243,33 @@
     <ClInclude Include="StateMachine\AxisGroupPositioning.h">
       <Filter>StateMachine\AxisGroup</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ToolController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateMachine.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateInitialize.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateUsing.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateSwitching.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateFault.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\ToolStateStandby.h">
+      <Filter>StateMachine\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine\MainStateToolSwitching.h">
+      <Filter>StateMachine\MainState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TcPch.cpp">
@@ -319,6 +349,15 @@
     </ClCompile>
     <ClCompile Include="Controller\SafetyController.cpp">
       <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ToolController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine\ToolStateMachine.cpp">
+      <Filter>StateMachine\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

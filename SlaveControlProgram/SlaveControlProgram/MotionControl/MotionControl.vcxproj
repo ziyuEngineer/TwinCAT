@@ -57,9 +57,11 @@
     <ClInclude Include="Controller\MainController.h" />
     <ClInclude Include="Controller\SafetyController.h" />
     <ClInclude Include="Controller\SpindleController.h" />
+    <ClInclude Include="Controller\ToolController.h" />
     <ClInclude Include="ModuleAxisGroup.h" />
     <ClInclude Include="ModuleSafety.h" />
     <ClInclude Include="ModuleSpindle.h" />
+    <ClInclude Include="ModuleTool.h" />
     <ClInclude Include="MotionControl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StateMachine\AxisGroupPositioning.h" />
@@ -75,6 +77,7 @@
     <ClInclude Include="StateMachine\MainStatePreStandby.h" />
     <ClInclude Include="StateMachine\MainStateRecovery.h" />
     <ClInclude Include="StateMachine\MainStateStandby.h" />
+    <ClInclude Include="StateMachine\MainStateToolSwitching.h" />
     <ClInclude Include="StateMachine\SafetyStateEmergency.h" />
     <ClInclude Include="StateMachine\SafetyStateFault.h" />
     <ClInclude Include="StateMachine\SafetyStateNormal.h" />
@@ -102,6 +105,12 @@
     <ClInclude Include="StateMachine\AxisGroupContinuousMoving.h" />
     <ClInclude Include="StateMachine\AxisGroupStandby.h" />
     <ClInclude Include="StateMachine\tinyfsm.hpp" />
+    <ClInclude Include="StateMachine\ToolStateFault.h" />
+    <ClInclude Include="StateMachine\ToolStateInitialize.h" />
+    <ClInclude Include="StateMachine\ToolStateMachine.h" />
+    <ClInclude Include="StateMachine\ToolStateStandby.h" />
+    <ClInclude Include="StateMachine\ToolStateSwitching.h" />
+    <ClInclude Include="StateMachine\ToolStateUsing.h" />
     <ClInclude Include="TcPch.h" />
     <ClInclude Include="MotionControlClassFactory.h" />
     <ClInclude Include="MotionControlCtrl.h" />
@@ -122,14 +131,17 @@
     <ClCompile Include="Controller\MainController.cpp" />
     <ClCompile Include="Controller\SafetyController.cpp" />
     <ClCompile Include="Controller\SpindleController.cpp" />
+    <ClCompile Include="Controller\ToolController.cpp" />
     <ClCompile Include="ModuleAxisGroup.cpp" />
     <ClCompile Include="ModuleSafety.cpp" />
     <ClCompile Include="ModuleSpindle.cpp" />
+    <ClCompile Include="ModuleTool.cpp" />
     <ClCompile Include="MotionControl.cpp" />
     <ClCompile Include="StateMachine\MainStateMachine.cpp" />
     <ClCompile Include="StateMachine\SafetyStateMachine.cpp" />
     <ClCompile Include="StateMachine\SpindleStateMachine.cpp" />
     <ClCompile Include="StateMachine\AxisGroupStateMachine.cpp" />
+    <ClCompile Include="StateMachine\ToolStateMachine.cpp" />
     <ClCompile Include="TcPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">Create</PrecompiledHeader>

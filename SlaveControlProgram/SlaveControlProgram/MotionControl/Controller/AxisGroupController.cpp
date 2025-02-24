@@ -3,6 +3,8 @@
 #include "AxisGroupController.h"
 
 ISoEProcess* CAxisGroupController::m_pSoEProcess = nullptr;
+ITcEventLogger* CAxisGroupController::m_pEventLogger = nullptr;
+ITcMessage* CAxisGroupController::m_pMessage = nullptr;
 
 CAxisGroupController::CAxisGroupController()
 {
@@ -19,11 +21,22 @@ void CAxisGroupController::MapParameters(ModuleAxisGroupInputs* inputs, ModuleAx
 {
 	m_pInputs = inputs;
 	m_pOutputs = outputs;
+	m_pParameters = parameters;
 	m_AxisGroup.MapParameters(inputs, outputs, parameters);
 
 	m_ActualAxisNum = parameters->ActualAxisNum;
 	m_ActualDriverNum = parameters->TotalDriverNum;
 	memcpy(m_DriverNumPerAxis, parameters->DriverNumPerAxis, sizeof(m_DriverNumPerAxis));
+
+	int driver_num = 0;
+	for (int i = 0; i < m_ActualAxisNum; i++)
+	{
+		for (int j = 0; j < m_DriverNumPerAxis[i]; j++)
+		{
+			m_DriverAxisMap[driver_num] = static_cast<AxisOrder>(i + 1);
+			driver_num++;
+		}
+	}
 }
 
 bool CAxisGroupController::PostConstruction()
@@ -76,6 +89,8 @@ void CAxisGroupController::Output()
 	m_pOutputs->AxisGroupInfo.GantryDeviation = m_AxisGroup.m_GantryDeviation;
 
 	ComputeTuningError();
+
+	AxisGroupPosLimitCheck();
 }
 
 AxisGroupState CAxisGroupController::GetCurrentState()
@@ -134,21 +149,13 @@ void CAxisGroupController::AxisGroupStandStill()
  */
 void CAxisGroupController::AxisGroupHandwheel()
 {
-	m_AxisGroup.Handwheel(m_pInputs->ManualMovingCommand.SelectedAxis, m_pInputs->ManualMovingCommand.MovingCommand);
+	ProcessHandwheelInfo();
+	m_AxisGroup.Handwheel(m_pInputs->ManualMovingCommand.SelectedAxis, m_ManualMovingDistance);
 }
 
 void CAxisGroupController::AxisGroupPositioning(const bool axis_enabled[5], const double target[5])
 {
 	m_AxisGroup.Positioning(axis_enabled, target);
-}
-
-/**
- * @brief Action under limit violation state, disable motors when exceeding limits
- * 
- */
-void CAxisGroupController::AxisGroupLimitViolation()
-{
-	m_AxisGroup.HoldPosition();
 }
 
 void CAxisGroupController::AxisGroupFault()
@@ -189,6 +196,39 @@ void CAxisGroupController::AxisGroupSwitchOpMode(OpMode mode)
 bool CAxisGroupController::IsAxisGroupOpModeSwitched()
 {
 	return m_AxisGroup.IsOpModeSwitched();
+}
+
+void CAxisGroupController::AxisGroupPosLimitCheck()
+{
+	for (int i = 0; i < m_ActualDriverNum; i++)
+	{
+		int axis_index = m_DriverAxisMap.at(i) - 1;
+		if (m_pOutputs->AxisGroupInfo.SingleAxisInformation[i].CurrentPos < m_pParameters->AxisPosLowerLimit[i])
+		{
+			m_IsPosLowerLimitTriggered[axis_index] = true;
+			if (!m_IsLowerLimitEventSent[axis_index])
+			{
+				DispatchEventMessage(TcEvents::AxisGroupEvent::AxisGroupPosLowerOver.nEventId, m_DriverAxisMap.at(i));
+				m_IsLowerLimitEventSent[axis_index] = true;
+			}
+		}
+		else if (m_pOutputs->AxisGroupInfo.SingleAxisInformation[i].CurrentPos > m_pParameters->AxisPosUpperLimit[i])
+		{
+			m_IsPosUpperLimitTriggered[axis_index] = true;
+			if (!m_IsUpperLimitEventSent[axis_index])
+			{
+				DispatchEventMessage(TcEvents::AxisGroupEvent::AxisGroupPosUpperOver.nEventId, m_DriverAxisMap.at(i));
+				m_IsUpperLimitEventSent[axis_index] = true;
+			}
+		}
+		else
+		{
+			m_IsPosUpperLimitTriggered[axis_index] = false;
+			m_IsPosLowerLimitTriggered[axis_index] = false;
+			m_IsUpperLimitEventSent[axis_index] = false;
+			m_IsLowerLimitEventSent[axis_index] = false;
+		}
+	}
 }
 
 void CAxisGroupController::NotifyPlcResetSoE(bool is_executed)
@@ -327,4 +367,49 @@ void CAxisGroupController::ResetTuningError()
 double CAxisGroupController::GetSingleAxisPosition(int axis_index)
 {
 	return m_AxisGroup.m_Axes[axis_index][0].m_FdbPos;
+}
+
+void CAxisGroupController::ProcessHandwheelInfo()
+{
+	int index = m_pInputs->ManualMovingCommand.SelectedAxis - 1;
+	if (index >= 0) 
+	{
+		double dPos = m_pInputs->ManualMovingCommand.HandwheelPos - m_LastHandwheelPos;
+
+		if (dPos > m_ImpossibleScaleChange)
+		{
+			dPos = m_HandwheelFullScale - dPos;
+		}
+		else if (dPos < -m_ImpossibleScaleChange)
+		{
+			dPos = m_HandwheelFullScale + dPos;
+		}
+
+		// Ignore dPos update when axis is out of soft position limit
+		if (m_IsPosLowerLimitTriggered[index] && dPos < 0.0)
+		{
+			dPos = 0.0;
+		}
+		else if (m_IsPosUpperLimitTriggered[index] && dPos > 0.0)
+		{
+			dPos = 0.0;
+		}
+		m_ManualMovingDistance[index] = m_ManualMovingDistance[index] + m_pInputs->ManualMovingCommand.Ratio * dPos;
+	}
+
+	m_LastHandwheelPos = m_pInputs->ManualMovingCommand.HandwheelPos;
+}
+
+void CAxisGroupController::ClearHandwheelInfo()
+{
+	memset(&m_ManualMovingDistance, 0, sizeof(m_ManualMovingDistance));
+}
+
+void CAxisGroupController::DispatchEventMessage(ULONG event_id, AxisOrder axis_num)
+{
+	m_pEventLogger->CreateMessage(TcEvents::AxisGroupEvent::EventClass, event_id, TcEventSeverity::Info, &TcSourceInfo("AxisGroup Module"), &m_pMessage);
+	char attribute[20];
+	sprintf(attribute, "%d", static_cast<int>(axis_num));
+	m_pMessage->SetJsonAttribute(attribute);
+	m_pMessage->Send(0);
 }

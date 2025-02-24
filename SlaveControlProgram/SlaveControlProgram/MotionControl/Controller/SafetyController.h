@@ -20,6 +20,10 @@ public:
 
 	static CTcTrace* m_Trace;
 
+	// Event logger
+	static ITcEventLogger* m_pEventLogger;
+	static ITcMessage* m_pMessage;
+
 private:
 	ModuleSafetyInputs* m_pInputs = nullptr;
 	ModuleSafetyOutputs* m_pOutputs = nullptr;
@@ -32,7 +36,6 @@ private:
 
 	// Check functions
 	// Warning check list
-	bool IsAxisGroupPosLimitCheckPassed();
 	bool IsAxisGroupVelLimitCheckPassed();
 	bool IsSpindlePosLimitCheckPassed();
 	bool IsSpindleVelLimitCheckPassed();
@@ -70,6 +73,9 @@ private:
 	void SlidingWindowComputeTorqueDiagnosticInfo();
 	bool IsTorqueFollowingErrorCheckPassed();
 	bool IsTorqueCommandCheckPassed();
+
+	// Event Logger
+	void DispatchEventMessage(ULONG event_id);
 
 public:
 	bool IsSubSystemStateCorrect();

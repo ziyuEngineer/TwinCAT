@@ -59,6 +59,8 @@ protected:
 	// Other module RPC
 	bool m_IsRpcReady = false;
 	bool InitializeOtherModuleRpc();
+	ULONG m_WaitingRpcCounter = 0;
+	ULONG m_MaxWaitingRpcCounter = 20000;
 
 	// Tracing
 	CTcTrace m_Trace;
@@ -75,4 +77,8 @@ protected:
 	CCriticalSectionInstance m_csInstance;
 	CSafetyController m_SafetyController;
 	SafetyStateMachine* m_SafetyStateMachine;
+
+	// Event logger
+	ITcEventLoggerPtr m_spEventLogger;
+	ITcMessagePtr m_spMessage;
 };

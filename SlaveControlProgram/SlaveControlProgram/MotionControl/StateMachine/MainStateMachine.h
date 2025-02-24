@@ -10,6 +10,7 @@ class MainStateBuffering;
 class MainStateContinuousExecution;
 class MainStateFault;
 class MainStateRecovery;
+class MainStateToolSwitching;
 
 class MainStateMachine : public tinyfsm::Fsm<MainStateMachine>
 {
@@ -39,6 +40,8 @@ public:
     virtual void react(EventRequestEnterDisabledState const&) {};
 
     virtual void react(EventRequestAxisGroupPositioning const&) {};
+
+    virtual void react(EventRequestToolSwitch const&) {};
 
     virtual bool IsSafeToTransitState();
 

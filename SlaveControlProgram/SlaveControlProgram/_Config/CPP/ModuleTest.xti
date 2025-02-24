@@ -2,8 +2,8 @@
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.56" ClassName="CNestedCppProjDef">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
-			<BitSize>512</BitSize>
+			<Name GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</Name>
+			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>ServoOn</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
@@ -23,32 +23,40 @@
 				<BitOffs>64</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Handwheel_dPos</Name>
+				<Name>Handwheel_Pos</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
+				<BitSize>64</BitSize>
 				<BitOffs>128</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Spindle_Cmd</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>448</BitOffs>
+				<BitOffs>192</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Reset</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>464</BitOffs>
+				<BitOffs>208</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Execute</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>472</BitOffs>
+				<BitOffs>216</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MachiningAxis_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
 			</SubItem>
 			<Hides>
 				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
@@ -60,6 +68,8 @@
 				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
 				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
 				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
+				<Hide GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}"/>
+				<Hide GUID="{53D9A9CB-B09F-4800-9015-467DEE65D178}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -300,7 +310,7 @@
 						<ManualConfig>
 							<OTCID>#x02010070</OTCID>
 						</ManualConfig>
-						<Priority>14</Priority>
+						<Priority>16</Priority>
 						<CycleTime>1000000</CycleTime>
 					</Context>
 				</Contexts>
@@ -357,94 +367,94 @@
 						<AreaNo AreaType="InputDst">0</AreaNo>
 						<Name>Inputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>384</ByteSize>
+						<ByteSize>368</ByteSize>
 						<Symbol>
 							<Name>MockPanel</Name>
-							<BitSize>512</BitSize>
-							<BaseType GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</BaseType>
+							<BitSize>384</BitSize>
+							<BaseType GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</BaseType>
 							<BitOffs>0</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>RecoveryButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>512</BitOffs>
+							<BitOffs>384</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>ContinuousButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>520</BitOffs>
+							<BitOffs>392</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>TestAxisGroupInfo</Name>
 							<BitSize>2368</BitSize>
 							<BaseType GUID="{85615354-18AB-4F2D-A42C-B832F67F7D5F}">AxisGroupInformation</BaseType>
-							<BitOffs>576</BitOffs>
+							<BitOffs>448</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>GetParamKpButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2944</BitOffs>
+							<BitOffs>2816</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>GetParamKvButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2952</BitOffs>
+							<BitOffs>2824</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>GetParamTnButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2960</BitOffs>
+							<BitOffs>2832</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>SetParamKpButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2968</BitOffs>
+							<BitOffs>2840</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>SetParamKvButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2976</BitOffs>
+							<BitOffs>2848</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>SetParamTnButton</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2984</BitOffs>
+							<BitOffs>2856</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>PositionY</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>2992</BitOffs>
+							<BitOffs>2864</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>PositionX</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>3000</BitOffs>
+							<BitOffs>2872</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>PositionZ</Name>
 							<BitSize>8</BitSize>
 							<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
-							<BitOffs>3008</BitOffs>
+							<BitOffs>2880</BitOffs>
 						</Symbol>
 					</DataArea>
 					<DataArea>
 						<AreaNo AreaType="OutputSrc">1</AreaNo>
 						<Name>Outputs</Name>
 						<ContextId>1</ContextId>
-						<ByteSize>448</ByteSize>
+						<ByteSize>368</ByteSize>
 						<Symbol>
 							<Name>MockManualMovingCommand</Name>
-							<BitSize>384</BitSize>
+							<BitSize>128</BitSize>
 							<SubItem>
 								<Name>SelectedAxis</Name>
 								<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
@@ -454,11 +464,7 @@
 							<SubItem>
 								<Name>MockCommandPos</Name>
 								<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-								<ArrayInfo>
-									<LBound>0</LBound>
-									<Elements>5</Elements>
-								</ArrayInfo>
-								<BitSize>320</BitSize>
+								<BitSize>64</BitSize>
 								<BitOffs>64</BitOffs>
 							</SubItem>
 							<BitOffs>0</BitOffs>
@@ -467,7 +473,7 @@
 							<Name>MockContinuousMovingCommand</Name>
 							<BitSize>2176</BitSize>
 							<BaseType GUID="{B1C3DEDA-F44B-40B0-BA64-EAB208DE948D}">FullCommand</BaseType>
-							<BitOffs>384</BitOffs>
+							<BitOffs>128</BitOffs>
 						</Symbol>
 						<Symbol>
 							<Name>TestOutputs</Name>
@@ -477,7 +483,7 @@
 								<LBound>0</LBound>
 								<Elements>10</Elements>
 							</ArrayInfo>
-							<BitOffs>2560</BitOffs>
+							<BitOffs>2304</BitOffs>
 						</Symbol>
 					</DataArea>
 				</DataAreas>

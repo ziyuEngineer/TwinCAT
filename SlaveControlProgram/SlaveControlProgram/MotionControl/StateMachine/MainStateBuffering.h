@@ -12,6 +12,7 @@ public:
     void entry() override
     {
         report_current_state(SystemState::eBuffering);
+        s_pController->DispatchEventMessage(TcEvents::MainEvent::MainModuleBuffering.nEventId);
     }
 
     void react(EventCycleUpdate const&) override

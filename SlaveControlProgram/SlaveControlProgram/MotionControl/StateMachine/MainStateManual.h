@@ -7,6 +7,7 @@ public:
     void entry() override
     {
         report_current_state(SystemState::eManual);
+        s_pController->DispatchEventMessage(TcEvents::MainEvent::MainModuleManual.nEventId);
         s_pController->RequestAxisGroupEnterHandwheel();
     }
 
@@ -18,8 +19,8 @@ public:
         }
         else
         {
-            // update Handwheelmoving pos
-            s_pController->UpdateManualMovingCommand();
+            // update Handwheel info -- selected axis and handwheel pos
+            s_pController->UpdateHandwheelInfo();
         }
     }
 
@@ -40,12 +41,6 @@ public:
     {
         s_pController->DeselectAxisAutomatically();
         transit<MainStateFault>();
-    }
-
-    void react(EventRequestEnterStandbyState const&) override // Invoked by Safety module
-    {
-        s_pController->DeselectAxisAutomatically();
-        transit<MainStateStandby>();
     }
 
     void react(EventRequestEnterDisabledState const&) override // Invoked by Safety module

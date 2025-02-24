@@ -17,6 +17,8 @@
 			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+			<UpperPosLimit>500</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
 		</axis>
 		<axis><!-- XB轴参数 -->
 			<AbsEncoderDir>1</AbsEncoderDir>
@@ -34,6 +36,8 @@
 			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>5000000</MaxJerk> <!--mm/s^3-->
+			<UpperPosLimit>500</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
 		</axis>
     </axes>
     <axes> <!-- Y轴参数 -->
@@ -53,6 +57,8 @@
 			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
+			<UpperPosLimit>600</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-2</LowerPosLimit> <!--mm-->
 		</axis>
     </axes>
     <axes> <!-- Z轴参数 -->
@@ -72,6 +78,8 @@
 			<MaxVelocity>100</MaxVelocity> <!--mm/s-->
 			<MaxAcceleration>500000</MaxAcceleration> <!--mm/s^2-->
 			<MaxJerk>50000000</MaxJerk> <!--mm/s^3-->
+			<UpperPosLimit>2</UpperPosLimit> <!--mm-->
+			<LowerPosLimit>-590</LowerPosLimit> <!--mm-->
 		</axis>
 	</axes>
     <axes> <!-- A轴参数 -->
@@ -91,6 +99,8 @@
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->
 			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
 			<MaxJerk>3000</MaxJerk> <!--r/s^3-->
+			<UpperPosLimit>1000000000</UpperPosLimit> <!--degree-->
+			<LowerPosLimit>-1000000000</LowerPosLimit> <!--degree-->
 		</axis>
 	</axes>
 	<axes> <!-- C轴参数 -->
@@ -110,6 +120,8 @@
 			<MaxVelocity>30</MaxVelocity> <!--r/s-->
 			<MaxAcceleration>50</MaxAcceleration> <!--r/s^2-->
 			<MaxJerk>3000</MaxJerk> <!--r/s^3-->
+			<UpperPosLimit>1000000000</UpperPosLimit> <!--degree-->
+			<LowerPosLimit>-1000000000</LowerPosLimit> <!--degree-->
 		</axis>
 	</axes>
 </AxisGroup>

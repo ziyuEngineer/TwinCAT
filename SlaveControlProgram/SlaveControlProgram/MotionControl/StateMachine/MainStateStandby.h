@@ -2,6 +2,7 @@
 #include "MainStateMachine.h"
 #include "MainStateBuffering.h"
 #include "MainStateFault.h"
+#include "MainStateToolSwitching.h"
 
 class MainStateStandby : public MainStateMachine
 {
@@ -29,10 +30,13 @@ public:
 
         int spindle_moving_dir = s_pController->IsSpindleMovingPressed();
 
-        if (spindle_moving_dir != 0 && m_LastSpindleDir != spindle_moving_dir) // react when spindle CW or CCW button is pressed
+        double spindle_rotating_vel = m_SpindleRotatingMaxVel * s_pController->GetSpindleRatio();
+
+        if (spindle_moving_dir != 0 && (m_LastSpindleDir != spindle_moving_dir || m_LastSpindleVel != spindle_rotating_vel)) // react when spindle CW or CCW button is pressed
         {
             m_LastSpindleDir = spindle_moving_dir;
-            s_pController->RequestSpindleRotate(m_SpindleRotatingVel * spindle_moving_dir);
+            m_LastSpindleVel = spindle_rotating_vel;
+            s_pController->RequestSpindleRotate(spindle_rotating_vel * spindle_moving_dir);
         }
         else if(spindle_moving_dir == 0 && m_LastSpindleDir != 0)
         {
@@ -83,6 +87,15 @@ public:
         s_pController->RequestAxisGroupPositioning(enabled_axis, pos);
     }
 
+    void react(EventRequestToolSwitch const& event) override
+    {
+        if (state<MainStateToolSwitching>().GetCurrentToolNumber() != event.tool_number)
+        {
+            state<MainStateToolSwitching>().SetToolNumber(event.tool_number);
+            transit<MainStateToolSwitching>();
+        }
+    }
+
     void exit() override
     {
         if (s_pController->IsSpindleMovingPressed() != 0)
@@ -92,6 +105,7 @@ public:
     }
 
 protected:
-    double m_SpindleRotatingVel = 20.0; // Default speed, unit rps
+    double m_SpindleRotatingMaxVel = 50.0; // Max speed, unit rps
     double m_LastSpindleDir = 0;
+    double m_LastSpindleVel = 0.0;
 };

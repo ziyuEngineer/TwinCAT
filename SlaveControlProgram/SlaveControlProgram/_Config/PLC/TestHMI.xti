@@ -119,7 +119,7 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}" PersistentType="true">SystemState</Name>
+			<Name GUID="{E9135278-D628-443A-98B1-A863F07197E5}">SystemState</Name>
 			<BitSize>16</BitSize>
 			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 			<EnumInfo>
@@ -162,15 +162,12 @@
 				<Text><![CDATA[eRecovery]]></Text>
 				<Enum>9</Enum>
 			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[eToolSwitching]]></Text>
+				<Enum>10</Enum>
+			</EnumInfo>
 			<Hides>
-				<Hide GUID="{7148D75A-9BEA-48C6-A587-9899CAE91CA7}"/>
-				<Hide GUID="{F68E0FAF-5F38-45CF-83DF-B0AD64425C4B}"/>
-				<Hide GUID="{C13D1FC9-F727-49B3-8CBB-BE25A30E8308}"/>
-				<Hide GUID="{5BB6B81B-9CD1-4DE0-B0C1-611CD8034B49}"/>
-				<Hide GUID="{19F1CFB7-C2CD-4BF7-AA2D-C3C6265BA72D}"/>
-				<Hide GUID="{131977EF-E050-44EA-B063-7A4112666AE9}"/>
-				<Hide GUID="{191A9C97-8559-464E-9A53-DC124B174C7E}"/>
-				<Hide GUID="{833B279D-60BB-4E3E-9B42-E6EDF428F330}"/>
+				<Hide GUID="{DF792B1D-86F6-4790-9824-10A1EC590BDA}"/>
 			</Hides>
 		</DataType>
 		<DataType>
@@ -199,8 +196,8 @@
 			</EnumInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Name>
-			<BitSize>512</BitSize>
+			<Name GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</Name>
+			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>ServoOn</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
@@ -220,32 +217,40 @@
 				<BitOffs>64</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>Handwheel_dPos</Name>
+				<Name>Handwheel_Pos</Name>
 				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
-				<ArrayInfo>
-					<LBound>0</LBound>
-					<Elements>5</Elements>
-				</ArrayInfo>
-				<BitSize>320</BitSize>
+				<BitSize>64</BitSize>
 				<BitOffs>128</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Spindle_Cmd</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000006}">INT</Type>
 				<BitSize>16</BitSize>
-				<BitOffs>448</BitOffs>
+				<BitOffs>192</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Reset</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>464</BitOffs>
+				<BitOffs>208</BitOffs>
 			</SubItem>
 			<SubItem>
 				<Name>Execute</Name>
 				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
 				<BitSize>8</BitSize>
-				<BitOffs>472</BitOffs>
+				<BitOffs>216</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Spindle_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MachiningAxis_Ratio</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
 			</SubItem>
 			<Hides>
 				<Hide GUID="{96BBA480-0F95-47B3-AB92-A9260C8DBB85}"/>
@@ -257,11 +262,13 @@
 				<Hide GUID="{52517799-E493-47D3-A597-89E237F5EFDB}"/>
 				<Hide GUID="{440A3A92-197D-4BA4-A96C-578B47A147F2}"/>
 				<Hide GUID="{95413D15-9E1D-4CB4-ACF8-2935AB049785}"/>
+				<Hide GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}"/>
+				<Hide GUID="{53D9A9CB-B09F-4800-9015-467DEE65D178}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
 	<Project GUID="{45018C8C-7E4F-4B7A-BF7E-E1AA09CAA9F9}" Name="TestHMI" PrjFilePath="..\..\TestHMI\TestHMI.plcproj" TmcFilePath="..\..\TestHMI\TestHMI.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{F72F1DD9-B896-91E8-2052-9E1DAC62B66F}">
+		<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TestHMI\TestHMI.tmc" TmcHash="{3AE040E0-C129-3E18-7677-506C9E67BA17}">
 			<Name>TestHMI Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="1">
@@ -276,7 +283,7 @@
 				</Var>
 				<Var>
 					<Name>MAIN.TestMainState</Name>
-					<Type GUID="{9B565FBB-17C1-45CE-82EA-7792EFF0874B}">SystemState</Type>
+					<Type GUID="{E9135278-D628-443A-98B1-A863F07197E5}">SystemState</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.TestSafetyStatus</Name>
@@ -303,7 +310,7 @@
 				</Var>
 				<Var>
 					<Name>MAIN.MockPanel</Name>
-					<Type GUID="{13C5ED93-554D-47D2-9A08-D46CC349EDDD}">PanelInfo</Type>
+					<Type GUID="{5DBD379E-C626-473C-91EA-93719C3F4C95}">PanelInfo</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.GetParamTnValue</Name>
@@ -355,12 +362,12 @@
 					<ManualConfig>
 						<OTCID>#x02010080</OTCID>
 					</ManualConfig>
-					<Priority>20</Priority>
+					<Priority>22</Priority>
 					<CycleTime>10000000</CycleTime>
 				</Context>
 			</Contexts>
 			<TaskPouOids>
-				<TaskPouOid Prio="20" OTCID="#x08502041"/>
+				<TaskPouOid Prio="22" OTCID="#x08502041"/>
 			</TaskPouOids>
 		</Instance>
 	</Project>

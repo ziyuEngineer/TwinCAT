@@ -1,5 +1,6 @@
 #pragma once
 #include "AxisGroup.h"
+#include <unordered_map>
 
 class CAxisGroupController
 {
@@ -13,15 +14,21 @@ public:
 	bool PostConstruction();
 	static ISoEProcess* m_pSoEProcess;
 
+	// Event logger
+	static ITcEventLogger* m_pEventLogger;
+	static ITcMessage* m_pMessage;
+
 private:
 	ModuleAxisGroupInputs* m_pInputs = nullptr;
 	ModuleAxisGroupOutputs* m_pOutputs = nullptr;
+	const ModuleAxisGroupParameter* m_pParameters = nullptr;
 
 	CAxisGroup m_AxisGroup;
 
 	int m_ActualAxisNum = 0;
 	int m_ActualDriverNum = 0;
 	SHORT m_DriverNumPerAxis[kMaxAxisNum] = { 0 }; // INT type in tmc
+	std::unordered_map<int, AxisOrder> m_DriverAxisMap;
 
 public:
 	// Cyclic Run
@@ -37,7 +44,6 @@ public:
 	void AxisGroupStandStill();
 	void AxisGroupHandwheel();
 	void AxisGroupPositioning(const bool axis_enabled[5], const double target[5]);
-	void AxisGroupLimitViolation();
 	void AxisGroupFault();
 	bool AxisGroupEnable();
 	bool AxisGroupDisable();
@@ -60,6 +66,12 @@ public:
 
 	double GetSingleAxisPosition(int axis_index);
 	void StopComputingTuningError();
+	
+	// Event Logger
+	void DispatchEventMessage(ULONG event_id, AxisOrder axis_num);
+
+	void ProcessHandwheelInfo();
+	void ClearHandwheelInfo();
 
 private:
 	// For auto tunning
@@ -77,4 +89,18 @@ private:
 
 	// For safety torque check
 	double m_LastEffectiveTorCmd[kMaxAxisNum * kMaxMotorNumPerAxis] = { 0 };
+
+	// Handwheel process
+	double m_HandwheelFullScale = 256.0;
+	double m_ImpossibleScaleChange = 100.0;
+	double m_LastHandwheelPos;
+	double m_ManualMovingDistance[kMaxAxisNum] = { 0.0 };
+
+	// AxisGroup internal check
+	void AxisGroupPosLimitCheck();
+	bool m_IsPosUpperLimitTriggered[kMaxAxisNum] = { false };
+	bool m_IsPosLowerLimitTriggered[kMaxAxisNum] = { false };
+	// The following flags are used to prevent sending too many duplicate event logs
+	bool m_IsUpperLimitEventSent[kMaxAxisNum] = { false };
+	bool m_IsLowerLimitEventSent[kMaxAxisNum] = { false };
 };

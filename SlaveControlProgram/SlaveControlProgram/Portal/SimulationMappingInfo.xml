@@ -3,12 +3,14 @@
 	<OwnerA Name="TIPC^Portal^Portal Instance">
 		<OwnerB Name="TIID^BeckhoffBench^Panel">
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.handwheelCurrPos" VarB="PANEL_Inputs^TEACH_HANDWHEEL"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.machingAxisRatio" VarB="PANEL_Inputs^PIO_IN7"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[0]" VarB="PANEL_Inputs^PIO_IN1"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[1]" VarB="PANEL_Inputs^PIO_IN2"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[2]" VarB="PANEL_Inputs^PIO_IN3"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[3]" VarB="PANEL_Inputs^PIO_IN4"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[4]" VarB="PANEL_Inputs^PIO_IN5"/>
 			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.pInput[5]" VarB="PANEL_Inputs^PIO_IN7"/>
+			<Link VarA="PlcTask Inputs^MAIN.rpc_PanelProcess.spindleRatio" VarB="PANEL_Inputs^PIO_IN6"/>
 			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[0]" VarB="PANEL_Outputs^PIO_OUT1"/>
 			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[1]" VarB="PANEL_Outputs^PIO_OUT2"/>
 			<Link VarA="PlcTask Outputs^MAIN.rpc_PanelProcess.pOutput[2]" VarB="PANEL_Outputs^PIO_OUT3"/>
@@ -73,7 +75,7 @@
 	<OwnerA Name="TIXC^MotionControl^MotionControl_Obj1 (MotionControl)">
 		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj3 (ModuleAxisGroup)">
 			<Link VarA="Outputs^ContinuousMovingCommand" VarB="Inputs^ContinuousMovingCommand"/>
-			<Link VarA="Outputs^ManualMovingCommand" VarB="Inputs^ManualMovingCommand"/>
+			<Link VarA="Outputs^HandwheelMovingInfo" VarB="Inputs^ManualMovingCommand"/>
 		</OwnerB>
 		<OwnerB Name="TIXC^MotionControl^MotionControl_Obj4 (ModuleSafety)">
 			<Link VarA="Inputs^ErrorCode" VarB="Outputs^ErrorCode"/>

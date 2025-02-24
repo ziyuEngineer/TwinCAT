@@ -15,9 +15,6 @@
 		<Image Id="1" ImageFlags="#x00000030" AddrType="10" ImageType="3">
 			<Name>Image-2</Name>
 		</Image>
-		<Image Id="4" AddrType="10" ImageType="3">
-			<Name>Image-3</Name>
-		</Image>
 		<Box File="AC.xti" Id="1">
 			<EtherCAT PortABoxInfo="#x00ffffff"/>
 		</Box>

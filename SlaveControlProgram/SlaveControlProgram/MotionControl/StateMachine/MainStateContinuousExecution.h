@@ -7,6 +7,7 @@ public:
     void entry() override
     {
         report_current_state(SystemState::eContinuousExecution);
+        s_pController->DispatchEventMessage(TcEvents::MainEvent::MainModuleMoving.nEventId);
         s_pController->RequestAxisGroupMove();
     }
 

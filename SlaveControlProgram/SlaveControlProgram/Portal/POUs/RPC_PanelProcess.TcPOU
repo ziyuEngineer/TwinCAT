@@ -7,6 +7,7 @@ VAR
 	pInput AT%I* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel input channel 1 2 3 4 5 7 
 	pOutput AT%Q* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Connect to panel output channel 1 2 3 4 5 7
 	lastInput : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Record input channel value of last cycle
+	pInternalInput AT%I* : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF USINT; // Channel 7 needs some special handle 
 	valChanged : ARRAY[0..GlobalVar.PANEL_CHANNEL_NUM-1] OF BOOL; // used in button mutex check since some mutex pairs appear in different channels 
 	
 	// Decompose value of input channel into status of single button, one channel represents eight buttons
@@ -20,8 +21,6 @@ END_VAR
 // HandWheel Functions
 VAR
 	handwheelCurrPos 	AT%I* :  USINT;
-	handwheelLastPos 	: USINT;
-	handwheelTotalPos : ARRAY[0..GlobalVar.MC_AXIS_NUM - 1] OF LREAL := [0.0]; // X Y Z A C
 	
 	panelInfoOutput AT%Q* : PanelInfo; // Necessary information sent to Cpp module
 END_VAR
@@ -30,6 +29,12 @@ END_VAR
 VAR
 	iResetCount :INT := 0;
 	bSpindleStopSet       : BOOL := FALSE;
+END_VAR
+
+// Ratio handle
+VAR
+	spindleRatio AT%I* :  USINT;
+	machingAxisRatio AT%I* :  USINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -102,6 +107,9 @@ Execute_Button.column := 1;
 Cyclical_Run.row := 5;
 Cyclical_Run.column := 2;
 
+Hold_Button.row := 5;
+Hold_Button.column := 3;
+
 mGenerateMutexPair(X_Axis, Y_Axis);
 mGenerateMutexPair(X_Axis, Z_Axis);
 mGenerateMutexPair(X_Axis, A_Axis);
@@ -127,6 +135,7 @@ mGenerateMutexPair(Hundredth_Ratio, Thousandth_Ratio);
 
 mGenerateMutexPair(Reset_Button, Execute_Button);
 mGenerateMutexPair(Reset_Button, Cyclical_Run);
+mGenerateMutexPair(Reset_Button, Hold_Button);
 ]]></ST>
       </Implementation>
     </Method>
@@ -151,13 +160,9 @@ mPopButton(Tenth_Ratio);
 mPopButton(Hundredth_Ratio);
 mPopButton(Thousandth_Ratio);
 
-handwheelLastPos := handwheelCurrPos;
-
-MEMSET(ADR(handwheelTotalPos),0, SIZEOF(handwheelTotalPos));
-
 MEMSET(ADR(panelInfoOutput.Handwheel_EnabledAxisNum),0,SIZEOF(panelInfoOutput.Handwheel_EnabledAxisNum));
 	
-MEMSET(ADR(panelInfoOutput.Handwheel_dPos),0,SIZEOF(PanelInfo.Handwheel_dPos));
+panelInfoOutput.Handwheel_Pos := handwheelCurrPos;
 
 mDeselectAxis := S_OK;
 ]]></ST>
@@ -178,6 +183,7 @@ MEMSET(ADR(effectiveButtonStatus), 0, SIZEOF(effectiveButtonStatus));
 MEMSET(ADR(valChanged) ,0, SIZEOF(valChanged));
 MEMSET(ADR(lastInput), 0, SIZEOF(lastInput));
 MEMSET(ADR(pInput), 0, SIZEOF(pInput));
+MEMSET(ADR(pInternalInput), 0, SIZEOF(pInternalInput));
 MEMSET(ADR(pOutput), 0, SIZEOF(pOutput));
 bSpindleStopSet := FALSE;
 
@@ -207,6 +213,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mGetServoButtonStatus();
+
+mGetSpindleRatio();
+
+mGetMachiningAxisRatio();
 
 mGetExecuteButtonStatus();
 
@@ -264,11 +274,8 @@ ELSIF C_Axis.pressed THEN // C axis selected
 	panelInfoOutput.Handwheel_EnabledAxisNum := AxisOrder.Axis_C;
 END_IF
 
-IF panelInfoOutput.Handwheel_EnabledAxisNum <> 0 THEN
-	mHandwheelProcess(panelInfoOutput.Handwheel_EnabledAxisNum - 1);
-END_IF
-
-handwheelLastPos := handwheelCurrPos;]]></ST>
+panelInfoOutput.Handwheel_Pos := USINT_TO_LREAL(handwheelCurrPos);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="mGetHandwheelRatio" Id="{6980860b-de1f-462c-aa8b-6b23b6242898}">
@@ -290,6 +297,22 @@ ELSIF Thousandth_ratio.pressed THEN
 ELSE	
 	panelInfoOutput.Handwheel_Ratio := 0.0;
 END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="mGetMachiningAxisRatio" Id="{be9f58d9-f710-4e49-b58b-d214cecc6552}">
+      <Declaration><![CDATA[METHOD mGetMachiningAxisRatio : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	realRatioValue : USINT;
+	valueIndex : INT;
+	valueArray : ARRAY [0..15] OF INT := [0, 2, 8, 5, 40, 30, 10, 20, 120, 110, 90, 100, 50, 60, 80, 70];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[realRatioValue := (machingAxisRatio AND 2#11110000); // retrieve useful value for ratio
+valueIndex := realRatioValue / 16;
+panelInfoOutput.MachiningAxis_Ratio := INT_TO_LREAL(valueArray[valueIndex]) / 100.0;
 ]]></ST>
       </Implementation>
     </Method>
@@ -346,29 +369,27 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="mHandwheelProcess" Id="{89dbf797-4e07-467a-8919-a78a12e6555e}">
-      <Declaration><![CDATA[METHOD mHandwheelProcess : BOOL
-VAR_INPUT
-	index   : INT;
-END_VAR
-
+    <Method Name="mGetSpindleRatio" Id="{62a35b77-8cd6-4c5a-ac5c-058200624ce0}">
+      <Declaration><![CDATA[METHOD mGetSpindleRatio : BOOL
 VAR
-	dPos    : INT;
+    gray_code : UDINT;
+    binary : UDINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[dPos := handwheelCurrPos - handwheelLastPos;
+        <ST><![CDATA[// 第一步：将反馈值除以 32，得到格雷码值
+gray_code := spindleRatio / 32;
 
-IF dPos > 100 THEN
-	dPos := GlobalVar.HANDWHEEL_FULL_SCALE - dPos;
-ELSIF dPos < -100 THEN
-	dPos := GlobalVar.HANDWHEEL_FULL_SCALE + dPos;
-END_IF
+// 第二步：将格雷码转换为二进制整数
+binary := gray_code; // 初始化为格雷码
+binary := binary XOR (SHR(binary, 1));
+binary := binary XOR (SHR(binary, 2));
+binary := binary XOR (SHR(binary, 4));
+binary := binary XOR (SHR(binary, 8));
+binary := binary XOR (SHR(binary, 16));
 
-handwheelTotalPos[index] := handwheelTotalPos[index] + panelInfoOutput.Handwheel_Ratio * dPos;
-
-panelInfoOutput.Handwheel_dPos[index] := handwheelTotalPos[index];
-]]></ST>
+// 第三步：计算刻度值
+panelInfoOutput.Spindle_Ratio := (50.0 + binary * 10.0) / 100.0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="mHandwheelReset" Id="{5e9aa5a1-207b-4418-9478-944e4853d057}">
@@ -382,12 +403,10 @@ METHOD mHandwheelReset : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mHandwheelReset := S_FALSE;
-
-handwheelLastPos := handwheelCurrPos;
-
-MEMSET(ADR(handwheelTotalPos),0, SIZEOF(handwheelTotalPos));
 	
-MEMSET(ADR(panelInfoOutput.Handwheel_dPos),0,SIZEOF(PanelInfo.Handwheel_dPos));
+panelInfoOutput.Handwheel_Pos := handwheelCurrPos;
+
+panelInfoOutput.Handwheel_EnabledAxisNum := 0;
 
 mHandwheelReset := S_OK;
 ]]></ST>
@@ -404,8 +423,6 @@ METHOD mInitialize : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mAssignSpecifcButtonCoordinate();
-
-handwheelLastPos := handwheelCurrPos;
 
 mInitialize := S_OK;
 ]]></ST>
@@ -425,9 +442,12 @@ VAR
 	jLoop : INT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
+        <ST><![CDATA[MEMCPY(ADR(pInternalInput), ADR(pInput), SIZEOF(pInput));
+pInternalInput[GlobalVar.PANEL_CHANNEL_NUM - 1] := pInput[GlobalVar.PANEL_CHANNEL_NUM - 1] AND 2#1111;
+
+FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 	FOR jLoop := 0 TO GlobalVar.CHANNEL_BUTTON_NUM - 1 DO
-		buttonStatus[iLoop, jLoop] := mParsePanelInput(pInput[iLoop], jLoop);
+		buttonStatus[iLoop, jLoop] := mParsePanelInput(pInternalInput[iLoop], jLoop);
 	END_FOR
 END_FOR
 ]]></ST>
@@ -503,7 +523,7 @@ FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 			CONTINUE;
 		END_IF
 		
-		IF buttonStatus[iLoop, jLoop] AND ((lastInput[iLoop] <> pInput[iLoop]) OR valChanged[iLoop]) THEN
+		IF buttonStatus[iLoop, jLoop] AND ((lastInput[iLoop] <> pInternalInput[iLoop]) OR valChanged[iLoop]) THEN
 			effectiveButtonStatus[iLoop, jLoop] := NOT effectiveButtonStatus[iLoop, jLoop];
 			
 			temp := SHL(1, jLoop);
@@ -514,9 +534,9 @@ FOR iLoop := 0 TO GlobalVar.PANEL_CHANNEL_NUM - 1 DO
 				pOutput[iLoop] := pOutput[iLoop] - INT_TO_USINT(temp);
 			END_IF
 		END_IF
-		
 	END_FOR
-	lastInput[iLoop] := pInput[iLoop];
+	
+	lastInput[iLoop] := pInternalInput[iLoop];
 	valChanged[iLoop] := FALSE;
 END_FOR
 
@@ -581,7 +601,7 @@ IF effectiveButtonStatus[Reset_Button.row, Reset_Button.column] THEN
 	iResetCount := iResetCount + 1;
 	IF iResetCount >= GlobalVar.RESET_DURATION THEN
 		buttonStatus[Reset_Button.row, Reset_Button.column] := TRUE;
-		pInput[Reset_Button.row] := INT_TO_USINT(SHL(1, Reset_Button.column));
+		pInternalInput[Reset_Button.row] := INT_TO_USINT(SHL(1, Reset_Button.column));
 		iResetCount := 0;
 	END_IF
 END_IF

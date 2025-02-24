@@ -78,6 +78,8 @@ protected:
 	// PLC RPC related
 	bool InitializePlcRpc();
 	bool m_IsRpcReady = false;
+	ULONG m_WaitingRpcCounter = 0;
+	ULONG m_MaxWaitingRpcCounter = 20000;
 
 	// Tracing
 	CTcTrace m_Trace;
@@ -97,4 +99,8 @@ protected:
 
 	// CriticalSections are described in the SDK in TcRtInterfaces.h and are therefore intended for the real-time context.
 	CCriticalSectionInstance m_csInstance;
+
+	// Event logger
+	ITcEventLoggerPtr m_spEventLogger;
+	ITcMessagePtr m_spMessage;
 };

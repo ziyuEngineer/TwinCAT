@@ -577,7 +577,7 @@ bool CTestController::IsMovingOperationAllowed()
 void CTestController::UpdateManualMovingCommand()
 {
 	m_pOutputs->MockManualMovingCommand.SelectedAxis = m_pInputs->MockPanel.Handwheel_EnabledAxisNum;
-	memcpy(&m_pOutputs->MockManualMovingCommand.MockCommandPos, &m_pInputs->MockPanel.Handwheel_dPos, sizeof(double[5]));
+	m_pOutputs->MockManualMovingCommand.MockCommandPos = m_pInputs->MockPanel.Handwheel_Pos;
 }
 
 void CTestController::UpdateContinuousMovingCommand()

@@ -61,13 +61,13 @@ END_IF
 
 IF Axis_X THEN
 	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_X;
-	MockPanel.Handwheel_dPos[0] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+	MockPanel.Handwheel_Pos := INT_TO_LREAL(IncrementalPos);
 ELSIF Axis_Y THEN
 	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_Y;
-	MockPanel.Handwheel_dPos[1] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+	MockPanel.Handwheel_Pos := INT_TO_LREAL(IncrementalPos);
 ELSIF Axis_Z THEN
 	MockPanel.Handwheel_EnabledAxisNum := AxisOrder.Axis_Z;
-	MockPanel.Handwheel_dPos[2] := INT_TO_LREAL(IncrementalPos) * MockPanel.Handwheel_Ratio;
+	MockPanel.Handwheel_Pos := INT_TO_LREAL(IncrementalPos);
 ELSE
 	MockPanel.Handwheel_EnabledAxisNum := 0;
 END_IF

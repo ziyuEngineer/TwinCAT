@@ -13,7 +13,7 @@
 			<AdditiveTor>0</AdditiveTor>
 			<MoveType>1</MoveType> <!-- Distinguish move type, 0: linear, 1: rotate -->
 			<DriverType>1</DriverType> <!-- Distinguish motor types -->
-			<Exposed>1</Exposed>
+			<Exposed>0</Exposed>
 			<MaxVelocity>50</MaxVelocity> <!--r/s-->
 			<MaxAcceleration>5000</MaxAcceleration> <!--r/s^2-->
 			<MaxJerk>300000</MaxJerk> <!--r/s^3-->
