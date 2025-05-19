@@ -81,6 +81,7 @@
 6-2-1. 测试软件中`Get File`选择要加载的[`.msgpack`](./msgpack.md)文件；
 
 6-2-2. 下拉`Comannd Type`确定即将运动的轴，再选择运行模式(位置，力矩或速度)；
+（*注：如果运动模式为CSP，且当前位置与file的初始位置不同，需要勾选`auto move to initial`，避免电机因为步长过大而报错）
 
 6-2-3. 按下`Execute Sine Command`按钮和面板上的`执行`按钮，对应的轴会按照文件中的数值进行运动；
 
