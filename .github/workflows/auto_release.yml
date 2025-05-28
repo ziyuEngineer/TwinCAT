@@ -1,0 +1,29 @@
+name: 📦 Auto Release MotionControlServices on Push
+
+on:
+  push:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Delete old release (if exists)
+        run: |
+          gh release delete MotionControlServices -y || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete old tag (if exists)
+        run: |
+          git push --delete origin MotionControlServices || true
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: MotionControlServices
+          name: MotionControlServices Header
+          files: SlaveControlProgram/SlaveControlProgram/MotionControl/MotionControlServices.h
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
