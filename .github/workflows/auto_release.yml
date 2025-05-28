@@ -1,7 +1,11 @@
 name: 📦 Auto Release MotionControlServices on Push
 
 on:
+  pull_request:
   push:
+    branches:
+      - develop
+  workflow_dispatch:
 
 jobs:
   release:
@@ -9,14 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Delete old release and tag (if exist)
-        run: |
-          gh release delete MotionControlServices -y || echo "No release to delete"
-          git push --delete origin MotionControlServices || echo "No tag to delete"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create release
+      - name: Create or update release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: MotionControlServices
