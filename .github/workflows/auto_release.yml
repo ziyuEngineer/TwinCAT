@@ -9,15 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Delete old release (if exists)
+      - name: Delete old release and tag (if exist)
         run: |
-          gh release delete MotionControlServices -y || true
+          gh release delete MotionControlServices -y || echo "No release to delete"
+          git push --delete origin MotionControlServices || echo "No tag to delete"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete old tag (if exists)
-        run: |
-          git push --delete origin MotionControlServices || true
 
       - name: Create release
         uses: softprops/action-gh-release@v1
