@@ -1,0 +1,23 @@
+name: 📦 Auto Release MotionControlServices on Push
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create or update release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: MotionControlServices
+          name: MotionControlServices Header
+          files: SlaveControlProgram/SlaveControlProgram/MotionControl/MotionControlServices.h
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
